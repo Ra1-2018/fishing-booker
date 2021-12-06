@@ -1,7 +1,10 @@
+package com.isa.project.model;
+
 import java.util.ArrayList;
 
 public class Adventure {
 
+    private long id;
     private String name;
     private String address;
     private String description;
@@ -10,10 +13,11 @@ public class Adventure {
     private ArrayList<Reservation> freeReservations;
     private String behaviorRules;
     private String fishingGear;
-    private String pricelist;
+    private String priceList;
     private ReservationCancellation cancellation;
 
-    public Adventure(String name, String address, String description, String instructorBiography, int maxPeople, ArrayList<Reservation> freeReservations, String behaviorRules, String fishingGear, String pricelist, ReservationCancellation cancellation) {
+    public Adventure(long id, String name, String address, String description, String instructorBiography, int maxPeople, ArrayList<Reservation> freeReservations, String behaviorRules, String fishingGear, String priceList, ReservationCancellation cancellation) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.description = description;
@@ -22,8 +26,16 @@ public class Adventure {
         this.freeReservations = freeReservations;
         this.behaviorRules = behaviorRules;
         this.fishingGear = fishingGear;
-        this.pricelist = pricelist;
+        this.priceList = priceList;
         this.cancellation = cancellation;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -90,12 +102,12 @@ public class Adventure {
         this.fishingGear = fishingGear;
     }
 
-    public String getPricelist() {
-        return pricelist;
+    public String getPriceList() {
+        return priceList;
     }
 
-    public void setPricelist(String pricelist) {
-        this.pricelist = pricelist;
+    public void setPriceList(String priceList) {
+        this.priceList = priceList;
     }
 
     public ReservationCancellation getCancellation() {

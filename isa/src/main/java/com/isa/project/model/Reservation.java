@@ -1,7 +1,10 @@
+package com.isa.project.model;
+
 import java.util.Date;
 
 public class Reservation {
 
+    private long id;
     private Date reservationStartDateAndTime;
     private String location;
     private int durationInDays;
@@ -9,13 +12,22 @@ public class Reservation {
     private String additionalServices;
     private double price;
 
-    public Reservation(Date reservationStartDateAndTime, String location, int durationInDays, int maxPeople, String additionalServices, double price) {
+    public Reservation(long id, Date reservationStartDateAndTime, String location, int durationInDays, int maxPeople, String additionalServices, double price) {
+        this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
         this.location = location;
         this.durationInDays = durationInDays;
         this.maxPeople = maxPeople;
         this.additionalServices = additionalServices;
         this.price = price;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Date getReservationStartDateAndTime() {

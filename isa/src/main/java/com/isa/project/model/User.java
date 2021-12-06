@@ -1,5 +1,8 @@
+package com.isa.project.model;
+
 public class User {
 
+    private long id;
     private String email;
     private String password;
     private String name;
@@ -9,7 +12,8 @@ public class User {
     private String country;
     private String telephone;
 
-    public User(String email, String password, String name, String surname, String address, String city, String country, String telephone) {
+    public User(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
@@ -18,6 +22,14 @@ public class User {
         this.city = city;
         this.country = country;
         this.telephone = telephone;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getEmail() {
