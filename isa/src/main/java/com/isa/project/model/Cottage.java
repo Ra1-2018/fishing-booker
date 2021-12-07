@@ -1,13 +1,26 @@
 package com.isa.project.model;
 
+import javax.persistence.*;
+
+@Entity
 public class Cottage {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column
     private String name;
+    @Column
     private String address;
+    @Column
     private String description;
+    @Column
     private int roomsTotalNumber;
+    @Column
     private String behaviorRules;
+
+    public Cottage() {
+    }
 
     public Cottage(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules) {
         this.id = id;

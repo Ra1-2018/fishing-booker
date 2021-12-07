@@ -1,14 +1,24 @@
 package com.isa.project.service;
 
 import com.isa.project.model.Instructor;
+import com.isa.project.repository.InstructorRepository;
+import com.isa.project.service.InstructorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-public interface InstructorService {
+@Service
+public class InstructorService{
 
-    Collection<Instructor> findAll();
+    @Autowired
+    private InstructorRepository instructorRepository;
 
-    Instructor findOne(Long id);
+    public Collection<Instructor> findAll() {
+        return instructorRepository.findAll();
+    }
 
-    void delete(Long id);
+    public Instructor findById(Long id) {
+        return instructorRepository.findById(id).orElseGet(null);
+    }
 }

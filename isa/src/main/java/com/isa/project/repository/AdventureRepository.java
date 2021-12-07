@@ -1,17 +1,19 @@
 package com.isa.project.repository;
 
 import com.isa.project.model.Adventure;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
+import java.util.List;
 
-public interface AdventureRepository {
-    Collection<Adventure> findAll();
+public interface AdventureRepository extends JpaRepository<Adventure, Long> {
+/*
+    public Adventure findOneById(Long id);
 
-    Adventure create(Adventure adventure);
+    public Page<Adventure> findAll(Pageable pageable);
 
-    Adventure findOne(long id);
+    public List<Adventure> findAllById(Long id);
 
-    Adventure update(Adventure adventure);
-
-    void delete(long id);
+ */
 }

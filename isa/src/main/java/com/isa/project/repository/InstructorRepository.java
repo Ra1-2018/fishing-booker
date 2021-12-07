@@ -1,14 +1,10 @@
 package com.isa.project.repository;
 
 import com.isa.project.model.Instructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
 
-public interface InstructorRepository {
+public interface InstructorRepository extends JpaRepository<Instructor, Long> {
 
-    Collection<Instructor> findAll();
-
-    Instructor findOne(Long id);
-
-    void delete(Long id);
 }

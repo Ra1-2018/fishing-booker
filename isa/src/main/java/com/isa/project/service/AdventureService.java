@@ -1,17 +1,20 @@
 package com.isa.project.service;
 
 import com.isa.project.model.Adventure;
+import com.isa.project.repository.AdventureRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 
-public interface AdventureService {
-    Collection<Adventure> findAll();
+@Service
+public class AdventureService{
 
-    Adventure findOne(long id);
+    @Autowired
+    private AdventureRepository adventureRepository;
 
-    Adventure create(Adventure adventure) throws Exception;
-
-    Adventure update(Adventure adventure) throws Exception;
-
-    void delete(long id);
+    public List<Adventure> findAll() { return adventureRepository.findAll(); }
+    public Adventure findById(long id) {
+        return adventureRepository.findById(id).orElseGet(null);
+    }
 }

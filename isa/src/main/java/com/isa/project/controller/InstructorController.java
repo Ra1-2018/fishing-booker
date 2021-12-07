@@ -26,18 +26,12 @@ public class InstructorController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Instructor> getInstructor(@PathVariable("id") Long id) {
-        Instructor instructor = instructorService.findOne(id);
+        Instructor instructor = instructorService.findById(id);
 
-        if(instructor == null) {
+        if (instructor == null) {
             return new ResponseEntity<Instructor>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<Instructor>(instructor, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Instructor> deleteInstructor(@PathVariable("id") Long id) {
-        instructorService.delete(id);
-        return new ResponseEntity<Instructor>(HttpStatus.NO_CONTENT);
     }
 }

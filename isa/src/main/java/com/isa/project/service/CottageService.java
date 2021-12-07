@@ -1,14 +1,24 @@
 package com.isa.project.service;
 
 import com.isa.project.model.Cottage;
+import com.isa.project.repository.CottageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
-public interface CottageService {
+@Service
+public class CottageService{
 
-    Collection<Cottage> findAll();
+    @Autowired
+    private CottageRepository cottageRepository;
 
-    Cottage findOne(Long id);
+    public List<Cottage> findAll() {
+        return cottageRepository.findAll();
+    }
 
-    void delete(Long id);
+    public Cottage findById(Long id) {
+        return cottageRepository.findById(id).orElseGet(null);
+    }
 }

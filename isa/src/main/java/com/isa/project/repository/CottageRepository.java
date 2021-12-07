@@ -1,14 +1,8 @@
 package com.isa.project.repository;
 
 import com.isa.project.model.Cottage;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
+public interface CottageRepository extends JpaRepository<Cottage, Long> {
 
-public interface CottageRepository {
-
-    Collection<Cottage> findAll();
-
-    Cottage findOne(Long id);
-
-    void delete(Long id);
 }

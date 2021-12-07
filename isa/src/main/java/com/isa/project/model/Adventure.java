@@ -1,22 +1,41 @@
 package com.isa.project.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
+@Entity
 public class Adventure {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column
     private String name;
+    @Column
     private String address;
+    @Column
     private String description;
+    @Column
     private String instructorBiography;
+    @Column
     private int maxPeople;
-    private ArrayList<Reservation> freeReservations;
+    @OneToMany(mappedBy = "adventure", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Reservation> freeReservations = new HashSet<Reservation>();
+    @Column
     private String behaviorRules;
+    @Column
     private String fishingGear;
+    @Column
     private String priceList;
+    @Column
     private ReservationCancellation cancellation;
 
-    public Adventure(long id, String name, String address, String description, String instructorBiography, int maxPeople, ArrayList<Reservation> freeReservations, String behaviorRules, String fishingGear, String priceList, ReservationCancellation cancellation) {
+    public Adventure() {
+    }
+
+    public Adventure(long id, String name, String address, String description, String instructorBiography, int maxPeople, Set<Reservation> freeReservations, String behaviorRules, String fishingGear, String priceList, ReservationCancellation cancellation) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -78,11 +97,11 @@ public class Adventure {
         this.maxPeople = maxPeople;
     }
 
-    public ArrayList<Reservation> getFreeReservations() {
+    public Set<Reservation> getFreeReservations() {
         return freeReservations;
     }
 
-    public void setFreeReservations(ArrayList<Reservation> freeReservations) {
+    public void setFreeReservations(Set<Reservation> freeReservations) {
         this.freeReservations = freeReservations;
     }
 

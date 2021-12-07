@@ -1,16 +1,32 @@
 package com.isa.project.model;
 
+import javax.persistence.*;
+
+@Entity
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column
     private String email;
+    @Column
     private String password;
+    @Column
     private String name;
+    @Column
     private String surname;
+    @Column
     private String address;
+    @Column
     private String city;
+    @Column
     private String country;
+    @Column
     private String telephone;
+
+    public User() {
+    }
 
     public User(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
         this.id = id;

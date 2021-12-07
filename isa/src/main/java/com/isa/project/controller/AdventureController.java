@@ -27,7 +27,7 @@ public class AdventureController {
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Adventure> getAdventure(@PathVariable("id") Long id) {
-        Adventure adventure = adventureService.findOne(id);
+        Adventure adventure = adventureService.findById(id);
 
         if(adventure == null) {
             return new ResponseEntity<Adventure>(HttpStatus.NOT_FOUND);

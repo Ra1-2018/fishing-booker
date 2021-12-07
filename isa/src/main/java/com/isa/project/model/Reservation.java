@@ -1,16 +1,33 @@
 package com.isa.project.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class Reservation {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column
     private Date reservationStartDateAndTime;
+    @Column
     private String location;
+    @Column
     private int durationInDays;
+    @Column
     private int maxPeople;
+    @Column
     private String additionalServices;
+    @Column
     private double price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "adventure_id")
+    private Adventure adventure;
+
+    public Reservation() {
+    }
 
     public Reservation(long id, Date reservationStartDateAndTime, String location, int durationInDays, int maxPeople, String additionalServices, double price) {
         this.id = id;
