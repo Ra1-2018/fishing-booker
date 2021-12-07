@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/adventure")
+@RequestMapping("/adventures")
 public class AdventureController {
 
     @Autowired
