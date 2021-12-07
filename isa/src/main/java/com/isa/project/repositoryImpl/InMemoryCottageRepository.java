@@ -17,8 +17,6 @@ public class InMemoryCottageRepository implements CottageRepository {
 
     private final ConcurrentMap<Long, Cottage> cottages = new ConcurrentHashMap<Long, Cottage>();
 
-    cottages.
-
     @Override
     public Collection<Cottage> findAll() {
         return this.cottages.values();
