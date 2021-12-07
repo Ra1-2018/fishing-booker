@@ -1,5 +1,6 @@
 package com.isa.project.controller;
 
+import com.isa.project.dto.AdventureDTO;
 import com.isa.project.model.Adventure;
 import com.isa.project.service.AdventureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @RestController
@@ -19,20 +21,24 @@ public class AdventureController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<Adventure>> getAdventures() {
+    public ResponseEntity<Collection<AdventureDTO>> getAdventures() {
         Collection<Adventure> adventures = adventureService.findAll();
-        return new ResponseEntity<Collection<Adventure>>(adventures, HttpStatus.OK);
+        Collection<AdventureDTO> adventureDTOS = new ArrayList<>();
+        for (Adventure adventure : adventures) {
+            adventureDTOS.add(new AdventureDTO(adventure));
+        }
+        return new ResponseEntity<>(adventureDTOS, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Adventure> getAdventure(@PathVariable("id") Long id) {
+    public ResponseEntity<AdventureDTO> getAdventure(@PathVariable("id") Long id) {
         Adventure adventure = adventureService.findById(id);
 
         if(adventure == null) {
-            return new ResponseEntity<Adventure>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Adventure>(adventure, HttpStatus.OK);
+        return new ResponseEntity<>(new AdventureDTO(adventure), HttpStatus.OK);
     }
 }
