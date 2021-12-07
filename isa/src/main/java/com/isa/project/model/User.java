@@ -3,10 +3,12 @@ package com.isa.project.model;
 import javax.persistence.*;
 
 @Entity
-public class User {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "seqGen", sequenceName = "seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqGen")
     private long id;
     @Column
     private String email;
