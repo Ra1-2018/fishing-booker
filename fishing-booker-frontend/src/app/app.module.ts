@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AdventuresComponent } from './adventures/adventures.component';
 import { HttpClientModule} from '@angular/common/http';
+import { AdventureDetailComponent } from './adventure-detail/adventure-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    AdventuresComponent
+    AdventuresComponent,
+    AdventureDetailComponent
   ],
   imports: [
     BrowserModule,
