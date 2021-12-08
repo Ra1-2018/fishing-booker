@@ -19,6 +19,6 @@ public class CottageService{
     }
 
     public Cottage findById(Long id) {
-        return cottageRepository.findById(id).orElseGet(null);
+        return cottageRepository.findById(id).orElse(null);
     }
 }

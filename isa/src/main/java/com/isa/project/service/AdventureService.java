@@ -15,6 +15,6 @@ public class AdventureService{
 
     public List<Adventure> findAll() { return adventureRepository.findAll(); }
     public Adventure findById(long id) {
-        return adventureRepository.findById(id).orElseGet(null);
+        return adventureRepository.findById(id).orElse(null);
     }
 }
