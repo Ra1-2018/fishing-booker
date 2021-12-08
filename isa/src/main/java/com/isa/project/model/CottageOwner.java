@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class CottageOwner extends User{
+public class CottageOwner extends AppUser {
 
     @Column
     private OwnerType type;

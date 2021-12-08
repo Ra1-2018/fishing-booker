@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class User {
+public class AppUser {
 
     @Id
     @SequenceGenerator(name = "seqGen", sequenceName = "seq", initialValue = 1, allocationSize = 1)
@@ -27,10 +27,10 @@ public abstract class User {
     @Column
     private String telephone;
 
-    public User() {
+    public AppUser() {
     }
 
-    public User(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
+    public AppUser(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
         this.id = id;
         this.email = email;
         this.password = password;

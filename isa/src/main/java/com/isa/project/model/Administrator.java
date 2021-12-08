@@ -3,7 +3,7 @@ package com.isa.project.model;
 import javax.persistence.Entity;
 
 @Entity
-public class Administrator extends User{
+public class Administrator extends AppUser {
 
     public Administrator() {
     }
