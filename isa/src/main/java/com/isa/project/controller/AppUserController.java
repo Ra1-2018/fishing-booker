@@ -23,7 +23,7 @@ public class AppUserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUserDTO> save(@RequestBody AppUserDTO appUserDTO) {
 
-        if (appUserDTO.getEmail().length() <= 0 || appUserDTO.getPassword().length() <= 0) {
+        if (appUserDTO.getEmail() == null || appUserDTO.getPassword() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

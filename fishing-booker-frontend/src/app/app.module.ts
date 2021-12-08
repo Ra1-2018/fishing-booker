@@ -9,6 +9,9 @@ import { HttpClientModule} from '@angular/common/http';
 import { AdventureDetailComponent } from './adventure-detail/adventure-detail.component';
 import { CottagesComponent } from './cottages/cottages.component';
 import { CottageDetailComponent } from './cottage-detail/cottage-detail.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,12 +20,15 @@ import { CottageDetailComponent } from './cottage-detail/cottage-detail.componen
     AdventuresComponent,
     AdventureDetailComponent,
     CottagesComponent,
-    CottageDetailComponent
+    CottageDetailComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
