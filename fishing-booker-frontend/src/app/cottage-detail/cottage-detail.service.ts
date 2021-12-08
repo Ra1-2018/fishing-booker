@@ -5,12 +5,12 @@ import { Observable, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AdventureService {
+export class CottageDetailService {
 
   constructor(private _http: HttpClient) { }
 
-  getAdventures(): Observable<any[]> {
-    return this._http.get<any[]>('http://localhost:8080/adventures')
+  getCottage(id: number): Observable<any> {
+    return this._http.get<any>('http://localhost:8080/cottages/' + id)
     .pipe(
       tap(data => console.log("data: ", data))
     )

@@ -10,7 +10,7 @@ export class AdventureDetailService {
   constructor(private _http: HttpClient) { }
 
   getAdventure(id: number): Observable<any> {
-    return this._http.get<any>('http://localhost:8080/adventure/' + id)
+    return this._http.get<any>('http://localhost:8080/adventures/' + id)
     .pipe(
       tap(data => console.log("data: ", data))
     )
