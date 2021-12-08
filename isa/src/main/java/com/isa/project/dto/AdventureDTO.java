@@ -7,6 +7,13 @@ public class AdventureDTO {
     private long id;
     private String name;
     private String address;
+    private String description;
+    private String instructorBiography;
+    private int maxPeople;
+    private String behaviorRules;
+    private String fishingGear;
+    private String priceList;
+    private ReservationCancellation cancellation;
 
     public long getId() {
         return id;
@@ -47,14 +54,6 @@ public class AdventureDTO {
     public ReservationCancellation getCancellation() {
         return cancellation;
     }
-
-    private String description;
-    private String instructorBiography;
-    private int maxPeople;
-    private String behaviorRules;
-    private String fishingGear;
-    private String priceList;
-    private ReservationCancellation cancellation;
 
     public AdventureDTO(Adventure adventure) { this(adventure.getId(), adventure.getName(), adventure.getAddress(), adventure.getDescription(), adventure.getInstructorBiography(), adventure.getMaxPeople(), adventure.getBehaviorRules(), adventure.getFishingGear(), adventure.getPriceList(), adventure.getCancellation());}
 

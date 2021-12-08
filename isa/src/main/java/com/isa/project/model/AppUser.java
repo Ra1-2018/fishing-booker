@@ -10,7 +10,7 @@ public class AppUser {
     @SequenceGenerator(name = "seqGen", sequenceName = "seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqGen")
     private long id;
-    @Column
+    @Column(unique = true)
     private String email;
     @Column
     private String password;
