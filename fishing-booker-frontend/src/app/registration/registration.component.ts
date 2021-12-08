@@ -41,6 +41,9 @@ export class RegistrationComponent implements OnInit {
       alert("Password doesn't match!");
       return;
     }
-    this.registrationService.registerUser(this.myFormGroup.getRawValue());
+    this.registrationService.registerUser(this.myFormGroup.getRawValue()).subscribe({
+      next: (data) => {alert("Succesfully registered!")},
+      error: (err) => {alert("Email already in use!")}
+    });
 }
 }

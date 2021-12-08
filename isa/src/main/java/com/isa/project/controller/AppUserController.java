@@ -1,6 +1,7 @@
 package com.isa.project.controller;
 
 import com.isa.project.dto.AppUserDTO;
+import com.isa.project.dto.LoginDTO;
 import com.isa.project.model.AppUser;
 import com.isa.project.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,26 @@ public class AppUserController {
 
         AppUser appUser = new AppUser(appUserDTO.getId(), appUserDTO.getEmail(), appUserDTO.getPassword(), appUserDTO.getName(), appUserDTO.getSurname(), appUserDTO.getAddress(), appUserDTO.getCity(), appUserDTO.getCountry(), appUserDTO.getTelephone());
         appUser = appUserService.save(appUser);
+
+        return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/login")
+    public ResponseEntity<AppUserDTO> login(@RequestBody LoginDTO loginDTO) {
+        if (loginDTO.getEmail() == null || loginDTO.getPassword() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if(appUserService.findByEmail(loginDTO.getEmail()).size() != 1) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        AppUser appUser = appUserService.findByEmail(loginDTO.getEmail()).iterator().next();
+
+        if(!appUser.getPassword().equals(loginDTO.getPassword())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
     }

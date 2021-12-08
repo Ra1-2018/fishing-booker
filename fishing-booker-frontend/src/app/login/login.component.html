@@ -1,0 +1,19 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <ng-container [formGroup]="this.myFormGroup">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address:</label>
+                  <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email">
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password:</label>
+                  <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+                </div>
+                <div class="d-grid col-6 mx-auto">
+                  <button class="btn btn-primary" (click)="onClickSubmit()">Submit</button>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

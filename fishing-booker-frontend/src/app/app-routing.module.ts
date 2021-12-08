@@ -4,6 +4,7 @@ import { AdventureDetailComponent } from './adventure-detail/adventure-detail.co
 import { AdventuresComponent } from './adventures/adventures.component';
 import { CottageDetailComponent } from './cottage-detail/cottage-detail.component';
 import { CottagesComponent } from './cottages/cottages.component';
+import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
@@ -11,7 +12,8 @@ const routes: Routes = [
   { path: 'adventure/:id', component:AdventureDetailComponent},
   { path: 'cottages', component: CottagesComponent},
   { path: 'cottage/:id', component: CottageDetailComponent},
-  { path: 'register', component: RegistrationComponent}
+  { path: 'register', component: RegistrationComponent},
+  { path: 'login', component: LoginComponent}
 ];
 
 @NgModule({
