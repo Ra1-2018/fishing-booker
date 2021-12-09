@@ -1,6 +1,7 @@
 package com.isa.project.service;
 
 import com.isa.project.model.Cottage;
+import com.isa.project.model.CottageOwner;
 import com.isa.project.repository.CottageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,15 @@ public class CottageService{
         return cottageRepository.findAll();
     }
 
-    public Cottage findById(Long id) {
+    public Cottage findById(long id) {
         return cottageRepository.findById(id).orElseGet(null);
+    }
+
+    public Cottage save(Cottage cottage) {
+        return cottageRepository.save(cottage);
+    }
+
+    public void remove(long id) {
+        cottageRepository.deleteById(id);
     }
 }

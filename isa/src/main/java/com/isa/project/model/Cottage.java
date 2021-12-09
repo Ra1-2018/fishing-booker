@@ -19,6 +19,10 @@ public class Cottage {
     @Column
     private String behaviorRules;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cottageOwner_id")
+    private CottageOwner cottageOwner;
+
     public Cottage() {
     }
 
@@ -77,5 +81,13 @@ public class Cottage {
 
     public void setBehaviorRules(String behaviorRules) {
         this.behaviorRules = behaviorRules;
+    }
+
+    public CottageOwner getCottageOwner() {
+        return cottageOwner;
+    }
+
+    public void setCottageOwner(CottageOwner cottageOwner) {
+        this.cottageOwner = cottageOwner;
     }
 }
