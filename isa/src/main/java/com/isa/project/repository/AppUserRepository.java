@@ -8,5 +8,5 @@ import java.util.Collection;
 
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     @Query("select u from AppUser u where u.email = ?1")
-    public Collection<AppUser> findByEmail(String email);
+    public AppUser findByEmail(String email);
 }

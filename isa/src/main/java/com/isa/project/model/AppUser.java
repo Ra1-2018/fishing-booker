@@ -26,6 +26,8 @@ public class AppUser {
     private String country;
     @Column
     private String telephone;
+    @Column
+    private boolean enabled;
 
     public AppUser() {
     }
@@ -40,6 +42,7 @@ public class AppUser {
         this.city = city;
         this.country = country;
         this.telephone = telephone;
+        this.enabled = false;
     }
 
     public long getId() {
@@ -112,5 +115,13 @@ public class AppUser {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

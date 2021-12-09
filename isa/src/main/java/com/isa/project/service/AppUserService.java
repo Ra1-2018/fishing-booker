@@ -22,5 +22,5 @@ public class AppUserService {
 
     public void remove(long id) { appUserRepository.deleteById(id); }
 
-    public Collection<AppUser> findByEmail(String email) { return appUserRepository.findByEmail(email); }
+    public AppUser findByEmail(String email) { return appUserRepository.findByEmail(email); }
 }
