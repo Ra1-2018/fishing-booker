@@ -27,8 +27,7 @@ public class EmailService {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(appUser.getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
-        mail.setSubject("Primer slanja emaila pomoću asinhronog Spring taska");
-        //mail.setText("Pozdrav " + appUser.getName() + ",\n\nhvala što pratiš ISA.");
+        mail.setSubject("Registration Confirmation");
         mail.setText("http://localhost:8080/users/activate/" + token);
         javaMailSender.send(mail);
 
