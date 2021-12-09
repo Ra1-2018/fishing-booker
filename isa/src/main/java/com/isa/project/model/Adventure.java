@@ -32,8 +32,7 @@ public class Adventure {
     @Column
     private ReservationCancellation cancellation;
 
-    public Adventure() {
-    }
+    public Adventure() { }
 
     public Adventure(long id, String name, String address, String description, String instructorBiography, int maxPeople, Set<Reservation> freeReservations, String behaviorRules, String fishingGear, String priceList, ReservationCancellation cancellation) {
         this.id = id;

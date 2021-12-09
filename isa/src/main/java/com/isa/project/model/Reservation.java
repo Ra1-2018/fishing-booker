@@ -22,7 +22,7 @@ public class Reservation {
     @Column
     private double price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "adventure_id")
     private Adventure adventure;
 
@@ -93,5 +93,13 @@ public class Reservation {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Adventure getAdventure() {
+        return adventure;
+    }
+
+    public void setAdventure(Adventure adventure) {
+        this.adventure = adventure;
     }
 }
