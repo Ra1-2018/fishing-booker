@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
   constructor(private profileService: ProfileService,
               private readonly formBuilder: FormBuilder) {
                 this.myFormGroup = this.formBuilder.group({
+                  id: [],
                   email: ['', Validators.compose([Validators.required, Validators.email])],
                   password: ['', Validators.required],
                   name: [],
@@ -48,6 +49,14 @@ export class ProfileComponent implements OnInit {
 }
 
   public onClickSubmit(): void {
-
+    if (this.myFormGroup.invalid) {
+      // stop here if it's invalid
+      alert('Invalid input');
+      return;
+    }
+    this.profileService.updateUser(this.myFormGroup.getRawValue()).subscribe({
+      next: (data) => {alert("Succesfully updated!")},
+      error: (err) => {alert("An unexpected error!")}
+    });
   }
 }

@@ -143,4 +143,25 @@ public class AppUserController {
         appUserService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AppUserDTO> update(@RequestBody AppUserDTO appUserDTO) {
+        AppUser appUser = appUserService.findOne(appUserDTO.getId());
+
+        if(appUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        appUser.setPassword(appUserDTO.getPassword());
+        appUser.setName(appUserDTO.getName());
+        appUser.setSurname(appUserDTO.getSurname());
+        appUser.setAddress(appUserDTO.getAddress());
+        appUser.setCity(appUserDTO.getCity());
+        appUser.setCountry(appUserDTO.getCountry());
+        appUser.setTelephone(appUserDTO.getTelephone());
+
+        appUser = appUserService.save(appUser);
+        return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
+    }
 }

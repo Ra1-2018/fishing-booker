@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
     }
     this.loginService.loginUser(this.myFormGroup.getRawValue()).subscribe({
       next: (data) => {
-        alert("Succesfully logged in!");
         localStorage.setItem('userId', data.id);
         this.loginService.isLoggedIn = true;
         this.router.navigate(['profile']);
