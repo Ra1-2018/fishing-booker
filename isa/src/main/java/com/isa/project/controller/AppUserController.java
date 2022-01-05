@@ -1,12 +1,15 @@
 package com.isa.project.controller;
 
 import com.isa.project.dto.AppUserDTO;
+import com.isa.project.dto.AppUserSpecialDTO;
 import com.isa.project.dto.LoginDTO;
-import com.isa.project.model.AppUser;
+import com.isa.project.dto.LoginResponseDTO;
+import com.isa.project.model.*;
 import com.isa.project.service.AppUserService;
 import com.isa.project.verification.EmailService;
 import com.isa.project.verification.VerificationToken;
 import com.isa.project.verification.VerificationTokenService;
+import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -61,6 +64,32 @@ public class AppUserController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/special")
+    public ResponseEntity<AppUserDTO> saveSpecialUser(@RequestBody AppUserSpecialDTO appUserSpecialDTO) {
+
+        if (appUserSpecialDTO.getEmail() == null || appUserSpecialDTO.getPassword() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if(appUserService.findByEmail(appUserSpecialDTO.getEmail()) != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (appUserSpecialDTO.getUserType().equals("Boat owner")) {
+            BoatOwner boatOwner = new BoatOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
+            boatOwner.setEnabled(true);
+            appUserService.save(boatOwner);
+        }
+        else if (appUserSpecialDTO.getUserType().equals("Cottage owner")) {
+            CottageOwner cottageOwner = new CottageOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
+            cottageOwner.setEnabled(true);
+            appUserService.save(cottageOwner);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/activate/{token}")
     public RedirectView activate(@PathVariable("token") String token) {
 
@@ -87,7 +116,7 @@ public class AppUserController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/login")
-    public ResponseEntity<AppUserDTO> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
         if (loginDTO.getEmail() == null || loginDTO.getPassword() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -106,7 +135,7 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
+        return new ResponseEntity<>(new LoginResponseDTO(appUser), HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")

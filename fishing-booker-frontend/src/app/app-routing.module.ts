@@ -7,6 +7,7 @@ import { CottagesComponent } from './cottages/cottages.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { SpecialRegistrationComponent } from './special-registration/special-registration.component';
 
 const routes: Routes = [
   { path: 'adventures', component: AdventuresComponent},
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'cottage/:id', component: CottageDetailComponent},
   { path: 'register', component: RegistrationComponent},
   { path: 'login', component: LoginComponent},
-  { path: 'profile', component: ProfileComponent}
+  { path: 'profile', component: ProfileComponent},
+  { path: 'special-register', component: SpecialRegistrationComponent}
 ];
 
 @NgModule({

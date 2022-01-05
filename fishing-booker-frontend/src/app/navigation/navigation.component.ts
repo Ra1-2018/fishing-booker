@@ -15,6 +15,7 @@ export class NavigationComponent implements OnInit {
 
   logout(): void {
     localStorage.removeItem('userId');
+    localStorage.removeItem('userType');
     this.loginService.isLoggedIn = false;
   }
 }
