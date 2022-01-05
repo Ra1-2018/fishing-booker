@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService } from './login.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class LoginComponent implements OnInit {
   public readonly myFormGroup: FormGroup;
 
   constructor(private loginService: LoginService,
-              private readonly formBuilder: FormBuilder) {
+              private readonly formBuilder: FormBuilder,
+              private router: Router) {
                 this.myFormGroup = this.formBuilder.group({
                   email: ['', Validators.compose([Validators.required, Validators.email])],
                   password: ['', Validators.required],
@@ -31,8 +33,9 @@ export class LoginComponent implements OnInit {
     this.loginService.loginUser(this.myFormGroup.getRawValue()).subscribe({
       next: (data) => {
         alert("Succesfully logged in!");
-        localStorage.setItem('loggedUser', JSON.stringify(data));
+        localStorage.setItem('userId', data.id);
         this.loginService.isLoggedIn = true;
+        this.router.navigate(['profile']);
       },
       error: (err) => {alert("Invalid username/password!")}
     });
