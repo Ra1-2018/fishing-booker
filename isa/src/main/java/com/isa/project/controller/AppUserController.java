@@ -85,7 +85,11 @@ public class AppUserController {
             cottageOwner.setEnabled(true);
             appUserService.save(cottageOwner);
         }
-
+        else if(appUserSpecialDTO.getUserType().equals("Instructor")) {
+            Instructor instructor = new Instructor(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
+            instructor.setEnabled(true);
+            appUserService.save(instructor);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
