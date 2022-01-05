@@ -49,6 +49,8 @@ public class AppUserDTO {
         return telephone;
     }
 
+    public AppUserDTO() {}
+
     public AppUserDTO(AppUser appUser) { this(appUser.getId(), appUser.getEmail(), appUser.getPassword(), appUser.getName(), appUser.getSurname(), appUser.getAddress(), appUser.getCity(), appUser.getCountry(), appUser.getTelephone()); }
 
     public AppUserDTO(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
