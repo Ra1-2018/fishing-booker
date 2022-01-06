@@ -80,27 +80,29 @@ public class AppUserController {
         }
 
         if (appUserSpecialDTO.getUserType().equals("Boat owner")) {
-            BoatOwner boatOwner = new BoatOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
+            AppUser boatOwner = new AppUser(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
             boatOwner.setEnabled(true);
-            appUserService.save(boatOwner);
+            boatOwner = appUserService.save(boatOwner);
 
-            RegistrationRequest request = new RegistrationRequest(appUserSpecialDTO.getExplanation(), boatOwner);
-            //service.save
+
+            RegistrationRequest request = new RegistrationRequest(null, appUserSpecialDTO.getExplanation(), boatOwner);
+            requestService.save(request);
         }
         else if (appUserSpecialDTO.getUserType().equals("Cottage owner")) {
-            CottageOwner cottageOwner = new CottageOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
+            AppUser cottageOwner = new AppUser(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
             cottageOwner.setEnabled(true);
-            appUserService.save(cottageOwner);
+            cottageOwner = appUserService.save(cottageOwner);
 
-            RegistrationRequest request = new RegistrationRequest(appUserSpecialDTO.getExplanation(), cottageOwner);
+            RegistrationRequest request = new RegistrationRequest(null, appUserSpecialDTO.getExplanation(), cottageOwner);
+            requestService.save(request);
         }
         else if(appUserSpecialDTO.getUserType().equals("Instructor")) {
-            Instructor instructor = new Instructor(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
+            AppUser instructor = new AppUser(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
             instructor.setEnabled(true);
-            appUserService.save(instructor);
+            instructor = appUserService.save(instructor);
 
-            RegistrationRequest request = new RegistrationRequest(appUserSpecialDTO.getExplanation(), instructor);
-
+            RegistrationRequest request = new RegistrationRequest(null, appUserSpecialDTO.getExplanation(), instructor);
+            requestService.save(request);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -173,7 +175,8 @@ public class AppUserController {
         Collection<RegistrationRequest> requests = requestService.findAll();
         Collection<AppUserSpecialDTO> requestsDTOs = new ArrayList<>();
         for (RegistrationRequest request : requests) {
-            requestsDTOs.add(new AppUserSpecialDTO(request));
+            if (request.isApproved())
+                requestsDTOs.add(new AppUserSpecialDTO(request));
         }
         return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
     }

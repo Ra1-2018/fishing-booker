@@ -5,17 +5,19 @@ import javax.persistence.*;
 @Entity
 public class RegistrationRequest {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column
     private String explanation;
-    @Id
-    private Long id;
     @OneToOne(targetEntity = AppUser.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private AppUser user;
     @Column
     private boolean approved;
 
-    public RegistrationRequest(String explanation, AppUser user) {
+    public RegistrationRequest(Long id, String explanation, AppUser user) {
+        this.id = id;
         this.explanation = explanation;
         this.user = user;
         this.approved = false;
