@@ -1,7 +1,6 @@
 package com.isa.project.dto;
 
 import com.isa.project.model.Cottage;
-import com.isa.project.model.CottageOwner;
 
 public class CottageDTO {
     private long id;
@@ -10,20 +9,20 @@ public class CottageDTO {
     private String description;
     private int roomsTotalNumber;
     private String behaviorRules;
-    private CottageOwnerDTO cottageOwnerDTO;
+    private AppUserDTO cottageOwner;
 
     public CottageDTO() { }
 
-    public CottageDTO(Cottage cottage) { this(cottage.getId(), cottage.getName(), cottage.getAddress(), cottage.getDescription(), cottage.getRoomsTotalNumber(), cottage.getBehaviorRules(), new CottageOwnerDTO(cottage.getCottageOwner())); }
+    public CottageDTO(Cottage cottage) { this(cottage.getId(), cottage.getName(), cottage.getAddress(), cottage.getDescription(), cottage.getRoomsTotalNumber(), cottage.getBehaviorRules(), new AppUserDTO(cottage.getCottageOwner())); }
 
-    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, CottageOwnerDTO cottageOwnerDTO) {
+    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.description = description;
         this.roomsTotalNumber = roomsTotalNumber;
         this.behaviorRules = behaviorRules;
-        this.cottageOwnerDTO = cottageOwnerDTO;
+        this.cottageOwner = cottageOwner;
     }
 
     public long getId() { return id; }
@@ -38,6 +37,6 @@ public class CottageDTO {
 
     public String getBehaviorRules() { return behaviorRules; }
 
-    public CottageOwnerDTO getCottageOwnerDTO() { return cottageOwnerDTO; }
+    public AppUserDTO getCottageOwner() { return cottageOwner; }
 
 }
