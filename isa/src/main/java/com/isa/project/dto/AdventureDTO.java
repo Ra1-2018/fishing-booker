@@ -14,6 +14,7 @@ public class AdventureDTO {
     private String fishingGear;
     private String priceList;
     private ReservationCancellation cancellation;
+    private AppUserDTO instructor;
 
     public long getId() {
         return id;
@@ -55,9 +56,13 @@ public class AdventureDTO {
         return cancellation;
     }
 
-    public AdventureDTO(Adventure adventure) { this(adventure.getId(), adventure.getName(), adventure.getAddress(), adventure.getDescription(), adventure.getInstructorBiography(), adventure.getMaxPeople(), adventure.getBehaviorRules(), adventure.getFishingGear(), adventure.getPriceList(), adventure.getCancellation());}
+    public AppUserDTO getInstructor() {
+        return instructor;
+    }
 
-    public AdventureDTO(long id, String name, String address, String description, String instructorBiography, int maxPeople, String behaviorRules, String fishingGear, String priceList, ReservationCancellation cancellation) {
+    public AdventureDTO(Adventure adventure) { this(adventure.getId(), adventure.getName(), adventure.getAddress(), adventure.getDescription(), adventure.getInstructorBiography(), adventure.getMaxPeople(), adventure.getBehaviorRules(), adventure.getFishingGear(), adventure.getPriceList(), adventure.getCancellation(), new AppUserDTO(adventure.getInstructor()));}
+
+    public AdventureDTO(long id, String name, String address, String description, String instructorBiography, int maxPeople, String behaviorRules, String fishingGear, String priceList, ReservationCancellation cancellation, AppUserDTO instructor) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -68,5 +73,6 @@ public class AdventureDTO {
         this.fishingGear = fishingGear;
         this.priceList = priceList;
         this.cancellation = cancellation;
+        this.instructor = instructor;
     }
 }

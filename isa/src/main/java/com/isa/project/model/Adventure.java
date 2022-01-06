@@ -32,6 +32,10 @@ public class Adventure {
     @Column
     private ReservationCancellation cancellation;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "instructor_id")
+    private Instructor instructor;
+
     public Adventure() { }
 
     public Adventure(long id, String name, String address, String description, String instructorBiography, int maxPeople, Set<Reservation> freeReservations, String behaviorRules, String fishingGear, String priceList, ReservationCancellation cancellation) {
@@ -46,6 +50,7 @@ public class Adventure {
         this.fishingGear = fishingGear;
         this.priceList = priceList;
         this.cancellation = cancellation;
+        this.instructor = new Instructor();
     }
 
     public long getId() {
@@ -134,5 +139,13 @@ public class Adventure {
 
     public void setCancellation(ReservationCancellation cancellation) {
         this.cancellation = cancellation;
+    }
+
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
     }
 }
