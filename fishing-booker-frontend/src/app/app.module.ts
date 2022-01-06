@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SpecialRegistrationComponent } from './special-registration/special-registration.component';
+import { OwnedCottagesComponent } from './owned-cottages/owned-cottages.component';
+import { CottageEditComponent } from './cottage-edit/cottage-edit.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { SpecialRegistrationComponent } from './special-registration/special-reg
     RegistrationComponent,
     LoginComponent,
     ProfileComponent,
-    SpecialRegistrationComponent
+    SpecialRegistrationComponent,
+    OwnedCottagesComponent,
+    CottageEditComponent
   ],
   imports: [
     BrowserModule,

@@ -36,6 +36,18 @@ public class CottageController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<CottageDTO>> getOwnerCottages(@PathVariable("id") Long id) {
+        CottageOwner cottageOwner = cottageOwnerService.findById(id);
+        Collection<Cottage> cottages = cottageService.findCottagesByOwner(cottageOwner);
+        Collection<CottageDTO> cottageDTOS = new ArrayList<>();
+        for (Cottage cottage : cottages) {
+            cottageDTOS.add(new CottageDTO(cottage));
+        }
+        return new ResponseEntity<>(cottageDTOS, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CottageDTO> getCottage(@PathVariable("id") Long id) {
         Cottage cottage = cottageService.findById(id);

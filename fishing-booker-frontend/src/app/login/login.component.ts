@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('userId', data.id);
         localStorage.setItem('userType', data.userType)
         this.loginService.isLoggedIn = true;
+        this.loginService.userType = data.userType;
         this.router.navigate(['profile']);
       },
       error: (err) => {alert("Invalid username/password!")}
