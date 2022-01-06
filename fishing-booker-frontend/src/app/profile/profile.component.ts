@@ -10,6 +10,7 @@ import { ProfileService } from './profile.service';
 export class ProfileComponent implements OnInit {
 
   public readonly myFormGroup: FormGroup;
+  requests: any[] = []
 
   constructor(private profileService: ProfileService,
               private readonly formBuilder: FormBuilder) {
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.retrieveData();
+    this.getRequests();
   }
 
   private retrieveData(): void {
@@ -46,7 +48,15 @@ export class ProfileComponent implements OnInit {
             // construct ad-hoc.
             this.myFormGroup.patchValue(res);
         });
-}
+  }
+
+  getRequests(){
+    this.profileService.getRequests().subscribe(
+      requests => {
+        this.requests = requests;
+      }
+    )
+  }
 
   public onClickSubmit(): void {
     if (this.myFormGroup.invalid) {

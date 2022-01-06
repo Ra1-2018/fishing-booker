@@ -46,8 +46,7 @@
             <button name="declineRegistrationRequest">Odbi zahtev</button>
             <button name="mailButton">Posalji mejl</button>
             <br>
-            <table>
-                <!-- *ngIf='requests && requests.length' -->
+            <table *ngIf='requests && requests.length'>
                 <thead>
                     <th>Korisnicko ime</th>
                     <th>Tip korisnika</th>
@@ -55,7 +54,12 @@
                     <th>Opis registracije</th>
                 </thead>
                 <tbody>
-
+                    <tr *ngFor = 'let request of requests'>
+                        <td>{{ request.user.email }}</td>
+                        <td></td>
+                        <td>{{ request.user.name + " " + request.user.surname }}</td>
+                        <td>{{ request.explanation }}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
