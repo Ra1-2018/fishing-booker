@@ -17,6 +17,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { SpecialRegistrationComponent } from './special-registration/special-registration.component';
 import { BoatsComponent } from './boats/boats.component';
 import { BoatDetailComponent } from './boat-detail/boat-detail.component';
+import { OwnedCottagesComponent } from './owned-cottages/owned-cottages.component';
+import { CottageEditComponent } from './cottage-edit/cottage-edit.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { BoatDetailComponent } from './boat-detail/boat-detail.component';
     ProfileComponent,
     SpecialRegistrationComponent,
     BoatsComponent,
-    BoatDetailComponent
+    BoatDetailComponent,
+    OwnedCottagesComponent,
+    CottageEditComponent
   ],
   imports: [
     BrowserModule,
