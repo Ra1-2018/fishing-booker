@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SpecialRegistrationComponent } from './special-registration/special-registration.component';
+import { BoatsComponent } from './boats/boats.component';
+import { BoatDetailComponent } from './boat-detail/boat-detail.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { SpecialRegistrationComponent } from './special-registration/special-reg
     RegistrationComponent,
     LoginComponent,
     ProfileComponent,
-    SpecialRegistrationComponent
+    SpecialRegistrationComponent,
+    BoatsComponent,
+    BoatDetailComponent
   ],
   imports: [
     BrowserModule,

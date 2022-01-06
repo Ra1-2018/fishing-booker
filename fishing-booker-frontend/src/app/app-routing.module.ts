@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdventureDetailComponent } from './adventure-detail/adventure-detail.component';
 import { AdventuresComponent } from './adventures/adventures.component';
+import { BoatDetailComponent } from './boat-detail/boat-detail.component';
+import { BoatsComponent } from './boats/boats.component';
 import { CottageDetailComponent } from './cottage-detail/cottage-detail.component';
 import { CottagesComponent } from './cottages/cottages.component';
 import { LoginComponent } from './login/login.component';
@@ -17,7 +19,9 @@ const routes: Routes = [
   { path: 'register', component: RegistrationComponent},
   { path: 'login', component: LoginComponent},
   { path: 'profile', component: ProfileComponent},
-  { path: 'special-register', component: SpecialRegistrationComponent}
+  { path: 'special-register', component: SpecialRegistrationComponent},
+  { path: 'boats', component: BoatsComponent},
+  { path: 'boat/:id', component: BoatDetailComponent}
 ];
 
 @NgModule({
