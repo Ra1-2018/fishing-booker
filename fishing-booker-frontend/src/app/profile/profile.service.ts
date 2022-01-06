@@ -10,11 +10,10 @@ export class ProfileService {
   constructor(private _http: HttpClient) { }
 
   getUser(): Observable<any> {
-
     return this._http.get<Observable<any>>('http://localhost:8080/users/' + localStorage.getItem('userId'));
   }
 
   updateUser(appUser: any): Observable<any> {
-    return this._http.put<Observable<any>>('http://localhost:8080/users', appUser);
+    return this._http.put<Observable<any>>('http://localhost:8080/users/update', appUser);
   }
 }

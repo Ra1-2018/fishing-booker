@@ -12,19 +12,19 @@ export class RegistrationComponent implements OnInit {
   public readonly myFormGroup: FormGroup;
 
   constructor(private registrationService: RegistrationService,
-              private readonly formBuilder: FormBuilder) { 
-                this.myFormGroup = this.formBuilder.group({
-                  email: ['', Validators.compose([Validators.required, Validators.email])],
-                  password: ['', Validators.required],
-                  rePassword: ['', Validators.required],
-                  name: [],
-                  surname: [],
-                  address: [],
-                  city: [],
-                  country: [],
-                  telephone: []
-              });
-              }
+    private readonly formBuilder: FormBuilder) { 
+      this.myFormGroup = this.formBuilder.group({
+        email: ['', Validators.compose([Validators.required, Validators.email])],
+        password: ['', Validators.required],
+        rePassword: ['', Validators.required],
+        name: [],
+        surname: [],
+        address: [],
+        city: [],
+        country: [],
+        telephone: []
+    });
+    }
 
   ngOnInit(): void {
   }

@@ -6,6 +6,7 @@ import com.isa.project.dto.LoginDTO;
 import com.isa.project.dto.LoginResponseDTO;
 import com.isa.project.model.*;
 import com.isa.project.service.AppUserService;
+import com.isa.project.service.RegistrationRequestService;
 import com.isa.project.verification.EmailService;
 import com.isa.project.verification.VerificationToken;
 import com.isa.project.verification.VerificationTokenService;
@@ -28,6 +29,9 @@ public class AppUserController {
 
     @Autowired
     private AppUserService appUserService;
+
+    @Autowired
+    private RegistrationRequestService requestService;
 
     @Autowired
     private EmailService emailService;
@@ -79,17 +83,26 @@ public class AppUserController {
             BoatOwner boatOwner = new BoatOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
             boatOwner.setEnabled(true);
             appUserService.save(boatOwner);
+
+            RegistrationRequest request = new RegistrationRequest(appUserSpecialDTO.getExplanation(), boatOwner);
+            //service.save
         }
         else if (appUserSpecialDTO.getUserType().equals("Cottage owner")) {
             CottageOwner cottageOwner = new CottageOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
             cottageOwner.setEnabled(true);
             appUserService.save(cottageOwner);
+
+            RegistrationRequest request = new RegistrationRequest(appUserSpecialDTO.getExplanation(), cottageOwner);
         }
         else if(appUserSpecialDTO.getUserType().equals("Instructor")) {
             Instructor instructor = new Instructor(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
             instructor.setEnabled(true);
             appUserService.save(instructor);
+
+            RegistrationRequest request = new RegistrationRequest(appUserSpecialDTO.getExplanation(), instructor);
+
         }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -155,6 +168,17 @@ public class AppUserController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/requests")
+    public ResponseEntity<Collection<AppUserSpecialDTO>> findAllRequests() {
+        Collection<RegistrationRequest> requests = requestService.findAll();
+        Collection<AppUserSpecialDTO> requestsDTOs = new ArrayList<>();
+        for (RegistrationRequest request : requests) {
+            requestsDTOs.add(new AppUserSpecialDTO(request));
+        }
+        return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUserDTO> findOne(@PathVariable("id") long id) {
         AppUser appUser = appUserService.findOne(id);
@@ -178,7 +202,7 @@ public class AppUserController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path="/update")
     public ResponseEntity<AppUserDTO> update(@RequestBody AppUserDTO appUserDTO) {
         AppUser appUser = appUserService.findOne(appUserDTO.getId());
 

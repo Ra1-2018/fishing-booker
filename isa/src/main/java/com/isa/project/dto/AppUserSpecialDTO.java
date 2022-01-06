@@ -1,5 +1,7 @@
 package com.isa.project.dto;
 
+import com.isa.project.model.RegistrationRequest;
+
 public class AppUserSpecialDTO {
     private long id;
     private String email;
@@ -58,6 +60,11 @@ public class AppUserSpecialDTO {
     }
 
     public AppUserSpecialDTO() { }
+
+    public  AppUserSpecialDTO(RegistrationRequest reguest) {
+        this.explanation = reguest.getExplanation();
+        this.userType = reguest.getClass().getSimpleName();
+    }
 
     public AppUserSpecialDTO(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone, String userType, String explanation) {
         this.id = id;

@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
                   country: [],
                   telephone: []
               });
-               }
+              }
 
   ngOnInit(): void {
     this.retrieveData();
