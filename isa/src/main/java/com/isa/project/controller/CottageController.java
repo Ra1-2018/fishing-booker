@@ -51,11 +51,11 @@ public class CottageController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<CottageDTO> createCottage(@RequestBody CottageDTO cottageDTO) {
 
-        if (cottageDTO.getCottageOwnerDTO() == null) {
+        if (cottageDTO.getCottageOwner() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        CottageOwner cottageOwner = cottageOwnerService.findOneWithCottages(cottageDTO.getCottageOwnerDTO().getId());
+        CottageOwner cottageOwner = cottageOwnerService.findOneWithCottages(cottageDTO.getCottageOwner().getId());
 
         if (cottageOwner == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -87,7 +87,7 @@ public class CottageController {
         cottage.setBehaviorRules(cottageDTO.getBehaviorRules());
         cottage.setDescription(cottageDTO.getDescription());
         cottage.setName(cottageDTO.getName());
-        cottage.setCottageOwner(cottageOwnerService.findOneWithCottages(cottageDTO.getCottageOwnerDTO().getId()));
+        cottage.setCottageOwner(cottageOwnerService.findOneWithCottages(cottageDTO.getCottageOwner().getId()));
 
         cottage = cottageService.save(cottage);
         return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.OK);
