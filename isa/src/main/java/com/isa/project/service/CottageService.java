@@ -1,5 +1,6 @@
 package com.isa.project.service;
 
+import com.isa.project.model.AppUser;
 import com.isa.project.model.Cottage;
 import com.isa.project.model.CottageOwner;
 import com.isa.project.repository.CottageRepository;
@@ -18,6 +19,8 @@ public class CottageService{
     public List<Cottage> findAll() {
         return cottageRepository.findAll();
     }
+
+    public List<Cottage> findCottagesByOwner(CottageOwner cottageOwner) { return cottageRepository.findCottagesByOwner(cottageOwner); }
 
     public Cottage findById(Long id) {
         return cottageRepository.findById(id).orElse(null);

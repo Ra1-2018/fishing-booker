@@ -8,7 +8,8 @@ import { LoginService } from '../login/login.service';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor(public readonly loginService: LoginService) { }
+  constructor(public readonly loginService: LoginService) {
+   }
 
   ngOnInit(): void {
   }

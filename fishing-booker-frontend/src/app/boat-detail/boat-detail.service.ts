@@ -5,19 +5,14 @@ import { Observable, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
-
-  isLoggedIn = false;
-  isCottageOwner = false;
-  userType = ''
+export class BoatDetailService {
 
   constructor(private _http: HttpClient) { }
 
-  loginUser(appUser: any): Observable<any> {
-    return this._http.post<Observable<any>>('http://localhost:8080/users/login', appUser)
+  getBoat(id: number): Observable<any> {
+    return this._http.get<any>('http://localhost:8080/boats/' + id)
     .pipe(
       tap(data => console.log("data: ", data))
     )
-  };
-  
+  }
 }
