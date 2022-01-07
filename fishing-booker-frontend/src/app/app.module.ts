@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AdventuresComponent } from './adventures/adventures.component';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { AdventureDetailComponent } from './adventure-detail/adventure-detail.component';
 import { CottagesComponent } from './cottages/cottages.component';
 import { CottageDetailComponent } from './cottage-detail/cottage-detail.component';
@@ -19,6 +19,7 @@ import { BoatsComponent } from './boats/boats.component';
 import { BoatDetailComponent } from './boat-detail/boat-detail.component';
 import { OwnedCottagesComponent } from './owned-cottages/owned-cottages.component';
 import { CottageEditComponent } from './cottage-edit/cottage-edit.component';
+import { TokenInterceptor } from './interceptor/tokenInterceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,13 @@ import { CottageEditComponent } from './cottage-edit/cottage-edit.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
