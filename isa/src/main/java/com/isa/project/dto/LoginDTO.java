@@ -3,6 +3,7 @@ package com.isa.project.dto;
 public class LoginDTO {
     private String email;
     private String password;
+    private Long id;
 
     public String getEmail() {
         return email;
@@ -12,9 +13,14 @@ public class LoginDTO {
         return password;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public LoginDTO() {}
 
-    public LoginDTO(String email, String password) {
+    public LoginDTO(Long id, String email, String password) {
+        this.id = id;
         this.email = email;
         this.password = password;
     }

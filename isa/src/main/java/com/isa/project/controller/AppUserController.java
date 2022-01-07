@@ -141,12 +141,20 @@ public class AppUserController {
         }
 
         AppUser appUser = appUserService.findByEmail(loginDTO.getEmail());
+        RegistrationRequest request = null;
+        if(appUser != null) {
+            request = requestService.findById(appUser.getId());
+        }
 
         if(appUser == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if(!appUser.isEnabled()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if(request != null && !request.isApproved()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

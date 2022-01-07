@@ -45,10 +45,7 @@
 
         <div name="administratorProfile">
             <h3 class="h3">Zahtevi za registraciju</h3>
-            <div>
-                <button name="approveRegistrationRequest" class="btn btn-secondary" style="margin: 10px;">Odobri zahtev</button>
-                <button name="declineRegistrationRequest" class="btn btn-secondary" style="margin: 10px;">Odbi zahtev</button>
-                <button name="mailButton" class="btn btn-secondary" style="margin: 10px;">Posalji mejl</button>
+            <div>                
                 <br>
                 <table *ngIf='requests && requests.length' class="table">
                     <thead>
@@ -65,6 +62,9 @@
                             <td>{{request.userType}}</td>
                             <td>{{request.name + " " + request.surname}}</td>
                             <td>{{request.explanation}}</td>
+                            <td><button name="approveRegistrationRequest" class="btn btn-secondary">Odobri zahtev</button></td>
+                            <td><button name="declineRegistrationRequest" class="btn btn-secondary">Odbaci zahtev</button></td>
+                            <td><button name="mailButton" class="btn btn-secondary">Posalji mejl</button></td>
                         </tr>
                     </tbody>
                 </table>
