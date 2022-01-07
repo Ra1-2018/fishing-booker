@@ -1,5 +1,8 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
+
+        <h3 class="h3">Izmeni profil</h3>
+
         <div class="col-md-4">
             <ng-container [formGroup]="this.myFormGroup">
                 <div class="mb-3">
@@ -40,28 +43,32 @@
             </ng-container>
         </div>
 
-        <div>
-            <br>
-            <button name="approveRegistrationRequest">Odobri zahtev</button>
-            <button name="declineRegistrationRequest">Odbi zahtev</button>
-            <button name="mailButton">Posalji mejl</button>
-            <br>
-            <table *ngIf='requests && requests.length'>
-                <thead>
-                    <th>Korisnicko ime</th>
-                    <th>Tip korisnika</th>
-                    <th>Ime korisnika</th>
-                    <th>Opis registracije</th>
-                </thead>
-                <tbody>
-                    <tr *ngFor = 'let request of requests'>
-                        <td>{{ request.user.email }}</td>
-                        <td></td>
-                        <td>{{ request.user.name + " " + request.user.surname }}</td>
-                        <td>{{ request.explanation }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div name="administratorProfile">
+            <h3 class="h3">Zahtevi za registraciju</h3>
+            <div>
+                <button name="approveRegistrationRequest" class="btn btn-secondary" style="margin: 10px;">Odobri zahtev</button>
+                <button name="declineRegistrationRequest" class="btn btn-secondary" style="margin: 10px;">Odbi zahtev</button>
+                <button name="mailButton" class="btn btn-secondary" style="margin: 10px;">Posalji mejl</button>
+                <br>
+                <table *ngIf='requests && requests.length' class="table">
+                    <thead>
+                        <tr>
+                            <th class="col">Korisnicko ime</th>
+                            <th class="col">Tip korisnika</th>
+                            <th class="col">Ime korisnika</th>
+                            <th class="col">Opis registracije</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor = 'let request of requests'>
+                            <td>{{request.email}}</td>
+                            <td>{{request.userType}}</td>
+                            <td>{{request.name + " " + request.surname}}</td>
+                            <td>{{request.explanation}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfileService } from './profile.service';
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +11,8 @@ import { ProfileService } from './profile.service';
 export class ProfileComponent implements OnInit {
 
   public readonly myFormGroup: FormGroup;
-  requests: any[] = []
+  requests: any[] = [];
+  selectedUser: any;
 
   constructor(private profileService: ProfileService,
               private readonly formBuilder: FormBuilder) {

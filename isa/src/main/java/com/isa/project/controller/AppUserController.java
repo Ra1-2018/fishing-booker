@@ -175,7 +175,7 @@ public class AppUserController {
         Collection<RegistrationRequest> requests = requestService.findAll();
         Collection<AppUserSpecialDTO> requestsDTOs = new ArrayList<>();
         for (RegistrationRequest request : requests) {
-            if (request.isApproved())
+            if (!request.isApproved())
                 requestsDTOs.add(new AppUserSpecialDTO(request));
         }
         return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
