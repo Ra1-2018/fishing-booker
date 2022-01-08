@@ -62,9 +62,8 @@
                             <td>{{request.userType}}</td>
                             <td>{{request.name + " " + request.surname}}</td>
                             <td>{{request.explanation}}</td>
-                            <td><button name="approveRegistrationRequest" class="btn btn-secondary">Odobri zahtev</button></td>
-                            <td><button name="declineRegistrationRequest" class="btn btn-secondary">Odbaci zahtev</button></td>
-                            <td><button name="mailButton" class="btn btn-secondary">Posalji mejl</button></td>
+                            <td><button name="approveRegistrationRequest" class="btn btn-secondary" (click)="onApprove(request);">Odobri zahtev</button></td>
+                            <td><button name="declineRegistrationRequest" class="btn btn-secondary" (click)="onDecline(request);">Odbaci zahtev</button></td>
                         </tr>
                     </tbody>
                 </table>

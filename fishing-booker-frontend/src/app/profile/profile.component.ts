@@ -72,4 +72,16 @@ export class ProfileComponent implements OnInit {
       error: (err) => {alert("An unexpected error!")}
     });
   }
+
+  public onApprove(request:any): void{
+    this.profileService.approveRequest(request);
+    alert('Request approved');
+    return;
+  }
+
+  public onDecline(request:any): void{
+    this.profileService.declineRequest(request);
+    alert('Request declined');
+    return;
+  }
 }

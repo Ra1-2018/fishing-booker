@@ -23,4 +23,8 @@ public class RegistrationRequestService {
     public RegistrationRequest findById(Long id) {
         return requestRepository.findById(id).orElse(null);
     }
+
+    public void remove(long id) {
+        requestRepository.deleteById(id);
+    }
 }

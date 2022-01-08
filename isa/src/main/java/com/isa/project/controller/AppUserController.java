@@ -114,23 +114,63 @@ public class AppUserController {
 
         VerificationToken verificationToken = verificationTokenService.findByToken(token);
         //if (verificationToken == null) {
-            //String message = messages.getMessage("auth.message.invalidToken", null, locale);
-            //model.addAttribute("message", message);
-            //return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        //String message = messages.getMessage("auth.message.invalidToken", null, locale);
+        //model.addAttribute("message", message);
+        //return "redirect:/badUser.html?lang=" + locale.getLanguage();
         //}
 
         AppUser appUser = verificationToken.getAppUser();
         //Calendar cal = Calendar.getInstance();
         //if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            //String messageValue = messages.getMessage("auth.message.expired", null, locale)
-            //model.addAttribute("message", messageValue);
-            //return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        //String messageValue = messages.getMessage("auth.message.expired", null, locale)
+        //model.addAttribute("message", messageValue);
+        //return "redirect:/badUser.html?lang=" + locale.getLanguage();
         //}
 
         appUser.setEnabled(true);
         appUserService.save(appUser);
 
         return new RedirectView("http://localhost:4200/login");
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/approve/{id}")
+    public ResponseEntity<Void> approveRequest(@PathVariable("id") Long id) {
+
+        RegistrationRequest request = requestService.findById(id);
+        if(request == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        request.setApproved(true);
+        requestService.save(request);
+
+        try {
+            emailService.sendNotificaitionOfApprovedRegistrationRequest(request, id);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/decline/{id}")
+    public ResponseEntity<Void> declineRequest(@PathVariable("id") Long id) {
+
+        RegistrationRequest request = requestService.findById(id);
+        if(request == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        request.setApproved(true);
+        requestService.remove(id);
+
+        try {
+            emailService.sendNotificaitionOfDeclinedRegistrationRequest(request, id);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
