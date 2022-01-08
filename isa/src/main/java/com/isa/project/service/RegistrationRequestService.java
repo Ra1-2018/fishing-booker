@@ -20,6 +20,10 @@ public class RegistrationRequestService {
         return requestRepository.findAll();
     }
 
+    public RegistrationRequest findByUserId(Long id) {
+        return requestRepository.findByUserId(id);
+    }
+
     public RegistrationRequest findById(Long id) {
         return requestRepository.findById(id).orElse(null);
     }

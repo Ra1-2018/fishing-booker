@@ -84,7 +84,6 @@ public class AppUserController {
             boatOwner.setEnabled(true);
             boatOwner = appUserService.save(boatOwner);
 
-
             RegistrationRequest request = new RegistrationRequest(null, appUserSpecialDTO.getExplanation(), boatOwner);
             requestService.save(request);
         }
@@ -183,10 +182,8 @@ public class AppUserController {
         AppUser appUser = appUserService.findByEmail(loginDTO.getEmail());
         RegistrationRequest request = null;
         if(appUser != null) {
-            request = requestService.findById(appUser.getId());
-        }
-
-        if(appUser == null) {
+            request = requestService.findByUserId(appUser.getId());
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

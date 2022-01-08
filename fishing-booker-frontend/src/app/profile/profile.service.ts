@@ -18,11 +18,11 @@ export class ProfileService {
   }
 
   approveRequest(request: any): Observable<any> {
-    return this._http.get<Observable<any>>('http://localhost:8080/users/approve/' + request.id, request);
+    return this._http.get<Observable<any>>('http://localhost:8080/users/approve/' + request.id);
   }
 
   declineRequest(request: any): Observable<any> {
-    return this._http.get<Observable<any>>('http://localhost:8080/users/decline/' + request.id, request)
+    return this._http.get<Observable<any>>('http://localhost:8080/users/decline/' + request.id)
   }
 
   getRequests(): Observable<any[]> {
