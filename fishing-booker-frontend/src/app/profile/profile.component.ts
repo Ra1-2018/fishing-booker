@@ -15,7 +15,8 @@ export class ProfileComponent implements OnInit {
   requests: any[] = [];
   selectedUser: any;
 
-  constructor(private profileService: ProfileService,
+  constructor(public readonly loginService: LoginService,
+              private profileService: ProfileService,
               private readonly formBuilder: FormBuilder) {
                 this.myFormGroup = this.formBuilder.group({
                   id: [],
@@ -73,14 +74,14 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  public onApprove(request:any): void{
-    this.profileService.approveRequest(request);
+  public onApprove(id:number): void{
+    this.profileService.approveRequest(id);
     alert('Request approved');
     return;
   }
 
-  public onDecline(request:any): void{
-    this.profileService.declineRequest(request);
+  public onDecline(id:number): void{
+    this.profileService.declineRequest(id);
     alert('Request declined');
     return;
   }

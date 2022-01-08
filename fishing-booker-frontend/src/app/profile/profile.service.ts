@@ -17,12 +17,12 @@ export class ProfileService {
     return this._http.put<Observable<any>>('http://localhost:8080/users/update', appUser);
   }
 
-  approveRequest(request: any): Observable<any> {
-    return this._http.get<Observable<any>>('http://localhost:8080/users/approve/' + request.id);
+  approveRequest(id: number): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/approve/' + id);
   }
 
-  declineRequest(request: any): Observable<any> {
-    return this._http.get<Observable<any>>('http://localhost:8080/users/decline/' + request.id)
+  declineRequest(id: number): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/decline/' + id)
   }
 
   getRequests(): Observable<any[]> {
