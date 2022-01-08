@@ -20,6 +20,8 @@ import { BoatDetailComponent } from './boat-detail/boat-detail.component';
 import { OwnedCottagesComponent } from './owned-cottages/owned-cottages.component';
 import { CottageEditComponent } from './cottage-edit/cottage-edit.component';
 import { TokenInterceptor } from './interceptor/tokenInterceptor';
+import { ClientCottageReservationsComponent } from './client/client-cottage-reservations/client-cottage-reservations.component';
+import { ClientBoatReservationsComponent } from './client/client-boat-reservations/client-boat-reservations.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { TokenInterceptor } from './interceptor/tokenInterceptor';
     BoatsComponent,
     BoatDetailComponent,
     OwnedCottagesComponent,
-    CottageEditComponent
+    CottageEditComponent,
+    ClientCottageReservationsComponent,
+    ClientBoatReservationsComponent
   ],
   imports: [
     BrowserModule,

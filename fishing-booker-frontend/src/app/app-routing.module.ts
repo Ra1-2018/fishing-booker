@@ -4,6 +4,7 @@ import { AdventureDetailComponent } from './adventure-detail/adventure-detail.co
 import { AdventuresComponent } from './adventures/adventures.component';
 import { BoatDetailComponent } from './boat-detail/boat-detail.component';
 import { BoatsComponent } from './boats/boats.component';
+import { ClientCottageReservationsComponent } from './client/client-cottage-reservations/client-cottage-reservations.component';
 import { CottageDetailComponent } from './cottage-detail/cottage-detail.component';
 import { CottageEditComponent } from './cottage-edit/cottage-edit.component';
 import { CottagesComponent } from './cottages/cottages.component';
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'boats', component: BoatsComponent},
   { path: 'boat/:id', component: BoatDetailComponent},
   { path: 'owned-cottages', component: OwnedCottagesComponent},
-  { path: 'cottage-edit/:id', component: CottageEditComponent}
+  { path: 'cottage-edit/:id', component: CottageEditComponent},
+  { path: 'client-cottage-reservations', component: ClientCottageReservationsComponent}
 ];
 
 @NgModule({
