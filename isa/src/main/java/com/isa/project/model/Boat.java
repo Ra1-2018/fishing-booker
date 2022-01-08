@@ -1,6 +1,8 @@
 package com.isa.project.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Boat {
@@ -36,13 +38,16 @@ public class Boat {
     @Column
     private String cancellationTerms;
 
+    @OneToMany(mappedBy = "boat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<BoatReservation> freeReservations = new HashSet<BoatReservation>();
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "boatOwner_id")
     private BoatOwner boatOwner;
 
     public Boat() {}
 
-    public Boat(long id, String name, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int capacity, String behaviorRules, String fishingEquipment, String priceList, String cancellationTerms) {
+    public Boat(long id, String name, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int capacity, String behaviorRules, String fishingEquipment, String priceList, String cancellationTerms, Set<BoatReservation> freeReservations) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -59,6 +64,7 @@ public class Boat {
         this.priceList = priceList;
         this.cancellationTerms = cancellationTerms;
         this.boatOwner = new BoatOwner();
+        this.freeReservations = freeReservations;
     }
 
     public long getId() {
@@ -187,5 +193,13 @@ public class Boat {
 
     public void setBoatOwner(BoatOwner boatOwner) {
         this.boatOwner = boatOwner;
+    }
+
+    public Set<BoatReservation> getFreeReservations() {
+        return freeReservations;
+    }
+
+    public void setFreeReservations(Set<BoatReservation> freeReservations) {
+        this.freeReservations = freeReservations;
     }
 }

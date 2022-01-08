@@ -93,7 +93,7 @@ public class AppUserController {
             appUserService.save(boatOwner);
         }
         else if (appUserSpecialDTO.getUserType().equals("Cottage owner")) {
-            CottageOwner cottageOwner = new CottageOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
+            CottageOwner cottageOwner = new CottageOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), passwordEncoder.encode(appUserSpecialDTO.getPassword()), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
             cottageOwner.setEnabled(true);
             appUserService.save(cottageOwner);
         }
