@@ -22,7 +22,7 @@ public class Adventure {
     @Column
     private int maxPeople;
     @OneToMany(mappedBy = "adventure", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Reservation> freeReservations = new HashSet<Reservation>();
+    private Set<AdventureReservation> freeReservations = new HashSet<AdventureReservation>();
     @Column
     private String behaviorRules;
     @Column
@@ -38,7 +38,7 @@ public class Adventure {
 
     public Adventure() { }
 
-    public Adventure(long id, String name, String address, String description, String instructorBiography, int maxPeople, Set<Reservation> freeReservations, String behaviorRules, String fishingGear, String priceList, ReservationCancellation cancellation) {
+    public Adventure(long id, String name, String address, String description, String instructorBiography, int maxPeople, Set<AdventureReservation> freeReservations, String behaviorRules, String fishingGear, String priceList, ReservationCancellation cancellation) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -101,11 +101,11 @@ public class Adventure {
         this.maxPeople = maxPeople;
     }
 
-    public Set<Reservation> getFreeReservations() {
+    public Set<AdventureReservation> getFreeReservations() {
         return freeReservations;
     }
 
-    public void setFreeReservations(Set<Reservation> freeReservations) {
+    public void setFreeReservations(Set<AdventureReservation> freeReservations) {
         this.freeReservations = freeReservations;
     }
 

@@ -1,7 +1,9 @@
 package com.isa.project.service;
 
 import com.isa.project.model.AppUser;
+import com.isa.project.model.UserRole;
 import com.isa.project.repository.AppUserRepository;
+import com.isa.project.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,18 @@ public class AppUserService {
     @Autowired
     private AppUserRepository appUserRepository;
 
+    @Autowired
+    private UserRoleService roleService;
+
     public AppUser findOne(long id) { return appUserRepository.findById(id).orElse(null); }
 
     public List<AppUser> findAll() { return appUserRepository.findAll(); }
 
-    public AppUser save(AppUser appUser) { return appUserRepository.save(appUser); }
+    public AppUser save(AppUser appUser) {
+        List<UserRole> roles = roleService.findByName("ROLE_USER");
+        appUser.setUserRoles(roles);
+        return appUserRepository.save(appUser);
+    }
 
     public void remove(long id) { appUserRepository.deleteById(id); }
 

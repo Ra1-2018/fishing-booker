@@ -1,6 +1,8 @@
 package com.isa.project.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Cottage {
@@ -19,6 +21,9 @@ public class Cottage {
     @Column
     private String behaviorRules;
 
+    @OneToMany(mappedBy = "cottage", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<CottageReservation> freeReservations = new HashSet<CottageReservation>();
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cottageOwner_id")
     private CottageOwner cottageOwner;
@@ -26,13 +31,14 @@ public class Cottage {
     public Cottage() {
     }
 
-    public Cottage(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules) {
+    public Cottage(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, Set<CottageReservation> freeReservations) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.description = description;
         this.roomsTotalNumber = roomsTotalNumber;
         this.behaviorRules = behaviorRules;
+        this.freeReservations = freeReservations;
     }
 
     public long getId() {
@@ -90,4 +96,8 @@ public class Cottage {
     public void setCottageOwner(CottageOwner cottageOwner) {
         this.cottageOwner = cottageOwner;
     }
+
+    public Set<CottageReservation> getFreeReservations() { return freeReservations;}
+
+    public void setFreeReservations(Set<CottageReservation> freeReservations) { this.freeReservations = freeReservations; }
 }

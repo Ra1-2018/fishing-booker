@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
       next: (data) => {
         localStorage.setItem('userId', data.id);
         localStorage.setItem('userType', data.userType)
+        localStorage.setItem('jwt', data.userTokenState.accessToken)
         this.loginService.isLoggedIn = true;
         this.loginService.userType = data.userType;
         this.router.navigate(['profile']);

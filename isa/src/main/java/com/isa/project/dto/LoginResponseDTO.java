@@ -7,6 +7,7 @@ import org.apache.juli.logging.Log;
 public class LoginResponseDTO {
     private long id;
     private String userType;
+    private UserTokenState userTokenState;
 
     public long getId() {
         return id;
@@ -16,15 +17,21 @@ public class LoginResponseDTO {
         return userType;
     }
 
-    public LoginResponseDTO(AppUser appUser) {
+    public UserTokenState getUserTokenState() {
+        return userTokenState;
+    }
+
+    public LoginResponseDTO(AppUser appUser, UserTokenState userTokenState) {
         this.id = appUser.getId();
         this.userType = appUser.getClass().getSimpleName();
+        this.userTokenState = userTokenState;
     }
 
     public LoginResponseDTO() { }
 
-    public LoginResponseDTO(long id, String userType) {
+    public LoginResponseDTO(long id, String userType, UserTokenState userTokenState) {
         this.id = id;
         this.userType = userType;
+        this.userTokenState = userTokenState;
     }
 }

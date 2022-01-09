@@ -1,0 +1,10 @@
+<div class="list-group">
+    <a *ngFor = "let boat of boats" [routerLink]="['/boat-edit', boat.id]" class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{boat.name}}</h5>
+        <small class="text-muted">{{boat.address}}</small>
+      </div>
+      <p class="mb-1">{{boat.description}}</p>
+      <small class="text-muted">Capacity: {{boat.capacity}}</small>
+    </a>
+  </div>

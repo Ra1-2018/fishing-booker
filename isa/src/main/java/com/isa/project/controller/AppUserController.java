@@ -4,6 +4,7 @@ import com.isa.project.dto.*;
 import com.isa.project.model.*;
 import com.isa.project.service.AppUserService;
 import com.isa.project.service.RegistrationRequestService;
+import com.isa.project.util.TokenUtils;
 import com.isa.project.verification.EmailService;
 import com.isa.project.verification.VerificationToken;
 import com.isa.project.verification.VerificationTokenService;
@@ -12,9 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -23,6 +31,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/users")
 public class AppUserController {
+
+    @Autowired
+    private TokenUtils tokenUtils;
 
     @Autowired
     private AppUserService appUserService;
@@ -36,7 +47,12 @@ public class AppUserController {
     @Autowired
     VerificationTokenService verificationTokenService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUserDTO> save(@RequestBody AppUserDTO appUserDTO) {
 
@@ -48,7 +64,7 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        AppUser appUser = new Client(appUserDTO.getId(), appUserDTO.getEmail(), appUserDTO.getPassword(), appUserDTO.getName(), appUserDTO.getSurname(), appUserDTO.getAddress(), appUserDTO.getCity(), appUserDTO.getCountry(), appUserDTO.getTelephone());
+        AppUser appUser = new Client(appUserDTO.getId(), appUserDTO.getEmail(), passwordEncoder.encode(appUserDTO.getPassword()), appUserDTO.getName(), appUserDTO.getSurname(), appUserDTO.getAddress(), appUserDTO.getCity(), appUserDTO.getCountry(), appUserDTO.getTelephone());
         appUser = appUserService.save(appUser);
 
         String token = UUID.randomUUID().toString();
@@ -64,7 +80,6 @@ public class AppUserController {
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/special")
     public ResponseEntity<AppUserDTO> saveSpecialUser(@RequestBody AppUserSpecialDTO appUserSpecialDTO) {
 
@@ -101,7 +116,6 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/activate/{token}")
     public RedirectView activate(@PathVariable("token") String token) {
 
@@ -172,28 +186,20 @@ public class AppUserController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
-        if (loginDTO.getEmail() == null || loginDTO.getPassword() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
 
-        AppUser appUser = appUserService.findByEmail(loginDTO.getEmail());
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDTO.getEmail(), loginDTO.getPassword()));
 
-        if(appUser == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        if(!appUser.isEnabled()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        AppUser appUser = (AppUser) authentication.getPrincipal();
+        String jwt = tokenUtils.generateToken(appUser.getUsername());
+        int expiresIn = tokenUtils.getExpiredIn();
+        UserTokenState userTokenState = new UserTokenState(jwt, expiresIn);
 
-        if(!appUser.getPassword().equals(loginDTO.getPassword())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(new LoginResponseDTO(appUser), HttpStatus.OK);
+        return new ResponseEntity<>(new LoginResponseDTO(appUser, userTokenState), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<AppUserDTO>> findAll() {
         Collection<AppUser> appUsers = appUserService.findAll();
@@ -217,6 +223,7 @@ public class AppUserController {
         return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUserDTO> findOne(@PathVariable("id") long id) {
@@ -229,7 +236,6 @@ public class AppUserController {
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> remove(@PathVariable("id") long id) {
         AppUser appUser = appUserService.findOne(id);
@@ -240,8 +246,8 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path="/update")
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/update")
     public ResponseEntity<AppUserDTO> update(@RequestBody AppUserDTO appUserDTO) {
         AppUser appUser = appUserService.findOne(appUserDTO.getId());
 
@@ -249,7 +255,7 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        appUser.setPassword(appUserDTO.getPassword());
+        //appUser.setPassword(appUserDTO.getPassword());
         appUser.setName(appUserDTO.getName());
         appUser.setSurname(appUserDTO.getSurname());
         appUser.setAddress(appUserDTO.getAddress());
