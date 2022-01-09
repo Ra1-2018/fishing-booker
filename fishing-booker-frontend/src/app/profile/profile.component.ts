@@ -75,14 +75,20 @@ export class ProfileComponent implements OnInit {
   }
 
   public onApprove(id:number): void{
-    this.profileService.approveRequest(id);
-    alert('Request approved');
+    this.profileService.approveRequest(id).subscribe(
+      response => {this.getRequests(); 
+                   alert('Request approved');
+                  }
+      );
     return;
   }
 
   public onDecline(id:number): void{
-    this.profileService.declineRequest(id);
-    alert('Request declined');
+    this.profileService.declineRequest(id).subscribe(
+      response => {this.getRequests(); 
+        alert('Request declined');
+                  }
+      ); 
     return;
   }
 }

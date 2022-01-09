@@ -1,9 +1,6 @@
 package com.isa.project.controller;
 
-import com.isa.project.dto.AppUserDTO;
-import com.isa.project.dto.AppUserSpecialDTO;
-import com.isa.project.dto.LoginDTO;
-import com.isa.project.dto.LoginResponseDTO;
+import com.isa.project.dto.*;
 import com.isa.project.model.*;
 import com.isa.project.service.AppUserService;
 import com.isa.project.service.RegistrationRequestService;
@@ -81,7 +78,6 @@ public class AppUserController {
 
         if (appUserSpecialDTO.getUserType().equals("Boat owner")) {
             AppUser boatOwner = new BoatOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
-            boatOwner.setEnabled(true);
             boatOwner = appUserService.save(boatOwner);
 
             RegistrationRequest request = new RegistrationRequest(null, appUserSpecialDTO.getExplanation(), boatOwner);
@@ -89,7 +85,6 @@ public class AppUserController {
         }
         else if (appUserSpecialDTO.getUserType().equals("Cottage owner")) {
             AppUser cottageOwner = new CottageOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
-            cottageOwner.setEnabled(true);
             cottageOwner = appUserService.save(cottageOwner);
 
             RegistrationRequest request = new RegistrationRequest(null, appUserSpecialDTO.getExplanation(), cottageOwner);
@@ -97,7 +92,6 @@ public class AppUserController {
         }
         else if(appUserSpecialDTO.getUserType().equals("Instructor")) {
             AppUser instructor = new Instructor(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
-            instructor.setEnabled(true);
             instructor = appUserService.save(instructor);
 
             RegistrationRequest request = new RegistrationRequest(null, appUserSpecialDTO.getExplanation(), instructor);
@@ -137,14 +131,17 @@ public class AppUserController {
     public ResponseEntity<Void> approveRequest(@PathVariable("id") Long id) {
 
         RegistrationRequest request = requestService.findById(id);
+        AppUser user = request.getUser();
         if(request == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         request.setApproved(true);
+        user.setEnabled(true);
+        appUserService.save(user);
         requestService.save(request);
 
         try {
-            emailService.sendNotificaitionOfApprovedRegistrationRequest(request, id);
+            emailService.sendNotificaitionOfApprovedRegistrationRequest(request);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -164,7 +161,7 @@ public class AppUserController {
         requestService.remove(id);
 
         try {
-            emailService.sendNotificaitionOfDeclinedRegistrationRequest(request, id);
+            emailService.sendNotificaitionOfDeclinedRegistrationRequest(request);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -180,18 +177,12 @@ public class AppUserController {
         }
 
         AppUser appUser = appUserService.findByEmail(loginDTO.getEmail());
-        RegistrationRequest request = null;
-        if(appUser != null) {
-            request = requestService.findByUserId(appUser.getId());
-        } else {
+
+        if(appUser == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if(!appUser.isEnabled()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        if(request != null && !request.isApproved()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -216,12 +207,12 @@ public class AppUserController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/requests")
-    public ResponseEntity<Collection<AppUserSpecialDTO>> findAllRequests() {
+    public ResponseEntity<Collection<RegistrationRequestDTO>> findAllRequests() {
         Collection<RegistrationRequest> requests = requestService.findAll();
-        Collection<AppUserSpecialDTO> requestsDTOs = new ArrayList<>();
+        Collection<RegistrationRequestDTO> requestsDTOs = new ArrayList<>();
         for (RegistrationRequest request : requests) {
             if (!request.isApproved())
-                requestsDTOs.add(new AppUserSpecialDTO(request));
+                requestsDTOs.add(new RegistrationRequestDTO(request));
         }
         return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
     }

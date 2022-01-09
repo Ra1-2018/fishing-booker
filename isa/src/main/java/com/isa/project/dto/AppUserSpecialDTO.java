@@ -61,20 +61,6 @@ public class AppUserSpecialDTO {
 
     public AppUserSpecialDTO() { }
 
-    public  AppUserSpecialDTO(RegistrationRequest reguest) {
-        this.explanation = reguest.getExplanation();
-        this.userType = reguest.getUser().getClass().getSimpleName();
-        this.id = reguest.getUser().getId();
-        this.address = reguest.getUser().getAddress();
-        this.city = reguest.getUser().getCity();
-        this.country = reguest.getUser().getCountry();
-        this.email = reguest.getUser().getEmail();
-        this.password = reguest.getUser().getPassword();
-        this.name = reguest.getUser().getName();
-        this.surname = reguest.getUser().getSurname();
-        this.telephone = reguest.getUser().getTelephone();
-    }
-
     public AppUserSpecialDTO(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone, String userType, String explanation) {
         this.id = id;
         this.email = email;

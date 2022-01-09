@@ -36,24 +36,22 @@ public class EmailService {
     }
 
     @Async
-    public void sendNotificaitionOfApprovedRegistrationRequest(RegistrationRequest request, Long id) throws MailException, InterruptedException {
+    public void sendNotificaitionOfApprovedRegistrationRequest(RegistrationRequest request) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(request.getUser().getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
-        mail.setSubject("Registration Confirmation");
-        mail.setText("http://localhost:8080/users/approve/" + id);
+        mail.setText("Registration Confirmation");
         javaMailSender.send(mail);
 
         System.out.println("Email poslat!");
     }
 
     @Async
-    public void sendNotificaitionOfDeclinedRegistrationRequest(RegistrationRequest request, Long id) throws MailException, InterruptedException {
+    public void sendNotificaitionOfDeclinedRegistrationRequest(RegistrationRequest request) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(request.getUser().getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
-        mail.setSubject("Your Registration Has Been Declined");
-        mail.setText("http://localhost:8080/users/decline/" + id);
+        mail.setText("Your Registration Has Been Declined");
         javaMailSender.send(mail);
 
         System.out.println("Email poslat!");
