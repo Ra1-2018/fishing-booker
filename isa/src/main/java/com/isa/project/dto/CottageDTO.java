@@ -1,6 +1,9 @@
 package com.isa.project.dto;
 
 import com.isa.project.model.Cottage;
+import com.isa.project.model.CottageReservation;
+
+import java.util.Set;
 
 public class CottageDTO {
     private long id;
@@ -23,6 +26,7 @@ public class CottageDTO {
         this.roomsTotalNumber = roomsTotalNumber;
         this.behaviorRules = behaviorRules;
         this.cottageOwner = cottageOwner;
+
     }
 
     public long getId() { return id; }
@@ -38,5 +42,4 @@ public class CottageDTO {
     public String getBehaviorRules() { return behaviorRules; }
 
     public AppUserDTO getCottageOwner() { return cottageOwner; }
-
 }

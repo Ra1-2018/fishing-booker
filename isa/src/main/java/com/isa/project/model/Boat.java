@@ -195,11 +195,7 @@ public class Boat {
         this.boatOwner = boatOwner;
     }
 
-    public Set<BoatReservation> getFreeReservations() {
-        return freeReservations;
-    }
+    public Set<BoatReservation> getFreeReservations() { return freeReservations; }
 
-    public void setFreeReservations(Set<BoatReservation> freeReservations) {
-        this.freeReservations = freeReservations;
-    }
+    public void setFreeReservations(Set<BoatReservation> freeReservations) { this.freeReservations = freeReservations; }
 }
