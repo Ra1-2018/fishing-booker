@@ -1,6 +1,10 @@
 package com.isa.project.dto;
 
 import com.isa.project.model.Boat;
+import com.isa.project.model.BoatReservation;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class BoatDTO {
     private long id;

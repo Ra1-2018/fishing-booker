@@ -2,15 +2,14 @@ package com.isa.project.controller;
 
 import com.isa.project.dto.BoatDTO;
 import com.isa.project.model.Boat;
+import com.isa.project.model.BoatOwner;
+import com.isa.project.service.BoatOwnerService;
 import com.isa.project.service.BoatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,9 +17,14 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/boats")
 public class BoatController {
+
     @Autowired
     private BoatService boatService;
 
+    @Autowired
+    private BoatOwnerService boatOwnerService;
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<BoatDTO>> getBoats() {
         Collection<Boat> boats = boatService.findAll();
@@ -31,6 +35,7 @@ public class BoatController {
         return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value ="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BoatDTO> getBoat(@PathVariable("id") Long id) {
         Boat boat = boatService.findById(id);
@@ -40,5 +45,98 @@ public class BoatController {
         }
 
         return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<BoatDTO>> getOwnerBoats(@PathVariable("id") Long id) {
+        BoatOwner boatOwner = boatOwnerService.findById(id);
+        Collection<Boat> boats = boatService.findBoatsByOwner(boatOwner);
+        Collection<BoatDTO> boatDTOS = new ArrayList<>();
+        for (Boat boat : boats) {
+            boatDTOS.add(new BoatDTO(boat));
+        }
+        return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping(consumes = "application/json")
+    public ResponseEntity<BoatDTO> createBoat(@RequestBody BoatDTO boatDTO) {
+
+        if (boatDTO.getBoatOwner() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        BoatOwner boatOwner = boatOwnerService.findOneWithBoats(boatDTO.getBoatOwner().getId());
+
+        if (boatOwner == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Boat boat = new Boat();
+        boat.setAddress(boatDTO.getAddress());
+        boat.setBehaviorRules(boatDTO.getBehaviorRules());
+        boat.setBoatOwner(boatOwner);
+        boat.setName(boatDTO.getName());
+        boat.setDescription(boatDTO.getDescription());
+        boat.setCapacity(boatDTO.getCapacity());
+        boat.setEnginePower(boatDTO.getEnginePower());
+        boat.setCancellationTerms(boatDTO.getCancellationTerms());
+        boat.setFishingEquipment(boatDTO.getFishingEquipment());
+        boat.setLength(boatDTO.getLength());
+        boat.setNavigationEquipment(boatDTO.getNavigationEquipment());
+        boat.setNumberOfEngines(boatDTO.getNumberOfEngines());
+        boat.setType(boatDTO.getType());
+        boat.setMaximumVelocity(boatDTO.getMaximumVelocity());
+        boat.setPriceList(boatDTO.getPriceList());
+
+        boatOwner.addBoat(boat);
+
+        boat = boatService.save(boat);
+        return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.CREATED);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PutMapping(consumes = "application/json")
+    public ResponseEntity<BoatDTO> updateBoat(@RequestBody BoatDTO boatDTO) {
+
+        Boat boat = boatService.findById(boatDTO.getId());
+
+        if(boat == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        boat.setAddress(boatDTO.getAddress());
+        boat.setBehaviorRules(boatDTO.getBehaviorRules());
+        boat.setBoatOwner(boatOwnerService.findOneWithBoats(boatDTO.getBoatOwner().getId()));
+        boat.setName(boatDTO.getName());
+        boat.setDescription(boatDTO.getDescription());
+        boat.setCapacity(boatDTO.getCapacity());
+        boat.setEnginePower(boatDTO.getEnginePower());
+        boat.setCancellationTerms(boatDTO.getCancellationTerms());
+        boat.setFishingEquipment(boatDTO.getFishingEquipment());
+        boat.setLength(boatDTO.getLength());
+        boat.setNavigationEquipment(boatDTO.getNavigationEquipment());
+        boat.setNumberOfEngines(boatDTO.getNumberOfEngines());
+        boat.setType(boatDTO.getType());
+        boat.setMaximumVelocity(boatDTO.getMaximumVelocity());
+        boat.setPriceList(boatDTO.getPriceList());
+
+        boat = boatService.save(boat);
+        return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteBoat(@PathVariable long id) {
+
+        Boat boat = boatService.findById(id);
+
+        if (boat != null) {
+            boatService.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

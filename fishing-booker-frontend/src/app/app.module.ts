@@ -20,6 +20,8 @@ import { BoatDetailComponent } from './boat-detail/boat-detail.component';
 import { OwnedCottagesComponent } from './owned-cottages/owned-cottages.component';
 import { CottageEditComponent } from './cottage-edit/cottage-edit.component';
 import { TokenInterceptor } from './interceptor/tokenInterceptor';
+import { OwnedBoatsComponent } from './owned-boats/owned-boats.component';
+import { BoatEditComponent } from './boat-edit/boat-edit.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { TokenInterceptor } from './interceptor/tokenInterceptor';
     BoatsComponent,
     BoatDetailComponent,
     OwnedCottagesComponent,
-    CottageEditComponent
+    CottageEditComponent,
+    OwnedBoatsComponent,
+    BoatEditComponent
   ],
   imports: [
     BrowserModule,
