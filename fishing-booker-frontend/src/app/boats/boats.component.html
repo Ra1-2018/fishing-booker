@@ -1,4 +1,4 @@
-<div class="list-group">
+<!-- div class="list-group">
     <a *ngFor = "let boat of boats" [routerLink]="['/boat', boat.id]" class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">{{boat.name}}</h5>
@@ -7,4 +7,23 @@
       <p class="mb-1">{{boat.description}}</p>
       <small class="text-muted">Capacity: {{boat.capacity}}</small>
     </a>
-  </div>
+  </div -->
+
+  <table matSort (matSortChange)="sortData($event)" class="table table-hover">
+    <thead>
+      <tr>
+        <th mat-sort-header="name">Name</th>
+        <th mat-sort-header="address">Address</th>
+        <th mat-sort-header="capacity">Capacity</th>
+        <th mat-sort-header="boatOwner">Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let boat of sortedData" [routerLink]="['/boat', boat.id]">
+        <td>{{boat.name}}</td>
+        <td>{{boat.address}}</td>
+        <td>{{boat.capacity}}</td>
+        <td>{{boat.boatOwner.email}}</td>
+      </tr>
+    </tbody>
+  </table>
