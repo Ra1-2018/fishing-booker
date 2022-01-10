@@ -1,6 +1,6 @@
 package com.isa.project.dto;
 
-import com.isa.project.model.RegistrationRequest;
+import com.isa.project.model.AppUserType;
 
 public class AppUserSpecialDTO {
     private long id;
@@ -12,7 +12,7 @@ public class AppUserSpecialDTO {
     private String city;
     private String country;
     private String telephone;
-    private String userType;
+    private AppUserType appUserType;
     private String explanation;
 
     public long getId() {
@@ -51,8 +51,8 @@ public class AppUserSpecialDTO {
         return telephone;
     }
 
-    public String getUserType() {
-        return userType;
+    public AppUserType getAppUserType() {
+        return appUserType;
     }
 
     public String getExplanation() {
@@ -61,7 +61,7 @@ public class AppUserSpecialDTO {
 
     public AppUserSpecialDTO() { }
 
-    public AppUserSpecialDTO(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone, String userType, String explanation) {
+    public AppUserSpecialDTO(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone, AppUserType appUserType, String explanation) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -71,7 +71,7 @@ public class AppUserSpecialDTO {
         this.city = city;
         this.country = country;
         this.telephone = telephone;
-        this.userType = userType;
+        this.appUserType = appUserType;
         this.explanation = explanation;
     }
 }

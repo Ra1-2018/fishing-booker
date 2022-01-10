@@ -8,7 +8,6 @@ public class RegistrationRequestDTO {
     private Long id;
     private String explanation;
     private AppUserDTO user;
-    private String userType;
     private boolean approved;
 
     public RegistrationRequestDTO() {
@@ -16,15 +15,14 @@ public class RegistrationRequestDTO {
 
     public RegistrationRequestDTO(RegistrationRequest request) {
 
-        this(request.getId(), request.getExplanation(), new AppUserDTO(request.getUser()), request.getUser().getClass().getSimpleName(), request.isApproved());
+        this(request.getId(), request.getExplanation(), new AppUserDTO(request.getUser()), request.isApproved());
     }
 
-    public RegistrationRequestDTO(Long id, String explanation, AppUserDTO user, String userType,boolean approved) {
+    public RegistrationRequestDTO(Long id, String explanation, AppUserDTO user, boolean approved) {
         this.id = id;
         this.explanation = explanation;
         this.user = user;
         this.approved = approved;
-        this.userType = userType;
     }
 
     public Long getId() {
@@ -41,10 +39,6 @@ public class RegistrationRequestDTO {
 
     public boolean isApproved() {
         return approved;
-    }
-
-    public String getUserType() {
-        return userType;
     }
 
 }

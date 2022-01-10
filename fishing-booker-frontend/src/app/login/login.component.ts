@@ -33,10 +33,10 @@ export class LoginComponent implements OnInit {
     this.loginService.loginUser(this.myFormGroup.getRawValue()).subscribe({
       next: (data) => {
         localStorage.setItem('userId', data.id);
-        localStorage.setItem('userType', data.userType)
+        localStorage.setItem('userType', data.appUserType)
         localStorage.setItem('jwt', data.userTokenState.accessToken)
         this.loginService.isLoggedIn = true;
-        this.loginService.userType = data.userType;
+        this.loginService.userType = data.appUserType;
         this.router.navigate(['profile']);
       },
       error: (err) => {alert("Invalid username/password!")}

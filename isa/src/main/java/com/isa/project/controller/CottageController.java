@@ -79,6 +79,7 @@ public class CottageController {
         cottage.setDescription(cottageDTO.getDescription());
         cottage.setName(cottageDTO.getName());
         cottage.setCottageOwner(cottageOwner);
+        cottage.setRoomsTotalNumber(cottageDTO.getRoomsTotalNumber());
         cottageOwner.addCottage(cottage);
 
         cottage = cottageService.save(cottage);
@@ -100,6 +101,7 @@ public class CottageController {
         cottage.setDescription(cottageDTO.getDescription());
         cottage.setName(cottageDTO.getName());
         cottage.setCottageOwner(cottageOwnerService.findOneWithCottages(cottageDTO.getCottageOwner().getId()));
+        cottage.setRoomsTotalNumber(cottageDTO.getRoomsTotalNumber());
 
         cottage = cottageService.save(cottage);
         return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.OK);

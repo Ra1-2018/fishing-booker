@@ -35,6 +35,10 @@ public abstract class AppUser implements UserDetails {
     private String telephone;
     @Column
     private boolean enabled;
+
+    @Column
+    private AppUserType appUserType;
+
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
 
@@ -47,7 +51,7 @@ public abstract class AppUser implements UserDetails {
     public AppUser() {
     }
 
-    public AppUser(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
+    public AppUser(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone, AppUserType appUserType) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -58,6 +62,7 @@ public abstract class AppUser implements UserDetails {
         this.country = country;
         this.telephone = telephone;
         this.enabled = false;
+        this.appUserType = appUserType;
     }
 
     public List<UserRole> getUserRoles() {
@@ -138,6 +143,14 @@ public abstract class AppUser implements UserDetails {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public AppUserType getAppUserType() {
+        return appUserType;
+    }
+
+    public void setAppUserType(AppUserType appUserType) {
+        this.appUserType = appUserType;
     }
 
     @Override

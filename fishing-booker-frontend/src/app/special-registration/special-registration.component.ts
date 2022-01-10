@@ -23,7 +23,7 @@ export class SpecialRegistrationComponent implements OnInit {
         city: [],
         country: [],
         telephone: [],
-        userType: [],
+        appUserType: [],
         explanation: []
     });
   }
@@ -32,6 +32,7 @@ export class SpecialRegistrationComponent implements OnInit {
   }
 
   public onClickSubmit(): void {
+    console.log(this.myFormGroup.getRawValue());
     if (this.myFormGroup.invalid) {
         alert('Invalid input');
         return;

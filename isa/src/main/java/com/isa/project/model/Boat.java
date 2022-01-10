@@ -33,8 +33,8 @@ public class Boat extends Service{
         super();
     }
 
-    public Boat(long id, String name, String description, String behaviorRules, String priceList, String address, ServiceType serviceType, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, int capacity, String fishingEquipment, String cancellationTerms, Set<Reservation> reservations, BoatOwner boatOwner) {
-        super(id, name, description, behaviorRules, priceList, address, serviceType, reservations);
+    public Boat(long id, String name, String description, String behaviorRules, String priceList, String address, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, int capacity, String fishingEquipment, String cancellationTerms, Set<Reservation> reservations, BoatOwner boatOwner) {
+        super(id, name, description, behaviorRules, priceList, address, ServiceType.BOAT, reservations);
         this.type = type;
         this.length = length;
         this.numberOfEngines = numberOfEngines;

@@ -39,11 +39,11 @@
                     <input type="text" class="form-control" id="telephone" placeholder="Telephone" formControlName="telephone">
                 </div>
                 <div class="mb-3">
-                    <label for="userType" class="form-label">User type:</label>
-                    <select formControlName="userType" class="form-select" aria-label="Choose user type">
-                        <option>Cottage owner</option>
-                        <option>Boat owner</option>
-                        <option>Instructor</option>
+                    <label class="form-label">User type:</label>
+                    <select formControlName="appUserType" class="form-select" aria-label="Choose user type">
+                        <option value="COTTAGE_OWNER">Cottage owner</option>
+                        <option value="BOAT_OWNER">Boat owner</option>
+                        <option value="INSTRUCTOR">Instructor</option>
                     </select>
                 </div>
                 <div class="mb-3">

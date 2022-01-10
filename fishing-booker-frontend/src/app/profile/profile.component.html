@@ -43,7 +43,7 @@
             </ng-container>
         </div>
 
-        <div name="administratorProfile" *ngIf="loginService.isLoggedIn && loginService.userType == 'Administrator'">
+        <div name="administratorProfile" *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'">
             <h3 class="h3">Zahtevi za registraciju</h3>
             <div>                
                 <br>
@@ -59,7 +59,7 @@
                     <tbody>
                         <tr *ngFor = 'let request of requests'>
                             <td>{{request.user.email}}</td>
-                            <td>{{request.userType}}</td>
+                            <td>{{request.user.appUserType}}</td>
                             <td>{{request.user.name}} {{request.user.surname}}</td>
                             <td>{{request.explanation}}</td>
                             <td><button name="approveRegistrationRequest" class="btn btn-secondary" (click)="onApprove(request.id);">Odobri zahtev</button></td>

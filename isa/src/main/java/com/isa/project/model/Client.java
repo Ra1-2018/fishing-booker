@@ -18,7 +18,7 @@ public class Client extends AppUser{
     }
 
     public Client(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone, Set<Reservation> reservations) {
-        super(id, email, password, name, surname, address, city, country, telephone);
+        super(id, email, password, name, surname, address, city, country, telephone, AppUserType.CLIENT);
         this.reservations = reservations;
     }
 

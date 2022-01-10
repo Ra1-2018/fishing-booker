@@ -1,6 +1,7 @@
 package com.isa.project.dto;
 
 import com.isa.project.model.AppUser;
+import com.isa.project.model.AppUserType;
 
 public class AppUserDTO {
     private long id;
@@ -12,6 +13,7 @@ public class AppUserDTO {
     private String city;
     private String country;
     private String telephone;
+    private AppUserType appUserType;
 
     public long getId() {
         return id;
@@ -49,11 +51,15 @@ public class AppUserDTO {
         return telephone;
     }
 
+    public AppUserType getAppUserType() {
+        return appUserType;
+    }
+
     public AppUserDTO() {}
 
-    public AppUserDTO(AppUser appUser) { this(appUser.getId(), appUser.getEmail(), appUser.getPassword(), appUser.getName(), appUser.getSurname(), appUser.getAddress(), appUser.getCity(), appUser.getCountry(), appUser.getTelephone()); }
+    public AppUserDTO(AppUser appUser) { this(appUser.getId(), appUser.getEmail(), appUser.getPassword(), appUser.getName(), appUser.getSurname(), appUser.getAddress(), appUser.getCity(), appUser.getCountry(), appUser.getTelephone(), appUser.getAppUserType()); }
 
-    public AppUserDTO(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
+    public AppUserDTO(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone, AppUserType appUserType) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -63,5 +69,6 @@ public class AppUserDTO {
         this.city = city;
         this.country = country;
         this.telephone = telephone;
+        this.appUserType = appUserType;
     }
 }

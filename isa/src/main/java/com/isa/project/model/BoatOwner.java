@@ -14,7 +14,7 @@ public class BoatOwner extends AppUser {
     }
 
     public BoatOwner(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
-        super(id, email, password, name, surname, address, city, country, telephone);
+        super(id, email, password, name, surname, address, city, country, telephone, AppUserType.BOAT_OWNER);
         this.boats = new HashSet<Boat>();
     }
 
