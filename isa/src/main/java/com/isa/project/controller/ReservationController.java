@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/reservations")
@@ -88,6 +89,23 @@ public class ReservationController {
         Collection<ReservationDTO> reservationDTOS = new ArrayList<>();
         for(Reservation reservation : reservations) {
             if(reservation.getService().getServiceType() == ServiceType.ADVENTURE) {
+                reservationDTOS.add(new ReservationDTO(reservation));
+            }
+        }
+        return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping(value = "client-upcoming/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<ReservationDTO>> findByClientUpcoming(@PathVariable("id") Long id) {
+        Client client = (Client) appUserService.findOne(id);
+        if(client == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Collection<Reservation> reservations = reservationService.findByClient(client);
+        Collection<ReservationDTO> reservationDTOS = new ArrayList<>();
+        for(Reservation reservation : reservations) {
+            if(reservation.getReservationStartDateAndTime().after(new Date())) {
                 reservationDTOS.add(new ReservationDTO(reservation));
             }
         }
