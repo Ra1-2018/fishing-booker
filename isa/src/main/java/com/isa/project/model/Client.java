@@ -11,29 +11,22 @@ import java.util.Set;
 public class Client extends AppUser{
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<CottageReservation> cottageReservations = new HashSet<>();
+    private Set<Reservation> reservations = new HashSet<>();
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<BoatReservation> boatReservations = new HashSet<>();
-
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<AdventureReservation> adventureReservations = new HashSet<>();
-
-    public Client() {}
-
-    public Client(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
-        super(id, email, password, name, surname, address, city, country, telephone);
+    public Client() {
+        super();
     }
 
-    public Set<CottageReservation> getCottageReservations() { return cottageReservations; }
+    public Client(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone, Set<Reservation> reservations) {
+        super(id, email, password, name, surname, address, city, country, telephone);
+        this.reservations = reservations;
+    }
 
-    public void setCottageReservations(Set<CottageReservation> cottageReservations) { this.cottageReservations = cottageReservations; }
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
 
-    public Set<BoatReservation> getBoatReservations() { return boatReservations; }
-
-    public void setBoatReservations(Set<BoatReservation> boatReservations) { this.boatReservations = boatReservations; }
-
-    public Set<AdventureReservation> getAdventureReservations() { return adventureReservations; }
-
-    public void setAdventureReservations(Set<AdventureReservation> adventureReservations) { this.adventureReservations = adventureReservations; }
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }

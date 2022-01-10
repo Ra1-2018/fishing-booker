@@ -1,9 +1,6 @@
 package com.isa.project.dto;
 
 import com.isa.project.model.Cottage;
-import com.isa.project.model.CottageReservation;
-
-import java.util.Set;
 
 public class CottageDTO {
     private long id;

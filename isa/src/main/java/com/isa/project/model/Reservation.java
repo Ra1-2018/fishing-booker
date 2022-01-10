@@ -4,13 +4,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class CottageReservation {
-
+public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column
     private Date reservationStartDateAndTime;
+    @Column
+    private String location;
     @Column
     private int durationInDays;
     @Column
@@ -21,24 +22,26 @@ public class CottageReservation {
     private double price;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cottage_id")
-    private Cottage cottage;
+    @JoinColumn(name = "service_id")
+    private Service service;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
     private Client client;
 
-
-    public CottageReservation() {
+    public Reservation() {
     }
 
-    public CottageReservation(long id, Date reservationStartDateAndTime, int durationInDays, int maxPeople, String additionalServices, double price) {
+    public Reservation(long id, Date reservationStartDateAndTime, String location, int durationInDays, int maxPeople, String additionalServices, double price, Service service, Client client) {
         this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
+        this.location = location;
         this.durationInDays = durationInDays;
         this.maxPeople = maxPeople;
         this.additionalServices = additionalServices;
         this.price = price;
+        this.service = service;
+        this.client = client;
     }
 
     public long getId() {
@@ -53,7 +56,17 @@ public class CottageReservation {
         return reservationStartDateAndTime;
     }
 
-    public void setReservationStartDateAndTime(Date reservationStartDateAndTime) { this.reservationStartDateAndTime = reservationStartDateAndTime; }
+    public void setReservationStartDateAndTime(Date reservationStartDateAndTime) {
+        this.reservationStartDateAndTime = reservationStartDateAndTime;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public int getDurationInDays() {
         return durationInDays;
@@ -87,11 +100,19 @@ public class CottageReservation {
         this.price = price;
     }
 
-    public Cottage getCottage() { return cottage; }
+    public Service getService() {
+        return service;
+    }
 
-    public void setCottage(Cottage cottage) { this.cottage = cottage; }
+    public void setService(Service service) {
+        this.service = service;
+    }
 
-    public Client getClient() { return client; }
+    public Client getClient() {
+        return client;
+    }
 
-    public void setClient(Client client) { this.client = client; }
+    public void setClient(Client client) {
+        this.client = client;
+    }
 }

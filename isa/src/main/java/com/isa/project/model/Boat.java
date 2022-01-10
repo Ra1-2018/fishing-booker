@@ -5,12 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Boat {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column
-    private String name;
+public class Boat extends Service{
     @Column
     private String type;
     @Column
@@ -24,63 +19,32 @@ public class Boat {
     @Column
     private String navigationEquipment;
     @Column
-    private String address;
-    @Column
-    private String description;
-    @Column
     private int capacity;
-    @Column
-    private String behaviorRules;
     @Column
     private String fishingEquipment;
     @Column
-    private String priceList;
-    @Column
     private String cancellationTerms;
-
-    @OneToMany(mappedBy = "boat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<BoatReservation> freeReservations = new HashSet<BoatReservation>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "boatOwner_id")
     private BoatOwner boatOwner;
 
-    public Boat() {}
+    public Boat() {
+        super();
+    }
 
-    public Boat(long id, String name, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int capacity, String behaviorRules, String fishingEquipment, String priceList, String cancellationTerms, Set<BoatReservation> freeReservations) {
-        this.id = id;
-        this.name = name;
+    public Boat(long id, String name, String description, String behaviorRules, String priceList, String address, ServiceType serviceType, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, int capacity, String fishingEquipment, String cancellationTerms, Set<Reservation> reservations, BoatOwner boatOwner) {
+        super(id, name, description, behaviorRules, priceList, address, serviceType, reservations);
         this.type = type;
         this.length = length;
         this.numberOfEngines = numberOfEngines;
         this.enginePower = enginePower;
         this.maximumVelocity = maximumVelocity;
         this.navigationEquipment = navigationEquipment;
-        this.address = address;
-        this.description = description;
         this.capacity = capacity;
-        this.behaviorRules = behaviorRules;
         this.fishingEquipment = fishingEquipment;
-        this.priceList = priceList;
         this.cancellationTerms = cancellationTerms;
-        this.boatOwner = new BoatOwner();
-        this.freeReservations = freeReservations;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.boatOwner = boatOwner;
     }
 
     public String getType() {
@@ -131,22 +95,6 @@ public class Boat {
         this.navigationEquipment = navigationEquipment;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public int getCapacity() {
         return capacity;
     }
@@ -155,28 +103,12 @@ public class Boat {
         this.capacity = capacity;
     }
 
-    public String getBehaviorRules() {
-        return behaviorRules;
-    }
-
-    public void setBehaviorRules(String behaviorRules) {
-        this.behaviorRules = behaviorRules;
-    }
-
     public String getFishingEquipment() {
         return fishingEquipment;
     }
 
     public void setFishingEquipment(String fishingEquipment) {
         this.fishingEquipment = fishingEquipment;
-    }
-
-    public String getPriceList() {
-        return priceList;
-    }
-
-    public void setPriceList(String priceList) {
-        this.priceList = priceList;
     }
 
     public String getCancellationTerms() {
@@ -194,8 +126,4 @@ public class Boat {
     public void setBoatOwner(BoatOwner boatOwner) {
         this.boatOwner = boatOwner;
     }
-
-    public Set<BoatReservation> getFreeReservations() { return freeReservations; }
-
-    public void setFreeReservations(Set<BoatReservation> freeReservations) { this.freeReservations = freeReservations; }
 }

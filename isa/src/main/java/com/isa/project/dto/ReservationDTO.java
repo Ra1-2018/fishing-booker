@@ -1,10 +1,10 @@
 package com.isa.project.dto;
 
-import com.isa.project.model.BoatReservation;
+import com.isa.project.model.Reservation;
 
 import java.util.Date;
 
-public class BoatReservationDTO {
+public class ReservationDTO {
     private long id;
     private Date reservationStartDateAndTime;
     private int durationInDays;
@@ -12,14 +12,12 @@ public class BoatReservationDTO {
     private String additionalServices;
     private double price;
     private AppUserDTO client;
-    private BoatDTO boat;
+    private ServiceDTO service;
+    private String location;
 
-    public BoatReservationDTO() {
-    }
+    public ReservationDTO() {}
 
-    public BoatReservationDTO(BoatReservation reservation) { this(reservation.getId(), reservation.getReservationStartDateAndTime(), reservation.getDurationInDays(), reservation.getMaxPeople(), reservation.getAdditionalServices(), reservation.getPrice(), new AppUserDTO(reservation.getClient()), new BoatDTO(reservation.getBoat())); }
-
-    public BoatReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int maxPeople, String additionalServices, double price, AppUserDTO client, BoatDTO boat) {
+    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int maxPeople, String additionalServices, double price, AppUserDTO client, ServiceDTO service, String location) {
         this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
         this.durationInDays = durationInDays;
@@ -27,8 +25,11 @@ public class BoatReservationDTO {
         this.additionalServices = additionalServices;
         this.price = price;
         this.client = client;
-        this.boat = boat;
+        this.service = service;
+        this.location = location;
     }
+
+    public ReservationDTO(Reservation reservation) { this(reservation.getId(), reservation.getReservationStartDateAndTime(), reservation.getDurationInDays(), reservation.getMaxPeople(), reservation.getAdditionalServices(), reservation.getPrice(), new AppUserDTO(reservation.getClient()), new ServiceDTO(reservation.getService()), reservation.getLocation());}
 
     public long getId() {
         return id;
@@ -58,7 +59,11 @@ public class BoatReservationDTO {
         return client;
     }
 
-    public BoatDTO getBoat() {
-        return boat;
+    public ServiceDTO getService() {
+        return service;
+    }
+
+    public String getLocation() {
+        return location;
     }
 }
