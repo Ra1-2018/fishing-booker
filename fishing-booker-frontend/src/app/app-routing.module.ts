@@ -5,6 +5,7 @@ import { AdventuresComponent } from './adventures/adventures.component';
 import { BoatDetailComponent } from './boat-detail/boat-detail.component';
 import { BoatEditComponent } from './boat-edit/boat-edit.component';
 import { BoatsComponent } from './boats/boats.component';
+import { ClientBoatReservationsComponent } from './client/client-boat-reservations/client-boat-reservations.component';
 import { ClientCottageReservationsComponent } from './client/client-cottage-reservations/client-cottage-reservations.component';
 import { CottageDetailComponent } from './cottage-detail/cottage-detail.component';
 import { CottageEditComponent } from './cottage-edit/cottage-edit.component';
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'owned-cottages', component: OwnedCottagesComponent},
   { path: 'cottage-edit/:id', component: CottageEditComponent},
   { path: 'client-cottage-reservations', component: ClientCottageReservationsComponent},
+  { path: 'client-boat-reservations', component: ClientBoatReservationsComponent},
   { path: 'owned-boats', component: OwnedBoatsComponent},
   { path: 'boat-edit/:id', component: BoatEditComponent}
 ];

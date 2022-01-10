@@ -31,7 +31,10 @@
             <a class="nav-link" routerLink="owned-cottages">My cottages</a>
           </li>
           <li *ngIf="loginService.isLoggedIn && loginService.userType == 'Client'" class="nav-item">
-            <a class="nav-link" routerLink="client-cottage-reservations">My cottage reservations</a>
+            <a class="nav-link" routerLink="client-cottage-reservations">Cottage reservations</a>
+          </li>
+          <li *ngIf="loginService.isLoggedIn && loginService.userType == 'Client'" class="nav-item">
+            <a class="nav-link" routerLink="client-boat-reservations">Boat reservations</a>
           </li>
           <li *ngIf="loginService.isLoggedIn && loginService.userType == 'BoatOwner'" class="nav-item">
             <a class="nav-link" routerLink="owned-boats">My boats</a>
