@@ -14,7 +14,7 @@ export class ProfileService {
   }
 
   updateUser(appUser: any): Observable<any> {
-    return this._http.put<Observable<any>>('http://localhost:8080/users/update', appUser);
+    return this._http.post<Observable<any>>('http://localhost:8080/users/update', appUser);
   }
 
   approveRequest(id: number): Observable<any> {

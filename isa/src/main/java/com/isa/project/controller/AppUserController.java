@@ -65,7 +65,7 @@ public class AppUserController {
         }
 
         AppUser appUser = new Client(appUserDTO.getId(), appUserDTO.getEmail(), passwordEncoder.encode(appUserDTO.getPassword()), appUserDTO.getName(), appUserDTO.getSurname(), appUserDTO.getAddress(), appUserDTO.getCity(), appUserDTO.getCountry(), appUserDTO.getTelephone());
-        appUser = appUserService.save(appUser);
+        appUser = appUserService.saveClient(appUser);
 
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken(null, token, appUser, new Date());
@@ -93,21 +93,21 @@ public class AppUserController {
 
         if (appUserSpecialDTO.getUserType().equals("Boat owner")) {
             AppUser boatOwner = new BoatOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
-            boatOwner = appUserService.save(boatOwner);
+            boatOwner = appUserService.saveBoatOwner(boatOwner);
 
             RegistrationRequest request = new RegistrationRequest(null, appUserSpecialDTO.getExplanation(), boatOwner);
             requestService.save(request);
         }
         else if (appUserSpecialDTO.getUserType().equals("Cottage owner")) {
             AppUser cottageOwner = new CottageOwner(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
-            cottageOwner = appUserService.save(cottageOwner);
+            cottageOwner = appUserService.saveCottageOwner(cottageOwner);
 
             RegistrationRequest request = new RegistrationRequest(null, appUserSpecialDTO.getExplanation(), cottageOwner);
             requestService.save(request);
         }
         else if(appUserSpecialDTO.getUserType().equals("Instructor")) {
             AppUser instructor = new Instructor(appUserSpecialDTO.getId(), appUserSpecialDTO.getEmail(), appUserSpecialDTO.getPassword(), appUserSpecialDTO.getName(), appUserSpecialDTO.getSurname(), appUserSpecialDTO.getAddress(), appUserSpecialDTO.getCity(), appUserSpecialDTO.getCountry(), appUserSpecialDTO.getTelephone());
-            instructor = appUserService.save(instructor);
+            instructor = appUserService.saveInstructor(instructor);
 
             RegistrationRequest request = new RegistrationRequest(null, appUserSpecialDTO.getExplanation(), instructor);
             requestService.save(request);
@@ -183,7 +183,6 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
 
@@ -224,7 +223,6 @@ public class AppUserController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUserDTO> findOne(@PathVariable("id") long id) {
         AppUser appUser = appUserService.findOne(id);

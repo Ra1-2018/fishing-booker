@@ -24,7 +24,33 @@ public class AppUserService {
     public List<AppUser> findAll() { return appUserRepository.findAll(); }
 
     public AppUser save(AppUser appUser) {
+        return appUserRepository.save(appUser);
+    }
+
+    public AppUser saveClient(AppUser appUser) {
         List<UserRole> roles = roleService.findByName("ROLE_USER");
+        roles.addAll(roleService.findByName("ROLE_CLIENT"));
+        appUser.setUserRoles(roles);
+        return appUserRepository.save(appUser);
+    }
+
+    public AppUser saveBoatOwner(AppUser appUser) {
+        List<UserRole> roles = roleService.findByName("ROLE_USER");
+        roles.addAll(roleService.findByName("ROLE_BOAT_OWNER"));
+        appUser.setUserRoles(roles);
+        return appUserRepository.save(appUser);
+    }
+
+    public AppUser saveCottageOwner(AppUser appUser) {
+        List<UserRole> roles = roleService.findByName("ROLE_USER");
+        roles.addAll(roleService.findByName("ROLE_COTTAGE_OWNER"));
+        appUser.setUserRoles(roles);
+        return appUserRepository.save(appUser);
+    }
+
+    public AppUser saveInstructor(AppUser appUser) {
+        List<UserRole> roles = roleService.findByName("ROLE_USER");
+        roles.addAll(roleService.findByName("ROLE_INSTRUCTOR"));
         appUser.setUserRoles(roles);
         return appUserRepository.save(appUser);
     }

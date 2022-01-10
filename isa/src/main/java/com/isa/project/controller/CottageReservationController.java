@@ -29,7 +29,7 @@ public class CottageReservationController {
     @Autowired
     private AppUserService userService;
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('CLIENT')")
     @GetMapping(value = "client/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<CottageReservationDTO>> findByClient(@PathVariable("id") Long id) {
         Client client = (Client) userService.findOne(id);
