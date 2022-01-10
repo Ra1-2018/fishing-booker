@@ -76,4 +76,21 @@ public class ReservationController {
         }
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping(value = "client-adventures/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<ReservationDTO>> findByClientAdventures(@PathVariable("id") Long id) {
+        Client client = (Client) appUserService.findOne(id);
+        if(client == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Collection<Reservation> reservations = reservationService.findByClient(client);
+        Collection<ReservationDTO> reservationDTOS = new ArrayList<>();
+        for(Reservation reservation : reservations) {
+            if(reservation.getService().getServiceType() == ServiceType.ADVENTURE) {
+                reservationDTOS.add(new ReservationDTO(reservation));
+            }
+        }
+        return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
+    }
 }
