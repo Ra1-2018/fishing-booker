@@ -31,6 +31,8 @@ import { BoatOwnersComponent } from './boat-owners/boat-owners.component';
 import { BoatOwnerDetailComponent } from './boat-owner-detail/boat-owner-detail.component';
 import { InstructorsComponent } from './instructors/instructors.component';
 import { InstructorDetailComponent } from './instructor-detail/instructor-detail.component';
+import { ClientsComponent } from './clients/clients.component';
+import { ClientDetailComponent } from './client-detail/client-detail.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { InstructorDetailComponent } from './instructor-detail/instructor-detail
     BoatOwnersComponent,
     BoatOwnerDetailComponent,
     InstructorsComponent,
-    InstructorDetailComponent
+    InstructorDetailComponent,
+    ClientsComponent,
+    ClientDetailComponent
 
   ],
   imports: [

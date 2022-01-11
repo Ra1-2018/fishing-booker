@@ -7,8 +7,10 @@ import { BoatEditComponent } from './boat-edit/boat-edit.component';
 import { BoatOwnerDetailComponent } from './boat-owner-detail/boat-owner-detail.component';
 import { BoatOwnersComponent } from './boat-owners/boat-owners.component';
 import { BoatsComponent } from './boats/boats.component';
+import { ClientDetailComponent } from './client-detail/client-detail.component';
 import { ClientBoatReservationsComponent } from './client/client-boat-reservations/client-boat-reservations.component';
 import { ClientCottageReservationsComponent } from './client/client-cottage-reservations/client-cottage-reservations.component';
+import { ClientsComponent } from './clients/clients.component';
 import { CottageDetailComponent } from './cottage-detail/cottage-detail.component';
 import { CottageEditComponent } from './cottage-edit/cottage-edit.component';
 import { CottageOwnerDetailComponent } from './cottage-owner-detail/cottage-owner-detail.component';
@@ -45,9 +47,11 @@ const routes: Routes = [
   { path: 'cottage-owners', component: CottageOwnersComponent},
   { path: 'boat-owners', component: BoatOwnersComponent},
   { path: 'instructors', component: InstructorsComponent},
+  { path: 'clients', component: ClientsComponent},
   { path: 'cottage-owner-detail/:id', component: CottageOwnerDetailComponent},
   { path: 'boat-owner-detail/:id', component: BoatOwnerDetailComponent},
-  { path: 'instructor-detail/:id', component: InstructorDetailComponent}
+  { path: 'instructor-detail/:id', component: InstructorDetailComponent},
+  { path: 'client-detail/:id', component: ClientDetailComponent},
 ];
 
 @NgModule({

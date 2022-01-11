@@ -1,0 +1,10 @@
+<div class="list-group">
+    <a *ngFor = "let client of clients" [routerLink]="['/client-detail', client.id]" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{client.name}} {{client.surname}}</h5>
+        </div>
+        <div>
+            <small >Email: {{client.email}}</small>
+        </div>   
+    </a>
+  </div>
