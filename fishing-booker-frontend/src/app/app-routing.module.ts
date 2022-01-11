@@ -9,6 +9,8 @@ import { ClientBoatReservationsComponent } from './client/client-boat-reservatio
 import { ClientCottageReservationsComponent } from './client/client-cottage-reservations/client-cottage-reservations.component';
 import { CottageDetailComponent } from './cottage-detail/cottage-detail.component';
 import { CottageEditComponent } from './cottage-edit/cottage-edit.component';
+import { CottageOwnerDetailComponent } from './cottage-owner-detail/cottage-owner-detail.component';
+import { CottageOwnersComponent } from './cottage-owners/cottage-owners.component';
 import { CottagesComponent } from './cottages/cottages.component';
 import { LoginComponent } from './login/login.component';
 import { OwnedBoatsComponent } from './owned-boats/owned-boats.component';
@@ -35,7 +37,9 @@ const routes: Routes = [
   { path: 'client-boat-reservations', component: ClientBoatReservationsComponent},
   { path: 'owned-boats', component: OwnedBoatsComponent},
   { path: 'boat-edit/:id', component: BoatEditComponent},
-  { path: 'register-admin', component: RegisterAdminComponent}
+  { path: 'register-admin', component: RegisterAdminComponent},
+  { path: 'cottage-owners', component: CottageOwnersComponent},
+  { path: 'cottage-owner-detail/:id', component: CottageOwnerDetailComponent}
 ];
 
 @NgModule({

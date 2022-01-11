@@ -22,7 +22,7 @@
                     <div class="col-md-10">{{cottage.behaviorRules}}</div>
                 </div>
                 <div class="row">
-                    <small><button *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'"  class="btn btn-outline-danger btn-sm" name="deleteButton" (click)="delete(cottage.id)">Delete cottage</button></small>
+                    <small><button *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'"  class="btn btn-outline-danger btn-sm" name="deleteButton" (click)="delete(cottage.id)">Delete</button></small>
                 </div>
             </div>
         </div>

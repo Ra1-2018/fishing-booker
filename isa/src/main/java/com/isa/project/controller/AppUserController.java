@@ -230,7 +230,58 @@ public class AppUserController {
         return new ResponseEntity<>(appUserDTOS, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/cottage-owners")
+    public ResponseEntity<Collection<AppUserDTO>> findAllCottageOwners() {
+        Collection<AppUser> appUsers = appUserService.findAll();
+        Collection<AppUserDTO> appUserDTOS = new ArrayList<>();
+        for (AppUser appUser : appUsers) {
+            if(appUser.getAppUserType() == AppUserType.COTTAGE_OWNER) {
+                appUserDTOS.add(new AppUserDTO(appUser));
+            }
+        }
+
+        return new ResponseEntity<>(appUserDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/boat-owners")
+    public ResponseEntity<Collection<AppUserDTO>> findAllBoatOwners() {
+        Collection<AppUser> appUsers = appUserService.findAll();
+        Collection<AppUserDTO> appUserDTOS = new ArrayList<>();
+        for (AppUser appUser : appUsers) {
+            if(appUser.getAppUserType() == AppUserType.BOAT_OWNER) {
+                appUserDTOS.add(new AppUserDTO(appUser));
+            }
+        }
+
+        return new ResponseEntity<>(appUserDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/instructors")
+    public ResponseEntity<Collection<AppUserDTO>> findAllInstructors() {
+        Collection<AppUser> appUsers = appUserService.findAll();
+        Collection<AppUserDTO> appUserDTOS = new ArrayList<>();
+        for (AppUser appUser : appUsers) {
+            if(appUser.getAppUserType() == AppUserType.INSTRUCTOR) {
+                appUserDTOS.add(new AppUserDTO(appUser));
+            }
+        }
+
+        return new ResponseEntity<>(appUserDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/clients")
+    public ResponseEntity<Collection<AppUserDTO>> findAllClients() {
+        Collection<AppUser> appUsers = appUserService.findAll();
+        Collection<AppUserDTO> appUserDTOS = new ArrayList<>();
+        for (AppUser appUser : appUsers) {
+            if(appUser.getAppUserType() == AppUserType.CLIENT) {
+                appUserDTOS.add(new AppUserDTO(appUser));
+            }
+        }
+
+        return new ResponseEntity<>(appUserDTOS, HttpStatus.OK);
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/requests")
     public ResponseEntity<Collection<RegistrationRequestDTO>> findAllRequests() {
         Collection<RegistrationRequest> requests = requestService.findAll();
@@ -242,7 +293,7 @@ public class AppUserController {
         return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    //@PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUserDTO> findOne(@PathVariable("id") long id) {
         AppUser appUser = appUserService.findOne(id);
@@ -254,6 +305,7 @@ public class AppUserController {
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> remove(@PathVariable("id") long id) {
         AppUser appUser = appUserService.findOne(id);
