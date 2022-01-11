@@ -15,4 +15,8 @@ export class BoatDetailService {
       tap(data => console.log("data: ", data))
     )
   }
+
+  delete(id: number): Observable<any> {
+    return this._http.delete<Observable<any>>('http://localhost:8080/boats/' + id)
+  }
 }
