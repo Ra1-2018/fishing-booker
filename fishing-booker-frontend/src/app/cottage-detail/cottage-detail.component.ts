@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from '../login/login.service';
 import { CottageDetailService } from './cottage-detail.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class CottageDetailComponent implements OnInit {
   cottage: any
   errorMessage = '';
 
-  constructor(private route: ActivatedRoute, 
+  constructor(public readonly loginService: LoginService,
+    private route: ActivatedRoute, 
     private router: Router, 
     private cottageDetailService: CottageDetailService) { }
 
@@ -28,5 +30,12 @@ export class CottageDetailComponent implements OnInit {
       next: cottage => this.cottage = cottage,
       error: err => this.errorMessage = err
     })
+  }
+
+  public delete(id:number):void {
+    this.cottageDetailService.delete(id).subscribe(
+      response => {this.router.navigate(['cottages']); }
+      );
+    return;
   }
 }

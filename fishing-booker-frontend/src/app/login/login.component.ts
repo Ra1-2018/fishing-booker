@@ -38,6 +38,8 @@ export class LoginComponent implements OnInit {
         this.loginService.isLoggedIn = true;
         this.loginService.userType = data.appUserType;
         this.router.navigate(['profile']);
+
+        //OVDE DODAJ MODALNI PROZOR
       },
       error: (err) => {alert("Invalid username/password!")}
     });
