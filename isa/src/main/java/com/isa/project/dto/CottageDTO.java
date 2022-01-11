@@ -1,6 +1,7 @@
 package com.isa.project.dto;
 
 import com.isa.project.model.Cottage;
+import com.isa.project.model.CottageOwner;
 
 public class CottageDTO {
     private long id;
@@ -10,12 +11,13 @@ public class CottageDTO {
     private int roomsTotalNumber;
     private String behaviorRules;
     private AppUserDTO cottageOwner;
+    private String priceList;
 
     public CottageDTO() { }
 
-    public CottageDTO(Cottage cottage) { this(cottage.getId(), cottage.getName(), cottage.getAddress(), cottage.getDescription(), cottage.getRoomsTotalNumber(), cottage.getBehaviorRules(), new AppUserDTO(cottage.getCottageOwner())); }
+    public CottageDTO(Cottage cottage) { this(cottage.getId(), cottage.getName(), cottage.getAddress(), cottage.getDescription(), cottage.getRoomsTotalNumber(), cottage.getBehaviorRules(), new AppUserDTO(cottage.getCottageOwner()), cottage.getPriceList()); }
 
-    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner) {
+    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner, String priceList) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -23,6 +25,7 @@ public class CottageDTO {
         this.roomsTotalNumber = roomsTotalNumber;
         this.behaviorRules = behaviorRules;
         this.cottageOwner = cottageOwner;
+        this.priceList = priceList;
 
     }
 
@@ -39,4 +42,8 @@ public class CottageDTO {
     public String getBehaviorRules() { return behaviorRules; }
 
     public AppUserDTO getCottageOwner() { return cottageOwner; }
+
+    public String getPriceList() {
+        return priceList;
+    }
 }
