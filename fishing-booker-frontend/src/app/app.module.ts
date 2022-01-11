@@ -27,6 +27,8 @@ import { BoatEditComponent } from './boat-edit/boat-edit.component';
 import { RegisterAdminComponent } from './register-admin/register-admin.component';
 import { CottageOwnersComponent } from './cottage-owners/cottage-owners.component';
 import { CottageOwnerDetailComponent } from './cottage-owner-detail/cottage-owner-detail.component';
+import { BoatOwnersComponent } from './boat-owners/boat-owners.component';
+import { BoatOwnerDetailComponent } from './boat-owner-detail/boat-owner-detail.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { CottageOwnerDetailComponent } from './cottage-owner-detail/cottage-owne
     BoatEditComponent,
     RegisterAdminComponent,
     CottageOwnersComponent,
-    CottageOwnerDetailComponent
+    CottageOwnerDetailComponent,
+    BoatOwnersComponent,
+    BoatOwnerDetailComponent
 
   ],
   imports: [
