@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CottageOwnerRepository extends JpaRepository<CottageOwner, Long> {
 
-    @Query("select c from CottageOwner c join fetch c.cottages ct where c.id =?1")
+    @Query("select co from CottageOwner co join fetch co.cottages ct where co.id =?1")
     public CottageOwner findOneWithCottages(long cottageOwnerId);
 }

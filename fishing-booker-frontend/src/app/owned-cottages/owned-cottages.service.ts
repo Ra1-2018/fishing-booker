@@ -15,6 +15,23 @@ export class OwnedCottagesService {
       tap(data => console.log("data: ", data))
     )
   }
-  
+
+  createCottage(cottage: any): Observable<any> {
+    return this._http.post<Observable<any>>('http://localhost:8080/cottages/' + localStorage.getItem('userId'), cottage)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
+
+  getUser(): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/' + localStorage.getItem('userId'));
+  }
+
+  deleteCottage(id: number){
+   return this._http.delete<any>('http://localhost:8080/cottages/' + id)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
 }
 

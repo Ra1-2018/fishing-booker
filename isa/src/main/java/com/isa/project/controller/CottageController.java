@@ -3,12 +3,14 @@ package com.isa.project.controller;
 import com.isa.project.dto.CottageDTO;
 import com.isa.project.model.Cottage;
 import com.isa.project.model.CottageOwner;
+import com.isa.project.model.ServiceType;
 import com.isa.project.service.CottageOwnerService;
 import com.isa.project.service.CottageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -60,14 +62,10 @@ public class CottageController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping(consumes = "application/json")
-    public ResponseEntity<CottageDTO> createCottage(@RequestBody CottageDTO cottageDTO) {
+    @PostMapping(value = "/{id}", consumes = "application/json")
+    public ResponseEntity<CottageDTO> createCottage(@PathVariable("id") Long id, @RequestBody CottageDTO cottageDTO) {
 
-        if (cottageDTO.getCottageOwner() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        CottageOwner cottageOwner = cottageOwnerService.findOneWithCottages(cottageDTO.getCottageOwner().getId());
+        CottageOwner cottageOwner = cottageOwnerService.findById(id);
 
         if (cottageOwner == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -79,13 +77,15 @@ public class CottageController {
         cottage.setDescription(cottageDTO.getDescription());
         cottage.setName(cottageDTO.getName());
         cottage.setCottageOwner(cottageOwner);
+        cottage.setPriceList(cottageDTO.getPriceList());
         cottage.setRoomsTotalNumber(cottageDTO.getRoomsTotalNumber());
-        cottageOwner.addCottage(cottage);
+        cottage.setServiceType(ServiceType.COTTAGE);
+        cottageService.save(cottage);
 
-        cottage = cottageService.save(cottage);
         return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
     @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping(consumes = "application/json")
     public ResponseEntity<CottageDTO> updateCottage(@RequestBody CottageDTO cottageDTO) {
@@ -100,10 +100,12 @@ public class CottageController {
         cottage.setBehaviorRules(cottageDTO.getBehaviorRules());
         cottage.setDescription(cottageDTO.getDescription());
         cottage.setName(cottageDTO.getName());
-        cottage.setCottageOwner(cottageOwnerService.findOneWithCottages(cottageDTO.getCottageOwner().getId()));
+        cottage.setPriceList(cottageDTO.getPriceList());
+        cottage.setCottageOwner(cottageOwnerService.findById(cottageDTO.getCottageOwner().getId()));
         cottage.setRoomsTotalNumber(cottageDTO.getRoomsTotalNumber());
 
-        cottage = cottageService.save(cottage);
+        cottageService.save(cottage);
+
         return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.OK);
     }
 

@@ -1,5 +1,6 @@
 package com.isa.project.service;
 
+import com.isa.project.model.Cottage;
 import com.isa.project.model.CottageOwner;
 import com.isa.project.repository.CottageOwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +21,8 @@ public class CottageOwnerService {
     }
 
     public CottageOwner findOneWithCottages(long cottageOwnerId) { return cottageOwnerRepository.findOneWithCottages(cottageOwnerId); }
+
+    public CottageOwner save(CottageOwner cottageOwner) {
+        return cottageOwnerRepository.save(cottageOwner);
+    }
 }
