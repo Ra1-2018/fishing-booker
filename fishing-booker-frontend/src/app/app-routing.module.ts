@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { OwnedBoatsComponent } from './owned-boats/owned-boats.component';
 import { OwnedCottagesComponent } from './owned-cottages/owned-cottages.component';
 import { ProfileComponent } from './profile/profile.component';
+import { RegisterAdminComponent } from './register-admin/register-admin.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SpecialRegistrationComponent } from './special-registration/special-registration.component';
 
@@ -33,7 +34,8 @@ const routes: Routes = [
   { path: 'client-cottage-reservations', component: ClientCottageReservationsComponent},
   { path: 'client-boat-reservations', component: ClientBoatReservationsComponent},
   { path: 'owned-boats', component: OwnedBoatsComponent},
-  { path: 'boat-edit/:id', component: BoatEditComponent}
+  { path: 'boat-edit/:id', component: BoatEditComponent},
+  { path: 'register-admin', component: RegisterAdminComponent}
 ];
 
 @NgModule({

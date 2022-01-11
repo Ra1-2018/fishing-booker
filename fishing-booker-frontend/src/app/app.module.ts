@@ -24,6 +24,7 @@ import { ClientCottageReservationsComponent } from './client/client-cottage-rese
 import { ClientBoatReservationsComponent } from './client/client-boat-reservations/client-boat-reservations.component';
 import { OwnedBoatsComponent } from './owned-boats/owned-boats.component';
 import { BoatEditComponent } from './boat-edit/boat-edit.component';
+import { RegisterAdminComponent } from './register-admin/register-admin.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { BoatEditComponent } from './boat-edit/boat-edit.component';
     ClientCottageReservationsComponent,
     ClientBoatReservationsComponent,
     OwnedBoatsComponent,
-    BoatEditComponent
+    BoatEditComponent,
+    RegisterAdminComponent
 
   ],
   imports: [

@@ -23,6 +23,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.*;
 
+
 @RestController
 @RequestMapping("/users")
 public class AppUserController {
@@ -111,6 +112,32 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "admin")
+    public ResponseEntity<AppUserDTO> saveAdministrator(@RequestBody AppUserDTO appUserDTO) {
+
+        if (appUserDTO.getEmail() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if(appUserService.findByEmail(appUserDTO.getEmail()) != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        String password = "sdh4ny7kid93nd";
+        AppUser appUser = new Administrator(appUserDTO.getId(), appUserDTO.getEmail(), passwordEncoder.encode(password), appUserDTO.getName(), appUserDTO.getSurname(), appUserDTO.getAddress(), appUserDTO.getCity(), appUserDTO.getCountry(), appUserDTO.getTelephone());
+        appUser.setEnabled(true);
+        appUser = appUserService.saveAdministrator(appUser);
+
+
+        try {
+            emailService.sendNotificaitionAdminReg(appUser, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
+    }
+
     @GetMapping("/activate/{token}")
     public RedirectView activate(@PathVariable("token") String token) {
 
@@ -135,7 +162,6 @@ public class AppUserController {
         return new RedirectView("http://localhost:4200/login");
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/approve/{id}")
     public ResponseEntity<Void> approveRequest(@PathVariable("id") Long id) {
 
@@ -158,7 +184,6 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/decline/{id}")
     public ResponseEntity<Void> declineRequest(@PathVariable("id") Long id) {
 
@@ -166,7 +191,7 @@ public class AppUserController {
         if(request == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        request.setApproved(true);
+        request.setApproved(false);
         requestService.remove(id);
 
         try {
