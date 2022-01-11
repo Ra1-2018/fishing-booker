@@ -29,6 +29,8 @@ import { CottageOwnersComponent } from './cottage-owners/cottage-owners.componen
 import { CottageOwnerDetailComponent } from './cottage-owner-detail/cottage-owner-detail.component';
 import { BoatOwnersComponent } from './boat-owners/boat-owners.component';
 import { BoatOwnerDetailComponent } from './boat-owner-detail/boat-owner-detail.component';
+import { InstructorsComponent } from './instructors/instructors.component';
+import { InstructorDetailComponent } from './instructor-detail/instructor-detail.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { BoatOwnerDetailComponent } from './boat-owner-detail/boat-owner-detail.
     CottageOwnersComponent,
     CottageOwnerDetailComponent,
     BoatOwnersComponent,
-    BoatOwnerDetailComponent
+    BoatOwnerDetailComponent,
+    InstructorsComponent,
+    InstructorDetailComponent
 
   ],
   imports: [
