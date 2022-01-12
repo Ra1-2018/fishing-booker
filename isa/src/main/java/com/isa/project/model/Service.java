@@ -27,9 +27,12 @@ public abstract class Service {
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
 
+    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<TimeRange> freePeriods = new HashSet<>();
+
     public Service() {}
 
-    public Service(long id, String name, String description, String behaviorRules, String priceList, String address, ServiceType serviceType, Set<Reservation> reservations) {
+    public Service(long id, String name, String description, String behaviorRules, String priceList, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,6 +41,7 @@ public abstract class Service {
         this.address = address;
         this.serviceType = serviceType;
         this.reservations = reservations;
+        this.freePeriods = freePeriods;
     }
 
     public long getId() {
@@ -103,4 +107,8 @@ public abstract class Service {
     public void setReservations(Set<Reservation> reservations) {
         this.reservations = reservations;
     }
+
+    public Set<TimeRange> getFreePeriods() { return freePeriods; }
+
+    public void setFreePeriods(Set<TimeRange> freePeriods) { this.freePeriods = freePeriods; }
 }
