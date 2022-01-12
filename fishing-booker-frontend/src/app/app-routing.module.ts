@@ -18,6 +18,7 @@ import { CottageOwnersComponent } from './cottage-owners/cottage-owners.componen
 import { CottagesComponent } from './cottages/cottages.component';
 import { InstructorDetailComponent } from './instructor-detail/instructor-detail.component';
 import { InstructorsComponent } from './instructors/instructors.component';
+import { LoginNewAdminComponent } from './login-new-admin/login-new-admin.component';
 import { LoginComponent } from './login/login.component';
 import { OwnedBoatsComponent } from './owned-boats/owned-boats.component';
 import { OwnedCottagesComponent } from './owned-cottages/owned-cottages.component';
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'cottage/:id', component: CottageDetailComponent},
   { path: 'register', component: RegistrationComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'login-new-admin', component: LoginNewAdminComponent},
   { path: 'profile', component: ProfileComponent},
   { path: 'special-register', component: SpecialRegistrationComponent},
   { path: 'boats', component: BoatsComponent},

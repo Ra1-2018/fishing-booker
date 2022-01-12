@@ -33,6 +33,7 @@ import { InstructorsComponent } from './instructors/instructors.component';
 import { InstructorDetailComponent } from './instructor-detail/instructor-detail.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientDetailComponent } from './client-detail/client-detail.component';
+import { LoginNewAdminComponent } from './login-new-admin/login-new-admin.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ClientDetailComponent } from './client-detail/client-detail.component';
     InstructorsComponent,
     InstructorDetailComponent,
     ClientsComponent,
-    ClientDetailComponent
+    ClientDetailComponent,
+    LoginNewAdminComponent
 
   ],
   imports: [

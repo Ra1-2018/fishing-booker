@@ -216,7 +216,28 @@ public class AppUserController {
         int expiresIn = tokenUtils.getExpiredIn();
         UserTokenState userTokenState = new UserTokenState(jwt, expiresIn);
 
-        return new ResponseEntity<>(new LoginResponseDTO(appUser, userTokenState), HttpStatus.OK);
+        Administrator admin = null;
+        if(appUser.getAppUserType() == AppUserType.ADMIN) {
+            admin = (Administrator) appUserService.findOne(appUser.getId());
+            return new ResponseEntity<>(new LoginResponseDTO(appUser, userTokenState, admin.isFirstReg()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new LoginResponseDTO(appUser, userTokenState), HttpStatus.OK);
+        }
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/login-new-admin")
+    public ResponseEntity<AppUserDTO> passwordUpdateNewAdmin(@RequestBody AppUserDTO appUserDTO) {
+
+        Administrator appUser = (Administrator) appUserService.findOne(appUserDTO.getId());
+
+        if(appUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        appUser.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
+        appUser.setFirstReg(false);
+        appUser = (Administrator) appUserService.saveAdministrator(appUser);
+        return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

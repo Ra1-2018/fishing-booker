@@ -37,9 +37,11 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('jwt', data.userTokenState.accessToken)
         this.loginService.isLoggedIn = true;
         this.loginService.userType = data.appUserType;
-        this.router.navigate(['profile']);
-
-        //OVDE DODAJ MODALNI PROZOR
+        if(data.firstReg==true && data.appUserType=='ADMIN') {
+          this.router.navigate(['login-new-admin']);
+        } else {
+          this.router.navigate(['profile']);
+        }
       },
       error: (err) => {alert("Invalid username/password!")}
     });
