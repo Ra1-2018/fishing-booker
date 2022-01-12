@@ -1,37 +1,35 @@
 <div>
   <div class="m-3">
-  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">New cottage</button>
-  </div>
-  <div class="m-3">
-    <div class="container">
-      <div class="row height d-flex justify-content-center align-items-center">
-          <div class="col-md-2">
-              <div class="search"> <i class="fa fa-search"></i> <input type="text" class="form-control" placeholder="Search"></div>
-          </div>
-          <div class="col-md-2">
-            <button class="btn btn-primary">Search</button> 
-          </div>
+    <div class="row">
+      <div class="col-1">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">New cottage</button>
       </div>
-  </div>
-  </div>
-  <div class="list-group">
-      <div *ngFor = "let cottage of cottages" class="list-group-item flex-column align-items-start">
-        <div class="row">
-          <div class="col-11">
-            <a [routerLink]="['/cottage-edit', cottage.id]" class="list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{cottage.name}}</h5>
-              <small class="text-muted">{{cottage.address}}</small>
-            </div>
-            <p class="mb-1">{{cottage.description}}</p>
-            <small class="text-muted">Number of rooms: {{cottage.roomsTotalNumber}}</small>
-          </a>
-          </div>
-          <div class="col-1">
-            <button class="btn btn-secondary" (click)="onClickDelete(cottage.id);">Delete</button>
-          </div>
+      <div class="col-2">
+        <input type="search" [(ngModel)]=query id="listSearch" class="form-control" placeholder="Search...">
       </div>
+      <div class="col-2"></div>
     </div>
+  </div>
+  <div>
+    <table matSort (matSortChange)="sortData($event)" class="table table-hover">
+      <thead>
+        <tr>
+          <th mat-sort-header="name">Name</th>
+          <th mat-sort-header="address">Address</th>
+          <th mat-sort-header="roomsTotalNumber">Number of rooms</th>
+          <th mat-sort-header="cottageOwner">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cottage of sortedData | search: query">
+          <td class="col-3" [routerLink]="['/cottage-edit', cottage.id]" >{{cottage.name}}</td>
+          <td class="col-3" [routerLink]="['/cottage-edit', cottage.id]" >{{cottage.address}}</td>
+          <td class="col-2" [routerLink]="['/cottage-edit', cottage.id]" >{{cottage.roomsTotalNumber}}</td>
+          <td class="col-3" [routerLink]="['/cottage-edit', cottage.id]" >{{cottage.description}}</td>
+          <td class="col-1"><button class="btn btn-secondary" (click)="onClickDelete(cottage.id);">Delete</button> </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 
