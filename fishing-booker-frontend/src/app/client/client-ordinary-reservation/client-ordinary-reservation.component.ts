@@ -81,7 +81,9 @@ export class ClientOrdinaryReservationComponent implements OnInit {
     this.reservation.client.id = parseInt(localStorage.getItem('userId') as string);
     this.reservation.price = service.pricePerDay * this.reservation.durationInDays;
     this.reservationService.makeReservation(this.reservation).subscribe(
-      response => alert("Successful reservation"),
+      response => {alert("Successful reservation");
+                   location.reload();
+                  },
       error => alert("An error occured.")
     )
   }

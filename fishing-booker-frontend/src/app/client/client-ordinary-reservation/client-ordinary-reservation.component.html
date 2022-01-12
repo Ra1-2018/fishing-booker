@@ -27,20 +27,21 @@
                     <input type="number" class="form-control" id="numberOfPeople" placeholder="Number of people" formControlName="numberOfPeople">
                 </div>
                 <div class="d-grid col-6 mx-auto">
-                    <button class="btn btn-primary" (click)="onClickSubmit()">Submit</button>
+                    <button class="btn btn-primary" (click)="onClickSubmit()">Search</button>
                 </div>
             </ng-container>
         </div>
     </div>
 </div>
 
-<table *ngIf = "services.length > 0" matSort (matSortChange)="sortData($event)" class="table table-hover">
+<table *ngIf = "services.length > 0" matSort (matSortChange)="sortData($event)" class="table">
     <thead>
       <tr>
         <th mat-sort-header="name">Name</th>
         <th mat-sort-header="address">Address</th>
         <th mat-sort-header="pricePerDay">Price per day</th>
         <th mat-sort-header="maxNumberOfPeople">Max people</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -49,7 +50,7 @@
         <td>{{service.address}}</td>
         <td>{{service.pricePerDay}}</td>
         <td>{{service.maxNumberOfPeople}}</td>
-        <td><button (click)="makeReservation(service)">Make reservation</button></td>
+        <td><button class="btn btn-secondary btn-sm" (click)="makeReservation(service)">Make reservation</button></td>
       </tr>
     </tbody>
 </table>

@@ -122,4 +122,14 @@ public abstract class Service {
     public void setMaxNumberOfPeople(int maxNumberOfPeople) {
         this.maxNumberOfPeople = maxNumberOfPeople;
     }
+
+    public void addFreePeriod(TimeRange freePeriod) {
+        freePeriods.add(freePeriod);
+        freePeriod.setService(this);
+    }
+
+    public void removeFreePeriod(TimeRange freePeriod) {
+        freePeriods.remove(freePeriod);
+        freePeriod.setService(null);
+    }
 }

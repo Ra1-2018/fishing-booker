@@ -2,8 +2,10 @@ package com.isa.project.service;
 
 import com.isa.project.dto.ServiceCriteriaDTO;
 import com.isa.project.dto.ServiceDTO;
+import com.isa.project.model.Reservation;
 import com.isa.project.model.TimeRange;
 import com.isa.project.repository.ServiceRepository;
+import com.isa.project.repository.TimeRangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,9 @@ public class ServiceService {
 
     @Autowired
     private ServiceRepository serviceRepository;
+
+    @Autowired
+    private TimeRangeRepository timeRangeRepository;
 
     public List<com.isa.project.model.Service> findAll() { return serviceRepository.findAll(); }
 
@@ -39,5 +44,40 @@ public class ServiceService {
             }
         }
         return matchingServices;
+    }
+
+    public boolean IsReservationValid(Reservation reservation) {
+        com.isa.project.model.Service service = reservation.getService();
+        Date startDate = reservation.getReservationStartDateAndTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(startDate);
+        c.add(Calendar.DATE, reservation.getDurationInDays());
+        Date endDate = c.getTime();
+        for(TimeRange timeRange : service.getFreePeriods()) {
+            if(startDate.after(timeRange.getStartDate()) && endDate.before(timeRange.getEndDate())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void RemoveFreePeriod(Reservation reservation) {
+        com.isa.project.model.Service service = reservation.getService();
+        Date reservationStartTime = reservation.getReservationStartDateAndTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(reservationStartTime);
+        c.add(Calendar.DATE, reservation.getDurationInDays());
+        Date reservationEndTime = c.getTime();
+        for(TimeRange timeRange : service.getFreePeriods()) {
+            if(reservationStartTime.after(timeRange.getStartDate()) && reservationEndTime.before(timeRange.getEndDate())) {
+                TimeRange timeRange1 = new TimeRange(null, timeRange.getStartDate(), reservationStartTime, service);
+                TimeRange timeRange2 = new TimeRange(null, reservationEndTime, timeRange.getEndDate(), service);
+                service.removeFreePeriod(timeRange);
+                timeRangeRepository.delete(timeRange);
+                service.addFreePeriod(timeRange1);
+                service.addFreePeriod(timeRange2);
+                serviceRepository.save(service);
+            }
+        }
     }
 }

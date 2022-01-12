@@ -137,8 +137,11 @@ public class ReservationController {
         reservation.setClient(client);
         reservation.setService(service);
         reservation.setLocation(reservationDTO.getLocation());
+        if(!serviceService.IsReservationValid(reservation)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        serviceService.RemoveFreePeriod(reservation);
         reservationService.save(reservation);
-
         return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
     }
 }
