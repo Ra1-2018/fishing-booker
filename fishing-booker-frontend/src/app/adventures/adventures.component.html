@@ -11,7 +11,7 @@
     <tr *ngFor="let adventure of sortedData" [routerLink]="['/adventure', adventure.id]">
       <td>{{adventure.name}}</td>
       <td>{{adventure.address}}</td>
-      <td>{{adventure.maxPeople}}</td>
+      <td>{{adventure.maxNumberOfPeople}}</td>
       <td>{{adventure.instructor.email}}</td>
     </tr>
   </tbody>

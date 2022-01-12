@@ -11,7 +11,7 @@
     <tr *ngFor="let boat of sortedData" [routerLink]="['/boat', boat.id]">
       <td>{{boat.name}}</td>
       <td>{{boat.address}}</td>
-      <td>{{boat.capacity}}</td>
+      <td>{{boat.maxNumberOfPeople}}</td>
       <td>{{boat.boatOwner.email}}</td>
     </tr>
   </tbody>

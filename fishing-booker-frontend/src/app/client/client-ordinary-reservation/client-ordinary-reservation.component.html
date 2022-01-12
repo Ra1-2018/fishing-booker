@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <ng-container [formGroup]="this.myFormGroup">
+                <div class="mb-3">
+                    <label for="serviceType" class="form-label">Service type:</label>
+                    <select formControlName="serviceType" class="form-select" aria-label="Choose service type" id="serviceType">
+                        <option value="COTTAGE">Cottage</option>
+                        <option value="BOAT">Boat</option>
+                        <option value="ADVENTURE">Adventure</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                  <label for="startDate" class="form-label">Start date:</label>
+                  <input type="date" class="form-control" id="startDate" placeholder="Start date" formControlName="startDate">
+                </div>
+                <div class="mb-3">
+                    <label for="durationInDays" class="form-label">Number of days:</label>
+                    <input type="number" class="form-control" id="durationInDays" placeholder="Number of days" formControlName="durationInDays">
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <input type="text" class="form-control" id="address" placeholder="Address" formControlName="address">
+                </div>
+                <div class="mb-3">
+                    <label for="numberOfPeople" class="form-label">Number of people:</label>
+                    <input type="number" class="form-control" id="numberOfPeople" placeholder="Number of people" formControlName="numberOfPeople">
+                </div>
+                <div class="d-grid col-6 mx-auto">
+                    <button class="btn btn-primary" (click)="onClickSubmit()">Submit</button>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<table *ngIf = "services.length > 0" matSort (matSortChange)="sortData($event)" class="table table-hover">
+    <thead>
+      <tr>
+        <th mat-sort-header="name">Name</th>
+        <th mat-sort-header="address">Address</th>
+        <th mat-sort-header="pricePerDay">Price per day</th>
+        <th mat-sort-header="maxNumberOfPeople">Max people</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let service of sortedData" [routerLink]="">
+        <td>{{service.name}}</td>
+        <td>{{service.address}}</td>
+        <td>{{service.pricePerDay}}</td>
+        <td>{{service.maxNumberOfPeople}}</td>
+        <td><button (click)="makeReservation(service)">Make reservation</button></td>
+      </tr>
+    </tbody>
+</table>

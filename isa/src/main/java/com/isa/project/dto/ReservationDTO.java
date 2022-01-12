@@ -8,7 +8,7 @@ public class ReservationDTO {
     private long id;
     private Date reservationStartDateAndTime;
     private int durationInDays;
-    private int maxPeople;
+    private int numberOfPeople;
     private String additionalServices;
     private double price;
     private AppUserDTO client;
@@ -17,11 +17,11 @@ public class ReservationDTO {
 
     public ReservationDTO() {}
 
-    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int maxPeople, String additionalServices, double price, AppUserDTO client, ServiceDTO service, String location) {
+    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int numberOfPeople, String additionalServices, double price, AppUserDTO client, ServiceDTO service, String location) {
         this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
         this.durationInDays = durationInDays;
-        this.maxPeople = maxPeople;
+        this.numberOfPeople = numberOfPeople;
         this.additionalServices = additionalServices;
         this.price = price;
         this.client = client;
@@ -29,7 +29,7 @@ public class ReservationDTO {
         this.location = location;
     }
 
-    public ReservationDTO(Reservation reservation) { this(reservation.getId(), reservation.getReservationStartDateAndTime(), reservation.getDurationInDays(), reservation.getMaxPeople(), reservation.getAdditionalServices(), reservation.getPrice(), new AppUserDTO(reservation.getClient()), new ServiceDTO(reservation.getService()), reservation.getLocation());}
+    public ReservationDTO(Reservation reservation) { this(reservation.getId(), reservation.getReservationStartDateAndTime(), reservation.getDurationInDays(), reservation.getNumberOfPeople(), reservation.getAdditionalServices(), reservation.getPrice(), new AppUserDTO(reservation.getClient()), new ServiceDTO(reservation.getService()), reservation.getLocation());}
 
     public long getId() {
         return id;
@@ -43,8 +43,8 @@ public class ReservationDTO {
         return durationInDays;
     }
 
-    public int getMaxPeople() {
-        return maxPeople;
+    public int getNumberOfPeople() {
+        return numberOfPeople;
     }
 
     public String getAdditionalServices() {

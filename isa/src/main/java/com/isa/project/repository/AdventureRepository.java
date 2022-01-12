@@ -8,12 +8,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface AdventureRepository extends JpaRepository<Adventure, Long> {
-/*
-    public Adventure findOneById(Long id);
-
-    public Page<Adventure> findAll(Pageable pageable);
-
-    public List<Adventure> findAllById(Long id);
-
- */
 }

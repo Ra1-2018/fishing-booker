@@ -13,18 +13,18 @@ public class BoatDTO {
     private String navigationEquipment;
     private String address;
     private String description;
-    private int capacity;
+    private int maxNumberOfPeople;
     private String behaviorRules;
     private String fishingEquipment;
-    private String priceList;
+    private double pricePerDay;
     private String cancellationTerms;
     private AppUserDTO boatOwner;
 
     public BoatDTO() {}
 
-    public BoatDTO(Boat boat) { this(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getNumberOfEngines(), boat.getEnginePower(), boat.getMaximumVelocity(), boat.getNavigationEquipment(), boat.getAddress(), boat.getDescription(), boat.getCapacity(), boat.getBehaviorRules(), boat.getFishingEquipment(), boat.getPriceList(), boat.getCancellationTerms(), new AppUserDTO(boat.getBoatOwner())); }
+    public BoatDTO(Boat boat) { this(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getNumberOfEngines(), boat.getEnginePower(), boat.getMaximumVelocity(), boat.getNavigationEquipment(), boat.getAddress(), boat.getDescription(), boat.getMaxNumberOfPeople(), boat.getBehaviorRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.getCancellationTerms(), new AppUserDTO(boat.getBoatOwner())); }
 
-    public BoatDTO(long id, String name, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int capacity, String behaviorRules, String fishingEquipment, String priceList, String cancellationTerms, AppUserDTO boatOwner) {
+    public BoatDTO(long id, String name, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -35,10 +35,10 @@ public class BoatDTO {
         this.navigationEquipment = navigationEquipment;
         this.address = address;
         this.description = description;
-        this.capacity = capacity;
+        this.maxNumberOfPeople = maxNumberOfPeople;
         this.behaviorRules = behaviorRules;
         this.fishingEquipment = fishingEquipment;
-        this.priceList = priceList;
+        this.pricePerDay = pricePerDay;
         this.cancellationTerms = cancellationTerms;
         this.boatOwner = boatOwner;
     }
@@ -83,8 +83,8 @@ public class BoatDTO {
         return description;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getMaxNumberOfPeople() {
+        return maxNumberOfPeople;
     }
 
     public String getBehaviorRules() {
@@ -95,8 +95,8 @@ public class BoatDTO {
         return fishingEquipment;
     }
 
-    public String getPriceList() {
-        return priceList;
+    public double getPricePerDay() {
+        return pricePerDay;
     }
 
     public String getCancellationTerms() {

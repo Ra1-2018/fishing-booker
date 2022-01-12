@@ -18,30 +18,33 @@ public abstract class Service {
     @Column
     private String behaviorRules;
     @Column
-    private String priceList;
+    private double pricePerDay;
     @Column
     private String address;
     @Column
     private ServiceType serviceType;
+    @Column
+    private int maxNumberOfPeople;
 
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
 
-    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<TimeRange> freePeriods = new HashSet<>();
 
     public Service() {}
 
-    public Service(long id, String name, String description, String behaviorRules, String priceList, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods) {
+    public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.behaviorRules = behaviorRules;
-        this.priceList = priceList;
+        this.pricePerDay = pricePerDay;
         this.address = address;
         this.serviceType = serviceType;
         this.reservations = reservations;
         this.freePeriods = freePeriods;
+        this.maxNumberOfPeople = maxNumberOfPeople;
     }
 
     public long getId() {
@@ -76,12 +79,12 @@ public abstract class Service {
         this.behaviorRules = behaviorRules;
     }
 
-    public String getPriceList() {
-        return priceList;
+    public double getPricePerDay() {
+        return pricePerDay;
     }
 
-    public void setPriceList(String priceList) {
-        this.priceList = priceList;
+    public void setPricePerDay(double pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 
     public String getAddress() {
@@ -111,4 +114,12 @@ public abstract class Service {
     public Set<TimeRange> getFreePeriods() { return freePeriods; }
 
     public void setFreePeriods(Set<TimeRange> freePeriods) { this.freePeriods = freePeriods; }
+
+    public int getMaxNumberOfPeople() {
+        return maxNumberOfPeople;
+    }
+
+    public void setMaxNumberOfPeople(int maxNumberOfPeople) {
+        this.maxNumberOfPeople = maxNumberOfPeople;
+    }
 }
