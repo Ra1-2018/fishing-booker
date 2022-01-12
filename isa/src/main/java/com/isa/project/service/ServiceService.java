@@ -1,11 +1,9 @@
 package com.isa.project.service;
 
 import com.isa.project.dto.ServiceCriteriaDTO;
-import com.isa.project.dto.ServiceDTO;
 import com.isa.project.model.Reservation;
 import com.isa.project.model.TimeRange;
 import com.isa.project.repository.ServiceRepository;
-import com.isa.project.repository.TimeRangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +16,7 @@ public class ServiceService {
     private ServiceRepository serviceRepository;
 
     @Autowired
-    private TimeRangeRepository timeRangeRepository;
+    private TimeRangeService timeRangeService;
 
     public List<com.isa.project.model.Service> findAll() { return serviceRepository.findAll(); }
 
@@ -73,10 +71,11 @@ public class ServiceService {
                 TimeRange timeRange1 = new TimeRange(null, timeRange.getStartDate(), reservationStartTime, service);
                 TimeRange timeRange2 = new TimeRange(null, reservationEndTime, timeRange.getEndDate(), service);
                 service.removeFreePeriod(timeRange);
-                timeRangeRepository.delete(timeRange);
+                timeRangeService.save(timeRange);
                 service.addFreePeriod(timeRange1);
                 service.addFreePeriod(timeRange2);
                 serviceRepository.save(service);
+                timeRangeService.deleteById(timeRange.getId());
             }
         }
     }
