@@ -8,6 +8,7 @@ import com.isa.project.model.ServiceType;
 import com.isa.project.service.AppUserService;
 import com.isa.project.service.ReservationService;
 import com.isa.project.service.ServiceService;
+import com.isa.project.verification.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +31,9 @@ public class ReservationController {
 
     @Autowired
     private ServiceService serviceService;
+
+    @Autowired
+    private EmailService emailService;
 
     @PreAuthorize("hasRole('CLIENT')")
     @GetMapping(value = "client/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -142,6 +146,11 @@ public class ReservationController {
         }
         serviceService.RemoveFreePeriod(reservation);
         reservationService.save(reservation);
+        try {
+            emailService.sendReservationNotification(reservation);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
     }
 }
