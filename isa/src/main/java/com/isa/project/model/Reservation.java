@@ -2,6 +2,8 @@ package com.isa.project.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Reservation {
@@ -16,8 +18,13 @@ public class Reservation {
     private int durationInDays;
     @Column
     private int numberOfPeople;
-    @Column
-    private String additionalServices;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "reservation_additional_service",
+            joinColumns = { @JoinColumn(name = "reservation_id") },
+            inverseJoinColumns = { @JoinColumn(name = "additional_service_id") }
+    )
+    private Set<AdditionalService> additionalServices = new HashSet<>();
     @Column
     private double price; //racunica broja dana i cene po danu ( i broja ljudi)
 
@@ -32,7 +39,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(long id, Date reservationStartDateAndTime, String location, int durationInDays, int numberOfPeople, String additionalServices, double price, Service service, Client client) {
+    public Reservation(long id, Date reservationStartDateAndTime, String location, int durationInDays, int numberOfPeople, Set<AdditionalService> additionalServices, double price, Service service, Client client) {
         this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
         this.location = location;
@@ -84,11 +91,11 @@ public class Reservation {
         this.numberOfPeople = numberOfPeople;
     }
 
-    public String getAdditionalServices() {
+    public Set<AdditionalService> getAdditionalServices() {
         return additionalServices;
     }
 
-    public void setAdditionalServices(String additionalServices) {
+    public void setAdditionalServices(Set<AdditionalService> additionalServices) {
         this.additionalServices = additionalServices;
     }
 
@@ -114,5 +121,10 @@ public class Reservation {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public void addAdditionalService(AdditionalService additionalService) {
+        additionalServices.add(additionalService);
+        additionalService.getReservations().add(this);
     }
 }

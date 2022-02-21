@@ -32,9 +32,12 @@ public abstract class Service {
     @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<TimeRange> freePeriods = new HashSet<>();
 
+    @OneToMany(mappedBy = "service", fetch =  FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<AdditionalService> additionalServices = new HashSet<>();
+
     public Service() {}
 
-    public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople) {
+    public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople, Set<AdditionalService> additionalServices) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -45,6 +48,7 @@ public abstract class Service {
         this.reservations = reservations;
         this.freePeriods = freePeriods;
         this.maxNumberOfPeople = maxNumberOfPeople;
+        this.additionalServices = additionalServices;
     }
 
     public long getId() {
@@ -131,5 +135,13 @@ public abstract class Service {
     public void removeFreePeriod(TimeRange freePeriod) {
         freePeriods.remove(freePeriod);
         freePeriod.setService(null);
+    }
+
+    public Set<AdditionalService> getAdditionalServices() {
+        return additionalServices;
+    }
+
+    public void setAdditionalServices(Set<AdditionalService> additionalServices) {
+        this.additionalServices = additionalServices;
     }
 }

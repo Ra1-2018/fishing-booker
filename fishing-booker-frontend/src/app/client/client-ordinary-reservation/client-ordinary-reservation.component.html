@@ -50,7 +50,73 @@
         <td>{{service.address}}</td>
         <td>{{service.pricePerDay}}</td>
         <td>{{service.maxNumberOfPeople}}</td>
-        <td><button class="btn btn-secondary btn-sm" (click)="makeReservation(service)">Make reservation</button></td>
+        <td><button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openReservationModal(service)">Make reservation</button></td>
       </tr>
     </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class = "col-md-6">Service:</div>
+                            <div class = "col-md-6">{{reservation.service.name}}</div>
+                        </div>
+                        <div class="row">
+                            <div class = "col-md-6">Start time:</div>
+                            <div class = "col-md-6">{{reservation.reservationStartDateAndTime}}</div>
+                        </div>
+                        <div class="row">
+                            <div class = "col-md-6">Number of days:</div>
+                            <div class = "col-md-6">{{reservation.durationInDays}}</div>
+                        </div>
+                        <div class="row">
+                            <div class = "col-md-6">Number of people:</div>
+                            <div class = "col-md-6">{{reservation.numberOfPeople}}</div>
+                        </div>
+                        <div class="row">
+                            <div class = "col-md-6">Price per day:</div>
+                            <div class = "col-md-6">{{reservation.service.pricePerDay}}</div>
+                        </div>
+                        <div class="row">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td>Additional service</td>
+                                        <td>Price per day</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor = "let additionalService of viewedService.additionalServices">
+                                        <td>{{additionalService.name}}</td>
+                                        <td>{{additionalService.price}}</td>
+                                        <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (change)="fieldsChange($event, additionalService)"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class = "col-md-6">Total price:</div>
+                            <div class = "col-md-6">{{reservation.price}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="makeReservation()">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>

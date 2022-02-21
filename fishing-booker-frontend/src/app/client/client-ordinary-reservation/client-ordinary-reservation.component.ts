@@ -16,12 +16,13 @@ export class ClientOrdinaryReservationComponent implements OnInit {
                       reservationStartDateAndTime: null,
                       durationInDays: 0,
                       numberOfPeople: 0,
-                      additionalServices: '',
+                      additionalServices: [],
                       price: 0.0,
                       client: {},
                       service: {},
                       location: ''
                     };
+  viewedService: any = {}
 
   public readonly myFormGroup: FormGroup;
 
@@ -76,16 +77,37 @@ export class ClientOrdinaryReservationComponent implements OnInit {
     });
   }
 
-  makeReservation(service: any) {
-    this.reservation.service = service
-    this.reservation.client.id = parseInt(localStorage.getItem('userId') as string);
-    this.reservation.price = service.pricePerDay * this.reservation.durationInDays;
+  makeReservation() {
     this.reservationService.makeReservation(this.reservation).subscribe(
       response => {alert("Successful reservation");
                    location.reload();
                   },
       error => alert("An error occured.")
     )
+  }
+
+  openReservationModal(service: any) {
+    this.viewedService = service;
+    this.reservation.service = service
+    this.reservation.client.id = parseInt(localStorage.getItem('userId') as string);
+    this.reservation.additionalServices = [];
+    this.reservation.price = service.pricePerDay * this.reservation.durationInDays;
+  }
+
+  fieldsChange(values:any, additionalService: any):void {
+    console.log(values.currentTarget.checked);
+    if(values.currentTarget.checked) {
+      this.reservation.additionalServices.push(additionalService);
+      this.reservation.price += additionalService.price * this.reservation.durationInDays;
+    }
+    else {
+      const index: number = this.reservation.additionalServices.indexOf(additionalService);
+      if (index !== -1) {
+          this.reservation.additionalServices.splice(index, 1);
+          this.reservation.price -= additionalService.price * this.reservation.durationInDays;
+      }        
+    }
+    console.log(this.reservation.additionalServices);
   }
 }
 

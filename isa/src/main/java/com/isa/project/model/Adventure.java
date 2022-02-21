@@ -22,8 +22,8 @@ public class Adventure extends Service{
     }
 
 
-    public Adventure(long id, String name, String description, String behaviorRules, double pricePerDay, String address, String instructorBiography, Set<Reservation> reservations, String fishingGear, ReservationCancellation cancellation, Instructor instructor, Set<TimeRange> freeReservations, int maxNumberOfPeople) {
-        super(id, name, description, behaviorRules, pricePerDay, address, ServiceType.ADVENTURE, reservations, freeReservations, maxNumberOfPeople);
+    public Adventure(long id, String name, String description, String behaviorRules, double pricePerDay, String address, String instructorBiography, Set<Reservation> reservations, String fishingGear, ReservationCancellation cancellation, Instructor instructor, Set<TimeRange> freeReservations, int maxNumberOfPeople, Set<AdditionalService> additionalServices) {
+        super(id, name, description, behaviorRules, pricePerDay, address, ServiceType.ADVENTURE, reservations, freeReservations, maxNumberOfPeople, additionalServices);
         this.instructorBiography = instructorBiography;
         this.fishingGear = fishingGear;
         this.cancellation = cancellation;

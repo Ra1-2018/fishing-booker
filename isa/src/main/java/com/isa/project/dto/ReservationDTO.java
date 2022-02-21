@@ -1,15 +1,18 @@
 package com.isa.project.dto;
 
+import com.isa.project.model.AdditionalService;
 import com.isa.project.model.Reservation;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ReservationDTO {
     private long id;
     private Date reservationStartDateAndTime;
     private int durationInDays;
     private int numberOfPeople;
-    private String additionalServices;
+    private Set<AdditionalServiceDTO> additionalServices;
     private double price;
     private AppUserDTO client;
     private ServiceDTO service;
@@ -17,12 +20,15 @@ public class ReservationDTO {
 
     public ReservationDTO() {}
 
-    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int numberOfPeople, String additionalServices, double price, AppUserDTO client, ServiceDTO service, String location) {
+    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int numberOfPeople, Set<AdditionalService> additionalServices, double price, AppUserDTO client, ServiceDTO service, String location) {
         this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
         this.durationInDays = durationInDays;
         this.numberOfPeople = numberOfPeople;
-        this.additionalServices = additionalServices;
+        this.additionalServices = new HashSet<>();
+        for(AdditionalService additionalService : additionalServices) {
+            this.additionalServices.add(new AdditionalServiceDTO(additionalService));
+        }
         this.price = price;
         this.client = client;
         this.service = service;
@@ -47,7 +53,7 @@ public class ReservationDTO {
         return numberOfPeople;
     }
 
-    public String getAdditionalServices() {
+    public Set<AdditionalServiceDTO> getAdditionalServices() {
         return additionalServices;
     }
 

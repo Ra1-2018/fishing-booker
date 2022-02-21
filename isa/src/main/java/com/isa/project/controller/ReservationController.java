@@ -1,10 +1,8 @@
 package com.isa.project.controller;
 
+import com.isa.project.dto.AdditionalServiceDTO;
 import com.isa.project.dto.ReservationDTO;
-import com.isa.project.model.Client;
-import com.isa.project.model.Reservation;
-import com.isa.project.model.Service;
-import com.isa.project.model.ServiceType;
+import com.isa.project.model.*;
 import com.isa.project.service.AppUserService;
 import com.isa.project.service.ReservationService;
 import com.isa.project.service.ServiceService;
@@ -16,9 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 @RestController
 @RequestMapping("/reservations")
@@ -136,7 +132,12 @@ public class ReservationController {
         reservation.setReservationStartDateAndTime(reservationDTO.getReservationStartDateAndTime());
         reservation.setDurationInDays(reservationDTO.getDurationInDays());
         reservation.setNumberOfPeople(reservationDTO.getNumberOfPeople());
-        reservation.setAdditionalServices(reservationDTO.getAdditionalServices());
+        Set<AdditionalService> additionalServices = new HashSet<>();
+        for(AdditionalServiceDTO dto : reservationDTO.getAdditionalServices()) {
+            AdditionalService additionalService = new AdditionalService(dto.getId(), dto.getName(), dto.getPrice(), service, new HashSet<>());
+            reservation.addAdditionalService(additionalService);
+        }
+        //reservation.setAdditionalServices(additionalServices);
         reservation.setPrice(reservationDTO.getPrice());
         reservation.setClient(client);
         reservation.setService(service);
