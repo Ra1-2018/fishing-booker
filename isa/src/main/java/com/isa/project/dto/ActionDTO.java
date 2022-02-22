@@ -13,27 +13,33 @@ public class ActionDTO {
     private int durationInDays;
     private int maxNumberOfPeople;
     private Set<AdditionalServiceDTO> additionalServices;
-    private double originalPrice;
-    private double discount;
+    private double price;
     private ServiceDTO service;
 
     public ActionDTO() {}
 
-    public ActionDTO(long id, Date startTime, int durationInDays, int maxNumberOfPeople, Set<AdditionalService> additionalServices, double originalPrice, double discount, ServiceDTO service) {
+    public ActionDTO(long id, Date startTime, int durationInDays, int maxNumberOfPeople, Set<AdditionalServiceDTO> additionalServices, double price, ServiceDTO service) {
         this.id = id;
         this.startTime = startTime;
         this.durationInDays = durationInDays;
         this.maxNumberOfPeople = maxNumberOfPeople;
-        this.additionalServices = new HashSet<>();
-        for(AdditionalService additionalService : additionalServices) {
-            this.additionalServices.add(new AdditionalServiceDTO(additionalService));
-        }
-        this.originalPrice = originalPrice;
-        this.discount = discount;
+        this.additionalServices = additionalServices;
+        this.price = price;
         this.service = service;
     }
 
-    public ActionDTO(Action action) {this(action.getId(), action.getStartTime(), action.getDurationInDays(), action.getMaxNumberOfPeople(), action.getAdditionalServices(), action.getOriginalPrice(), action.getDiscount(), new ServiceDTO(action.getService())); }
+    public ActionDTO(Action action) {
+        this.id = action.getId();
+        this.startTime = action.getStartTime();
+        this.durationInDays = action.getDurationInDays();
+        this.maxNumberOfPeople = action.getMaxNumberOfPeople();
+        this.additionalServices = new HashSet<>();
+        for(AdditionalService additionalService : action.getAdditionalServices()) {
+            this.additionalServices.add(new AdditionalServiceDTO(additionalService));
+        }
+        this.price = action.getPrice();
+        this.service = new ServiceDTO(action.getService());
+    }
 
     public long getId() {
         return id;
@@ -55,19 +61,19 @@ public class ActionDTO {
         return additionalServices;
     }
 
-    public double getOriginalPrice() {
-        return originalPrice;
-    }
-
-    public double getDiscount() {
-        return discount;
-    }
-
-    public double getFinalPrice() {
-        return originalPrice * (1 - discount);
+    public double getPrice() {
+        return price;
     }
 
     public ServiceDTO getService() {
         return service;
+    }
+
+    public double getOriginalPrice() {
+        return service.getPricePerDay() * durationInDays;
+    }
+
+    public double getDiscount() {
+        return 1 - getPrice()/getOriginalPrice();
     }
 }

@@ -134,7 +134,7 @@ public class ReservationController {
         reservation.setNumberOfPeople(reservationDTO.getNumberOfPeople());
         Set<AdditionalService> additionalServices = new HashSet<>();
         for(AdditionalServiceDTO dto : reservationDTO.getAdditionalServices()) {
-            AdditionalService additionalService = new AdditionalService(dto.getId(), dto.getName(), dto.getPrice(), service, new HashSet<>());
+            AdditionalService additionalService = new AdditionalService(dto.getId(), dto.getName(), dto.getPrice(), service, new HashSet<>(), new HashSet<>());
             reservation.addAdditionalService(additionalService);
         }
         //reservation.setAdditionalServices(additionalServices);

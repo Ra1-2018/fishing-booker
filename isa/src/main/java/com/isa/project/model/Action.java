@@ -29,10 +29,7 @@ public class Action {
     private Set<AdditionalService> additionalServices = new HashSet<>();
 
     @Column
-    private double originalPrice;
-
-    @Column
-    private double discount;
+    private double price;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")
@@ -40,14 +37,12 @@ public class Action {
 
     public Action() {}
 
-    public Action(long id, Date startTime, int durationInDays, int maxNumberOfPeople, Set<AdditionalService> additionalServices, double originalPrice, double discount, Service service) {
+    public Action(long id, Date startTime, int durationInDays, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Service service) {
         this.id = id;
         this.startTime = startTime;
         this.durationInDays = durationInDays;
         this.maxNumberOfPeople = maxNumberOfPeople;
         this.additionalServices = additionalServices;
-        this.originalPrice = originalPrice;
-        this.discount = discount;
         this.service = service;
     }
 
@@ -91,20 +86,20 @@ public class Action {
         this.additionalServices = additionalServices;
     }
 
-    public double getOriginalPrice() {
-        return originalPrice;
+    public double getPrice() {
+        return price;
     }
 
-    public void setOriginalPrice(double originalPrice) {
-        this.originalPrice = originalPrice;
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getOriginalPrice() {
+        return service.getPricePerDay() * durationInDays;
     }
 
     public double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
+        return 1 - getPrice()/getOriginalPrice();
     }
 
     public Service getService() {
@@ -113,9 +108,5 @@ public class Action {
 
     public void setService(Service service) {
         this.service = service;
-    }
-
-    public double getFinalPrice() {
-        return this.originalPrice * (1 - this.discount);
     }
 }

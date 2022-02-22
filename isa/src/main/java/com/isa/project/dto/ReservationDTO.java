@@ -20,22 +20,32 @@ public class ReservationDTO {
 
     public ReservationDTO() {}
 
-    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int numberOfPeople, Set<AdditionalService> additionalServices, double price, AppUserDTO client, ServiceDTO service, String location) {
+    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int numberOfPeople, Set<AdditionalServiceDTO> additionalServices, double price, AppUserDTO client, ServiceDTO service, String location) {
         this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
         this.durationInDays = durationInDays;
         this.numberOfPeople = numberOfPeople;
-        this.additionalServices = new HashSet<>();
-        for(AdditionalService additionalService : additionalServices) {
-            this.additionalServices.add(new AdditionalServiceDTO(additionalService));
-        }
+        this.additionalServices = additionalServices;
         this.price = price;
         this.client = client;
         this.service = service;
         this.location = location;
     }
 
-    public ReservationDTO(Reservation reservation) { this(reservation.getId(), reservation.getReservationStartDateAndTime(), reservation.getDurationInDays(), reservation.getNumberOfPeople(), reservation.getAdditionalServices(), reservation.getPrice(), new AppUserDTO(reservation.getClient()), new ServiceDTO(reservation.getService()), reservation.getLocation());}
+    public ReservationDTO(Reservation reservation) {
+        this.id = reservation.getId();
+        this.reservationStartDateAndTime = reservation.getReservationStartDateAndTime();
+        this.durationInDays = reservation.getDurationInDays();
+        this.numberOfPeople = reservation.getNumberOfPeople();
+        this.additionalServices = new HashSet<>();
+        for(AdditionalService additionalService : reservation.getAdditionalServices()) {
+            this.additionalServices.add(new AdditionalServiceDTO(additionalService));
+        }
+        this.price = reservation.getPrice();
+        this.client = new AppUserDTO(reservation.getClient());
+        this.service = new ServiceDTO(reservation.getService());
+        this.location = reservation.getLocation();
+    }
 
     public long getId() {
         return id;

@@ -24,14 +24,18 @@ public class AdditionalService {
     @ManyToMany(mappedBy = "additionalServices")
     private Set<Reservation> reservations;
 
+    @ManyToMany(mappedBy = "additionalServices")
+    private Set<Action> actions;
+
     public AdditionalService() {}
 
-    public AdditionalService(long id, String name, long price, Service service, Set<Reservation> reservations) {
+    public AdditionalService(long id, String name, long price, Service service, Set<Reservation> reservations, Set<Action> actions) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.service = service;
         this.reservations = reservations;
+        this.actions = actions;
     }
 
     public long getId() {
@@ -72,5 +76,13 @@ public class AdditionalService {
 
     public void setReservations(Set<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public Set<Action> getActions() {
+        return actions;
+    }
+
+    public void setActions(Set<Action> actions) {
+        this.actions = actions;
     }
 }
