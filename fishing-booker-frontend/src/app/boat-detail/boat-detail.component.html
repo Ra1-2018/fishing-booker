@@ -57,6 +57,9 @@
                     <div class="col-md-2" style="margin-bottom: 20px ;">Cancellation terms:</div>
                     <div class="col-md-10">{{boat.cancellationTerms}}</div>
                 </div>
+                <div *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'" class="row">
+                    <a [routerLink]="['/actions', id]">View actions</a>
+                </div>
             </div>
         </div>
     </div>

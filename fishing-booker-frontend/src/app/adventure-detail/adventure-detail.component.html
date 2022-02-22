@@ -33,6 +33,9 @@
                     <div class="col-md-2" style="margin-bottom: 20px ;">Price list:</div>
                     <div class="col-md-10">{{adventure.priceList}}</div>
                 </div>
+                <div *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'" class="row">
+                    <a [routerLink]="['/actions', id]">View actions</a>
+                </div>
             </div>
         </div>
     </div>

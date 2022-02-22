@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from '../login/login.service';
 import { CottageDetailService } from './cottage-detail.service';
 
 @Component({
@@ -9,17 +10,19 @@ import { CottageDetailService } from './cottage-detail.service';
 })
 export class CottageDetailComponent implements OnInit {
 
-  cottage: any
+  cottage: any;
   errorMessage = '';
+  id: number|undefined;
 
   constructor(private route: ActivatedRoute, 
     private router: Router, 
-    private cottageDetailService: CottageDetailService) { }
+    private cottageDetailService: CottageDetailService,
+    public readonly loginService: LoginService) { }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.getCottage(id);
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.id) {
+      this.getCottage(this.id);
     }
   }
 

@@ -62,6 +62,7 @@ import {MatTreeModule} from '@angular/material/tree';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SearchPipe } from './search.pipe';
 import { ClientOrdinaryReservationComponent } from './client/client-ordinary-reservation/client-ordinary-reservation.component';
+import { ClientActionsComponent } from './client/client-actions/client-actions.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { ClientOrdinaryReservationComponent } from './client/client-ordinary-res
     ClientAdventureReservationsComponent,
     ClientUpcomingReservationsComponent,
     SearchPipe,
-    ClientOrdinaryReservationComponent
+    ClientOrdinaryReservationComponent,
+    ClientActionsComponent
 
   ],
   imports: [
