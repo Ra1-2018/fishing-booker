@@ -15,4 +15,11 @@ export class ClientActionsService {
       tap(data => console.log("data: ", data))
     )
   }
+
+  public makeReservation(action: any) {
+    return this._http.get('http://localhost:8080/actions/reservation/' + localStorage.getItem('userId') + '/' + action.id)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
 }

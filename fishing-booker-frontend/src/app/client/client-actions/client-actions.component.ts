@@ -53,6 +53,10 @@ export class ClientActionsComponent implements OnInit {
       }
     });
   }
+
+  makeReservation(action: any) {
+    this.actionsService.makeReservation(action).subscribe();
+  }
 }
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {

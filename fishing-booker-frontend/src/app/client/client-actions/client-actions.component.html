@@ -7,16 +7,18 @@
         <th mat-sort-header="price">Price</th>
         <th mat-sort-header="startTime">Start time</th>
         <th mat-sort-header="durationInDays">Number of days</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let action of actions">
+      <tr *ngFor="let action of sortedData">
         <td>{{action.service.name}}</td>
         <td>{{action.originalPrice}}</td>
         <td>{{action.discount | number : '1.2-2'}}</td>
         <td>{{action.price}}</td>
         <td>{{action.startTime | date:'short'}}</td>
         <td>{{action.durationInDays}}</td>
+        <td><button class="btn btn-secondary btn-sm" (click)="makeReservation(action)">Make reservation</button></td>
       </tr>
     </tbody>
   </table>

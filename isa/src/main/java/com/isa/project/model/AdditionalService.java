@@ -21,7 +21,7 @@ public class AdditionalService {
     @JoinColumn(name = "service_id")
     private Service service;
 
-    @ManyToMany(mappedBy = "additionalServices")
+    @ManyToMany(mappedBy = "additionalServices", fetch = FetchType.EAGER)
     private Set<Reservation> reservations;
 
     @ManyToMany(mappedBy = "additionalServices")
