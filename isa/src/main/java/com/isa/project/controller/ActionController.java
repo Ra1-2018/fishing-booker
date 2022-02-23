@@ -8,6 +8,7 @@ import com.isa.project.service.ActionService;
 import com.isa.project.service.AppUserService;
 import com.isa.project.service.ReservationService;
 import com.isa.project.service.ServiceService;
+import com.isa.project.verification.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,6 +39,9 @@ public class ActionController {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private EmailService emailService;
+
     @PreAuthorize("hasRole('CLIENT')")
     @GetMapping(value = "service/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<ActionDTO>> findByService(@PathVariable("id") Long id) {
@@ -67,7 +71,7 @@ public class ActionController {
         Reservation reservation = new Reservation();
         reservation.setReservationStartDateAndTime(action.getStartTime());
         reservation.setDurationInDays(action.getDurationInDays());
-        reservation.setNumberOfPeople(action.getMaxNumberOfPeople()); //izmeniti na frontu
+        reservation.setNumberOfPeople(action.getMaxNumberOfPeople());
         Set<AdditionalService> additionalServices = new HashSet<>();
         for(AdditionalService additionalService : action.getAdditionalServices()) {
             reservation.addAdditionalService(additionalService);
@@ -75,8 +79,13 @@ public class ActionController {
         reservation.setPrice(action.getPrice());
         reservation.setClient(client);
         reservation.setService(action.getService());
-        //lokacija
         reservation = reservationService.save(reservation);
+        actionService.deleteById(actionId);
+        try {
+            emailService.sendReservationNotification(reservation);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
     }
 }

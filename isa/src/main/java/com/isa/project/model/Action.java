@@ -95,7 +95,11 @@ public class Action {
     }
 
     public double getOriginalPrice() {
-        return service.getPricePerDay() * durationInDays;
+        double pricePerDay = service.getPricePerDay();
+        for(AdditionalService additionalService : additionalServices) {
+            pricePerDay += additionalService.getPrice();
+        }
+        return pricePerDay * durationInDays;
     }
 
     public double getDiscount() {

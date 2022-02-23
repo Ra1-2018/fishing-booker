@@ -15,4 +15,6 @@ public class ActionService {
     public List<Action> findByService(com.isa.project.model.Service service) {return actionRepository.findByService(service); }
 
     public Action findById(Long id) { return actionRepository.findById(id).orElse(null); }
+
+    public void deleteById(Long id) { actionRepository.deleteById(id);}
 }

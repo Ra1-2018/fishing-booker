@@ -70,7 +70,11 @@ public class ActionDTO {
     }
 
     public double getOriginalPrice() {
-        return service.getPricePerDay() * durationInDays;
+        double pricePerDay = service.getPricePerDay();
+        for(AdditionalServiceDTO additionalService : additionalServices) {
+            pricePerDay += additionalService.getPrice();
+        }
+        return pricePerDay * durationInDays;
     }
 
     public double getDiscount() {

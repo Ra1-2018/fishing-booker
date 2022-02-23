@@ -12,15 +12,16 @@ export class ClientActionsComponent implements OnInit {
 
   actions: any[] = []
   sortedData: any[] = []
+  id: number | undefined
 
   constructor(private route: ActivatedRoute,
               private router: Router, 
               private actionsService: ClientActionsService) { }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.getActions(id);
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.id) {
+      this.getActions(this.id);
     }
   }
 
@@ -55,7 +56,13 @@ export class ClientActionsComponent implements OnInit {
   }
 
   makeReservation(action: any) {
-    this.actionsService.makeReservation(action).subscribe();
+    this.actionsService.makeReservation(action).subscribe({
+      next: result => {
+        alert("Successful reservation");
+        this.getActions(this.id as number);
+      },
+      error: err => alert("An error occured.")
+    });
   }
 }
 
