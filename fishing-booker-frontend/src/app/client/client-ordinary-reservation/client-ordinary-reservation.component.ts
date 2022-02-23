@@ -78,12 +78,12 @@ export class ClientOrdinaryReservationComponent implements OnInit {
   }
 
   makeReservation() {
-    this.reservationService.makeReservation(this.reservation).subscribe(
-      response => {alert("Successful reservation");
+    this.reservationService.makeReservation(this.reservation).subscribe({
+      next: response => {alert("Successful reservation");
                    location.reload();
                   },
-      error => alert("An error occured.")
-    )
+      error: error => alert("An error occured.")
+      });
   }
 
   openReservationModal(service: any) {

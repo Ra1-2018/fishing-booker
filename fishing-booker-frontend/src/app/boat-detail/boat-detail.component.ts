@@ -16,8 +16,7 @@ export class BoatDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private boatDetailService: BoatDetailService,
-              public readonly loginService: LoginService) { }
+              private boatDetailService: BoatDetailService) { }
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));

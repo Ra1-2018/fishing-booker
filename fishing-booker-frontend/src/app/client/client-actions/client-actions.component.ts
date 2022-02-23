@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from 'src/app/login/login.service';
 import { ClientActionsService } from './client-actions.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class ClientActionsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router, 
-              private actionsService: ClientActionsService) { }
+              private actionsService: ClientActionsService,
+              public readonly loginService: LoginService) { }
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
@@ -44,7 +46,6 @@ export class ClientActionsComponent implements OnInit {
     this.sortedData = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'name': return compare(a.service.name, b.service.name, isAsc);
         case 'originalPrice': return compare(a.originalPrice, b.originalPrice, isAsc);
         case 'discount': return compare(a.discount, b.discount, isAsc);
         case 'price': return compare(a.price, b.price, isAsc);

@@ -16,8 +16,7 @@ export class AdventureDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, 
               private router: Router, 
-              private adventureDetailService: AdventureDetailService,
-              public readonly loginService: LoginService) { 
+              private adventureDetailService: AdventureDetailService) { 
 
   }
 
