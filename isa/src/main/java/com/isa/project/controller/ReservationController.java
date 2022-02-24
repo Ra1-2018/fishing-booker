@@ -137,11 +137,9 @@ public class ReservationController {
             AdditionalService additionalService = new AdditionalService(dto.getId(), dto.getName(), dto.getPrice(), service, new HashSet<>(), new HashSet<>());
             reservation.addAdditionalService(additionalService);
         }
-        //reservation.setAdditionalServices(additionalServices);
         reservation.setPrice(reservationDTO.getPrice());
         reservation.setClient(client);
         reservation.setService(service);
-        reservation.setLocation(reservationDTO.getLocation());
         if(!serviceService.IsReservationValid(reservation)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

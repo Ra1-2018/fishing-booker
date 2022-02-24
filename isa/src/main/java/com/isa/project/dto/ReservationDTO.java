@@ -16,11 +16,10 @@ public class ReservationDTO {
     private double price;
     private AppUserDTO client;
     private ServiceDTO service;
-    private String location;
 
     public ReservationDTO() {}
 
-    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int numberOfPeople, Set<AdditionalServiceDTO> additionalServices, double price, AppUserDTO client, ServiceDTO service, String location) {
+    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int numberOfPeople, Set<AdditionalServiceDTO> additionalServices, double price, AppUserDTO client, ServiceDTO service) {
         this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
         this.durationInDays = durationInDays;
@@ -29,7 +28,6 @@ public class ReservationDTO {
         this.price = price;
         this.client = client;
         this.service = service;
-        this.location = location;
     }
 
     public ReservationDTO(Reservation reservation) {
@@ -44,7 +42,6 @@ public class ReservationDTO {
         this.price = reservation.getPrice();
         this.client = new AppUserDTO(reservation.getClient());
         this.service = new ServiceDTO(reservation.getService());
-        this.location = reservation.getLocation();
     }
 
     public long getId() {
@@ -79,7 +76,4 @@ public class ReservationDTO {
         return service;
     }
 
-    public String getLocation() {
-        return location;
-    }
 }

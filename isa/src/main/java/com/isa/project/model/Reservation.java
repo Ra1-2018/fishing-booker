@@ -13,8 +13,6 @@ public class Reservation {
     @Column
     private Date reservationStartDateAndTime;
     @Column
-    private String location;
-    @Column
     private int durationInDays;
     @Column
     private int numberOfPeople;
@@ -39,10 +37,9 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(long id, Date reservationStartDateAndTime, String location, int durationInDays, int numberOfPeople, Set<AdditionalService> additionalServices, double price, Service service, Client client) {
+    public Reservation(long id, Date reservationStartDateAndTime, int durationInDays, int numberOfPeople, Set<AdditionalService> additionalServices, double price, Service service, Client client) {
         this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
-        this.location = location;
         this.durationInDays = durationInDays;
         this.numberOfPeople = numberOfPeople;
         this.additionalServices = additionalServices;
@@ -65,14 +62,6 @@ public class Reservation {
 
     public void setReservationStartDateAndTime(Date reservationStartDateAndTime) {
         this.reservationStartDateAndTime = reservationStartDateAndTime;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public int getDurationInDays() {

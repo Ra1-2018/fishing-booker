@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
@@ -19,10 +20,11 @@ export class ClientOrdinaryReservationComponent implements OnInit {
                       additionalServices: [],
                       price: 0.0,
                       client: {},
-                      service: {},
-                      location: ''
+                      service: {}
                     };
-  viewedService: any = {}
+  viewedService: any = {
+    additionalServices: []
+  }
 
   public readonly myFormGroup: FormGroup;
 
@@ -49,7 +51,6 @@ export class ClientOrdinaryReservationComponent implements OnInit {
     this.reservation.reservationStartDateAndTime = this.myFormGroup.controls['startDate'].value;
     this.reservation.durationInDays = this.myFormGroup.controls['durationInDays'].value;
     this.reservation.numberOfPeople = this.myFormGroup.controls['numberOfPeople'].value;
-    this.reservation.location = this.myFormGroup.controls['address'].value;
     this.reservationService.getServices(this.myFormGroup.getRawValue()).subscribe(
       services => {
         this.services = services;
@@ -79,9 +80,13 @@ export class ClientOrdinaryReservationComponent implements OnInit {
 
   makeReservation() {
     this.reservationService.makeReservation(this.reservation).subscribe({
-      next: response => {alert("Successful reservation");
-                   location.reload();
-                  },
+      next: response => {
+        document.getElementById("closeButton")?.click();
+        alert("Successful reservation");
+        this.services = [];
+        this.sortedData = [];
+        this.myFormGroup.reset();
+      },
       error: error => alert("An error occured.")
       });
   }
