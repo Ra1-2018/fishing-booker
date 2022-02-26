@@ -79,4 +79,63 @@ public class ServiceService {
             }
         }
     }
+
+    public void RestoreFreePeriod(Reservation reservation) {
+        com.isa.project.model.Service service = reservation.getService();
+        Date reservationStartTime = reservation.getReservationStartDateAndTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(reservationStartTime);
+        c.add(Calendar.DATE, reservation.getDurationInDays());
+        Date reservationEndTime = c.getTime();
+        TimeRange freePeriodBefore = null;
+        TimeRange freePeriodAfter = null;
+        for(TimeRange timeRange: service.getFreePeriods()) {
+            if(reservationStartTime.compareTo(timeRange.getEndDate()) == 0) {
+                freePeriodBefore = timeRange;
+            }
+            else if(reservationEndTime.compareTo(timeRange.getStartDate()) == 0) {
+                freePeriodAfter = timeRange;
+            }
+        }
+        if(freePeriodBefore != null && freePeriodAfter != null) {
+            TimeRange restoredFreePeriod = new TimeRange();
+            restoredFreePeriod.setService(service);
+            restoredFreePeriod.setStartDate(freePeriodBefore.getStartDate());
+            restoredFreePeriod.setEndDate(freePeriodAfter.getEndDate());
+            service.removeFreePeriod(freePeriodBefore);
+            service.removeFreePeriod(freePeriodAfter);
+            timeRangeService.save(freePeriodBefore);
+            timeRangeService.save(freePeriodAfter);
+            timeRangeService.deleteById(freePeriodBefore.getId());
+            timeRangeService.deleteById(freePeriodAfter.getId());
+            timeRangeService.save(restoredFreePeriod);
+        }
+        else if(freePeriodBefore != null) {
+            TimeRange restoredFreePeriod = new TimeRange();
+            restoredFreePeriod.setService(service);
+            restoredFreePeriod.setStartDate(freePeriodBefore.getStartDate());
+            restoredFreePeriod.setEndDate(reservationEndTime);
+            service.removeFreePeriod(freePeriodBefore);
+            timeRangeService.save(freePeriodBefore);
+            timeRangeService.deleteById(freePeriodBefore.getId());
+            timeRangeService.save(restoredFreePeriod);
+        }
+        else if(freePeriodAfter != null) {
+            TimeRange restoredFreePeriod = new TimeRange();
+            restoredFreePeriod.setService(service);
+            restoredFreePeriod.setStartDate(reservationStartTime);
+            restoredFreePeriod.setEndDate(freePeriodAfter.getEndDate());
+            service.removeFreePeriod(freePeriodAfter);
+            timeRangeService.save(freePeriodAfter);
+            timeRangeService.deleteById(freePeriodAfter.getId());
+            timeRangeService.save(restoredFreePeriod);
+        }
+        else {
+            TimeRange restoredFreePeriod = new TimeRange();
+            restoredFreePeriod.setService(service);
+            restoredFreePeriod.setStartDate(reservationStartTime);
+            restoredFreePeriod.setEndDate(reservationEndTime);
+            timeRangeService.save(restoredFreePeriod);
+        }
+    }
 }

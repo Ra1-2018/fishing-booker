@@ -152,4 +152,16 @@ public class ReservationController {
         }
         return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> cancelReservation(@PathVariable long id) {
+        Reservation reservation = reservationService.findById(id);
+        if(reservation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        serviceService.RestoreFreePeriod(reservation);
+        reservationService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
