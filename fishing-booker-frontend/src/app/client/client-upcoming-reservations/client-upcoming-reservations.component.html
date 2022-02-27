@@ -5,6 +5,7 @@
       <th mat-sort-header="price">Price</th>
       <th mat-sort-header="reservationStartDateAndTime">Reservation date</th>
       <th mat-sort-header="durationInDays">Number of days</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -13,6 +14,7 @@
       <td>{{reservation.price}}</td>
       <td>{{reservation.reservationStartDateAndTime | date:'longDate'}}</td>
       <td>{{reservation.durationInDays}}</td>
+      <td><button *ngIf="isInMoreThanThreeDays(reservation)" class="btn btn-secondary btn-sm" (click)="cancelReservation(reservation)">Cancel reservation</button></td>
     </tr>
   </tbody>
 </table>

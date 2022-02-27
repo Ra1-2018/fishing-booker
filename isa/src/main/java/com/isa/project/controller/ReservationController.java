@@ -154,7 +154,7 @@ public class ReservationController {
     }
 
     @PreAuthorize("hasRole('CLIENT')")
-    @DeleteMapping(value = "/{id}")
+    @GetMapping(value = "cancel/{id}")
     public ResponseEntity<Void> cancelReservation(@PathVariable long id) {
         Reservation reservation = reservationService.findById(id);
         if(reservation == null) {
