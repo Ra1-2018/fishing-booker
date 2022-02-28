@@ -160,6 +160,14 @@ public class ReservationController {
         if(reservation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Date reservationStartTime = reservation.getReservationStartDateAndTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(reservationStartTime);
+        c.add(Calendar.DATE, -3);
+        Date threeDaysBeforeReservation = c.getTime();
+        if(new Date().after(threeDaysBeforeReservation)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         serviceService.RestoreFreePeriod(reservation);
         reservationService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
