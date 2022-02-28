@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class ActionService {
     @Autowired
-    ActionRepository actionRepository;
+    private ActionRepository actionRepository;
 
     public List<Action> findByService(com.isa.project.model.Service service) {return actionRepository.findByService(service); }
 

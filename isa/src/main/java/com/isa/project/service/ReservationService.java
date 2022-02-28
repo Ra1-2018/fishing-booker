@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class ReservationService {
     @Autowired
-    ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
     public List<Reservation> findByClient(Client client) { return reservationRepository.findByClient(client); }
     public Reservation save(Reservation reservation) { return reservationRepository.save(reservation); }
     public Reservation findById(Long id) { return reservationRepository.findById(id).orElse(null); }
