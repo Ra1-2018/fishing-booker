@@ -3,6 +3,7 @@ package com.isa.project.controller;
 import com.isa.project.dto.AdditionalServiceDTO;
 import com.isa.project.dto.ReservationDTO;
 import com.isa.project.model.*;
+import com.isa.project.service.AdditionalServiceService;
 import com.isa.project.service.AppUserService;
 import com.isa.project.service.ReservationService;
 import com.isa.project.service.ServiceService;
@@ -30,6 +31,9 @@ public class ReservationController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private AdditionalServiceService additionalServiceService;
 
     @PreAuthorize("hasRole('CLIENT')")
     @GetMapping(value = "client/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -134,8 +138,8 @@ public class ReservationController {
         reservation.setNumberOfPeople(reservationDTO.getNumberOfPeople());
         Set<AdditionalService> additionalServices = new HashSet<>();
         for(AdditionalServiceDTO dto : reservationDTO.getAdditionalServices()) {
-            AdditionalService additionalService = new AdditionalService(dto.getId(), dto.getName(), dto.getPrice(), service, new HashSet<>(), new HashSet<>());
-            reservation.addAdditionalService(additionalService);//CHANGE
+            AdditionalService additionalService = additionalServiceService.findById(dto.getId());
+            reservation.addAdditionalService(additionalService);
         }
         reservation.setPrice(reservationDTO.getPrice());
         reservation.setClient(client);
@@ -144,7 +148,7 @@ public class ReservationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         serviceService.RemoveFreePeriod(reservation);
-        reservationService.save(reservation);
+        reservation = reservationService.save(reservation);
         try {
             emailService.sendReservationNotification(reservation);
         } catch (InterruptedException e) {
