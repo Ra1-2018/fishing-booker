@@ -89,7 +89,6 @@ import { ClientActionsComponent } from './client/client-actions/client-actions.c
     SearchPipe,
     ClientOrdinaryReservationComponent,
     ClientActionsComponent
-
   ],
   imports: [
     BrowserModule,
