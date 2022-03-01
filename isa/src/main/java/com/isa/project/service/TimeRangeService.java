@@ -33,7 +33,7 @@ public class TimeRangeService {
         return timeRangeRepository.save(timeRange);
     }
 
-    public void remove(long id) {
+    public void deleteById(long id) {
         timeRangeRepository.deleteById(id);
     }
 }

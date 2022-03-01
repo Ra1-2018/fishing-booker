@@ -7,7 +7,7 @@ import java.util.Date;
 public class TimeRange {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column
     private Date startDate;
     @Column
@@ -18,18 +18,18 @@ public class TimeRange {
 
     public TimeRange() {}
 
-    public TimeRange(long id, Date startDate, Date endDate, Service service) {
+    public TimeRange(Long id, Date startDate, Date endDate, Service service) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.service = service;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

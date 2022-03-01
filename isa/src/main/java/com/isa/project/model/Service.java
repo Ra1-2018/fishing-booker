@@ -19,11 +19,13 @@ public abstract class Service {
     @Column
     private String behaviorRules;
     @Column
-    private String priceList;
+    private double pricePerDay;
     @Column
     private String address;
     @Column
     private ServiceType serviceType;
+    @Column
+    private int maxNumberOfPeople;
 
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
@@ -31,18 +33,31 @@ public abstract class Service {
     @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<TimeRange> freePeriods = new HashSet<>();
 
+    @OneToMany(mappedBy = "service", fetch =  FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<AdditionalService> additionalServices = new HashSet<>();
+
+    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Action> actions = new HashSet<>();
+
+    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Review> reviews = new HashSet<>();
+
     public Service() {}
 
-    public Service(long id, String name, String description, String behaviorRules, String priceList, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods) {
+    public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.behaviorRules = behaviorRules;
-        this.priceList = priceList;
+        this.pricePerDay = pricePerDay;
         this.address = address;
         this.serviceType = serviceType;
         this.reservations = reservations;
         this.freePeriods = freePeriods;
+        this.maxNumberOfPeople = maxNumberOfPeople;
+        this.additionalServices = additionalServices;
+        this.actions = actions;
+        this.reviews = reviews;
     }
 
     public long getId() {
@@ -77,12 +92,12 @@ public abstract class Service {
         this.behaviorRules = behaviorRules;
     }
 
-    public String getPriceList() {
-        return priceList;
+    public double getPricePerDay() {
+        return pricePerDay;
     }
 
-    public void setPriceList(String priceList) {
-        this.priceList = priceList;
+    public void setPricePerDay(double pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 
     public String getAddress() {
@@ -113,7 +128,49 @@ public abstract class Service {
 
     public void setFreePeriods(Set<TimeRange> freePeriods) { this.freePeriods = freePeriods; }
 
-    public boolean addFreePeriod(TimeRange newFreePeriod) {
+    public int getMaxNumberOfPeople() {
+        return maxNumberOfPeople;
+    }
+
+    public void setMaxNumberOfPeople(int maxNumberOfPeople) {
+        this.maxNumberOfPeople = maxNumberOfPeople;
+    }
+
+    public void addFreePeriod(TimeRange freePeriod) {
+        freePeriods.add(freePeriod);
+        freePeriod.setService(this);
+    }
+
+    public void removeFreePeriod(TimeRange freePeriod) {
+        freePeriods.remove(freePeriod);
+        freePeriod.setService(null);
+    }
+
+    public Set<AdditionalService> getAdditionalServices() {
+        return additionalServices;
+    }
+
+    public void setAdditionalServices(Set<AdditionalService> additionalServices) {
+        this.additionalServices = additionalServices;
+    }
+
+    public Set<Action> getActions() {
+        return actions;
+    }
+
+    public void setActions(Set<Action> actions) {
+        this.actions = actions;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    /*public boolean addFreePeriod(TimeRange newFreePeriod) {
 
         Date newEndDate = newFreePeriod.getEndDate();
         Date newStartDate = newFreePeriod.getStartDate();
@@ -147,6 +204,5 @@ public abstract class Service {
                 }
             }
             return false;
-        }
-    }
+        }*/
 }

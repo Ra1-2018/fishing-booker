@@ -9,10 +9,10 @@ public class AdventureDTO {
     private String address;
     private String description;
     private String instructorBiography;
-    private int maxPeople;
+    private int maxNumberOfPeople;
     private String behaviorRules;
     private String fishingGear;
-    private String priceList;
+    private double pricePerDay;
     private ReservationCancellation cancellation;
     private AppUserDTO instructor;
 
@@ -36,8 +36,8 @@ public class AdventureDTO {
         return instructorBiography;
     }
 
-    public int getMaxPeople() {
-        return maxPeople;
+    public int getMaxNumberOfPeople() {
+        return maxNumberOfPeople;
     }
 
     public String getBehaviorRules() {
@@ -48,8 +48,8 @@ public class AdventureDTO {
         return fishingGear;
     }
 
-    public String getPriceList() {
-        return priceList;
+    public double getPricePerDay() {
+        return pricePerDay;
     }
 
     public ReservationCancellation getCancellation() {
@@ -60,18 +60,18 @@ public class AdventureDTO {
         return instructor;
     }
 
-    public AdventureDTO(Adventure adventure) { this(adventure.getId(), adventure.getName(), adventure.getAddress(), adventure.getDescription(), adventure.getInstructorBiography(), adventure.getMaxPeople(), adventure.getBehaviorRules(), adventure.getFishingGear(), adventure.getPriceList(), adventure.getCancellation(), new AppUserDTO(adventure.getInstructor()));}
+    public AdventureDTO(Adventure adventure) { this(adventure.getId(), adventure.getName(), adventure.getAddress(), adventure.getDescription(), adventure.getInstructorBiography(), adventure.getMaxNumberOfPeople(), adventure.getBehaviorRules(), adventure.getFishingGear(), adventure.getPricePerDay(), adventure.getCancellation(), new AppUserDTO(adventure.getInstructor()));}
 
-    public AdventureDTO(long id, String name, String address, String description, String instructorBiography, int maxPeople, String behaviorRules, String fishingGear, String priceList, ReservationCancellation cancellation, AppUserDTO instructor) {
+    public AdventureDTO(long id, String name, String address, String description, String instructorBiography, int maxNumberOfPeople, String behaviorRules, String fishingGear, double pricePerDay, ReservationCancellation cancellation, AppUserDTO instructor) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.description = description;
         this.instructorBiography = instructorBiography;
-        this.maxPeople = maxPeople;
+        this.maxNumberOfPeople = maxNumberOfPeople;
         this.behaviorRules = behaviorRules;
         this.fishingGear = fishingGear;
-        this.priceList = priceList;
+        this.pricePerDay = pricePerDay;
         this.cancellation = cancellation;
         this.instructor = instructor;
     }

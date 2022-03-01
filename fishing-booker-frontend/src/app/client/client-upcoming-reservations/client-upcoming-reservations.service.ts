@@ -15,4 +15,11 @@ export class ClientUpcomingReservationsService {
       tap(data => console.log("data: ", data))
     )
   }
+
+  public cancelReservation(reservation: any) {
+    return this._http.get('http://localhost:8080/reservations/cancel/' + reservation.id)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
 }

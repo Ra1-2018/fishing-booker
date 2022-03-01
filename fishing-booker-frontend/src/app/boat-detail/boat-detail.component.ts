@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from '../login/login.service';
 import { BoatDetailService } from './boat-detail.service';
 
 @Component({
@@ -9,17 +10,18 @@ import { BoatDetailService } from './boat-detail.service';
 })
 export class BoatDetailComponent implements OnInit {
 
-  boat: any
-  errorMessage = ''
+  boat: any;
+  errorMessage = '';
+  id: number|undefined;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private boatDetailService: BoatDetailService) { }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.getBoat(id);
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.id) {
+      this.getBoat(this.id);
     }
   }
 

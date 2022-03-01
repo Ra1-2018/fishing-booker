@@ -45,6 +45,25 @@ export class ClientUpcomingReservationsComponent implements OnInit {
       }
     });
   }
+
+  isInMoreThanThreeDays(reservation: any):boolean {
+    let today = new Date();
+    let threeDaysBefore = new Date(reservation.reservationStartDateAndTime);
+    threeDaysBefore.setDate(threeDaysBefore.getDate() - 3);
+    return today.getTime() - threeDaysBefore.getTime() < 0;
+  }
+
+  cancelReservation(reservation: any) {
+    if(confirm("Are you sure to cancel your reservation? ")) {
+      this._reservationService.cancelReservation(reservation).subscribe({
+        next: () => {
+          alert("Reservation cancelled")
+          this.getReservations();
+        },
+        error: () => alert("An error occured")
+      })
+    }
+  }
 }
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {

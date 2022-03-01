@@ -2,6 +2,8 @@ package com.isa.project.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Reservation {
@@ -11,15 +13,18 @@ public class Reservation {
     @Column
     private Date reservationStartDateAndTime;
     @Column
-    private String location;
-    @Column
     private int durationInDays;
     @Column
-    private int maxPeople;
+    private int numberOfPeople;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "reservation_additional_service",
+            joinColumns = { @JoinColumn(name = "reservation_id") },
+            inverseJoinColumns = { @JoinColumn(name = "additional_service_id") }
+    )
+    private Set<AdditionalService> additionalServices = new HashSet<>();
     @Column
-    private String additionalServices;
-    @Column
-    private double price;
+    private double price; //racunica broja dana i cene po danu ( i broja ljudi)
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")
@@ -32,12 +37,11 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(long id, Date reservationStartDateAndTime, String location, int durationInDays, int maxPeople, String additionalServices, double price, Service service, Client client) {
+    public Reservation(long id, Date reservationStartDateAndTime, int durationInDays, int numberOfPeople, Set<AdditionalService> additionalServices, double price, Service service, Client client) {
         this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
-        this.location = location;
         this.durationInDays = durationInDays;
-        this.maxPeople = maxPeople;
+        this.numberOfPeople = numberOfPeople;
         this.additionalServices = additionalServices;
         this.price = price;
         this.service = service;
@@ -60,14 +64,6 @@ public class Reservation {
         this.reservationStartDateAndTime = reservationStartDateAndTime;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public int getDurationInDays() {
         return durationInDays;
     }
@@ -76,19 +72,19 @@ public class Reservation {
         this.durationInDays = durationInDays;
     }
 
-    public int getMaxPeople() {
-        return maxPeople;
+    public int getNumberOfPeople() {
+        return numberOfPeople;
     }
 
-    public void setMaxPeople(int maxPeople) {
-        this.maxPeople = maxPeople;
+    public void setNumberOfPeople(int numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
     }
 
-    public String getAdditionalServices() {
+    public Set<AdditionalService> getAdditionalServices() {
         return additionalServices;
     }
 
-    public void setAdditionalServices(String additionalServices) {
+    public void setAdditionalServices(Set<AdditionalService> additionalServices) {
         this.additionalServices = additionalServices;
     }
 
@@ -114,5 +110,10 @@ public class Reservation {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public void addAdditionalService(AdditionalService additionalService) {
+        additionalServices.add(additionalService);
+        additionalService.getReservations().add(this);
     }
 }

@@ -83,7 +83,8 @@ public class CottageController {
         cottage.setDescription(cottageDTO.getDescription());
         cottage.setName(cottageDTO.getName());
         cottage.setCottageOwner(cottageOwner);
-        cottage.setPriceList(cottageDTO.getPriceList());
+        cottage.setPricePerDay(cottageDTO.getPricePerDay());
+        cottage.setMaxNumberOfPeople(cottageDTO.getMaxNumberOfPeople());
         cottage.setRoomsTotalNumber(cottageDTO.getRoomsTotalNumber());
         cottage.setServiceType(ServiceType.COTTAGE);
         cottageService.save(cottage);
@@ -106,7 +107,8 @@ public class CottageController {
         cottage.setBehaviorRules(cottageDTO.getBehaviorRules());
         cottage.setDescription(cottageDTO.getDescription());
         cottage.setName(cottageDTO.getName());
-        cottage.setPriceList(cottageDTO.getPriceList());
+        cottage.setPricePerDay(cottageDTO.getPricePerDay());
+        cottage.setMaxNumberOfPeople(cottageDTO.getMaxNumberOfPeople());
         cottage.setCottageOwner(cottageOwnerService.findById(cottageDTO.getCottageOwner().getId()));
         cottage.setRoomsTotalNumber(cottageDTO.getRoomsTotalNumber());
 

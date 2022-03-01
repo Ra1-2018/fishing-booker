@@ -1,35 +1,48 @@
 package com.isa.project.dto;
 
+import com.isa.project.model.AdditionalService;
 import com.isa.project.model.Reservation;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ReservationDTO {
     private long id;
     private Date reservationStartDateAndTime;
     private int durationInDays;
-    private int maxPeople;
-    private String additionalServices;
+    private int numberOfPeople;
+    private Set<AdditionalServiceDTO> additionalServices;
     private double price;
     private AppUserDTO client;
     private ServiceDTO service;
-    private String location;
 
     public ReservationDTO() {}
 
-    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int maxPeople, String additionalServices, double price, AppUserDTO client, ServiceDTO service, String location) {
+    public ReservationDTO(long id, Date reservationStartDateAndTime, int durationInDays, int numberOfPeople, Set<AdditionalServiceDTO> additionalServices, double price, AppUserDTO client, ServiceDTO service) {
         this.id = id;
         this.reservationStartDateAndTime = reservationStartDateAndTime;
         this.durationInDays = durationInDays;
-        this.maxPeople = maxPeople;
+        this.numberOfPeople = numberOfPeople;
         this.additionalServices = additionalServices;
         this.price = price;
         this.client = client;
         this.service = service;
-        this.location = location;
     }
 
-    public ReservationDTO(Reservation reservation) { this(reservation.getId(), reservation.getReservationStartDateAndTime(), reservation.getDurationInDays(), reservation.getMaxPeople(), reservation.getAdditionalServices(), reservation.getPrice(), new AppUserDTO(reservation.getClient()), new ServiceDTO(reservation.getService()), reservation.getLocation());}
+    public ReservationDTO(Reservation reservation) {
+        this.id = reservation.getId();
+        this.reservationStartDateAndTime = reservation.getReservationStartDateAndTime();
+        this.durationInDays = reservation.getDurationInDays();
+        this.numberOfPeople = reservation.getNumberOfPeople();
+        this.additionalServices = new HashSet<>();
+        for(AdditionalService additionalService : reservation.getAdditionalServices()) {
+            this.additionalServices.add(new AdditionalServiceDTO(additionalService));
+        }
+        this.price = reservation.getPrice();
+        this.client = new AppUserDTO(reservation.getClient());
+        this.service = new ServiceDTO(reservation.getService());
+    }
 
     public long getId() {
         return id;
@@ -43,11 +56,11 @@ public class ReservationDTO {
         return durationInDays;
     }
 
-    public int getMaxPeople() {
-        return maxPeople;
+    public int getNumberOfPeople() {
+        return numberOfPeople;
     }
 
-    public String getAdditionalServices() {
+    public Set<AdditionalServiceDTO> getAdditionalServices() {
         return additionalServices;
     }
 
@@ -63,7 +76,4 @@ public class ReservationDTO {
         return service;
     }
 
-    public String getLocation() {
-        return location;
-    }
 }

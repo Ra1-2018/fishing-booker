@@ -5,6 +5,7 @@
       <th mat-sort-header="price">Price</th>
       <th mat-sort-header="reservationStartDateAndTime">Reservation date</th>
       <th mat-sort-header="durationInDays">Number of days</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -13,6 +14,45 @@
       <td>{{reservation.price}}</td>
       <td>{{reservation.reservationStartDateAndTime | date:'longDate'}}</td>
       <td>{{reservation.durationInDays}}</td>
+      <td><button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="selectService(reservation.service)">Post review</button></td>
     </tr>
   </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Post review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+              <div class="col">
+                  <ng-container [formGroup]="this.myFormGroup">
+                      <div class="mb-3">
+                          <label for="service" class="form-label"> Service:</label>
+                          <label id="service" class="form-control border-0">{{this.service.name}}</label>
+                      </div>
+                      <div class="mb-3">
+                          <label for="grade" class="form-label">Grade:</label>
+                          <input type="number" class="form-control" min="1" max="5" id="grade" placeholder="grade" formControlName="grade">
+                      </div>
+                      <div class="mb-3">
+                          <label for="revision" class="form-label">Revision:</label>
+                          <textarea rows="3" type="text" class="form-control" id="revision" placeholder="revision" formControlName="revision"></textarea>
+                      </div>
+                      <div class="modal-footer">
+                        <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" (click)="onClickSubmit()">OK</button>
+                      </div>
+                  </ng-container>
+              </div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from '../login/login.service';
 import { AdventureDetailService } from './adventure-detail.service';
 
 @Component({
@@ -11,6 +12,7 @@ export class AdventureDetailComponent implements OnInit {
 
   adventure: any;
   errorMessage = '';
+  id: number|undefined;
 
   constructor(private route: ActivatedRoute, 
               private router: Router, 
@@ -19,9 +21,9 @@ export class AdventureDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.getAdventure(id);
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.id) {
+      this.getAdventure(this.id);
     }
   }
 

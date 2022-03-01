@@ -9,8 +9,6 @@ public class Adventure extends Service{
     @Column
     private String instructorBiography;
     @Column
-    private int maxPeople;
-    @Column
     private String fishingGear;
     @Column
     private ReservationCancellation cancellation;
@@ -24,10 +22,9 @@ public class Adventure extends Service{
     }
 
 
-    public Adventure(long id, String name, String description, String behaviorRules, String priceList, String address, String instructorBiography, int maxPeople, Set<Reservation> reservations, String fishingGear, ReservationCancellation cancellation, Instructor instructor, Set<TimeRange> freeReservations) {
-        super(id, name, description, behaviorRules, priceList, address, ServiceType.ADVENTURE, reservations, freeReservations);
+    public Adventure(long id, String name, String description, String behaviorRules, double pricePerDay, String address, String instructorBiography, Set<Reservation> reservations, String fishingGear, ReservationCancellation cancellation, Instructor instructor, Set<TimeRange> freeReservations, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews) {
+        super(id, name, description, behaviorRules, pricePerDay, address, ServiceType.ADVENTURE, reservations, freeReservations, maxNumberOfPeople, additionalServices, actions, reviews);
         this.instructorBiography = instructorBiography;
-        this.maxPeople = maxPeople;
         this.fishingGear = fishingGear;
         this.cancellation = cancellation;
         this.instructor = instructor;
@@ -39,14 +36,6 @@ public class Adventure extends Service{
 
     public void setInstructorBiography(String instructorBiography) {
         this.instructorBiography = instructorBiography;
-    }
-
-    public int getMaxPeople() {
-        return maxPeople;
-    }
-
-    public void setMaxPeople(int maxPeople) {
-        this.maxPeople = maxPeople;
     }
 
     public String getFishingGear() {

@@ -19,8 +19,6 @@ public class Boat extends Service{
     @Column
     private String navigationEquipment;
     @Column
-    private int capacity;
-    @Column
     private String fishingEquipment;
     @Column
     private String cancellationTerms;
@@ -33,15 +31,14 @@ public class Boat extends Service{
         super();
     }
 
-    public Boat(long id, String name, String description, String behaviorRules, String priceList, String address, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, int capacity, String fishingEquipment, String cancellationTerms, Set<Reservation> reservations, BoatOwner boatOwner, Set<TimeRange> freeReservations) {
-        super(id, name, description, behaviorRules, priceList, address, ServiceType.BOAT, reservations, freeReservations);
+    public Boat(long id, String name, String description, String behaviorRules, double pricePerDay, String address, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String fishingEquipment, String cancellationTerms, Set<Reservation> reservations, BoatOwner boatOwner, Set<TimeRange> freeReservations, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews) {
+        super(id, name, description, behaviorRules, pricePerDay, address, ServiceType.BOAT, reservations, freeReservations, maxNumberOfPeople, additionalServices, actions, reviews);
         this.type = type;
         this.length = length;
         this.numberOfEngines = numberOfEngines;
         this.enginePower = enginePower;
         this.maximumVelocity = maximumVelocity;
         this.navigationEquipment = navigationEquipment;
-        this.capacity = capacity;
         this.fishingEquipment = fishingEquipment;
         this.cancellationTerms = cancellationTerms;
         this.boatOwner = boatOwner;
@@ -93,14 +90,6 @@ public class Boat extends Service{
 
     public void setNavigationEquipment(String navigationEquipment) {
         this.navigationEquipment = navigationEquipment;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
     }
 
     public String getFishingEquipment() {

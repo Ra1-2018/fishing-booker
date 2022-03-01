@@ -79,7 +79,7 @@ public class BoatController {
         boat.setBoatOwner(boatOwner);
         boat.setName(boatDTO.getName());
         boat.setDescription(boatDTO.getDescription());
-        boat.setCapacity(boatDTO.getCapacity());
+        boat.setMaxNumberOfPeople(boatDTO.getMaxNumberOfPeople());
         boat.setEnginePower(boatDTO.getEnginePower());
         boat.setCancellationTerms(boatDTO.getCancellationTerms());
         boat.setFishingEquipment(boatDTO.getFishingEquipment());
@@ -88,7 +88,7 @@ public class BoatController {
         boat.setNumberOfEngines(boatDTO.getNumberOfEngines());
         boat.setType(boatDTO.getType());
         boat.setMaximumVelocity(boatDTO.getMaximumVelocity());
-        boat.setPriceList(boatDTO.getPriceList());
+        boat.setPricePerDay(boatDTO.getPricePerDay());
 
         boatOwner.addBoat(boat);
 
@@ -111,7 +111,7 @@ public class BoatController {
         boat.setBoatOwner(boatOwnerService.findOneWithBoats(boatDTO.getBoatOwner().getId()));
         boat.setName(boatDTO.getName());
         boat.setDescription(boatDTO.getDescription());
-        boat.setCapacity(boatDTO.getCapacity());
+        boat.setMaxNumberOfPeople(boatDTO.getMaxNumberOfPeople());
         boat.setEnginePower(boatDTO.getEnginePower());
         boat.setCancellationTerms(boatDTO.getCancellationTerms());
         boat.setFishingEquipment(boatDTO.getFishingEquipment());
@@ -120,7 +120,7 @@ public class BoatController {
         boat.setNumberOfEngines(boatDTO.getNumberOfEngines());
         boat.setType(boatDTO.getType());
         boat.setMaximumVelocity(boatDTO.getMaximumVelocity());
-        boat.setPriceList(boatDTO.getPriceList());
+        boat.setPricePerDay(boatDTO.getPricePerDay());
 
         boat = boatService.save(boat);
         return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.OK);

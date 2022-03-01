@@ -15,4 +15,11 @@ export class ClientCottageReservationsService {
       tap(data => console.log("data: ", data))
     )
   }
+
+  postReview(review: any): Observable<any> {
+    return this._http.post<Observable<any>>('http://localhost:8080/reviews', review)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
 }

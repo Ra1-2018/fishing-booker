@@ -1,7 +1,6 @@
 package com.isa.project.dto;
 
 import com.isa.project.model.Cottage;
-import com.isa.project.model.CottageOwner;
 
 public class CottageDTO {
     private long id;
@@ -11,13 +10,14 @@ public class CottageDTO {
     private int roomsTotalNumber;
     private String behaviorRules;
     private AppUserDTO cottageOwner;
-    private String priceList;
+    private double pricePerDay;
+    private int maxNumberOfPeople;
 
     public CottageDTO() { }
 
-    public CottageDTO(Cottage cottage) { this(cottage.getId(), cottage.getName(), cottage.getAddress(), cottage.getDescription(), cottage.getRoomsTotalNumber(), cottage.getBehaviorRules(), new AppUserDTO(cottage.getCottageOwner()), cottage.getPriceList()); }
+    public CottageDTO(Cottage cottage) { this(cottage.getId(), cottage.getName(), cottage.getAddress(), cottage.getDescription(), cottage.getRoomsTotalNumber(), cottage.getBehaviorRules(), new AppUserDTO(cottage.getCottageOwner()), cottage.getPricePerDay(), cottage.getMaxNumberOfPeople()); }
 
-    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner, String priceList) {
+    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner, double pricePerDay, int maxNumberOfPeople) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -25,8 +25,8 @@ public class CottageDTO {
         this.roomsTotalNumber = roomsTotalNumber;
         this.behaviorRules = behaviorRules;
         this.cottageOwner = cottageOwner;
-        this.priceList = priceList;
-
+        this.pricePerDay = pricePerDay;
+        this.maxNumberOfPeople = maxNumberOfPeople;
     }
 
     public long getId() { return id; }
@@ -43,7 +43,11 @@ public class CottageDTO {
 
     public AppUserDTO getCottageOwner() { return cottageOwner; }
 
-    public String getPriceList() {
-        return priceList;
+    public double getPricePerDay() {
+        return pricePerDay;
+    }
+
+    public int getMaxNumberOfPeople() {
+        return maxNumberOfPeople;
     }
 }

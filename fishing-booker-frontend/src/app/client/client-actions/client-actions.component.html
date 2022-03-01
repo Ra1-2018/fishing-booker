@@ -1,0 +1,22 @@
+<table matSort (matSortChange)="sortData($event)" class="table">
+    <thead>
+      <tr>
+        <th mat-sort-header="originalPrice">Original price</th>
+        <th mat-sort-header="discount">Discount</th>
+        <th mat-sort-header="price">Price</th>
+        <th mat-sort-header="startTime">Start time</th>
+        <th mat-sort-header="durationInDays">Number of days</th>
+        <th *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let action of sortedData">
+        <td>{{action.originalPrice}}</td>
+        <td>{{action.discount * 100 | number : '1.0-0'}}%</td>
+        <td>{{action.price}}</td>
+        <td>{{action.startTime | date:'short'}}</td>
+        <td>{{action.durationInDays}}</td>
+        <td *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'"><button class="btn btn-secondary btn-sm" (click)="makeReservation(action)">Make reservation</button></td>
+      </tr>
+    </tbody>
+  </table>

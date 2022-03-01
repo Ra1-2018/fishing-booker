@@ -1,24 +1,21 @@
 package com.isa.project.controller;
 
+import com.isa.project.dto.AdditionalServiceDTO;
 import com.isa.project.dto.ReservationDTO;
-import com.isa.project.model.Client;
-import com.isa.project.model.Reservation;
-import com.isa.project.model.ServiceType;
+import com.isa.project.model.*;
+import com.isa.project.service.AdditionalServiceService;
 import com.isa.project.service.AppUserService;
 import com.isa.project.service.ReservationService;
+import com.isa.project.service.ServiceService;
+import com.isa.project.verification.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 @RestController
 @RequestMapping("/reservations")
@@ -28,6 +25,15 @@ public class ReservationController {
 
     @Autowired
     private AppUserService appUserService;
+
+    @Autowired
+    private ServiceService serviceService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private AdditionalServiceService additionalServiceService;
 
     @PreAuthorize("hasRole('CLIENT')")
     @GetMapping(value = "client/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -110,5 +116,64 @@ public class ReservationController {
             }
         }
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReservationDTO> save(@RequestBody ReservationDTO reservationDTO) {
+        Service service = serviceService.findById(reservationDTO.getService().getId());
+        if(service == null) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        Client client = (Client) appUserService.findOne(reservationDTO.getClient().getId());
+
+        if(client == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Reservation reservation = new Reservation();
+        reservation.setReservationStartDateAndTime(reservationDTO.getReservationStartDateAndTime());
+        reservation.setDurationInDays(reservationDTO.getDurationInDays());
+        reservation.setNumberOfPeople(reservationDTO.getNumberOfPeople());
+        Set<AdditionalService> additionalServices = new HashSet<>();
+        for(AdditionalServiceDTO dto : reservationDTO.getAdditionalServices()) {
+            AdditionalService additionalService = additionalServiceService.findById(dto.getId());
+            reservation.addAdditionalService(additionalService);
+        }
+        reservation.setPrice(reservationDTO.getPrice());
+        reservation.setClient(client);
+        reservation.setService(service);
+        if(!serviceService.IsReservationValid(reservation)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        serviceService.RemoveFreePeriod(reservation);
+        reservation = reservationService.save(reservation);
+        try {
+            emailService.sendReservationNotification(reservation);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping(value = "cancel/{id}")
+    public ResponseEntity<Void> cancelReservation(@PathVariable long id) {
+        Reservation reservation = reservationService.findById(id);
+        if(reservation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Date reservationStartTime = reservation.getReservationStartDateAndTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(reservationStartTime);
+        c.add(Calendar.DATE, -3);
+        Date threeDaysBeforeReservation = c.getTime();
+        if(new Date().after(threeDaysBeforeReservation)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        serviceService.RestoreFreePeriod(reservation);
+        reservationService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
