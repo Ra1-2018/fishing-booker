@@ -1,41 +1,39 @@
 package com.isa.project.service;
 
-import com.isa.project.model.AppUser;
 import com.isa.project.model.Cottage;
-import com.isa.project.model.CottageOwner;
 import com.isa.project.model.TimeRange;
 import com.isa.project.repository.CottageRepository;
 import com.isa.project.repository.TimeRangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Service
-public class CottageService{
+public class TimeRangeService {
 
     @Autowired
     private CottageRepository cottageRepository;
+    @Autowired
     private TimeRangeRepository timeRangeRepository;
 
-    public List<Cottage> findAll() {
-        return cottageRepository.findAll();
+    public List<TimeRange> findAll() {
+        return timeRangeRepository.findAll();
     }
 
-    public List<Cottage> findCottagesByOwner(CottageOwner cottageOwner) { return cottageRepository.findCottagesByOwner(cottageOwner); }
+    //public List<TimeRange> findTimeRangeByService(Service service) { return timeRangeRepository.findTimeRangeByService(service); }
 
-    public Cottage findById(Long id) {
-        return cottageRepository.findById(id).orElse(null);
+    public TimeRange findById(Long id) {
+        return timeRangeRepository.findById(id).orElse(null);
     }
 
-    public Cottage save(Cottage cottage) {
-        return cottageRepository.save(cottage);
+    public TimeRange save(TimeRange timeRange) {
+        return timeRangeRepository.save(timeRange);
     }
 
     public void remove(long id) {
-        cottageRepository.deleteById(id);
+        timeRangeRepository.deleteById(id);
     }
 }

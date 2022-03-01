@@ -61,6 +61,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SearchPipe } from './search.pipe';
+import { CottageDetailOwnerComponent } from './cottage-detail-owner/cottage-detail-owner.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { SearchPipe } from './search.pipe';
     BoatEditComponent,
     ClientAdventureReservationsComponent,
     ClientUpcomingReservationsComponent,
-    SearchPipe
+    SearchPipe,
+    CottageDetailOwnerComponent
 
   ],
   imports: [

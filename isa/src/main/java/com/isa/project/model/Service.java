@@ -1,6 +1,7 @@
 package com.isa.project.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public abstract class Service {
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
 
-    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<TimeRange> freePeriods = new HashSet<>();
 
     public Service() {}
@@ -108,7 +109,44 @@ public abstract class Service {
         this.reservations = reservations;
     }
 
-    public Set<TimeRange> getFreePeriods() { return freePeriods; }
+    public Set<TimeRange> getFreePeriods() { return freePeriods;}
 
     public void setFreePeriods(Set<TimeRange> freePeriods) { this.freePeriods = freePeriods; }
+
+    public boolean addFreePeriod(TimeRange newFreePeriod) {
+
+        Date newEndDate = newFreePeriod.getEndDate();
+        Date newStartDate = newFreePeriod.getStartDate();
+        Set<TimeRange> freePeriods = newFreePeriod.getService().getFreePeriods();
+        if (freePeriods.size() == 0) {
+            newFreePeriod.setId(0);
+            freePeriods.add(newFreePeriod);
+            newFreePeriod.setService(this);
+            return true;
+        }
+        else {
+            for (TimeRange period : freePeriods) {
+                Date oldStartDate = period.getStartDate();
+                Date oldEndDate = period.getEndDate();
+
+                if (newStartDate.before(oldStartDate) & newEndDate.after(oldEndDate)) {
+                    period.setStartDate(newStartDate);
+                    period.setEndDate(newEndDate);
+                    return false;
+                } else if (newStartDate.before(oldStartDate) & newEndDate.before(oldEndDate)) {
+                    period.setStartDate(newStartDate);
+                    return false;
+                } else if (newStartDate.after(oldStartDate) & newEndDate.after(oldEndDate)) {
+                    period.setEndDate(newEndDate);
+                    return false;
+
+                } else {
+                    freePeriods.add(newFreePeriod);
+                    newFreePeriod.setService(this);
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 }

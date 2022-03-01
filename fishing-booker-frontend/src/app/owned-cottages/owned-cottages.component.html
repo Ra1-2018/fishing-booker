@@ -22,10 +22,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let cottage of sortedData | search: query">
-          <td class="col-3" [routerLink]="['/cottage-edit', cottage.id]" >{{cottage.name}}</td>
-          <td class="col-3" [routerLink]="['/cottage-edit', cottage.id]" >{{cottage.address}}</td>
-          <td class="col-2" [routerLink]="['/cottage-edit', cottage.id]" >{{cottage.roomsTotalNumber}}</td>
-          <td class="col-3" [routerLink]="['/cottage-edit', cottage.id]" >{{cottage.description}}</td>
+          <td class="col-3" [routerLink]="['/cottage-detail-owner', cottage.id]" >{{cottage.name}}</td>
+          <td class="col-3" [routerLink]="['/cottage-detail-owner', cottage.id]" >{{cottage.address}}</td>
+          <td class="col-2" [routerLink]="['/cottage-detail-owner', cottage.id]" >{{cottage.roomsTotalNumber}}</td>
+          <td class="col-3" [routerLink]="['/cottage-detail-owner', cottage.id]" >{{cottage.description}}</td>
           <td class="col-1"><button class="btn btn-secondary" (click)="onClickDelete(cottage.id);">Delete</button> </td>
         </tr>
       </tbody>
@@ -37,7 +37,7 @@
     <div class="modal-dialog" data-target="#modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalDialog">Modal title</h5>
+          <h5 class="modal-title" id="modalDialog">New cottage</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
