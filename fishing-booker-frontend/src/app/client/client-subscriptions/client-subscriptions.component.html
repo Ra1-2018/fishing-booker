@@ -1,0 +1,18 @@
+<table matSort (matSortChange)="sortData($event)" class="table">
+    <thead>
+      <tr>
+        <th mat-sort-header="name">Name</th>
+        <th mat-sort-header="address">Address</th>
+        <th mat-sort-header="capacity">Capacity</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let service of sortedData">
+        <td>{{service.name}}</td>
+        <td>{{service.address}}</td>
+        <td>{{service.maxNumberOfPeople}}</td>
+        <td><button class="btn btn-secondary btn-sm" (click)="unsubscribe(service)">Unsubscribe</button></td>
+      </tr>
+    </tbody>
+  </table>

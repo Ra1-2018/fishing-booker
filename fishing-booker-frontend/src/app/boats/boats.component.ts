@@ -39,7 +39,7 @@ export class BoatsComponent implements OnInit {
       switch (sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
         case 'address': return compare(a.address, b.address, isAsc);
-        case 'capacity': return compare(a.capacity, b.capacity, isAsc);
+        case 'capacity': return compare(a.maxNumberOfPeople, b.maxNumberOfPeople, isAsc);
         case 'boatOwner': return compare(a.boatOwner.email, b.boatOwner.email, isAsc);
         default: return 0;
       }

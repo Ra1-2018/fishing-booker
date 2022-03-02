@@ -63,6 +63,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SearchPipe } from './search.pipe';
 import { ClientOrdinaryReservationComponent } from './client/client-ordinary-reservation/client-ordinary-reservation.component';
 import { ClientActionsComponent } from './client/client-actions/client-actions.component';
+import { ClientSubscriptionsComponent } from './client/client-subscriptions/client-subscriptions.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { ClientActionsComponent } from './client/client-actions/client-actions.c
     ClientUpcomingReservationsComponent,
     SearchPipe,
     ClientOrdinaryReservationComponent,
-    ClientActionsComponent
+    ClientActionsComponent,
+    ClientSubscriptionsComponent
   ],
   imports: [
     BrowserModule,
