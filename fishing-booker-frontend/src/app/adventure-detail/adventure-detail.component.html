@@ -1,6 +1,8 @@
 <div class='card'>
-    <div class='card-header'>
+    <div class='card-header d-flex justify-content-between'>
       <h3 style=" margin-left: 50px;">{{adventure.name}}</h3>
+      <button *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT' && !isSubscribed()" class="btn btn-primary" (click)="subscribe()">Subscribe</button>
+      <button *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT' && isSubscribed()" class="btn btn-secondary" (click)="unsubscribe()">Unsubscribe</button>
     </div>
     <div class="card-body" style=" margin-left: 50px;">
         <div class="row">
@@ -30,8 +32,8 @@
                     <div class="col-md-10">{{adventure.fishingGear}}</div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2" style="margin-bottom: 20px ;">Price list:</div>
-                    <div class="col-md-10">{{adventure.priceList}}</div>
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Price per day:</div>
+                    <div class="col-md-10">{{adventure.pricePerDay}}</div>
                 </div>
                 <div class="row">
                     <a [routerLink]="['/actions', id]">View actions</a>

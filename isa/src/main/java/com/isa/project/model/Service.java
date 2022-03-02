@@ -41,9 +41,12 @@ public abstract class Service {
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Review> reviews = new HashSet<>();
 
+    @ManyToMany(mappedBy = "subscriptions", fetch = FetchType.LAZY)
+    private Set<Client> subscribedClients;
+
     public Service() {}
 
-    public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews) {
+    public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -57,6 +60,7 @@ public abstract class Service {
         this.additionalServices = additionalServices;
         this.actions = actions;
         this.reviews = reviews;
+        this.subscribedClients = subscribedClients;
     }
 
     public long getId() {
@@ -167,5 +171,13 @@ public abstract class Service {
 
     public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public Set<Client> getSubscribedClients() {
+        return subscribedClients;
+    }
+
+    public void setSubscribedClients(Set<Client> subscribedClients) {
+        this.subscribedClients = subscribedClients;
     }
 }

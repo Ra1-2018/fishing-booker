@@ -13,10 +13,12 @@ export class AdventureDetailComponent implements OnInit {
   adventure: any;
   errorMessage = '';
   id: number|undefined;
+  subscriptions:any[] = []
 
   constructor(private route: ActivatedRoute, 
               private router: Router, 
-              private adventureDetailService: AdventureDetailService) { 
+              private adventureDetailService: AdventureDetailService,
+              public readonly loginService: LoginService) { 
 
   }
 
@@ -25,6 +27,9 @@ export class AdventureDetailComponent implements OnInit {
     if (this.id) {
       this.getAdventure(this.id);
     }
+    if(this.loginService.isLoggedIn && this.loginService.userType == 'CLIENT') {
+      this.getSubscriptions();
+    }
   }
 
   getAdventure(id: number) : void {
@@ -32,5 +37,36 @@ export class AdventureDetailComponent implements OnInit {
       next: adventure => this.adventure = adventure,
       error: err => this.errorMessage = err
     })
+  }
+
+  subscribe(): void {
+    this.adventureDetailService.subscribe(this.id as number).subscribe({
+      next: () => {
+        this.getSubscriptions();
+      }
+    });
+  }
+
+  isSubscribed(): boolean {
+    for(let subscription of this.subscriptions) {
+      if(subscription.id == this.adventure.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getSubscriptions() {
+    this.adventureDetailService.getSubscriptions().subscribe(
+      subscriptions => {this.subscriptions = subscriptions;}
+    )
+  }
+
+  unsubscribe() {
+    this.adventureDetailService.unsubscribe(this.id as number).subscribe({
+      next: () => {
+        this.getSubscriptions();
+      }
+    });
   }
 }

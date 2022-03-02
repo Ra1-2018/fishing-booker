@@ -59,7 +59,7 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        AppUser appUser = new Client(appUserDTO.getId(), appUserDTO.getEmail(), passwordEncoder.encode(appUserDTO.getPassword()), appUserDTO.getName(), appUserDTO.getSurname(), appUserDTO.getAddress(), appUserDTO.getCity(), appUserDTO.getCountry(), appUserDTO.getTelephone(), new HashSet<>(), new HashSet<>());
+        AppUser appUser = new Client(appUserDTO.getId(), appUserDTO.getEmail(), passwordEncoder.encode(appUserDTO.getPassword()), appUserDTO.getName(), appUserDTO.getSurname(), appUserDTO.getAddress(), appUserDTO.getCity(), appUserDTO.getCountry(), appUserDTO.getTelephone(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         appUser = appUserService.saveClient(appUser);
 
         String token = UUID.randomUUID().toString();
