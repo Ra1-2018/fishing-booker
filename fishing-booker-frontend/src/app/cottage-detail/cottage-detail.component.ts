@@ -13,15 +13,20 @@ export class CottageDetailComponent implements OnInit {
   cottage: any;
   errorMessage = '';
   id: number|undefined;
+  subscriptions:any[] = []
 
   constructor(private route: ActivatedRoute, 
     private router: Router, 
-    private cottageDetailService: CottageDetailService) { }
+    private cottageDetailService: CottageDetailService,
+    public readonly loginService: LoginService) { }
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     if (this.id) {
       this.getCottage(this.id);
+    }
+    if(this.loginService.isLoggedIn && this.loginService.userType == 'CLIENT') {
+      this.getSubscriptions();
     }
   }
 
@@ -30,5 +35,36 @@ export class CottageDetailComponent implements OnInit {
       next: cottage => this.cottage = cottage,
       error: err => this.errorMessage = err
     })
+  }
+
+  subscribe(): void {
+    this.cottageDetailService.subscribe(this.id as number).subscribe({
+      next: () => {
+        this.getSubscriptions();
+      }
+    });
+  }
+
+  isSubscribed(): boolean {
+    for(let subscription of this.subscriptions) {
+      if(subscription.id == this.cottage.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getSubscriptions() {
+    this.cottageDetailService.getSubscriptions().subscribe(
+      subscriptions => {this.subscriptions = subscriptions;}
+    )
+  }
+
+  unsubscribe() {
+    this.cottageDetailService.unsubscribe(this.id as number).subscribe({
+      next: () => {
+        this.getSubscriptions();
+      }
+    });
   }
 }

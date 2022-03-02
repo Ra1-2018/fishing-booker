@@ -15,4 +15,25 @@ export class CottageDetailService {
       tap(data => console.log("data: ", data))
     )
   }
+
+  subscribe(serviceId: number) {
+    return this._http.get('http://localhost:8080/services/subscribe/' + serviceId + '/' + localStorage.getItem('userId'))
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
+
+  getSubscriptions(): Observable<any[]> {
+    return this._http.get<any[]>('http://localhost:8080/services/subscriptions/' + localStorage.getItem('userId'))
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
+
+  unsubscribe(serviceId: number) {
+    return this._http.get('http://localhost:8080/services/unsubscribe/' + serviceId + '/' + localStorage.getItem('userId'))
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
 }
