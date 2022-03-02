@@ -44,9 +44,12 @@ public abstract class Service {
     @ManyToMany(mappedBy = "subscriptions", fetch = FetchType.LAZY)
     private Set<Client> subscribedClients;
 
+    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Complaint> complaints = new HashSet<>();
+
     public Service() {}
 
-    public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients) {
+    public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -61,6 +64,7 @@ public abstract class Service {
         this.actions = actions;
         this.reviews = reviews;
         this.subscribedClients = subscribedClients;
+        this.complaints = complaints;
     }
 
     public long getId() {
@@ -179,5 +183,13 @@ public abstract class Service {
 
     public void setSubscribedClients(Set<Client> subscribedClients) {
         this.subscribedClients = subscribedClients;
+    }
+
+    public Set<Complaint> getComplaints() {
+        return complaints;
+    }
+
+    public void setComplaints(Set<Complaint> complaints) {
+        this.complaints = complaints;
     }
 }

@@ -21,15 +21,19 @@ public class Client extends AppUser{
     )
     private Set<Service> subscriptions = new HashSet<>();
 
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Complaint> complaints = new HashSet<>();
+
     public Client() {
         super();
     }
 
-    public Client(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone, Set<Reservation> reservations, Set<Review> reviews, Set<Service> subscriptions) {
+    public Client(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone, Set<Reservation> reservations, Set<Review> reviews, Set<Service> subscriptions, Set<Complaint> complaints) {
         super(id, email, password, name, surname, address, city, country, telephone, AppUserType.CLIENT);
         this.reservations = reservations;
         this.reviews = reviews;
         this.subscriptions = subscriptions;
+        this.complaints = complaints;
     }
 
     public Set<Reservation> getReservations() {
@@ -66,5 +70,13 @@ public class Client extends AppUser{
                 subscriptions.remove(service);
             }
         }
+    }
+
+    public Set<Complaint> getComplaints() {
+        return complaints;
+    }
+
+    public void setComplaints(Set<Complaint> complaints) {
+        this.complaints = complaints;
     }
 }
