@@ -9,7 +9,11 @@
     </thead>
     <tbody>
       <tr *ngFor="let service of sortedData">
-        <td>{{service.name}}</td>
+        <td>
+          <a *ngIf="service.serviceType == 'BOAT'" [routerLink]="['/boat', service.id]">{{service.name}}</a>
+          <a *ngIf="service.serviceType == 'COTTAGE'" [routerLink]="['/cottage', service.id]">{{service.name}}</a>
+          <a *ngIf="service.serviceType == 'ADVENTURE'" [routerLink]="['/adventure', service.id]">{{service.name}}</a>
+        </td>
         <td>{{service.address}}</td>
         <td>{{service.maxNumberOfPeople}}</td>
         <td><button class="btn btn-secondary btn-sm" (click)="unsubscribe(service)">Unsubscribe</button></td>
