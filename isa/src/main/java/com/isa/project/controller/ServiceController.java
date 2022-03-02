@@ -86,4 +86,18 @@ public class ServiceController {
         appUserService.save(client);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping(value = "eligible/{id}")
+    public ResponseEntity<Collection<ServiceDTO>> getServicesFromReservations(@PathVariable long id) {
+        Client client = (Client) appUserService.findOne(id);
+        if(client == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Collection<ServiceDTO> serviceDTOS = new ArrayList<>();
+        for(Service service : serviceService.getServicesFromReservations(client)) {
+            serviceDTOS.add(new ServiceDTO(service));
+        }
+        return new ResponseEntity<>(serviceDTOS, HttpStatus.OK);
+    }
 }
