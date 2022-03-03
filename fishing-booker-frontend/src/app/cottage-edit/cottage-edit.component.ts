@@ -47,9 +47,14 @@ export class CottageEditComponent implements OnInit {
       return;
     }
     this.cottageEditService.updateCottage(this.myFormGroup.getRawValue()).subscribe({
-      next: (data) => {alert("Succesfully updated!")},
+      next: (data) => {alert("Succesfully updated!") 
+      this.back()},
       error: (err) => {alert("An unexpected error!")}
     });
+  }
+
+  back(): void {
+    this.router.navigate(['cottage-detail-owner/'+ this.route.snapshot.paramMap.get('id')]);
   }
 }
 

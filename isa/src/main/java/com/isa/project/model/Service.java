@@ -1,6 +1,7 @@
 package com.isa.project.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -127,7 +128,7 @@ public abstract class Service {
         this.reservations = reservations;
     }
 
-    public Set<TimeRange> getFreePeriods() { return freePeriods; }
+    public Set<TimeRange> getFreePeriods() { return freePeriods;}
 
     public void setFreePeriods(Set<TimeRange> freePeriods) { this.freePeriods = freePeriods; }
 

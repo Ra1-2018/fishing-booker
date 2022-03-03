@@ -1,11 +1,14 @@
 package com.isa.project.controller;
 
 import com.isa.project.dto.CottageDTO;
+import com.isa.project.dto.TimeRangeDTO;
 import com.isa.project.model.Cottage;
 import com.isa.project.model.CottageOwner;
 import com.isa.project.model.ServiceType;
+import com.isa.project.model.TimeRange;
 import com.isa.project.service.CottageOwnerService;
 import com.isa.project.service.CottageService;
+import com.isa.project.service.TimeRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,8 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/cottages")

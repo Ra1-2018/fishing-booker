@@ -1,0 +1,80 @@
+<div class='card'>
+    <div class='card-header'>
+      <h3 style=" margin-left: 50px;">{{cottage.name}}</h3>
+    </div>
+    <div class="card-body" style=" margin-left: 50px;">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Adress:</div>
+                    <div class="col-md-10">{{cottage.address}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Description:</div>
+                    <div class="col-md-10">{{cottage.description}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Number of rooms:</div>
+                    <div class="col-md-10">{{cottage.roomsTotalNumber}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Behavior rules:</div>
+                    <div class="col-md-10">{{cottage.behaviorRules}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;"><button (click)="onClickSubmit(cottage.id)" class="btn btn-primary">Edit</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Free</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let freePeriod of cottage.freePeriods">
+                        <td>{{freePeriod.startDate}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">Register free period</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalDialog" tabindex="-1" aria-labelledby="modalDialog" aria-hidden="true">
+        <div class="modal-dialog" data-target="#modal">
+          <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="modalDialog">Free period</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <ng-container [formGroup]="this.myFormGroup">
+                            <div class="mb-2">
+                                <label for="startDate" class="form-label">Start:</label>
+                                <input type="datetime-local" class="form-control" id="startDate" formControlName="startDate">
+                            </div>
+                            <div class="mb-2">
+                                <label for="endDate" class="form-label">End:</label>
+                                <input type="datetime-local" class="form-control" id="endDate" formControlName="endDate">
+                            </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddFreePeriod()">Add cottage</button>
+                </div>
+          </div>
+        </div>
+      </div>
+</div>
