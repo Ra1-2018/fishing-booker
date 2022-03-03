@@ -138,4 +138,37 @@ public class ServiceService {
             timeRangeService.save(restoredFreePeriod);
         }
     }
+
+    public boolean isFreePeriodValid(TimeRange newFreePeriod) {
+        Set<TimeRange> freePeriods = newFreePeriod.getService().getFreePeriods();
+        Date newEndDate = newFreePeriod.getEndDate();
+        Date newStartDate = newFreePeriod.getStartDate();
+
+        if (freePeriods.size() == 0 ) return  true;
+
+        for(TimeRange period : freePeriods) {
+            Date oldStartDate = period.getStartDate();
+            Date oldEndDate = period.getEndDate();
+
+            if (newStartDate.before(oldStartDate) & newEndDate.after(oldEndDate)) {
+                return  false;
+            }
+            else if (newStartDate.before(oldStartDate) & newEndDate.after(oldStartDate)) {
+                return false;
+            }
+            else if (newEndDate.after(oldEndDate) & newStartDate.before(oldEndDate)) {
+                return false;
+            }
+            else if ( newStartDate.after(oldStartDate) & newEndDate.before(oldEndDate)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void addFreePeriod(TimeRange newFreePeriod) {
+        com.isa.project.model.Service service = newFreePeriod.getService();
+        service.addFreePeriod(newFreePeriod);
+        serviceRepository.save(service);
+    }
 }

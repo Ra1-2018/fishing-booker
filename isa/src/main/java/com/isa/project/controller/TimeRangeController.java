@@ -5,6 +5,7 @@ import com.isa.project.dto.TimeRangeDTO;
 import com.isa.project.model.Cottage;
 import com.isa.project.model.TimeRange;
 import com.isa.project.service.CottageService;
+import com.isa.project.service.ServiceService;
 import com.isa.project.service.TimeRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ public class TimeRangeController {
     private CottageService cottageService;
 
     @Autowired
+    private ServiceService serviceService;
+
+    @Autowired
     private TimeRangeService timeRangeService;
 
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
@@ -33,9 +37,12 @@ public class TimeRangeController {
 
         if(cottage == null) { return new ResponseEntity<>(HttpStatus.BAD_REQUEST); }
         TimeRange freePeriod = new TimeRange(timeRangeDTO.getId(), timeRangeDTO.getStartDate(), timeRangeDTO.getEndDate(), cottage);
-        cottage.addFreePeriod(freePeriod);
-        cottageService.save(cottage);
-
-        return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.OK);
+        if(serviceService.isFreePeriodValid(freePeriod)) {
+            serviceService.addFreePeriod(freePeriod);
+            return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.BAD_REQUEST);
+        }
     }
 }
