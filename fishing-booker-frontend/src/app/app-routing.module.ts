@@ -8,6 +8,7 @@ import { BoatsComponent } from './boats/boats.component';
 import { ClientActionsComponent } from './client/client-actions/client-actions.component';
 import { ClientAdventureReservationsComponent } from './client/client-adventure-reservations/client-adventure-reservations.component';
 import { ClientBoatReservationsComponent } from './client/client-boat-reservations/client-boat-reservations.component';
+import { ClientComplaintComponent } from './client/client-complaint/client-complaint.component';
 import { ClientCottageReservationsComponent } from './client/client-cottage-reservations/client-cottage-reservations.component';
 import { ClientOrdinaryReservationComponent } from './client/client-ordinary-reservation/client-ordinary-reservation.component';
 import { ClientSubscriptionsComponent } from './client/client-subscriptions/client-subscriptions.component';
@@ -43,7 +44,8 @@ const routes: Routes = [
   { path: 'boat-edit/:id', component: BoatEditComponent},
   { path: 'client-ordinary-reservation', component: ClientOrdinaryReservationComponent},
   { path: 'actions/:id', component: ClientActionsComponent},
-  { path: 'client-subscriptions', component: ClientSubscriptionsComponent}
+  { path: 'client-subscriptions', component: ClientSubscriptionsComponent},
+  { path: 'client-complaint', component: ClientComplaintComponent}
 ];
 
 @NgModule({
