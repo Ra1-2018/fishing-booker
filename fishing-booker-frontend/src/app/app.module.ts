@@ -65,6 +65,7 @@ import { CottageDetailOwnerComponent } from './cottage-detail-owner/cottage-deta
 import { ClientOrdinaryReservationComponent } from './client/client-ordinary-reservation/client-ordinary-reservation.component';
 import { ClientActionsComponent } from './client/client-actions/client-actions.component';
 import { ClientSubscriptionsComponent } from './client/client-subscriptions/client-subscriptions.component';
+import { ClientComplaintComponent } from './client/client-complaint/client-complaint.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { ClientSubscriptionsComponent } from './client/client-subscriptions/clie
     CottageDetailOwnerComponent,
     ClientOrdinaryReservationComponent,
     ClientActionsComponent,
-    ClientSubscriptionsComponent
+    ClientSubscriptionsComponent,
+    ClientComplaintComponent
   ],
   imports: [
     BrowserModule,

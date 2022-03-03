@@ -1,6 +1,7 @@
 package com.isa.project.service;
 
 import com.isa.project.dto.ServiceCriteriaDTO;
+import com.isa.project.model.Client;
 import com.isa.project.model.Reservation;
 import com.isa.project.model.TimeRange;
 import com.isa.project.repository.ServiceRepository;
@@ -171,4 +172,16 @@ public class ServiceService {
         service.addFreePeriod(newFreePeriod);
         serviceRepository.save(service);
     }
+
+    public Collection<com.isa.project.model.Service> getServicesFromReservations(Client client) {
+        Collection<Reservation> reservations = client.getReservations();
+        Collection<com.isa.project.model.Service> services = new ArrayList<>();
+        for(Reservation reservation : reservations) {
+            com.isa.project.model.Service service = reservation.getService();
+            if(!services.contains(service)) {
+                services.add(service);
+            }
+        }
+        return services;
+   }
 }
