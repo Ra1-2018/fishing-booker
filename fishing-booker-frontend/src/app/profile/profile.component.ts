@@ -12,8 +12,10 @@ import { LoginService } from '../login/login.service';
 export class ProfileComponent implements OnInit {
 
   public readonly myFormGroup: FormGroup;
+  public readonly deletionRequestFormGroup: FormGroup;
   requests: any[] = [];
   selectedUser: any;
+  userEmail:string = ''
 
   constructor(public readonly loginService: LoginService,
               private profileService: ProfileService,
@@ -29,6 +31,9 @@ export class ProfileComponent implements OnInit {
                   country: [],
                   telephone: []
               });
+              this.deletionRequestFormGroup = this.formBuilder.group({
+                explanation: []
+              })
               }
 
   ngOnInit(): void {
@@ -51,7 +56,22 @@ export class ProfileComponent implements OnInit {
             // are discarded. You can also pass in your own object you
             // construct ad-hoc.
             this.myFormGroup.patchValue(res);
+            this.userEmail = res.email;
         });
+  }
+
+  submitDeletionRequest() {
+    const deletionRequest = {
+      explanation: this.deletionRequestFormGroup.get('explanation')?.value,
+      userEmail: this.userEmail
+    }
+    this.profileService.submitDeletionRequest(deletionRequest).subscribe({
+      next: () => {
+        alert("Deletion request submitted");
+        document.getElementById("closeButton")?.click();
+      },
+      error: () => alert("An error occurred")
+    })
   }
 
   getRequests(){

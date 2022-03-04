@@ -31,4 +31,11 @@ export class ProfileService {
       tap(data => console.log("data: ", data))
     )
   }
+
+  submitDeletionRequest(deletionRequest: any) {
+    return this._http.post('http://localhost:8080/deletionRequests', deletionRequest)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    );
+  }
 }
