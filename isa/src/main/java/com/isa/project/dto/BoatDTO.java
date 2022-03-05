@@ -19,12 +19,13 @@ public class BoatDTO {
     private double pricePerDay;
     private String cancellationTerms;
     private AppUserDTO boatOwner;
+    private double averageGrade;
 
     public BoatDTO() {}
 
-    public BoatDTO(Boat boat) { this(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getNumberOfEngines(), boat.getEnginePower(), boat.getMaximumVelocity(), boat.getNavigationEquipment(), boat.getAddress(), boat.getDescription(), boat.getMaxNumberOfPeople(), boat.getBehaviorRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.getCancellationTerms(), new AppUserDTO(boat.getBoatOwner())); }
+    public BoatDTO(Boat boat) { this(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getNumberOfEngines(), boat.getEnginePower(), boat.getMaximumVelocity(), boat.getNavigationEquipment(), boat.getAddress(), boat.getDescription(), boat.getMaxNumberOfPeople(), boat.getBehaviorRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.getCancellationTerms(), new AppUserDTO(boat.getBoatOwner()), boat.getAverageGrade()); }
 
-    public BoatDTO(long id, String name, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner) {
+    public BoatDTO(long id, String name, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner, double averageGrade) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -41,6 +42,7 @@ public class BoatDTO {
         this.pricePerDay = pricePerDay;
         this.cancellationTerms = cancellationTerms;
         this.boatOwner = boatOwner;
+        this.averageGrade = averageGrade;
     }
 
     public long getId() {
@@ -105,5 +107,9 @@ public class BoatDTO {
 
     public AppUserDTO getBoatOwner() {
         return boatOwner;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
     }
 }

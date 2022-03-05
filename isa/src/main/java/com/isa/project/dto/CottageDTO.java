@@ -12,12 +12,13 @@ public class CottageDTO {
     private AppUserDTO cottageOwner;
     private double pricePerDay;
     private int maxNumberOfPeople;
+    private double averageGrade;
 
     public CottageDTO() { }
 
-    public CottageDTO(Cottage cottage) { this(cottage.getId(), cottage.getName(), cottage.getAddress(), cottage.getDescription(), cottage.getRoomsTotalNumber(), cottage.getBehaviorRules(), new AppUserDTO(cottage.getCottageOwner()), cottage.getPricePerDay(), cottage.getMaxNumberOfPeople()); }
+    public CottageDTO(Cottage cottage) { this(cottage.getId(), cottage.getName(), cottage.getAddress(), cottage.getDescription(), cottage.getRoomsTotalNumber(), cottage.getBehaviorRules(), new AppUserDTO(cottage.getCottageOwner()), cottage.getPricePerDay(), cottage.getMaxNumberOfPeople(), cottage.getAverageGrade()); }
 
-    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner, double pricePerDay, int maxNumberOfPeople) {
+    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner, double pricePerDay, int maxNumberOfPeople, double averageGrade) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -27,6 +28,7 @@ public class CottageDTO {
         this.cottageOwner = cottageOwner;
         this.pricePerDay = pricePerDay;
         this.maxNumberOfPeople = maxNumberOfPeople;
+        this.averageGrade = averageGrade;
     }
 
     public long getId() { return id; }
@@ -49,5 +51,9 @@ public class CottageDTO {
 
     public int getMaxNumberOfPeople() {
         return maxNumberOfPeople;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
     }
 }

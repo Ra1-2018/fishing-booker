@@ -18,10 +18,11 @@ public class ServiceDTO {
     private ServiceType serviceType;
     private int maxNumberOfPeople;
     private Set<AdditionalServiceDTO> additionalServices;
+    private double averageGrade;
 
     public ServiceDTO() {}
 
-    public ServiceDTO(long id, String name, String address, String description, double pricePerDay, String behaviorRules, ServiceType serviceType, int maxNumberOfPeople, Set<AdditionalService> additionalServices) {
+    public ServiceDTO(long id, String name, String address, String description, double pricePerDay, String behaviorRules, ServiceType serviceType, int maxNumberOfPeople, Set<AdditionalService> additionalServices, double averageGrade) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -34,9 +35,10 @@ public class ServiceDTO {
         for(AdditionalService additionalService : additionalServices) {
             this.additionalServices.add(new AdditionalServiceDTO(additionalService));
         }
+        this.averageGrade = averageGrade;
     }
 
-    public ServiceDTO(Service service) { this(service.getId(), service.getName(), service.getAddress(), service.getDescription(), service.getPricePerDay(), service.getBehaviorRules(), service.getServiceType(), service.getMaxNumberOfPeople(), service.getAdditionalServices()); }
+    public ServiceDTO(Service service) { this(service.getId(), service.getName(), service.getAddress(), service.getDescription(), service.getPricePerDay(), service.getBehaviorRules(), service.getServiceType(), service.getMaxNumberOfPeople(), service.getAdditionalServices(), service.getAverageGrade()); }
 
     public long getId() {
         return id;
@@ -72,5 +74,9 @@ public class ServiceDTO {
 
     public Set<AdditionalServiceDTO> getAdditionalServices() {
         return additionalServices;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
     }
 }

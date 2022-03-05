@@ -15,6 +15,7 @@ public class AdventureDTO {
     private double pricePerDay;
     private ReservationCancellation cancellation;
     private AppUserDTO instructor;
+    private double averageGrade;
 
     public long getId() {
         return id;
@@ -60,9 +61,13 @@ public class AdventureDTO {
         return instructor;
     }
 
-    public AdventureDTO(Adventure adventure) { this(adventure.getId(), adventure.getName(), adventure.getAddress(), adventure.getDescription(), adventure.getInstructorBiography(), adventure.getMaxNumberOfPeople(), adventure.getBehaviorRules(), adventure.getFishingGear(), adventure.getPricePerDay(), adventure.getCancellation(), new AppUserDTO(adventure.getInstructor()));}
+    public double getAverageGrade() {
+        return averageGrade;
+    }
 
-    public AdventureDTO(long id, String name, String address, String description, String instructorBiography, int maxNumberOfPeople, String behaviorRules, String fishingGear, double pricePerDay, ReservationCancellation cancellation, AppUserDTO instructor) {
+    public AdventureDTO(Adventure adventure) { this(adventure.getId(), adventure.getName(), adventure.getAddress(), adventure.getDescription(), adventure.getInstructorBiography(), adventure.getMaxNumberOfPeople(), adventure.getBehaviorRules(), adventure.getFishingGear(), adventure.getPricePerDay(), adventure.getCancellation(), new AppUserDTO(adventure.getInstructor()), adventure.getAverageGrade());}
+
+    public AdventureDTO(long id, String name, String address, String description, String instructorBiography, int maxNumberOfPeople, String behaviorRules, String fishingGear, double pricePerDay, ReservationCancellation cancellation, AppUserDTO instructor, double averageGrade) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -74,5 +79,6 @@ public class AdventureDTO {
         this.pricePerDay = pricePerDay;
         this.cancellation = cancellation;
         this.instructor = instructor;
+        this.averageGrade = averageGrade;
     }
 }
