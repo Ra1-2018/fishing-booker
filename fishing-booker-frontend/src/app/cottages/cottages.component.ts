@@ -40,7 +40,7 @@ export class CottagesComponent implements OnInit {
         case 'name': return compare(a.name, b.name, isAsc);
         case 'address': return compare(a.address, b.address, isAsc);
         case 'roomsTotalNumber': return compare(a.roomsTotalNumber, b.roomsTotalNumber, isAsc);
-        case 'cottageOwner': return compare(a.cottageOwner.email, b.cottageOwner.email, isAsc);
+        case 'averageGrade': return compare(a.averageGrade, b.averageGrade, isAsc);
         default: return 0;
       }
     });
