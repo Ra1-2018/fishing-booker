@@ -1,6 +1,10 @@
 package com.isa.project.dto;
 
+import com.isa.project.model.AdditionalService;
 import com.isa.project.model.Boat;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class BoatDTO {
     private long id;
@@ -20,12 +24,35 @@ public class BoatDTO {
     private String cancellationTerms;
     private AppUserDTO boatOwner;
     private double averageGrade;
+    private Set<AdditionalServiceDTO> additionalServices;
 
     public BoatDTO() {}
 
-    public BoatDTO(Boat boat) { this(boat.getId(), boat.getName(), boat.getType(), boat.getLength(), boat.getNumberOfEngines(), boat.getEnginePower(), boat.getMaximumVelocity(), boat.getNavigationEquipment(), boat.getAddress(), boat.getDescription(), boat.getMaxNumberOfPeople(), boat.getBehaviorRules(), boat.getFishingEquipment(), boat.getPricePerDay(), boat.getCancellationTerms(), new AppUserDTO(boat.getBoatOwner()), boat.getAverageGrade()); }
+    public BoatDTO(Boat boat) {
+        this.id = boat.getId();
+        this.name = boat.getName();
+        this.type = boat.getType();
+        this.length = boat.getLength();
+        this.numberOfEngines = boat.getNumberOfEngines();
+        this.enginePower = boat.getEnginePower();
+        this.maximumVelocity = boat.getMaximumVelocity();
+        this.navigationEquipment = boat.getNavigationEquipment();
+        this.address = boat.getAddress();
+        this.description = boat.getDescription();
+        this.maxNumberOfPeople = boat.getMaxNumberOfPeople();
+        this.behaviorRules = boat.getBehaviorRules();
+        this.fishingEquipment = boat.getFishingEquipment();
+        this.pricePerDay = boat.getPricePerDay();
+        this.cancellationTerms = boat.getCancellationTerms();
+        this.boatOwner = new AppUserDTO(boat.getBoatOwner());
+        this.averageGrade = boat.getAverageGrade();
+        this.additionalServices = new HashSet<>();
+        for(AdditionalService additionalService : boat.getAdditionalServices()) {
+            this.additionalServices.add(new AdditionalServiceDTO(additionalService));
+        }
+    }
 
-    public BoatDTO(long id, String name, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner, double averageGrade) {
+    public BoatDTO(long id, String name, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner, double averageGrade, Set<AdditionalServiceDTO> additionalServices) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -43,6 +70,7 @@ public class BoatDTO {
         this.cancellationTerms = cancellationTerms;
         this.boatOwner = boatOwner;
         this.averageGrade = averageGrade;
+        this.additionalServices = additionalServices;
     }
 
     public long getId() {
@@ -111,5 +139,9 @@ public class BoatDTO {
 
     public double getAverageGrade() {
         return averageGrade;
+    }
+
+    public Set<AdditionalServiceDTO> getAdditionalServices() {
+        return additionalServices;
     }
 }
