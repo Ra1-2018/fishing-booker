@@ -32,7 +32,7 @@ public class ServiceService {
         c.add(Calendar.DATE, serviceCriteria.getDurationInDays());
         Date endDate = c.getTime();
         for (com.isa.project.model.Service service : services) {
-            if(!(service.getServiceType() == serviceCriteria.getServiceType() && service.getAddress().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()) && service.getMaxNumberOfPeople() >= serviceCriteria.getNumberOfPeople())) {
+            if(!matchesCriteria(serviceCriteria, service)) {
                 continue;
             }
             for(TimeRange timeRange : service.getFreePeriods()) {
@@ -43,6 +43,10 @@ public class ServiceService {
             }
         }
         return matchingServices;
+    }
+
+    private boolean matchesCriteria(ServiceCriteriaDTO serviceCriteria, com.isa.project.model.Service service) {
+        return service.getServiceType() == serviceCriteria.getServiceType() && service.getAddress().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()) && service.getMaxNumberOfPeople() >= serviceCriteria.getNumberOfPeople() && service.getAverageGrade() >= serviceCriteria.getMinAverageGrade();
     }
 
     public boolean IsReservationValid(Reservation reservation) {

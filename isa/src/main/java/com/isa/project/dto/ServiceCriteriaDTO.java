@@ -10,15 +10,17 @@ public class ServiceCriteriaDTO {
     private int durationInDays;
     private String address;
     private int numberOfPeople;
+    private double minAverageGrade;
 
     public ServiceCriteriaDTO() {}
 
-    public ServiceCriteriaDTO(ServiceType serviceType, Date startDate, int durationInDays, String address, int numberOfPeople) {
+    public ServiceCriteriaDTO(ServiceType serviceType, Date startDate, int durationInDays, String address, int numberOfPeople, double minAverageGrade) {
         this.serviceType = serviceType;
         this.startDate = startDate;
         this.durationInDays = durationInDays;
         this.address = address;
         this.numberOfPeople = numberOfPeople;
+        this.minAverageGrade = minAverageGrade;
     }
 
     public ServiceType getServiceType() {
@@ -39,5 +41,9 @@ public class ServiceCriteriaDTO {
 
     public int getNumberOfPeople() {
         return numberOfPeople;
+    }
+
+    public double getMinAverageGrade() {
+        return minAverageGrade;
     }
 }
