@@ -51,6 +51,7 @@ export class ClientActionsComponent implements OnInit {
         case 'price': return compare(a.price, b.price, isAsc);
         case 'startTime': return compare(a.startTime, b.startTime, isAsc);
         case 'durationInDays': return compare(a.durationInDays, b.durationInDays, isAsc);
+        case 'maxNumberOfPeople': return compare(a.maxNumberOfPeople, b.maxNumberOfPeople, isAsc);
         default: return 0;
       }
     });

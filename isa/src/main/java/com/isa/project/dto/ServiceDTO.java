@@ -18,10 +18,11 @@ public class ServiceDTO {
     private ServiceType serviceType;
     private int maxNumberOfPeople;
     private Set<AdditionalServiceDTO> additionalServices;
+    private double averageGrade;
 
     public ServiceDTO() {}
 
-    public ServiceDTO(long id, String name, String address, String description, double pricePerDay, String behaviorRules, ServiceType serviceType, int maxNumberOfPeople, Set<AdditionalService> additionalServices) {
+    public ServiceDTO(long id, String name, String address, String description, double pricePerDay, String behaviorRules, ServiceType serviceType, int maxNumberOfPeople, Set<AdditionalServiceDTO> additionalServices, double averageGrade) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -30,13 +31,25 @@ public class ServiceDTO {
         this.behaviorRules = behaviorRules;
         this.serviceType = serviceType;
         this.maxNumberOfPeople = maxNumberOfPeople;
+        this.additionalServices = additionalServices;
+        this.averageGrade = averageGrade;
+    }
+
+    public ServiceDTO(Service service) {
+        this.id = service.getId();
+        this.name = service.getName();
+        this.address = service.getAddress();
+        this.description = service.getDescription();
+        this.pricePerDay = service.getPricePerDay();
+        this.behaviorRules = service.getBehaviorRules();
+        this.serviceType = service.getServiceType();
+        this.maxNumberOfPeople = service.getMaxNumberOfPeople();
+        this.averageGrade = service.getAverageGrade();
         this.additionalServices = new HashSet<>();
-        for(AdditionalService additionalService : additionalServices) {
+        for(AdditionalService additionalService : service.getAdditionalServices()) {
             this.additionalServices.add(new AdditionalServiceDTO(additionalService));
         }
     }
-
-    public ServiceDTO(Service service) { this(service.getId(), service.getName(), service.getAddress(), service.getDescription(), service.getPricePerDay(), service.getBehaviorRules(), service.getServiceType(), service.getMaxNumberOfPeople(), service.getAdditionalServices()); }
 
     public long getId() {
         return id;
@@ -72,5 +85,9 @@ public class ServiceDTO {
 
     public Set<AdditionalServiceDTO> getAdditionalServices() {
         return additionalServices;
+    }
+
+    public double getAverageGrade() {
+        return averageGrade;
     }
 }

@@ -67,7 +67,7 @@ public class AppUserController {
         verificationTokenService.save(verificationToken);
 
         try {
-            emailService.sendNotificaitionAsync(appUser, token);
+            emailService.sendNotificationAsync(appUser, token);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -150,7 +150,7 @@ public class AppUserController {
         requestService.save(request);
 
         try {
-            emailService.sendNotificaitionOfApprovedRegistrationRequest(request);
+            emailService.sendNotificationOfApprovedRegistrationRequest(request);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -170,7 +170,7 @@ public class AppUserController {
         requestService.remove(id);
 
         try {
-            emailService.sendNotificaitionOfDeclinedRegistrationRequest(request);
+            emailService.sendNotificationOfDeclinedRegistrationRequest(request);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

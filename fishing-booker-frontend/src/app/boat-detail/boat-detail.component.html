@@ -60,6 +60,26 @@
                     <div class="col-md-10">{{boat.cancellationTerms}}</div>
                 </div>
                 <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Average grade:</div>
+                    <div class="col-md-10">{{boat.averageGrade}}</div>
+                </div>
+                <div *ngIf="boat.additionalServices.length != 0" class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Additional service</td>
+                                <td>Price per day</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor = "let additionalService of boat.additionalServices">
+                                <td>{{additionalService.name}}</td>
+                                <td>{{additionalService.price}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
                     <a [routerLink]="['/actions', id]">View actions</a>
                 </div>
             </div>

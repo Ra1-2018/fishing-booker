@@ -39,7 +39,7 @@ public abstract class Service {
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Action> actions = new HashSet<>();
 
-    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Review> reviews = new HashSet<>();
 
     @ManyToMany(mappedBy = "subscriptions", fetch = FetchType.LAZY)
@@ -192,5 +192,15 @@ public abstract class Service {
 
     public void setComplaints(Set<Complaint> complaints) {
         this.complaints = complaints;
+    }
+
+    public double getAverageGrade() {
+        if(reviews.size() == 0)
+            return 0;
+        double sum = 0;
+        for(Review review: reviews) {
+            sum += review.getGrade();
+        }
+        return sum/reviews.size();
     }
 }

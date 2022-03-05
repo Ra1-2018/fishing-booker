@@ -35,8 +35,9 @@ export class ClientOrdinaryReservationComponent implements OnInit {
                   startDate: [null, Validators.required],
                   durationInDays: [null, Validators.required],
                   numberOfPeople: [null, Validators.required],
-                  address: ['']
-                })
+                  address: [''],
+                  minAverageGrade: []
+                });
                }
 
   ngOnInit(): void {
@@ -73,6 +74,7 @@ export class ClientOrdinaryReservationComponent implements OnInit {
         case 'address': return compare(a.address, b.address, isAsc);
         case 'pricePerDay': return compare(a.pricePerDay, b.pricePerDay, isAsc);
         case 'maxNumberOfPeople': return compare(a.maxNumberOfPeople, b.maxNumberOfPeople, isAsc);
+        case 'averageGrade': return compare(a.averageGrade, b.averageGrade, isAsc)
         default: return 0;
       }
     });

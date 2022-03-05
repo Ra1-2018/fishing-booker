@@ -26,6 +26,10 @@
                     <label for="numberOfPeople" class="form-label">Number of people:</label>
                     <input type="number" class="form-control" id="numberOfPeople" placeholder="Number of people" formControlName="numberOfPeople">
                 </div>
+                <div class="mb-3">
+                    <label for="minAverageGrade" class="form-label">Minimum average grade:</label>
+                    <input type="number" min="1" max="5" class="form-control" id="minAverageGrade" placeholder="Minimum average grade" formControlName="minAverageGrade">
+                </div>
                 <div class="d-grid col-6 mx-auto">
                     <button class="btn btn-primary" (click)="onClickSubmit()">Search</button>
                 </div>
@@ -41,6 +45,7 @@
         <th mat-sort-header="address">Address</th>
         <th mat-sort-header="pricePerDay">Price per day</th>
         <th mat-sort-header="maxNumberOfPeople">Max people</th>
+        <th mat-sort-header="averageGrade">Average grade</th>
         <th></th>
       </tr>
     </thead>
@@ -50,6 +55,7 @@
         <td>{{service.address}}</td>
         <td>{{service.pricePerDay}}</td>
         <td>{{service.maxNumberOfPeople}}</td>
+        <td>{{service.averageGrade}}</td>
         <td><button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openReservationModal(service)">Make reservation</button></td>
       </tr>
     </tbody>

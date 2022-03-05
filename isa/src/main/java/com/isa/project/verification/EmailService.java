@@ -1,5 +1,6 @@
 package com.isa.project.verification;
 
+import com.isa.project.model.AdditionalService;
 import com.isa.project.model.AppUser;
 import com.isa.project.model.RegistrationRequest;
 import com.isa.project.model.Reservation;
@@ -28,7 +29,7 @@ public class EmailService {
     private Environment env;
 
     @Async
-    public void sendNotificaitionAsync(AppUser appUser, String token) throws MailException, InterruptedException {
+    public void sendNotificationAsync(AppUser appUser, String token) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(appUser.getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
@@ -40,7 +41,7 @@ public class EmailService {
     }
 
     @Async
-    public void sendNotificaitionOfApprovedRegistrationRequest(RegistrationRequest request) throws MailException, InterruptedException {
+    public void sendNotificationOfApprovedRegistrationRequest(RegistrationRequest request) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(request.getUser().getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
@@ -51,7 +52,7 @@ public class EmailService {
     }
 
     @Async
-    public void sendNotificaitionOfDeclinedRegistrationRequest(RegistrationRequest request) throws MailException, InterruptedException {
+    public void sendNotificationOfDeclinedRegistrationRequest(RegistrationRequest request) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(request.getUser().getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
@@ -68,13 +69,27 @@ public class EmailService {
         mail.setFrom(env.getProperty("spring.mail.username"));
         mail.setSubject("Reservation confirmation");
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        mail.setText(MessageFormat.format("Your Reservation has been confirmed.\n" +
-                                            "Reservation details:\n" +
-                                            "Service: {0} \n" +
-                                            "Start time: {1} \n" +
-                                            "Number of days: {2} \n" +
-                                            "Number of people: {3} \n" +
-                                            "Total price: {4} \n", reservation.getService().getName(), dateFormat.format(reservation.getReservationStartDateAndTime()), reservation.getDurationInDays(), reservation.getNumberOfPeople(), reservation.getPrice()));
+        var message = MessageFormat.format("Your Reservation has been confirmed.\n" +
+                "Reservation details:\n" +
+                "Service: {0} \n" +
+                "Start time: {1} \n" +
+                "Number of days: {2} \n" +
+                "Number of people: {3} \n" +
+                "Total price: {4} \n", reservation.getService().getName(), dateFormat.format(reservation.getReservationStartDateAndTime()), reservation.getDurationInDays(), reservation.getNumberOfPeople(), reservation.getPrice());
+        if(reservation.getAdditionalServices().size() > 0) {
+            message += "Additional services: ";
+            boolean first = true;
+            for(AdditionalService additionalService : reservation.getAdditionalServices()) {
+                if(first) {
+                    first = false;
+                }
+                else {
+                    message += ", ";
+                }
+                message += additionalService.getName();
+            }
+        }
+        mail.setText(message);
         javaMailSender.send(mail);
 
         System.out.println("Email poslat!");

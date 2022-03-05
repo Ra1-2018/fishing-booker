@@ -1,6 +1,7 @@
 package com.isa.project.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Complaint {
@@ -18,15 +19,18 @@ public class Complaint {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "responseToComplaint_id", referencedColumnName = "id")
     private ResponseToComplaint responseToComplaint;
+    @Column
+    private Date dateSubmitted;
 
     public Complaint() {}
 
-    public Complaint(long id, Client client, Service service, String content, ResponseToComplaint responseToComplaint) {
+    public Complaint(long id, Client client, Service service, String content, ResponseToComplaint responseToComplaint, Date dateSubmitted) {
         this.id = id;
         this.client = client;
         this.service = service;
         this.content = content;
         this.responseToComplaint = responseToComplaint;
+        this.dateSubmitted = dateSubmitted;
     }
 
     public long getId() {
@@ -67,5 +71,13 @@ public class Complaint {
 
     public void setResponseToComplaint(ResponseToComplaint responseToComplaint) {
         this.responseToComplaint = responseToComplaint;
+    }
+
+    public Date getDateSubmitted() {
+        return dateSubmitted;
+    }
+
+    public void setDateSubmitted(Date dateSubmitted) {
+        this.dateSubmitted = dateSubmitted;
     }
 }

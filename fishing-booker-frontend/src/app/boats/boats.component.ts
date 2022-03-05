@@ -40,7 +40,7 @@ export class BoatsComponent implements OnInit {
         case 'name': return compare(a.name, b.name, isAsc);
         case 'address': return compare(a.address, b.address, isAsc);
         case 'capacity': return compare(a.maxNumberOfPeople, b.maxNumberOfPeople, isAsc);
-        case 'boatOwner': return compare(a.boatOwner.email, b.boatOwner.email, isAsc);
+        case 'averageGrade': return compare(a.averageGrade, b.averageGrade, isAsc);
         default: return 0;
       }
     });

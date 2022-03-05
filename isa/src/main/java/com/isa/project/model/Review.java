@@ -1,6 +1,7 @@
 package com.isa.project.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Review {
@@ -19,17 +20,20 @@ public class Review {
     private Service service;
     @Column
     private boolean approved;
+    @Column
+    private Date dateSubmitted;
 
     public Review() {
     }
 
-    public Review(long id, double grade, String revision, Client client, Service service, boolean approved) {
+    public Review(long id, double grade, String revision, Client client, Service service, boolean approved, Date dateSubmitted) {
         this.id = id;
         this.grade = grade;
         this.revision = revision;
         this.client = client;
         this.service = service;
         this.approved = approved;
+        this.dateSubmitted = dateSubmitted;
     }
 
     public long getId() {
@@ -78,5 +82,13 @@ public class Review {
 
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    public Date getDateSubmitted() {
+        return dateSubmitted;
+    }
+
+    public void setDateSubmitted(Date dateSubmitted) {
+        this.dateSubmitted = dateSubmitted;
     }
 }

@@ -10,18 +10,10 @@ import { ClientAdventuresReservationsService } from './client-adventures-reserva
 })
 export class ClientAdventureReservationsComponent implements OnInit {
 
-  public readonly myFormGroup: FormGroup;
   reservations: any[] = []
   sortedData: any[] = []
-  service: any = {}
 
-  constructor(private _reservationService: ClientAdventuresReservationsService,
-              private readonly formBuilder: FormBuilder) {
-                this.myFormGroup = this.formBuilder.group({
-                  grade: ['', Validators.required],
-                  revision: ['']
-                });
-               }
+  constructor(private _reservationService: ClientAdventuresReservationsService) {}
 
   ngOnInit(): void {
     this.getReservations();
@@ -52,31 +44,6 @@ export class ClientAdventureReservationsComponent implements OnInit {
         case 'durationInDays': return compare(a.durationInDays, b.durationInDays, isAsc);
         default: return 0;
       }
-    });
-  }
-
-  selectService(service: any) {
-    this.service = service;
-  }
-
-  public onClickSubmit(): void {
-    if (this.myFormGroup.invalid) {
-      // stop here if it's invalid
-      alert('Invalid input');
-      return;
-    }
-    const review = {
-      grade: this.myFormGroup.get('grade')?.value,
-      revision: this.myFormGroup.get('revision')?.value,
-      client: {id: parseInt(localStorage.getItem('userId') as string)},
-      service: this.service
-    }
-    this._reservationService.postReview(review).subscribe({
-      next: () => {
-        alert("Review submitted");
-        document.getElementById("closeButton")?.click();
-      },
-      error: () => "An error ocurred"
     });
   }
 }

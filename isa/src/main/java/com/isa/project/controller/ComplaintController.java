@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/complaints")
@@ -58,6 +59,7 @@ public class ComplaintController {
         complaint.setContent(complaintDTO.getContent());
         complaint.setClient(client);
         complaint.setService(service);
+        complaint.setDateSubmitted(new Date());
         complaint = complaintService.save(complaint);
         return new ResponseEntity<>(new ComplaintDTO(complaint), HttpStatus.OK);
     }

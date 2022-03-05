@@ -42,7 +42,6 @@ public class ActionController {
     @Autowired
     private EmailService emailService;
 
-    @PreAuthorize("hasRole('CLIENT')")
     @GetMapping(value = "service/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<ActionDTO>> findByService(@PathVariable("id") Long id) {
         Service service = serviceService.findById(id);

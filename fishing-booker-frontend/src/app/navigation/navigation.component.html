@@ -51,6 +51,9 @@
           <li *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'" class="nav-item">
             <a class="nav-link" routerLink="client-complaint">Write a complaint</a>
           </li>
+          <li *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'" class="nav-item">
+            <a class="nav-link" routerLink="client-review">Write a review</a>
+          </li>
           <li *ngIf="loginService.isLoggedIn && loginService.userType == 'BOAT_OWNER'" class="nav-item">
             <a class="nav-link" routerLink="owned-boats">My boats</a>
           <li *ngIf="loginService.isLoggedIn && loginService.userType == 'COTTAGE_OWNER'" class="nav-item">

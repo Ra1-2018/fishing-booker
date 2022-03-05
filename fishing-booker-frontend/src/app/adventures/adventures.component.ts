@@ -40,7 +40,7 @@ export class AdventuresComponent implements OnInit {
         case 'name': return compare(a.name, b.name, isAsc);
         case 'address': return compare(a.address, b.address, isAsc);
         case 'maxPeople': return compare(a.maxNumberOfPeople, b.maxNumberOfPeople, isAsc);
-        case 'instructor': return compare(a.instructor.email, b.instructor.email, isAsc);
+        case 'averageGrade': return compare(a.averageGrade, b.averageGrade, isAsc);
         default: return 0;
       }
     });
