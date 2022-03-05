@@ -23,6 +23,8 @@ import { OwnedCottagesComponent } from './owned-cottages/owned-cottages.componen
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SpecialRegistrationComponent } from './special-registration/special-registration.component';
+import { ReservationHistoryComponent } from './reservation-history/reservation-history.component';
+import { ReservationClientComponent } from './reservation-client/reservation-client.component';
 
 const routes: Routes = [
   { path: 'adventures', component: AdventuresComponent},
@@ -47,7 +49,9 @@ const routes: Routes = [
   { path: 'client-ordinary-reservation', component: ClientOrdinaryReservationComponent},
   { path: 'actions/:id', component: ClientActionsComponent},
   { path: 'client-subscriptions', component: ClientSubscriptionsComponent},
-  { path: 'client-complaint', component: ClientComplaintComponent}
+  { path: 'client-complaint', component: ClientComplaintComponent},
+  { path: 'reservation-history', component: ReservationHistoryComponent},
+  { path: 'reservation-client/:id', component: ReservationClientComponent}
 ];
 
 @NgModule({

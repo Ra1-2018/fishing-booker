@@ -66,6 +66,8 @@ import { ClientOrdinaryReservationComponent } from './client/client-ordinary-res
 import { ClientActionsComponent } from './client/client-actions/client-actions.component';
 import { ClientSubscriptionsComponent } from './client/client-subscriptions/client-subscriptions.component';
 import { ClientComplaintComponent } from './client/client-complaint/client-complaint.component';
+import { ReservationHistoryComponent } from './reservation-history/reservation-history.component';
+import { ReservationClientComponent } from './reservation-client/reservation-client.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,9 @@ import { ClientComplaintComponent } from './client/client-complaint/client-compl
     ClientOrdinaryReservationComponent,
     ClientActionsComponent,
     ClientSubscriptionsComponent,
-    ClientComplaintComponent
+    ClientComplaintComponent,
+    ReservationHistoryComponent,
+    ReservationClientComponent
   ],
   imports: [
     BrowserModule,

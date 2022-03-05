@@ -1,8 +1,11 @@
 package com.isa.project.controller;
 
 import com.isa.project.dto.CottageDTO;
+import com.isa.project.dto.ServiceDTO;
 import com.isa.project.dto.TimeRangeDTO;
+import com.isa.project.model.Client;
 import com.isa.project.model.Cottage;
+import com.isa.project.model.Service;
 import com.isa.project.model.TimeRange;
 import com.isa.project.service.CottageService;
 import com.isa.project.service.ServiceService;
@@ -13,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 @RestController

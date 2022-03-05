@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @RestController
 @RequestMapping("/reservations")
@@ -34,6 +35,34 @@ public class ReservationController {
 
     @Autowired
     private AdditionalServiceService additionalServiceService;
+
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @GetMapping(value = "cottage_owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<ReservationDTO>> findByCottageOwner(@PathVariable("id") Long id) {
+
+        CottageOwner cottageOwner = (CottageOwner) appUserService.findOne(id);
+        if(cottageOwner == null) {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Collection<Cottage> cottages = cottageOwner.getCottages();
+
+        Collection<Reservation> reservations = new ArrayList<>();
+
+        for (Cottage cottage : cottages) {
+            Collection<Reservation> reservationsList = reservationService.findByService(cottage);
+            for (Reservation reservation : reservationsList) {
+                reservations.add(reservation);
+            }
+        }
+
+        Collection<ReservationDTO> reservationDTOS = new ArrayList<>();
+
+        for(Reservation reservation : reservations) {
+            reservationDTOS.add(new ReservationDTO(reservation));
+        }
+        return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
+    }
 
     @PreAuthorize("hasRole('CLIENT')")
     @GetMapping(value = "client/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

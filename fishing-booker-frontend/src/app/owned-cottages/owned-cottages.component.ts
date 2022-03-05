@@ -28,8 +28,8 @@ export class OwnedCottagesComponent implements OnInit {
       ownerId: localStorage.getItem('userId'),
       priceList: ['', Validators.required],
   });
-  
-   }
+
+  }
 
   ngOnInit(): void {
     this.getCottages();

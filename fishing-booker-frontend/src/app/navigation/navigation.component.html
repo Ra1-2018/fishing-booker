@@ -53,6 +53,8 @@
           </li>
           <li *ngIf="loginService.isLoggedIn && loginService.userType == 'BOAT_OWNER'" class="nav-item">
             <a class="nav-link" routerLink="owned-boats">My boats</a>
+          <li *ngIf="loginService.isLoggedIn && loginService.userType == 'COTTAGE_OWNER'" class="nav-item">
+            <a class="nav-link" routerLink="reservation-history">Reservation history</a>
           <li *ngIf="loginService.isLoggedIn" class="nav-item">
             <a class="nav-link" routerLink="" (click)="logout()">Logout</a>
           </li>

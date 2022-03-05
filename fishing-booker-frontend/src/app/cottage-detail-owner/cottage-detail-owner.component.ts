@@ -12,8 +12,10 @@ import { DatePipe } from '@angular/common';
 })
 export class CottageDetailOwnerComponent implements OnInit {
   cottage: any
+  freePeriods: any[] = []
   errorMessage = '';
   public readonly myFormGroup: FormGroup;
+  public readonly myFormGroupAction: FormGroup;
   
 
   constructor(private route: ActivatedRoute, 
@@ -25,6 +27,12 @@ export class CottageDetailOwnerComponent implements OnInit {
         endDate: [null, Validators.required],
         serviceId: Number(this.route.snapshot.paramMap.get('id'))
     })
+      this.myFormGroupAction = this.formBuilder.group({
+        id:0,
+        startTime: [null, Validators.required],
+        durationInDays: [null, Validators.required],
+        maxNumberOfPeople: [null, Validators.required]
+      })
     }
 
   ngOnInit(): void {
@@ -36,7 +44,10 @@ export class CottageDetailOwnerComponent implements OnInit {
 
   getCottage(id: number): void {
     this.cottageDetailOwnerService.getCottage(id).subscribe({
-      next: cottage => this.cottage = cottage,
+      next: cottage => { 
+        this.cottage = cottage;
+        this.freePeriods = cottage.freePeriods; 
+      },
       error: err => this.errorMessage = err
     })
   }
