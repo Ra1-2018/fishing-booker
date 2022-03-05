@@ -1,6 +1,7 @@
 package com.isa.project.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class DeletionRequest {
@@ -14,14 +15,17 @@ public class DeletionRequest {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "responseToDeletionRequest_id", referencedColumnName = "id")
     private ResponseToDeletionRequest responseToDeletionRequest;
+    @Column
+    private Date dateSubmitted;
 
     public DeletionRequest() {}
 
-    public DeletionRequest(long id, String userEmail, String explanation, ResponseToDeletionRequest responseToDeletionRequest) {
+    public DeletionRequest(long id, String userEmail, String explanation, ResponseToDeletionRequest responseToDeletionRequest, Date dateSubmitted) {
         this.id = id;
         this.userEmail = userEmail;
         this.explanation = explanation;
         this.responseToDeletionRequest = responseToDeletionRequest;
+        this.dateSubmitted = dateSubmitted;
     }
 
     public long getId() {
@@ -54,5 +58,13 @@ public class DeletionRequest {
 
     public void setResponseToDeletionRequest(ResponseToDeletionRequest responseToDeletionRequest) {
         this.responseToDeletionRequest = responseToDeletionRequest;
+    }
+
+    public Date getDateSubmitted() {
+        return dateSubmitted;
+    }
+
+    public void setDateSubmitted(Date dateSubmitted) {
+        this.dateSubmitted = dateSubmitted;
     }
 }

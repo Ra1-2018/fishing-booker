@@ -1,6 +1,7 @@
 package com.isa.project.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class ResponseToComplaint {
@@ -14,14 +15,17 @@ public class ResponseToComplaint {
     private Complaint complaint;
     @Column
     private String content;
+    @Column
+    private Date dateSubmitted;
 
     public ResponseToComplaint() {}
 
-    public ResponseToComplaint(long id, Administrator administrator, Complaint complaint, String content) {
+    public ResponseToComplaint(long id, Administrator administrator, Complaint complaint, String content, Date dateSubmitted) {
         this.id = id;
         this.administrator = administrator;
         this.complaint = complaint;
         this.content = content;
+        this.dateSubmitted = dateSubmitted;
     }
 
     public long getId() {
@@ -54,5 +58,13 @@ public class ResponseToComplaint {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getDateSubmitted() {
+        return dateSubmitted;
+    }
+
+    public void setDateSubmitted(Date dateSubmitted) {
+        this.dateSubmitted = dateSubmitted;
     }
 }

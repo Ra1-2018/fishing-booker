@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/reviews")
 public class ReviewController {
@@ -47,6 +49,7 @@ public class ReviewController {
         review.setClient(client);
         review.setService(service);
         review.setApproved(false);
+        review.setDateSubmitted(new Date());
         review = reviewService.save(review);
         return new ResponseEntity<>(new ReviewDTO(review), HttpStatus.OK);
     }

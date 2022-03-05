@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/deletionRequests")
 public class DeletionRequestController {
@@ -25,6 +27,7 @@ public class DeletionRequestController {
         DeletionRequest deletionRequest = new DeletionRequest();
         deletionRequest.setExplanation(deletionRequestDTO.getExplanation());
         deletionRequest.setUserEmail(deletionRequestDTO.getUserEmail());
+        deletionRequest.setDateSubmitted(new Date());
         deletionRequest = deletionRequestService.save(deletionRequest);
         return new ResponseEntity<>(new DeletionRequestDTO(deletionRequest), HttpStatus.OK);
     }
