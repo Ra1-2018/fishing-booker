@@ -6,6 +6,7 @@
         <th mat-sort-header="price">Price</th>
         <th mat-sort-header="startTime">Start time</th>
         <th mat-sort-header="durationInDays">Number of days</th>
+        <th mat-sort-header="maxNumberOfPeople">Max people</th>
         <th *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'"></th>
       </tr>
     </thead>
@@ -16,6 +17,7 @@
         <td>{{action.price}}</td>
         <td>{{action.startTime | date:'short'}}</td>
         <td>{{action.durationInDays}}</td>
+        <td>{{action.maxNumberOfPeople}}</td>
         <td *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'"><button class="btn btn-secondary btn-sm" (click)="makeReservation(action)">Make reservation</button></td>
       </tr>
     </tbody>
