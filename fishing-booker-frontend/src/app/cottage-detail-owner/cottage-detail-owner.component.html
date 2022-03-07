@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -36,18 +36,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let freePeriod of freePeriods">
-                            <td>{{freePeriod.startDate}}</td>
-                            <td>{{freePeriod.endDate}}</td>
+                        <tr *ngFor="let period of cottage.freePeriods">
+                            <td>{{period.startDate | date:'longDate'}} </td>
+                            <td>{{period.endDate | date:'longDate'}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">Register free period</button>
             </div>
-            <div class="col-md-6">
-                <button class="btn btn-success" data-bs-toggle="modalAction" data-bs-target="#modalDialogAction">Action</button>
+            <div class="col-md-2">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialogAction">Action</button>
             </div>
         </div>
     </div>
@@ -64,12 +64,12 @@
                         <div class="col-md-12">
                             <ng-container [formGroup]="this.myFormGroup">
                             <div class="mb-2">
-                                <label for="startDate" class="form-label">Start:</label>
-                                <input type="datetime-local" class="form-control" id="startDate" formControlName="startDate">
+                                <label for="startDateTime" class="form-label">Start:</label>
+                                <input type="datetime-local" class="form-control" id="startDateTime" formControlName="startDateTime">
                             </div>
                             <div class="mb-2">
-                                <label for="endDate" class="form-label">End:</label>
-                                <input type="datetime-local" class="form-control" id="endDate" formControlName="endDate">
+                                <label for="endDateTime" class="form-label">End:</label>
+                                <input type="datetime-local" class="form-control" id="endDateTime" formControlName="endDateTime">
                             </div>
                             </ng-container>
                         </div>
@@ -79,15 +79,14 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddFreePeriod()">Add cottage</button>
                 </div>
-          </div>
+            </div>
         </div>
-      </div>
-
-      <div class="modal fade" id="modalDialogAction" tabindex="-1" aria-labelledby="modalDialogAction" aria-hidden="true">
-        <div class="modal-dialog" data-target="#modal">
+    </div>
+    <div class="modal fade" id="modalDialogAction" tabindex="-1" aria-labelledby="modalDialogAction" aria-hidden="true">
+        <div class="modal-dialog" data-target="#modalAction">
           <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="modalDialogAction">Action</h5>
+                <h5 class="modal-title" id="modalDialog">Action</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -95,12 +94,23 @@
                         <div class="col-md-12">
                             <ng-container [formGroup]="this.myFormGroupAction">
                             <div class="mb-2">
-                                <label for="startDate" class="form-label">Start:</label>
-                                <input type="datetime-local" class="form-control" id="startDate" formControlName="startDate">
+                                <label for="startTime" class="form-label">Start:</label>
+                                <input type="datetime-local" class="form-control" id="startTime" formControlName="startTime">
                             </div>
                             <div class="mb-2">
-                                <label for="endDate" class="form-label">End:</label>
-                                <input type="datetime-local" class="form-control" id="endDate" formControlName="endDate">
+                                <label for="durationInDays" class="form-label">Number of days:</label>
+                                <input type="number" class="form-control" id="durationInDays" formControlName="durationInDays">
+                            </div>
+                            <div class="mb-2">
+                                <label for="maxNumberOfPeople" class="form-label">Maximum people:</label>
+                                <input type="number" class="form-control" id="maxNumberOfPeople" formControlName="maxNumberOfPeople">
+                            </div>
+                            <div class="mb-2">
+                                <label for="price" class="form-label">Price:</label>
+                                <input type="number" class="form-control" id="price" formControlName="price">
+                            </div>
+                            <div class="mb-2">
+                                <label for="additionalServices" class="form-label">Additional services:</label>
                             </div>
                             </ng-container>
                         </div>
@@ -108,7 +118,7 @@
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddFreePeriod()">Add cottage</button>
+                <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddAction()">Create action</button>
                 </div>
             </div>
         </div>

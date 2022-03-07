@@ -12,7 +12,6 @@ import { DatePipe } from '@angular/common';
 })
 export class CottageDetailOwnerComponent implements OnInit {
   cottage: any
-  freePeriods: any[] = []
   errorMessage = '';
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
@@ -23,15 +22,17 @@ export class CottageDetailOwnerComponent implements OnInit {
     private cottageDetailOwnerService: CottageDetailOwnerService, private readonly formBuilder: FormBuilder) { 
       this.myFormGroup = this.formBuilder.group({
         id: 0,
-        startDate: [null, Validators.required],
-        endDate: [null, Validators.required],
+        startDateTime: [null, Validators.required],
+        endDateTime: [null, Validators.required],
         serviceId: Number(this.route.snapshot.paramMap.get('id'))
     })
       this.myFormGroupAction = this.formBuilder.group({
         id:0,
         startTime: [null, Validators.required],
         durationInDays: [null, Validators.required],
-        maxNumberOfPeople: [null, Validators.required]
+        maxNumberOfPeople: [null, Validators.required],
+        additionalServices: [],
+        price: 0
       })
     }
 
@@ -44,10 +45,7 @@ export class CottageDetailOwnerComponent implements OnInit {
 
   getCottage(id: number): void {
     this.cottageDetailOwnerService.getCottage(id).subscribe({
-      next: cottage => { 
-        this.cottage = cottage;
-        this.freePeriods = cottage.freePeriods; 
-      },
+      next: cottage => this.cottage = cottage,
       error: err => this.errorMessage = err
     })
   }
@@ -70,6 +68,10 @@ export class CottageDetailOwnerComponent implements OnInit {
     },
       error: (err) => {alert("Error has occured, free period was not created!")}
     });
+
+  }
+
+  public onClickAddAction(): void {
 
   }
 

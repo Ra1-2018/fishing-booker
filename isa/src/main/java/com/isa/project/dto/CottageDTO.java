@@ -2,6 +2,7 @@ package com.isa.project.dto;
 
 import com.isa.project.model.AdditionalService;
 import com.isa.project.model.Cottage;
+import com.isa.project.model.TimeRange;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ public class CottageDTO {
     private int maxNumberOfPeople;
     private double averageGrade;
     private Set<AdditionalServiceDTO> additionalServices;
+    private Set<TimeRangeDTO> freePeriods;
 
     public CottageDTO() { }
 
@@ -36,9 +38,13 @@ public class CottageDTO {
         for(AdditionalService additionalService : cottage.getAdditionalServices()) {
             this.additionalServices.add(new AdditionalServiceDTO(additionalService));
         }
+        this.freePeriods = new HashSet<>();
+        for(TimeRange timeRange : cottage.getFreePeriods()) {
+            this.freePeriods.add(new TimeRangeDTO(timeRange));
+        }
     }
 
-    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner, double pricePerDay, int maxNumberOfPeople, double averageGrade, Set<AdditionalServiceDTO> additionalServices) {
+    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner, double pricePerDay, int maxNumberOfPeople, double averageGrade, Set<AdditionalServiceDTO> additionalServices, Set<TimeRangeDTO> freePeriods) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -50,6 +56,7 @@ public class CottageDTO {
         this.maxNumberOfPeople = maxNumberOfPeople;
         this.averageGrade = averageGrade;
         this.additionalServices = additionalServices;
+        this.freePeriods = freePeriods;
     }
 
     public long getId() { return id; }
@@ -81,4 +88,6 @@ public class CottageDTO {
     public Set<AdditionalServiceDTO> getAdditionalServices() {
         return additionalServices;
     }
+
+    public Set<TimeRangeDTO> getFreePeriods() { return freePeriods; }
 }

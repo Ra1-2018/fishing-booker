@@ -26,7 +26,7 @@ export class CottageEditComponent implements OnInit {
         roomsTotalNumber: [],
         behaviorRules: [],
         cottageOwner: []
-    }); 
+    });
   }
 
   ngOnInit(): void {
