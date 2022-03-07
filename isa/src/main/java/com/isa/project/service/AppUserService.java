@@ -55,6 +55,13 @@ public class AppUserService {
         return appUserRepository.save(appUser);
     }
 
+    public AppUser saveAdministrator(AppUser appUser) {
+        List<UserRole> roles = roleService.findByName("ROLE_USER");
+        roles.addAll(roleService.findByName("ROLE_ADMIN"));
+        appUser.setUserRoles(roles);
+        return appUserRepository.save(appUser);
+    }
+
     public void remove(long id) { appUserRepository.deleteById(id); }
 
     public AppUser findByEmail(String email) { return appUserRepository.findByEmail(email); }

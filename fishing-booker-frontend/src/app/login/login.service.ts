@@ -9,7 +9,7 @@ export class LoginService {
 
   isLoggedIn = false;
   isCottageOwner = false;
-  userType = ''
+  userType = '';
 
   constructor(private _http: HttpClient) { }
 

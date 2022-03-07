@@ -18,11 +18,23 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="adventures">Adventures</a>
           </li>
+          <li *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'" class="nav-item">
+            <a class="nav-link" routerLink="instructors">Instructors</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="cottages">Cottages</a>
           </li>
+          <li *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'" class="nav-item">
+            <a class="nav-link" routerLink="cottage-owners">Cottage owners</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="boats">Boats</a>
+          </li>
+          <li *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'" class="nav-item">
+            <a class="nav-link" routerLink="boat-owners">Boat owners</a>
+          </li>
+          <li *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'" class="nav-item">
+            <a class="nav-link" routerLink="clients">Clients</a>
           </li>
           <li *ngIf="loginService.isLoggedIn" class="nav-item">
             <a class="nav-link" routerLink="profile">Profile</a>
@@ -56,6 +68,10 @@
           </li>
           <li *ngIf="loginService.isLoggedIn && loginService.userType == 'BOAT_OWNER'" class="nav-item">
             <a class="nav-link" routerLink="owned-boats">My boats</a>
+          </li>
+          <li *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'" class="nav-item">
+            <a class="nav-link" routerLink="register-admin">Register admin</a>
+          </li>
           <li *ngIf="loginService.isLoggedIn" class="nav-item">
             <a class="nav-link" routerLink="" (click)="logout()">Logout</a>
           </li>

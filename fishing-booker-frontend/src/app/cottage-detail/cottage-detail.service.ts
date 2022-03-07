@@ -16,6 +16,10 @@ export class CottageDetailService {
     )
   }
 
+  delete(id: number): Observable<any> {
+    return this._http.delete<Observable<any>>('http://localhost:8080/cottages/' + id)
+  }
+
   subscribe(serviceId: number) {
     return this._http.get('http://localhost:8080/services/subscribe/' + serviceId + '/' + localStorage.getItem('userId'))
     .pipe(
