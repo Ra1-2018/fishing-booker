@@ -3,10 +3,7 @@ package com.isa.project.controller;
 import com.isa.project.dto.AdditionalServiceDTO;
 import com.isa.project.dto.ReservationDTO;
 import com.isa.project.model.*;
-import com.isa.project.service.AdditionalServiceService;
-import com.isa.project.service.AppUserService;
-import com.isa.project.service.ReservationService;
-import com.isa.project.service.ServiceService;
+import com.isa.project.service.*;
 import com.isa.project.verification.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +31,9 @@ public class ReservationController {
 
     @Autowired
     private AdditionalServiceService additionalServiceService;
+
+    @Autowired
+    private ReservationTransactionService reservationTransactionService;
 
     @PreAuthorize("hasRole('CLIENT')")
     @GetMapping(value = "client/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -147,8 +147,9 @@ public class ReservationController {
         if(!serviceService.IsReservationValid(reservation)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        serviceService.RemoveFreePeriod(reservation);
-        reservation = reservationService.save(reservation);
+        //serviceService.RemoveFreePeriod(reservation);
+        //reservation = reservationService.save(reservation);
+        reservationTransactionService.makeRegularReservation(reservation);
         try {
             emailService.sendReservationNotification(reservation);
         } catch (InterruptedException e) {

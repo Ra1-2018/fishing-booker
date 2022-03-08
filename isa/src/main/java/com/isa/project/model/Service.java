@@ -48,6 +48,12 @@ public abstract class Service {
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Complaint> complaints = new HashSet<>();
 
+    @Version
+    private Integer version;
+
+    @Column
+    private Date lastUpdateDate;
+
     public Service() {}
 
     public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints) {
@@ -66,6 +72,7 @@ public abstract class Service {
         this.reviews = reviews;
         this.subscribedClients = subscribedClients;
         this.complaints = complaints;
+        this.lastUpdateDate = new Date();
     }
 
     public long getId() {
@@ -202,5 +209,21 @@ public abstract class Service {
             sum += review.getGrade();
         }
         return sum/reviews.size();
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 }

@@ -7,6 +7,8 @@ import com.isa.project.model.TimeRange;
 import com.isa.project.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -79,7 +81,7 @@ public class ServiceService {
                 timeRangeService.save(timeRange);
                 service.addFreePeriod(timeRange1);
                 service.addFreePeriod(timeRange2);
-                serviceRepository.save(service);
+                save(service);
                 timeRangeService.deleteById(timeRange.getId());
             }
         }
@@ -174,7 +176,7 @@ public class ServiceService {
     public void addFreePeriod(TimeRange newFreePeriod) {
         com.isa.project.model.Service service = newFreePeriod.getService();
         service.addFreePeriod(newFreePeriod);
-        serviceRepository.save(service);
+        save(service);
     }
 
     public Collection<com.isa.project.model.Service> getServicesFromReservations(Client client) {
@@ -187,5 +189,10 @@ public class ServiceService {
             }
         }
         return services;
+    }
+
+    public com.isa.project.model.Service save(com.isa.project.model.Service service) {
+        service.setLastUpdateDate(new Date());
+        return serviceRepository.save(service);
     }
 }
