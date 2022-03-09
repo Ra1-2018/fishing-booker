@@ -4,15 +4,13 @@ import com.isa.project.dto.ActionDTO;
 import com.isa.project.dto.AdditionalServiceDTO;
 import com.isa.project.dto.ReservationDTO;
 import com.isa.project.model.*;
-import com.isa.project.service.ActionService;
-import com.isa.project.service.AppUserService;
-import com.isa.project.service.ReservationService;
-import com.isa.project.service.ServiceService;
+import com.isa.project.service.*;
 import com.isa.project.verification.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,10 +35,10 @@ public class ActionController {
     private AppUserService appUserService;
 
     @Autowired
-    private ReservationService reservationService;
+    private EmailService emailService;
 
     @Autowired
-    private EmailService emailService;
+    private ReservationTransactionService reservationTransactionService;
 
     @GetMapping(value = "service/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<ActionDTO>> findByService(@PathVariable("id") Long id) {
@@ -67,24 +65,16 @@ public class ActionController {
         if(client == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Reservation reservation = new Reservation();
-        reservation.setReservationStartDateAndTime(action.getStartTime());
-        reservation.setDurationInDays(action.getDurationInDays());
-        reservation.setNumberOfPeople(action.getMaxNumberOfPeople());
-        Set<AdditionalService> additionalServices = new HashSet<>();
-        for(AdditionalService additionalService : action.getAdditionalServices()) {
-            reservation.addAdditionalService(additionalService);
-        }
-        reservation.setPrice(action.getPrice());
-        reservation.setClient(client);
-        reservation.setService(action.getService());
-        reservation = reservationService.save(reservation);
-        actionService.deleteById(actionId);
         try {
-            emailService.sendReservationNotification(reservation);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            Reservation reservation = reservationTransactionService.makeReservationFromAction(action, client);
+            try {
+                emailService.sendReservationNotification(reservation);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
+        } catch(ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
     }
 }

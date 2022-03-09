@@ -36,7 +36,7 @@ public abstract class Service {
     @OneToMany(mappedBy = "service", fetch =  FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<AdditionalService> additionalServices = new HashSet<>();
 
-    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Action> actions = new HashSet<>();
 
     @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -225,5 +225,10 @@ public abstract class Service {
 
     public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public void removeAction(Action action) {
+        actions.remove(action);
+        action.setService(null);
     }
 }
