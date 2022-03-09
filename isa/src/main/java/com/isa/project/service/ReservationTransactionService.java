@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class ReservationTransactionService {
 
     @Autowired
@@ -15,11 +16,9 @@ public class ReservationTransactionService {
     @Autowired
     private ServiceService serviceService;
 
-    @Transactional
+    @Transactional(readOnly = false)
     public void makeRegularReservation(Reservation reservation) {
-        try {
             reservationService.save(reservation);
             serviceService.RemoveFreePeriod(reservation);
-        } catch (ObjectOptimisticLockingFailureException e) {}
     }
 }

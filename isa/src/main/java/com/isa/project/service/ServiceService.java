@@ -83,8 +83,10 @@ public class ServiceService {
                 service.addFreePeriod(timeRange2);
                 save(service);
                 timeRangeService.deleteById(timeRange.getId());
+                return;
             }
         }
+        save(service);
     }
 
     public void RestoreFreePeriod(Reservation reservation) {

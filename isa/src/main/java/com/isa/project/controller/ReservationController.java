@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -147,9 +148,11 @@ public class ReservationController {
         if(!serviceService.IsReservationValid(reservation)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        //serviceService.RemoveFreePeriod(reservation);
-        //reservation = reservationService.save(reservation);
-        reservationTransactionService.makeRegularReservation(reservation);
+        try {
+            reservationTransactionService.makeRegularReservation(reservation);
+        }catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         try {
             emailService.sendReservationNotification(reservation);
         } catch (InterruptedException e) {
