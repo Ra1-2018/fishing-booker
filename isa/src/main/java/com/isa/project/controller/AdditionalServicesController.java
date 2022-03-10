@@ -11,6 +11,7 @@ import com.isa.project.service.CottageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Properties;
@@ -25,12 +26,13 @@ public class AdditionalServicesController {
     @Autowired
     private AdditionalServiceService additionalServiceService;
 
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping(value = "/{id}", consumes = "application/json")
-    public ResponseEntity<AdditionalServiceDTO> createAdditionalService(@PathVariable("id") Long id, @RequestBody AdditionalServiceDTO additionalServiceDTO) {
+    @PostMapping(consumes = "application/json")
+    public ResponseEntity<AdditionalServiceDTO> createAdditionalService(@RequestBody AdditionalServiceDTO additionalServiceDTO) {
 
 
-        Cottage cottage = cottageService.findById(id);
+        Cottage cottage = cottageService.findById(additionalServiceDTO.getServiceId());
 
         if (cottage == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -41,7 +43,10 @@ public class AdditionalServicesController {
         additionalService.setName(additionalServiceDTO.getName());
         additionalService.setPrice(additionalServiceDTO.getPrice());
         additionalService.setService(cottage);
+
         additionalServiceService.save(additionalService);
+        cottage.addAdditionalService(additionalService);
+        cottageService.save(cottage);
 
         return new ResponseEntity<>(new AdditionalServiceDTO(additionalService), HttpStatus.CREATED);
     }

@@ -36,7 +36,7 @@ public abstract class Service {
     @OneToMany(mappedBy = "service", fetch =  FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<AdditionalService> additionalServices = new HashSet<>();
 
-    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Action> actions = new HashSet<>();
 
     @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -160,6 +160,26 @@ public abstract class Service {
 
     public void setAdditionalServices(Set<AdditionalService> additionalServices) {
         this.additionalServices = additionalServices;
+    }
+
+    public void addAdditionalService(AdditionalService additionalService) {
+        additionalServices.add(additionalService);
+        additionalService.setService(this);
+    }
+
+    public void removeAdditionalService(AdditionalService additionalService) {
+        additionalServices.remove(additionalService);
+        additionalService.setService(null);
+    }
+
+    public void addAction(Action action) {
+        actions.add(action);
+        action.setService(this);
+    }
+
+    public void removeAction(Action action) {
+        actions.remove(action);
+        action.setService(null);
     }
 
     public Set<Action> getActions() {

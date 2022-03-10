@@ -94,7 +94,7 @@ public class CottageController {
 
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping(consumes = "application/json")
+    @PostMapping(value = "/update", consumes = "application/json")
     public ResponseEntity<CottageDTO> updateCottage(@RequestBody CottageDTO cottageDTO) {
 
         Cottage cottage = cottageService.findById(cottageDTO.getId());

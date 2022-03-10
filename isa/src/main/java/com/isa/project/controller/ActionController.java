@@ -1,23 +1,15 @@
 package com.isa.project.controller;
 
-import com.isa.project.dto.ActionDTO;
-import com.isa.project.dto.AdditionalServiceDTO;
-import com.isa.project.dto.ReservationDTO;
+import com.isa.project.dto.*;
 import com.isa.project.model.*;
-import com.isa.project.service.ActionService;
-import com.isa.project.service.AppUserService;
-import com.isa.project.service.ReservationService;
-import com.isa.project.service.ServiceService;
+import com.isa.project.service.*;
 import com.isa.project.verification.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +23,9 @@ public class ActionController {
     private ActionService actionService;
 
     @Autowired
+    private AdditionalServiceService additionalServiceService;
+
+    @Autowired
     private ServiceService serviceService;
 
     @Autowired
@@ -40,7 +35,48 @@ public class ActionController {
     private ReservationService reservationService;
 
     @Autowired
+    private CottageService cottageService;
+
+    @Autowired
     private EmailService emailService;
+
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PostMapping(consumes = "application/json")
+    public ResponseEntity<ActionDTO> createAction(@RequestBody ActionDTO actionDTO) {
+
+        Cottage cottage = cottageService.findById(actionDTO.getService().getId());
+
+        if(cottage == null) { return new ResponseEntity<>(HttpStatus.BAD_REQUEST); }
+
+        Action action = new Action();
+        action.setStartTime(actionDTO.getStartTime());
+        action.setDurationInDays(actionDTO.getDurationInDays());
+        action.setPrice(actionDTO.getPrice());
+        action.setMaxNumberOfPeople(actionDTO.getMaxNumberOfPeople());
+        action.setService(cottage);
+
+        Collection<AdditionalServiceDTO> additionalServiceDTOS = actionDTO.getAdditionalServices();
+
+        if (additionalServiceDTOS != null ) {
+            for(AdditionalServiceDTO additionalServiceDTO : additionalServiceDTOS) {
+                action.addAdditionalService(additionalServiceService.findById(additionalServiceDTO.getId()));
+            }
+        }
+
+        if(!serviceService.IsActionValid(action)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        actionService.save(action);
+
+        try {
+            emailService.sendActionNotification(action);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(new ActionDTO(action), HttpStatus.OK);
+    }
 
     @GetMapping(value = "service/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<ActionDTO>> findByService(@PathVariable("id") Long id) {

@@ -86,6 +86,14 @@ public class Action {
         this.additionalServices = additionalServices;
     }
 
+    public void addAdditionalService(AdditionalService additionalService) {
+        additionalServices.add(additionalService);
+    }
+
+    public void removeAdditionalService(AdditionalService additionalService) {
+        additionalServices.remove(additionalService);
+    }
+
     public double getPrice() {
         return price;
     }

@@ -1,9 +1,6 @@
 package com.isa.project.verification;
 
-import com.isa.project.model.AdditionalService;
-import com.isa.project.model.AppUser;
-import com.isa.project.model.RegistrationRequest;
-import com.isa.project.model.Reservation;
+import com.isa.project.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
@@ -16,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.UUID;
 
 @Service
@@ -93,5 +91,42 @@ public class EmailService {
         javaMailSender.send(mail);
 
         System.out.println("Email poslat!");
+    }
+
+    @Async
+    public void sendActionNotification(Action action) throws MailException, InterruptedException {
+        SimpleMailMessage mail = new SimpleMailMessage();
+
+        Collection<Client> clients = action.getService().getSubscribedClients();
+
+        for (Client client : clients) {
+            mail.setTo(client.getEmail());
+            mail.setFrom(env.getProperty("spring.mail.username"));
+            mail.setSubject("New action for" + action.getService().getName());
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            var message = MessageFormat.format("New action has been created.\n" +
+                    "Action details:\n" +
+                    "Service: {0} \n" +
+                    "Start time: {1} \n" +
+                    "Number of days: {2} \n" +
+                    "Number of people: {3} \n", action.getService().getName(), dateFormat.format(action.getStartTime()), action.getDurationInDays(), action.getMaxNumberOfPeople());
+            if(action.getAdditionalServices().size() > 0) {
+                message += "Additional services: ";
+                boolean first = true;
+                for(AdditionalService additionalService : action.getAdditionalServices()) {
+                    if(first) {
+                        first = false;
+                    }
+                    else {
+                        message += ", ";
+                    }
+                    message += additionalService.getName();
+                }
+            }
+            mail.setText(message);
+            javaMailSender.send(mail);
+
+            System.out.println("Email poslat!");
+        }
     }
 }

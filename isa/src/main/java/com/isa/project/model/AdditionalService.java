@@ -24,7 +24,7 @@ public class AdditionalService {
     @ManyToMany(mappedBy = "additionalServices", fetch = FetchType.EAGER)
     private Set<Reservation> reservations;
 
-    @ManyToMany(mappedBy = "additionalServices")
+    @ManyToMany(mappedBy = "additionalServices", fetch = FetchType.EAGER)
     private Set<Action> actions;
 
     public AdditionalService() {}

@@ -1,6 +1,7 @@
 package com.isa.project.service;
 
 import com.isa.project.dto.ServiceCriteriaDTO;
+import com.isa.project.model.Action;
 import com.isa.project.model.Client;
 import com.isa.project.model.Reservation;
 import com.isa.project.model.TimeRange;
@@ -55,6 +56,21 @@ public class ServiceService {
         Calendar c = Calendar.getInstance();
         c.setTime(startDate);
         c.add(Calendar.DATE, reservation.getDurationInDays());
+        Date endDate = c.getTime();
+        for(TimeRange timeRange : service.getFreePeriods()) {
+            if(startDate.after(timeRange.getStartDate()) && endDate.before(timeRange.getEndDate())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean IsActionValid(Action action) {
+        com.isa.project.model.Service service = action.getService();
+        Date startDate = action.getStartTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(startDate);
+        c.add(Calendar.DATE, action.getDurationInDays());
         Date endDate = c.getTime();
         for(TimeRange timeRange : service.getFreePeriods()) {
             if(startDate.after(timeRange.getStartDate()) && endDate.before(timeRange.getEndDate())) {

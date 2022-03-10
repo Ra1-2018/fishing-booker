@@ -3,6 +3,7 @@ package com.isa.project.dto;
 import com.isa.project.model.AdditionalService;
 import com.isa.project.model.Cottage;
 import com.isa.project.model.TimeRange;
+import com.isa.project.model.Action;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +21,7 @@ public class CottageDTO {
     private double averageGrade;
     private Set<AdditionalServiceDTO> additionalServices;
     private Set<TimeRangeDTO> freePeriods;
+    private Set<ActionDTO> actions;
 
     public CottageDTO() { }
 
@@ -42,9 +44,13 @@ public class CottageDTO {
         for(TimeRange timeRange : cottage.getFreePeriods()) {
             this.freePeriods.add(new TimeRangeDTO(timeRange));
         }
+        this.actions = new HashSet<>();
+        for(Action action: cottage.getActions()) {
+            this.actions.add(new ActionDTO(action));
+        }
     }
 
-    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner, double pricePerDay, int maxNumberOfPeople, double averageGrade, Set<AdditionalServiceDTO> additionalServices, Set<TimeRangeDTO> freePeriods) {
+    public CottageDTO(long id, String name, String address, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner, double pricePerDay, int maxNumberOfPeople, double averageGrade, Set<AdditionalServiceDTO> additionalServices, Set<TimeRangeDTO> freePeriods, Set<ActionDTO> actions) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -57,6 +63,7 @@ public class CottageDTO {
         this.averageGrade = averageGrade;
         this.additionalServices = additionalServices;
         this.freePeriods = freePeriods;
+        this.actions = actions;
     }
 
     public long getId() { return id; }
@@ -90,4 +97,6 @@ public class CottageDTO {
     }
 
     public Set<TimeRangeDTO> getFreePeriods() { return freePeriods; }
+
+    public Set<ActionDTO> getActions() { return actions; }
 }

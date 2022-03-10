@@ -18,6 +18,6 @@ export class CottageEditService {
 
 
   updateCottage(cottage: any): Observable<any> {
-    return this._http.put<Observable<any>>('http://localhost:8080/cottages', cottage);
+    return this._http.post<Observable<any>>('http://localhost:8080/cottages/update', cottage);
   }
 }

@@ -12,9 +12,12 @@ import { DatePipe } from '@angular/common';
 })
 export class CottageDetailOwnerComponent implements OnInit {
   cottage: any
+  additionalServicesField: any[] = []
+  price: any
   errorMessage = '';
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
+  public readonly additionalServiceFormGroup: FormGroup;
   
 
   constructor(private route: ActivatedRoute, 
@@ -22,18 +25,25 @@ export class CottageDetailOwnerComponent implements OnInit {
     private cottageDetailOwnerService: CottageDetailOwnerService, private readonly formBuilder: FormBuilder) { 
       this.myFormGroup = this.formBuilder.group({
         id: 0,
-        startDateTime: [null, Validators.required],
-        endDateTime: [null, Validators.required],
+        startDate: [null, Validators.required],
+        endDate: [null, Validators.required],
         serviceId: Number(this.route.snapshot.paramMap.get('id'))
-    })
+      });
       this.myFormGroupAction = this.formBuilder.group({
         id:0,
         startTime: [null, Validators.required],
         durationInDays: [null, Validators.required],
         maxNumberOfPeople: [null, Validators.required],
         additionalServices: [],
-        price: 0
-      })
+        price: 0,
+        service: { id: Number(this.route.snapshot.paramMap.get('id'))} 
+      });
+      this.additionalServiceFormGroup = this.formBuilder.group({
+        id: 0,
+        name: ['', Validators.required],
+        price: ['', Validators.required],
+        serviceId: Number(this.route.snapshot.paramMap.get('id'))
+      });
     }
 
   ngOnInit(): void {
@@ -73,6 +83,57 @@ export class CottageDetailOwnerComponent implements OnInit {
 
   public onClickAddAction(): void {
 
+    if (this.myFormGroupAction.invalid) {
+      alert('Invalid input');
+      return;
   }
 
+  const action = {
+      id: this.myFormGroupAction.get('id')?.value,
+      startTime: this.myFormGroupAction.get('startTime')?.value,
+      durationInDays: this.myFormGroupAction.get('durationInDays')?.value,
+      maxNumberOfPeople: this.myFormGroupAction.get('maxNumberOfPeople')?.value,
+      additionalServices: this.additionalServicesField,
+      price: this.myFormGroupAction.get('price')?.value,
+      service: { id: Number(this.route.snapshot.paramMap.get('id'))} 
+  }
+
+    this.cottageDetailOwnerService.addAction(action).subscribe({
+      next: (data) => {
+      alert("Succesfully created!")
+
+    },
+      error: (err) => {alert("Error has occured, action was not created!")}
+    });
+  }
+
+
+  public addAdditionalService(): void {
+    if (this.additionalServiceFormGroup.invalid) {
+      alert('Invalid input');
+      return;
+  }
+
+    this.cottageDetailOwnerService.addAdditionalService(this.additionalServiceFormGroup.getRawValue()).subscribe({
+      next: (data) => {
+      alert("Succesfully created!")
+
+    },
+      error: (err) => {alert("Error has occured, additional service was not created!")}
+    });
+  }
+
+  fieldsChange(values:any, additionalService: any):void {
+    console.log(values.currentTarget.checked);
+    if(values.currentTarget.checked) {
+      this.additionalServicesField.push(additionalService);
+    }
+    else {
+      const index: number = this.additionalServicesField.indexOf(additionalService);
+      if (index !== -1) {
+          this.additionalServicesField.splice(index, 1);
+      }        
+    }
+    console.log(this.additionalServicesField);
+  }
 }
