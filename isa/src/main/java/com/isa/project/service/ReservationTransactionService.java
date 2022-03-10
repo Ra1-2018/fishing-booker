@@ -26,9 +26,9 @@ public class ReservationTransactionService {
     private ActionService actionService;
 
     @Transactional(readOnly = false)
-    public void makeRegularReservation(Reservation reservation) {
-            reservationService.save(reservation);
+    public Reservation makeRegularReservation(Reservation reservation) {
             serviceService.RemoveFreePeriod(reservation);
+            return reservationService.save(reservation);
     }
 
     @Transactional(readOnly = false)

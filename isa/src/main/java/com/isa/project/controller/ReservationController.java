@@ -149,7 +149,7 @@ public class ReservationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         try {
-            reservationTransactionService.makeRegularReservation(reservation);
+            reservation = reservationTransactionService.makeRegularReservation(reservation);
         }catch (ObjectOptimisticLockingFailureException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
