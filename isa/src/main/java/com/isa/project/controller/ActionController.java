@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,13 +33,13 @@ public class ActionController {
     private AppUserService appUserService;
 
     @Autowired
-    private ReservationService reservationService;
+    private EmailService emailService;
+
+    @Autowired
+    private ReservationTransactionService reservationTransactionService;
 
     @Autowired
     private CottageService cottageService;
-
-    @Autowired
-    private EmailService emailService;
 
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
     @PostMapping(consumes = "application/json")
@@ -103,24 +104,16 @@ public class ActionController {
         if(client == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Reservation reservation = new Reservation();
-        reservation.setReservationStartDateAndTime(action.getStartTime());
-        reservation.setDurationInDays(action.getDurationInDays());
-        reservation.setNumberOfPeople(action.getMaxNumberOfPeople());
-        Set<AdditionalService> additionalServices = new HashSet<>();
-        for(AdditionalService additionalService : action.getAdditionalServices()) {
-            reservation.addAdditionalService(additionalService);
-        }
-        reservation.setPrice(action.getPrice());
-        reservation.setClient(client);
-        reservation.setService(action.getService());
-        reservation = reservationService.save(reservation);
-        actionService.deleteById(actionId);
         try {
-            emailService.sendReservationNotification(reservation);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            Reservation reservation = reservationTransactionService.makeReservationFromAction(action, client);
+            try {
+                emailService.sendReservationNotification(reservation);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
+        } catch(ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
     }
 }

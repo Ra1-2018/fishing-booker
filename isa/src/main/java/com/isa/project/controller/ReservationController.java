@@ -3,15 +3,13 @@ package com.isa.project.controller;
 import com.isa.project.dto.AdditionalServiceDTO;
 import com.isa.project.dto.ReservationDTO;
 import com.isa.project.model.*;
-import com.isa.project.service.AdditionalServiceService;
-import com.isa.project.service.AppUserService;
-import com.isa.project.service.ReservationService;
-import com.isa.project.service.ServiceService;
+import com.isa.project.service.*;
 import com.isa.project.verification.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +33,9 @@ public class ReservationController {
 
     @Autowired
     private AdditionalServiceService additionalServiceService;
+
+    @Autowired
+    private ReservationTransactionService reservationTransactionService;
 
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
     @GetMapping(value = "cottage_owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -176,8 +177,11 @@ public class ReservationController {
         if(!serviceService.IsReservationValid(reservation)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        serviceService.RemoveFreePeriod(reservation);
-        reservation = reservationService.save(reservation);
+        try {
+            reservation = reservationTransactionService.makeRegularReservation(reservation);
+        }catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         try {
             emailService.sendReservationNotification(reservation);
         } catch (InterruptedException e) {

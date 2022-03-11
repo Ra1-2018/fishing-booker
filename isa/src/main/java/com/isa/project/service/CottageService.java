@@ -32,6 +32,7 @@ public class CottageService{
     }
 
     public Cottage save(Cottage cottage) {
+        cottage.setLastUpdateDate(new Date());
         return cottageRepository.save(cottage);
     }
 
