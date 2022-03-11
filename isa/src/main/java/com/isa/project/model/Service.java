@@ -247,8 +247,4 @@ public abstract class Service {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public void removeAction(Action action) {
-        actions.remove(action);
-        action.setService(null);
-    }
 }
