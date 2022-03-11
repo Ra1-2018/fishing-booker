@@ -15,10 +15,10 @@ export class CottageDetailComponent implements OnInit {
   id: number|undefined;
   subscriptions:any[] = []
 
-  constructor(private route: ActivatedRoute, 
-    private router: Router, 
-    private cottageDetailService: CottageDetailService,
-    public readonly loginService: LoginService) { }
+  constructor(public readonly loginService: LoginService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private cottageDetailService: CottageDetailService) { }
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
@@ -35,6 +35,13 @@ export class CottageDetailComponent implements OnInit {
       next: cottage => this.cottage = cottage,
       error: err => this.errorMessage = err
     })
+  }
+
+  delete(id:number):void {
+    this.cottageDetailService.delete(id).subscribe(
+      response => {this.router.navigate(['cottages']); }
+      );
+    return;
   }
 
   subscribe(): void {

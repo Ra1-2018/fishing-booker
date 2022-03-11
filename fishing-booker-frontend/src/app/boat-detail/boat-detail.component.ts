@@ -37,6 +37,13 @@ export class BoatDetailComponent implements OnInit {
     })
   }
 
+  delete(id:number):void {
+    this.boatDetailService.delete(id).subscribe(
+      response => {this.router.navigate(['boats']); }
+      );
+    return;
+  }
+
   subscribe(): void {
     this.boatDetailService.subscribe(this.id as number).subscribe({
       next: () => {

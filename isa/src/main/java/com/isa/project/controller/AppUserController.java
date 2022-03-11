@@ -23,6 +23,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.*;
 
+
 @RestController
 @RequestMapping("/users")
 public class AppUserController {
@@ -111,6 +112,32 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "admin")
+    public ResponseEntity<AppUserDTO> saveAdministrator(@RequestBody AppUserDTO appUserDTO) {
+
+        if (appUserDTO.getEmail() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if(appUserService.findByEmail(appUserDTO.getEmail()) != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        String password = "sdh4ny7kid93nd";
+        AppUser appUser = new Administrator(appUserDTO.getId(), appUserDTO.getEmail(), passwordEncoder.encode(password), appUserDTO.getName(), appUserDTO.getSurname(), appUserDTO.getAddress(), appUserDTO.getCity(), appUserDTO.getCountry(), appUserDTO.getTelephone());
+        appUser.setEnabled(true);
+        appUser = appUserService.saveAdministrator(appUser);
+
+
+        try {
+            emailService.sendNotificationAdminReg(appUser, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
+    }
+
     @GetMapping("/activate/{token}")
     public RedirectView activate(@PathVariable("token") String token) {
 
@@ -135,7 +162,6 @@ public class AppUserController {
         return new RedirectView("http://localhost:4200/login");
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/approve/{id}")
     public ResponseEntity<Void> approveRequest(@PathVariable("id") Long id) {
 
@@ -158,7 +184,6 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/decline/{id}")
     public ResponseEntity<Void> declineRequest(@PathVariable("id") Long id) {
 
@@ -166,7 +191,7 @@ public class AppUserController {
         if(request == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        request.setApproved(true);
+        request.setApproved(false);
         requestService.remove(id);
 
         try {
@@ -191,7 +216,13 @@ public class AppUserController {
         int expiresIn = tokenUtils.getExpiredIn();
         UserTokenState userTokenState = new UserTokenState(jwt, expiresIn);
 
-        return new ResponseEntity<>(new LoginResponseDTO(appUser, userTokenState), HttpStatus.OK);
+        Administrator admin = null;
+        if(appUser.getAppUserType() == AppUserType.ADMIN) {
+            admin = (Administrator) appUserService.findOne(appUser.getId());
+            return new ResponseEntity<>(new LoginResponseDTO(appUser, userTokenState, admin.isFirstReg()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new LoginResponseDTO(appUser, userTokenState), HttpStatus.OK);
+        }
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -205,7 +236,58 @@ public class AppUserController {
         return new ResponseEntity<>(appUserDTOS, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/cottage-owners")
+    public ResponseEntity<Collection<AppUserDTO>> findAllCottageOwners() {
+        Collection<AppUser> appUsers = appUserService.findAll();
+        Collection<AppUserDTO> appUserDTOS = new ArrayList<>();
+        for (AppUser appUser : appUsers) {
+            if(appUser.getAppUserType() == AppUserType.COTTAGE_OWNER) {
+                appUserDTOS.add(new AppUserDTO(appUser));
+            }
+        }
+
+        return new ResponseEntity<>(appUserDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/boat-owners")
+    public ResponseEntity<Collection<AppUserDTO>> findAllBoatOwners() {
+        Collection<AppUser> appUsers = appUserService.findAll();
+        Collection<AppUserDTO> appUserDTOS = new ArrayList<>();
+        for (AppUser appUser : appUsers) {
+            if(appUser.getAppUserType() == AppUserType.BOAT_OWNER) {
+                appUserDTOS.add(new AppUserDTO(appUser));
+            }
+        }
+
+        return new ResponseEntity<>(appUserDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/instructors")
+    public ResponseEntity<Collection<AppUserDTO>> findAllInstructors() {
+        Collection<AppUser> appUsers = appUserService.findAll();
+        Collection<AppUserDTO> appUserDTOS = new ArrayList<>();
+        for (AppUser appUser : appUsers) {
+            if(appUser.getAppUserType() == AppUserType.INSTRUCTOR) {
+                appUserDTOS.add(new AppUserDTO(appUser));
+            }
+        }
+
+        return new ResponseEntity<>(appUserDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/clients")
+    public ResponseEntity<Collection<AppUserDTO>> findAllClients() {
+        Collection<AppUser> appUsers = appUserService.findAll();
+        Collection<AppUserDTO> appUserDTOS = new ArrayList<>();
+        for (AppUser appUser : appUsers) {
+            if(appUser.getAppUserType() == AppUserType.CLIENT) {
+                appUserDTOS.add(new AppUserDTO(appUser));
+            }
+        }
+
+        return new ResponseEntity<>(appUserDTOS, HttpStatus.OK);
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/requests")
     public ResponseEntity<Collection<RegistrationRequestDTO>> findAllRequests() {
         Collection<RegistrationRequest> requests = requestService.findAll();
@@ -217,7 +299,7 @@ public class AppUserController {
         return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    //@PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUserDTO> findOne(@PathVariable("id") long id) {
         AppUser appUser = appUserService.findOne(id);
@@ -257,6 +339,21 @@ public class AppUserController {
         appUser.setTelephone(appUserDTO.getTelephone());
 
         appUser = appUserService.save(appUser);
+        return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/login-new-admin")
+    public ResponseEntity<AppUserDTO> passwordUpdateNewAdmin(@RequestBody AppUserDTO appUserDTO) {
+
+        Administrator appUser = (Administrator) appUserService.findOne(appUserDTO.getId());
+
+        if(appUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        appUser.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
+        appUser.setFirstReg(false);
+        appUser = (Administrator) appUserService.saveAdministrator(appUser);
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
     }
 }

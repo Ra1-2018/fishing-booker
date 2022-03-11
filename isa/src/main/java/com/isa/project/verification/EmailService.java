@@ -61,6 +61,17 @@ public class EmailService {
     }
 
     @Async
+    public void sendNotificationAdminReg(AppUser appUser, String password) {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(appUser.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setText("You have been successfully registered. Your temporary password is: "+password+". Please change it on your first login.");
+        javaMailSender.send(mail);
+
+        System.out.println("Email poslat!");
+    }
+
+    @Async
     public void sendReservationNotification(Reservation reservation) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(reservation.getClient().getEmail());

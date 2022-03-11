@@ -11,6 +11,8 @@ import { LoginService } from './login.service';
 export class LoginComponent implements OnInit {
 
   public readonly myFormGroup: FormGroup;
+  public readonly newPasswordFormGroup: FormGroup;
+  public show:boolean = true;
 
   constructor(private loginService: LoginService,
               private readonly formBuilder: FormBuilder,
@@ -18,7 +20,11 @@ export class LoginComponent implements OnInit {
                 this.myFormGroup = this.formBuilder.group({
                   email: ['', Validators.compose([Validators.required, Validators.email])],
                   password: ['', Validators.required],
-              });
+                });
+                this.newPasswordFormGroup = this.formBuilder.group({
+                  password: ['', Validators.required],
+                  rePassword: ['', Validators.required]
+                });
                }
 
   ngOnInit(): void {
@@ -37,9 +43,29 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('jwt', data.userTokenState.accessToken)
         this.loginService.isLoggedIn = true;
         this.loginService.userType = data.appUserType;
-        this.router.navigate(['profile']);
+        if(data.firstReg==true && data.appUserType=='ADMIN') {
+            //this.show = true;
+            this.router.navigate(['login-new-admin']);
+          } else {
+            //this.show = false;
+            this.router.navigate(['profile']);
+          }
       },
       error: (err) => {alert("Invalid username/password!")}
     });
-}
+  }
+
+  public onClickUpdate(): void {
+    if (this.myFormGroup.invalid) {
+      // stop here if it's invalid
+      alert('Invalid input');
+      return;
+    }
+    this.loginService.loginNewAdmin(this.myFormGroup.getRawValue()).subscribe({
+      next: (data) => {
+        this.router.navigate(['profile']);
+      },
+      error: (err) => {alert("An unexpected error!")}
+    });
+  }
 }

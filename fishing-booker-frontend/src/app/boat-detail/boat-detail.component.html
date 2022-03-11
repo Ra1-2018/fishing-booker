@@ -82,6 +82,9 @@
                 <div class="row">
                     <a [routerLink]="['/actions', id]">View actions</a>
                 </div>
+                <<div class="row">
+                  <small><button *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'"  class="btn btn-outline-danger btn-sm" name="deleteButton" (click)="delete(boat.id)">Delete</button></small>
+                </div>
             </div>
         </div>
     </div>

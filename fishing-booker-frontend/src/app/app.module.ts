@@ -23,6 +23,16 @@ import { ClientCottageReservationsComponent } from './client/client-cottage-rese
 import { ClientBoatReservationsComponent } from './client/client-boat-reservations/client-boat-reservations.component';
 import { OwnedBoatsComponent } from './owned-boats/owned-boats.component';
 import { BoatEditComponent } from './boat-edit/boat-edit.component';
+import { RegisterAdminComponent } from './register-admin/register-admin.component';
+import { CottageOwnersComponent } from './cottage-owners/cottage-owners.component';
+import { CottageOwnerDetailComponent } from './cottage-owner-detail/cottage-owner-detail.component';
+import { BoatOwnersComponent } from './boat-owners/boat-owners.component';
+import { BoatOwnerDetailComponent } from './boat-owner-detail/boat-owner-detail.component';
+import { InstructorsComponent } from './instructors/instructors.component';
+import { InstructorDetailComponent } from './instructor-detail/instructor-detail.component';
+import { ClientsComponent } from './clients/clients.component';
+import { ClientDetailComponent } from './client-detail/client-detail.component';
+import { LoginNewAdminComponent } from './login-new-admin/login-new-admin.component';
 import { ClientAdventureReservationsComponent } from './client/client-adventure-reservations/client-adventure-reservations.component';
 import { ClientUpcomingReservationsComponent } from './client/client-upcoming-reservations/client-upcoming-reservations.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -90,6 +100,16 @@ import { ClientReviewComponent } from './client/client-review/client-review.comp
     ClientBoatReservationsComponent,
     OwnedBoatsComponent,
     BoatEditComponent,
+    RegisterAdminComponent,
+    CottageOwnersComponent,
+    CottageOwnerDetailComponent,
+    BoatOwnersComponent,
+    BoatOwnerDetailComponent,
+    InstructorsComponent,
+    InstructorDetailComponent,
+    ClientsComponent,
+    ClientDetailComponent,
+    LoginNewAdminComponent,
     ClientAdventureReservationsComponent,
     ClientUpcomingReservationsComponent,
     SearchPipe,

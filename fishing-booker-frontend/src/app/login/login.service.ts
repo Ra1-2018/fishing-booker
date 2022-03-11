@@ -9,7 +9,7 @@ export class LoginService {
 
   isLoggedIn = false;
   isCottageOwner = false;
-  userType = ''
+  userType = '';
 
   constructor(private _http: HttpClient) { }
 
@@ -19,5 +19,9 @@ export class LoginService {
       tap(data => console.log("data: ", data))
     )
   };
+
+  loginNewAdmin(appUser: any): Observable<any> {
+    return this._http.post<Observable<any>>('http://localhost:8080/users/login-new-admin', appUser);
+  }
   
 }

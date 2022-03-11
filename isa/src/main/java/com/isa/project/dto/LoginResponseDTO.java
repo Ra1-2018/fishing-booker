@@ -7,6 +7,7 @@ public class LoginResponseDTO {
     private long id;
     private AppUserType appUserType;
     private UserTokenState userTokenState;
+    private boolean firstReg;
 
     public long getId() {
         return id;
@@ -20,6 +21,8 @@ public class LoginResponseDTO {
         return userTokenState;
     }
 
+    public boolean isFirstReg() { return firstReg; }
+
     public LoginResponseDTO(AppUser appUser, UserTokenState userTokenState) {
         this.id = appUser.getId();
         this.appUserType = appUser.getAppUserType();
@@ -32,5 +35,12 @@ public class LoginResponseDTO {
         this.id = id;
         this.appUserType = appUserType;
         this.userTokenState = userTokenState;
+    }
+
+    public LoginResponseDTO(AppUser appUser, UserTokenState userTokenState, boolean firstReg) {
+        this.id = appUser.getId();
+        this.appUserType = appUser.getAppUserType();
+        this.userTokenState = userTokenState;
+        this.firstReg = firstReg;
     }
 }

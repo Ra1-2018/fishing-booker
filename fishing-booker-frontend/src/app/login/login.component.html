@@ -11,9 +11,43 @@
                   <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
                 </div>
                 <div class="d-grid col-6 mx-auto">
+                  <!-- <button [routerLink]="[]" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary" (click)="onClickSubmit()">Submit</button> -->
                   <button class="btn btn-primary" (click)="onClickSubmit()">Submit</button>
                 </div>
             </ng-container>
         </div>
     </div>
 </div>
+
+<!-- Modal
+<div *ngIf="show" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enter new password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+              <div class="col">
+                  <ng-container [formGroup]="this.newPasswordFormGroup">
+                    <div class="mb-3">
+                      <label for="password" class="form-label">Password:</label>
+                      <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="rePassword" class="form-label">Re-enter password:</label>
+                        <input type="password" class="form-control" id="rePassword" placeholder="Re-enter password" formControlName="rePassword">
+                      </div>
+                    <div class="d-grid col-6 mx-auto">
+                      <button class="btn btn-primary" (click)="onClickUpdate()">Update password</button>
+                    </div>
+                </ng-container>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

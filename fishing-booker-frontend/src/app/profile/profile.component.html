@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
 
-        <h3 class="h3">Izmeni profil</h3>
+        <h3 class="h3">Update your profile</h3>
 
         <div class="col-md-4">
             <ng-container [formGroup]="this.myFormGroup">
@@ -47,16 +47,16 @@
         </div>
 
         <div name="administratorProfile" *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'">
-            <h3 class="h3">Zahtevi za registraciju</h3>
             <div>                
                 <br>
                 <table *ngIf='requests && requests.length' class="table">
+                    <h3 class="h3">Zahtevi za registraciju</h3>
                     <thead>
                         <tr>
-                            <th class="col">Korisnicko ime</th>
-                            <th class="col">Tip korisnika</th>
-                            <th class="col">Ime korisnika</th>
-                            <th class="col">Opis registracije</th>
+                            <th class="col">Username</th>
+                            <th class="col">User type</th>
+                            <th class="col">Name</th>
+                            <th class="col">Registration explanation</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,8 +65,8 @@
                             <td>{{request.user.appUserType}}</td>
                             <td>{{request.user.name}} {{request.user.surname}}</td>
                             <td>{{request.explanation}}</td>
-                            <td><button name="approveRegistrationRequest" class="btn btn-secondary" (click)="onApprove(request.id);">Odobri zahtev</button></td>
-                            <td><button name="declineRegistrationRequest" class="btn btn-secondary" (click)="onDecline(request.id);">Odbaci zahtev</button></td>
+                            <td><button name="approveRegistrationRequest" class="btn btn-secondary" (click)="onApprove(request.id);">Approve</button></td>
+                            <td><button name="declineRegistrationRequest" class="btn btn-secondary" (click)="onDecline(request.id);">Decline</button></td>
                         </tr>
                     </tbody>
                 </table>

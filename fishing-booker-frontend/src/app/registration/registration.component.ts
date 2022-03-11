@@ -45,5 +45,5 @@ export class RegistrationComponent implements OnInit {
       next: (data) => {alert("Succesfully registered!")},
       error: (err) => {alert("Email already in use!")}
     });
-}
+  }
 }
