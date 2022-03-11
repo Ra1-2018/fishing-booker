@@ -130,7 +130,7 @@ public class AppUserController {
 
 
         try {
-            emailService.sendNotificaitionAdminReg(appUser, password);
+            emailService.sendNotificationAdminReg(appUser, password);
         } catch (Exception e) {
             e.printStackTrace();
         }

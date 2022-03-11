@@ -63,11 +63,11 @@ public class EmailService {
     }
 
     @Async
-    public void sendNotificaitionAdminReg(AppUser appUser, String password) {
+    public void sendNotificationAdminReg(AppUser appUser, String password) {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(appUser.getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
-        mail.setText("You have been successfully registered. Your temporarly password is: "+password+". Please change it on your first login.");
+        mail.setText("You have been successfully registered. Your temporary password is: "+password+". Please change it on your first login.");
         javaMailSender.send(mail);
 
         System.out.println("Email poslat!");
