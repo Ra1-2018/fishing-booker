@@ -12,6 +12,7 @@ import { LoginNewAdminService } from './login-new-admin.service';
 export class LoginNewAdminComponent implements OnInit {
 
   public readonly myFormGroup: FormGroup;
+  appUser: any;
 
   constructor(private loginNewAdminService: LoginNewAdminService,
               private readonly formBuilder: FormBuilder,
@@ -23,6 +24,14 @@ export class LoginNewAdminComponent implements OnInit {
                }
 
   ngOnInit(): void {
+    this.retrieveData();
+  }
+
+  private retrieveData(): void {
+    this.loginNewAdminService.getUser()
+        .subscribe((user: any) => {
+            this.appUser = user;
+        });
   }
 
   public onClickUpdate(): void {
@@ -30,13 +39,22 @@ export class LoginNewAdminComponent implements OnInit {
       // stop here if it's invalid
       alert('Invalid input');
       return;
-  }
-  this.loginNewAdminService.loginNewAdmin(this.myFormGroup.getRawValue()).subscribe({
+    }  
+    if(this.myFormGroup.get('password')?.value != this.myFormGroup.get('rePassword')?.value) {
+      alert('Passwords must match');
+      return;
+    }
+
+  this.appUser.password = this.myFormGroup.get('password')?.value;
+
+  this.loginNewAdminService.loginNewAdmin(this.appUser).subscribe({
     next: (data) => {
+      alert("Your password has been changed");
       this.router.navigate(['profile']);
     },
     error: (err) => {alert("An unexpected error!")}
   });
+  
   }
 
 }

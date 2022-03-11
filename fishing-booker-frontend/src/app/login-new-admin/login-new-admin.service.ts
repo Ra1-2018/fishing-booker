@@ -11,8 +11,10 @@ export class LoginNewAdminService {
 
   loginNewAdmin(appUser: any): Observable<any> {
     return this._http.post<Observable<any>>('http://localhost:8080/users/login-new-admin', appUser)
-    .pipe(
-      tap(data => console.log("data: ", data))
-    )
-  };
+  }
+
+  getUser(): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/' + localStorage.getItem('userId'));
+  }
+
 }

@@ -225,21 +225,6 @@ public class AppUserController {
         }
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/login-new-admin")
-    public ResponseEntity<AppUserDTO> passwordUpdateNewAdmin(@RequestBody AppUserDTO appUserDTO) {
-
-        Administrator appUser = (Administrator) appUserService.findOne(appUserDTO.getId());
-
-        if(appUser == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        appUser.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
-        appUser.setFirstReg(false);
-        appUser = (Administrator) appUserService.saveAdministrator(appUser);
-        return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
-    }
-
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<AppUserDTO>> findAll() {
         Collection<AppUser> appUsers = appUserService.findAll();
@@ -326,7 +311,6 @@ public class AppUserController {
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> remove(@PathVariable("id") long id) {
         AppUser appUser = appUserService.findOne(id);
@@ -355,6 +339,21 @@ public class AppUserController {
         appUser.setTelephone(appUserDTO.getTelephone());
 
         appUser = appUserService.save(appUser);
+        return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/login-new-admin")
+    public ResponseEntity<AppUserDTO> passwordUpdateNewAdmin(@RequestBody AppUserDTO appUserDTO) {
+
+        Administrator appUser = (Administrator) appUserService.findOne(appUserDTO.getId());
+
+        if(appUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        appUser.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
+        appUser.setFirstReg(false);
+        appUser = (Administrator) appUserService.saveAdministrator(appUser);
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
     }
 }

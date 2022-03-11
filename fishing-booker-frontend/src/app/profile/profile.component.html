@@ -47,10 +47,10 @@
         </div>
 
         <div name="administratorProfile" *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'">
-            <h3 class="h3">Zahtevi za registraciju</h3>
             <div>                
                 <br>
                 <table *ngIf='requests && requests.length' class="table">
+                    <h3 class="h3">Zahtevi za registraciju</h3>
                     <thead>
                         <tr>
                             <th class="col">Username</th>
