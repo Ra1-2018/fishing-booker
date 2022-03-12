@@ -26,9 +26,9 @@ public class ServiceService {
 
     public com.isa.project.model.Service findById(Long id) { return serviceRepository.findById(id).orElse(null); }
 
-    public Collection<com.isa.project.model.Service> getIfMatchesCriteria(ServiceCriteriaDTO serviceCriteria) {
-        Collection<com.isa.project.model.Service> services = findAll();
-        Collection<com.isa.project.model.Service> matchingServices = new ArrayList<>();
+    public List<com.isa.project.model.Service> getIfMatchesCriteria(ServiceCriteriaDTO serviceCriteria) {
+        List<com.isa.project.model.Service> services = findAll();
+        List<com.isa.project.model.Service> matchingServices = new ArrayList<>();
         Date startDate = serviceCriteria.getStartDate();
         Calendar c = Calendar.getInstance();
         c.setTime(startDate);
