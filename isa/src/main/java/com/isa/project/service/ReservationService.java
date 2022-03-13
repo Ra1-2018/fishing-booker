@@ -18,4 +18,5 @@ public class ReservationService {
     public Reservation save(Reservation reservation) { return reservationRepository.save(reservation); }
     public Reservation findById(Long id) { return reservationRepository.findById(id).orElse(null); }
     public void deleteById(Long id) { reservationRepository.deleteById(id); }
+    public List<Reservation> findAll() { return reservationRepository.findAll(); }
 }
