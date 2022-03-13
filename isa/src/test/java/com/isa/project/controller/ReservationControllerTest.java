@@ -82,4 +82,30 @@ public class ReservationControllerTest {
     public void testCancelReservation() throws Exception {
         this.mockMvc.perform(get(URL_PREFIX + "/cancel/" + DB_ID)).andExpect(status().isOk());
     }
+
+    @Test
+    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    public void testFindByClientUpcoming() throws Exception {
+        mockMvc.perform(get(URL_PREFIX + "/client-upcoming/" + CLIENT_ID)).andExpect(status().isOk())
+                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(DB_COUNT)))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(DB_ID.intValue())))
+                .andExpect(jsonPath("$.[*].durationInDays").value(hasItem(DB_DURATION)))
+                .andExpect(jsonPath("$.[*].numberOfPeople").value(hasItem(DB_NUMBER_OF_PEOPLE)))
+                .andExpect(jsonPath("$.[*].price").value(hasItem(DB_PRICE)))
+                .andExpect(jsonPath("$.[*].reservationStartDateAndTime").value(hasItem(DB_START_DATE.getTime())))
+                .andExpect(jsonPath("$.[*].client.id").value(hasItem(CLIENT_ID.intValue())));
+    }
+
+    @Test
+    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    public void testFindByClientCottages() throws Exception {
+        mockMvc.perform(get(URL_PREFIX + "/client-cottages/" + CLIENT_ID)).andExpect(status().isOk())
+                .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(DB_COUNT)))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(DB_ID.intValue())))
+                .andExpect(jsonPath("$.[*].durationInDays").value(hasItem(DB_DURATION)))
+                .andExpect(jsonPath("$.[*].numberOfPeople").value(hasItem(DB_NUMBER_OF_PEOPLE)))
+                .andExpect(jsonPath("$.[*].price").value(hasItem(DB_PRICE)))
+                .andExpect(jsonPath("$.[*].reservationStartDateAndTime").value(hasItem(DB_START_DATE.getTime())))
+                .andExpect(jsonPath("$.[*].client.id").value(hasItem(CLIENT_ID.intValue())));
+    }
 }
