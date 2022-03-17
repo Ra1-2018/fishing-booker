@@ -26,6 +26,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { SpecialRegistrationComponent } from './special-registration/special-registration.component';
 import { ReservationHistoryComponent } from './reservation-history/reservation-history.component';
 import { ReservationClientComponent } from './reservation-client/reservation-client.component';
+import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
 
 const routes: Routes = [
   { path: 'adventures', component: AdventuresComponent},
@@ -53,7 +54,8 @@ const routes: Routes = [
   { path: 'client-complaint', component: ClientComplaintComponent},
   { path: 'reservation-history', component: ReservationHistoryComponent},
   { path: 'reservation-client/:id', component: ReservationClientComponent},
-  { path: 'client-review', component: ClientReviewComponent}
+  { path: 'client-review', component: ClientReviewComponent},
+  { path: 'boat-detail-owner/:id', component: BoatDetailOwnerComponent}
 ];
 
 @NgModule({

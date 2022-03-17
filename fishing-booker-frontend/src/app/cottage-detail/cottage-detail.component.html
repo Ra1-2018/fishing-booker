@@ -23,23 +23,6 @@
                     <div class="col-md-2" style="margin-bottom: 20px ;">Behavior rules:</div>
                     <div class="col-md-10">{{cottage.behaviorRules}}</div>
                 </div>
-                <div *ngIf="cottage.additionalServices.length != 0" class="row">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <td>Additional service</td>
-                                <td>Price per day</td>
-                                <td></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor = "let additionalService of cottage.additionalServices">
-                                <td>{{additionalService.name}}</td>
-                                <td>{{additionalService.price}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
                 <div class="row">
                     <div class="col-md-2" style="margin-bottom: 20px ;">Price per day:</div>
                     <div class="col-md-10">{{cottage.pricePerDay}}</div>
@@ -58,6 +41,7 @@
                             <tr>
                                 <td>Additional service</td>
                                 <td>Price per day</td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tbody>

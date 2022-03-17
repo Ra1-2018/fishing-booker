@@ -16,5 +16,23 @@ export class OwnedBoatsService {
     )
   }
 
+  createBoat(boat: any): Observable<any> {
+    return this._http.post<Observable<any>>('http://localhost:8080/boats/' + localStorage.getItem('userId'), boat)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
+
+  getUser(): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/' + localStorage.getItem('userId'));
+  }
+
+  deleteBoat(id: number){
+    console.log("Blabla");
+    return this._http.get<any>('http://localhost:8080/boats/delete/' + id)
+     .pipe(
+       tap(data => console.log("data: ", data))
+     )
+   }
 }
 
