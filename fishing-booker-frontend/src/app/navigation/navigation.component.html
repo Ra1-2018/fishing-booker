@@ -36,6 +36,9 @@
           <li *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'" class="nav-item">
             <a class="nav-link" routerLink="clients">Clients</a>
           </li>
+          <li *ngIf="loginService.isLoggedIn && loginService.userType == 'INSTRUCTOR'" class="nav-item">
+            <a class="nav-link" routerLink="owned-adventures">My adventures</a>
+          </li>
           <li *ngIf="loginService.isLoggedIn" class="nav-item">
             <a class="nav-link" routerLink="profile">Profile</a>
           </li>
