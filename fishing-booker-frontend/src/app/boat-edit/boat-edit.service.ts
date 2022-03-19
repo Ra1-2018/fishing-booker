@@ -17,7 +17,7 @@ export class BoatEditService {
   }
 
 updateBoat(boat: any): Observable<any> {
-  return this._http.put<Observable<any>>('http://localhost:8080/boats', boat);
+  return this._http.post<Observable<any>>('http://localhost:8080/boats/update', boat);
   }
 
 }

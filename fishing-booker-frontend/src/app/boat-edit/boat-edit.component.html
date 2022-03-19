@@ -15,12 +15,48 @@
                         <input type="text" class="form-control" id="description" placeholder="Description" formControlName="description">
                 </div>
                 <div class="mb-3">
-                        <label for="capacity" class="form-label">Capacity:</label>
-                        <input type="text" class="form-control" id="capacity" placeholder="Capacity" formControlName="capacity">
-                </div>
-                <div class="mb-3">
                         <label for="behaviorRules" class="form-label">Behavior rules:</label>
                         <input type="text" class="form-control" id="behaviorRules" placeholder="Behavior rules" formControlName="behaviorRules">
+                </div>
+                <div class="mb-3">
+                    <label for="pricePerDay" class="form-label">Price per day:</label>
+                    <input type="number" class="form-control" id="pricePerDay" placeholder="pricePerDay" formControlName="pricePerDay">
+                </div>
+                <div class="mb-2">
+                    <label for="length" class="form-label">Length:</label>
+                    <input type="text" class="form-control" id="length" placeholder="length" formControlName="length">
+                </div>
+                <div class="mb-2">
+                    <label for="numberOfEngines" class="form-label">Number of engines:</label>
+                    <input type="number" class="form-control" id="numberOfEngines" placeholder="numberOfEngines" formControlName="numberOfEngines">
+                </div>
+                <div class="mb-2">
+                    <label for="enginePower" class="form-label">Engine power:</label>
+                    <input type="enginePower" class="form-control" id="enginePower" placeholder="enginePower" formControlName="enginePower">
+                </div>
+                <div class="mb-2">
+                    <label for="maximumVelocity" class="form-label">Maximum velocity:</label>
+                    <input type="maximumVelocity" class="form-control" id="maximumVelocity" placeholder="maximumVelocity" formControlName="maximumVelocity">
+                </div>
+                <div class="mb-2">
+                    <label for="navigationEquipment" class="form-label">Navigation equipment:</label>
+                    <input type="navigationEquipment" class="form-control" id="navigationEquipment" placeholder="navigationEquipment" formControlName="navigationEquipment">
+                </div>
+                <div class="mb-2">
+                    <label for="address" class="form-label">Address:</label>
+                    <input type="address" class="form-control" id="address" placeholder="Address" formControlName="address">
+                </div>
+                <div class="mb-2">
+                    <label for="maxNumberOfPeople" class="form-label">Maximum people:</label>
+                    <input type="number" class="form-control" id="maxNumberOfPeople" placeholder="maxNumberOfPeople" formControlName="maxNumberOfPeople">
+                </div>
+                <div class="mb-2">
+                    <label for="fishingEquipment" class="form-label">Fishing equipment:</label>
+                    <input type="fishingEquipment" class="form-control" id="fishingEquipment" placeholder="fishingEquipment" formControlName="fishingEquipment">
+                </div>
+                <div class="mb-2">
+                    <label for="cancellationTerms" class="form-label">Cancellation terms:</label>
+                    <input type="cancellationTerms" class="form-control" id="cancellationTerms" placeholder="cancellationTerms" formControlName="cancellationTerms">
                 </div>
                 <div class="d-grid col-6 mx-auto">
                     <button class="btn btn-primary" (click)="onClickSubmit()">Update</button>

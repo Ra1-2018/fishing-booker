@@ -1,14 +1,15 @@
 package com.isa.project.controller;
 
 import com.isa.project.dto.BoatDTO;
-import com.isa.project.model.Boat;
-import com.isa.project.model.BoatOwner;
+import com.isa.project.dto.CottageDTO;
+import com.isa.project.model.*;
 import com.isa.project.service.BoatOwnerService;
 import com.isa.project.service.BoatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class BoatController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<BoatDTO>> getOwnerBoats(@PathVariable("id") Long id) {
         BoatOwner boatOwner = boatOwnerService.findById(id);
         Collection<Boat> boats = boatService.findBoatsByOwner(boatOwner);
@@ -59,15 +60,12 @@ public class BoatController {
         return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('BOAT_OWNER')")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping(consumes = "application/json")
-    public ResponseEntity<BoatDTO> createBoat(@RequestBody BoatDTO boatDTO) {
+    @PostMapping(value = "/{id}",consumes = "application/json")
+    public ResponseEntity<BoatDTO> createBoat(@PathVariable("id") Long id, @RequestBody BoatDTO boatDTO) {
 
-        if (boatDTO.getBoatOwner() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        BoatOwner boatOwner = boatOwnerService.findOneWithBoats(boatDTO.getBoatOwner().getId());
+        BoatOwner boatOwner = boatOwnerService.findById(id);
 
         if (boatOwner == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -89,15 +87,16 @@ public class BoatController {
         boat.setType(boatDTO.getType());
         boat.setMaximumVelocity(boatDTO.getMaximumVelocity());
         boat.setPricePerDay(boatDTO.getPricePerDay());
+        boat.setServiceType(ServiceType.BOAT);
 
-        boatOwner.addBoat(boat);
+        boatService.save(boat);
 
-        boat = boatService.save(boat);
         return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('BOAT_OWNER')")
     @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping(consumes = "application/json")
+    @PostMapping(value = "/update", consumes = "application/json")
     public ResponseEntity<BoatDTO> updateBoat(@RequestBody BoatDTO boatDTO) {
 
         Boat boat = boatService.findById(boatDTO.getId());
@@ -108,7 +107,6 @@ public class BoatController {
 
         boat.setAddress(boatDTO.getAddress());
         boat.setBehaviorRules(boatDTO.getBehaviorRules());
-        boat.setBoatOwner(boatOwnerService.findOneWithBoats(boatDTO.getBoatOwner().getId()));
         boat.setName(boatDTO.getName());
         boat.setDescription(boatDTO.getDescription());
         boat.setMaxNumberOfPeople(boatDTO.getMaxNumberOfPeople());
@@ -122,12 +120,14 @@ public class BoatController {
         boat.setMaximumVelocity(boatDTO.getMaximumVelocity());
         boat.setPricePerDay(boatDTO.getPricePerDay());
 
-        boat = boatService.save(boat);
+        boatService.save(boat);
+
         return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('BOAT_OWNER')")
     @CrossOrigin(origins = "http://localhost:4200")
-    @DeleteMapping(value = "/{id}")
+    @GetMapping(value = "/delete/{id}")
     public ResponseEntity<Void> deleteBoat(@PathVariable long id) {
 
         Boat boat = boatService.findById(id);

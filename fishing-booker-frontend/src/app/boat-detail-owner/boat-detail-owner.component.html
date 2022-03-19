@@ -1,0 +1,218 @@
+<div class='card'>
+    <div class='card-header'>
+      <h3 style=" margin-left: 50px;">{{boat.name}}</h3>
+    </div>
+    <div class="card-body" style=" margin-left: 50px;">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Adress:</div>
+                    <div class="col-md-10">{{boat.address}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Description:</div>
+                    <div class="col-md-10">{{boat.description}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Fishing equipment:</div>
+                    <div class="col-md-10">{{boat.fishingEquipment}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Behavior rules:</div>
+                    <div class="col-md-10">{{boat.behaviorRules}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;"><button (click)="onClickSubmit(boat.id)" class="btn btn-primary">Edit</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <label class="m-2">Free periods</label>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Start date </th>
+                            <th> End date </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let period of boat.freePeriods">
+                            <td>{{period.startDate | date:'longDate'}} </td>
+                            <td>{{period.endDate | date:'longDate'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">Register free period</button>
+            </div>
+        </div>
+        <div class="row"> 
+            <div class="col-md-10">
+                <label class="m-2">Actions</label>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Start date </th>  
+                            <th> Duration in days </th>        
+                            <th> Price </th>              
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let action of boat.actions">
+                            <td>{{action.startTime | date:'longDate'}} </td>
+                            <td>{{action.durationInDays}} </td>
+                            <td>{{action.price}} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialogAction">Create action</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <label class="m-2">Additional services</label>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Name </th>
+                            <th> Price </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let additionalService of boat.additionalServices">
+                            <td>{{additionalService.name}} </td>
+                            <td>{{additionalService.price}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#additionalServiceModal">Add additional service</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDialog" tabindex="-1" aria-labelledby="modalDialog" aria-hidden="true">
+    <div class="modal-dialog" data-target="#modal">
+      <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalDialog">Free period</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <ng-container [formGroup]="this.myFormGroup">
+                        <div class="mb-2">
+                            <label for="startDate" class="form-label">Start:</label>
+                            <input type="datetime-local" class="form-control" id="startDate" formControlName="startDate">
+                        </div>
+                        <div class="mb-2">
+                            <label for="endDate" class="form-label">End:</label>
+                            <input type="datetime-local" class="form-control" id="endDate" formControlName="endDate">
+                        </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddFreePeriod()">Add cottage</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDialogAction" tabindex="-1" aria-labelledby="modalDialogAction" aria-hidden="true">
+    <div class="modal-dialog" data-target="#modalAction">
+      <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalDialog">Action</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <ng-container [formGroup]="this.myFormGroupAction">
+                        <div class="mb-2">
+                            <label for="startTime" class="form-label">Start:</label>
+                            <input type="datetime-local" class="form-control" id="startTime" formControlName="startTime">
+                        </div>
+                        <div class="mb-2">
+                            <label for="durationInDays" class="form-label">Number of days:</label>
+                            <input type="number" class="form-control" id="durationInDays" formControlName="durationInDays">
+                        </div>
+                        <div class="mb-2">
+                            <label for="maxNumberOfPeople" class="form-label">Maximum people:</label>
+                            <input type="number" class="form-control" id="maxNumberOfPeople" formControlName="maxNumberOfPeople">
+                        </div>
+                        <div class="mb-2">
+                            <label for="price" class="form-label">Price:</label>
+                            <input type="number" class="form-control" id="price" formControlName="price">
+                        </div>
+                        <div class="mb-2">
+                            <label for="additionalServices" class="form-label">Additional services:</label>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th> Name </th>
+                                        <th> Price </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let additionalService of boat.additionalServices">
+                                        <td>{{additionalService.name}} </td>
+                                        <td>{{additionalService.price}}</td>
+                                        <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (change)="fieldsChange($event, additionalService)"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddAction()">Create action</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="additionalServiceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="additionalServiceModal">Add additional service</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <ng-container [formGroup]="this.additionalServiceFormGroup">
+                        <div class="mb-2">
+                            <label for="additionalServiceName" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="additionalServiceName" formControlName="name">
+                        </div>
+                        <div class="mb-2">
+                            <label for="additionalServicePrice" class="form-label">Price:</label>
+                            <input type="number" class="form-control" id="additionalServicePrice" formControlName="price">
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="addAdditionalService()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>

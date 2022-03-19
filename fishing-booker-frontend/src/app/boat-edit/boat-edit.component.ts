@@ -34,6 +34,8 @@ export class BoatEditComponent implements OnInit {
         fishingEquipment: [],
         priceList: [],
         cancellationTerms: [],
+        maxNumberOfPeople: [],
+        pricePerDay: [],
         boatOwner: []
     }); 
   }
@@ -61,7 +63,6 @@ export class BoatEditComponent implements OnInit {
       error: (err) => {alert("An unexpected error!")}
     });
   }
-
 }
 
 
