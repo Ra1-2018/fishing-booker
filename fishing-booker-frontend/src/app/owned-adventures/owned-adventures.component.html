@@ -26,7 +26,6 @@
             <td class="col-3" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.address}}</td>
             <td class="col-2" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.pricePerDay}}</td>
             <td class="col-3" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.description}}</td>
-            <td class="col-1"><button class="btn btn-secondary" (click)="onClickDelete(adventure.id);">Delete</button> </td>
           </tr>
         </tbody>
       </table>
@@ -65,8 +64,8 @@
                       <input type="pricePerDay" class="form-control" id="pricePerDay" placeholder="Price per day" formControlName="pricePerDay">
                     </div>
                     <div class="mb-2">
-                      <label for="maxNumOfPeople" class="form-label">Maximum number of people:</label>
-                      <input type="number" class="form-control" id="maxNumOfPeople" placeholder="Max number of people" formControlName="maxNumOfPeople">
+                      <label for="maxNumberOfPeople" class="form-label">Maximum number of people:</label>
+                      <input type="number" class="form-control" id="maxNumberOfPeople" placeholder="Max number of people" formControlName="maxNumberOfPeople">
                     </div>
                     <div class="mb-2">
                       <label for="instructorBiography" class="form-label">Instructor biography:</label>
@@ -82,7 +81,7 @@
                           <option value="FREE">Free cancellation</option>
                           <option value="PERCENTAGE_FOR_INSTRUCTOR">Percentage for instructor</option>
                       </select>
-                  </div>
+                    </div>
                   </ng-container>
                 </div>
             </div>

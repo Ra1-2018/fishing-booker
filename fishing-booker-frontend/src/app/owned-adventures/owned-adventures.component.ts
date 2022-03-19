@@ -23,7 +23,7 @@ export class OwnedAdventuresComponent implements OnInit {
                   description: ['', Validators.required],
                   behaviorRules: ['', Validators.required],
                   pricePerDay: ['', Validators.required],
-                  maxNumOfPeople: [Validators.required],
+                  maxNumberOfPeople: [Validators.required],
                   instructorBiography: ['',Validators.required],
                   fishingGear: ['',Validators.required],
                   cancellation: [Validators.required],
@@ -42,14 +42,6 @@ export class OwnedAdventuresComponent implements OnInit {
         this.sortedData = this.adventures.slice();
       }
     )
-  }
-
-  public onClickDelete(id: number): void {
-    this._adventuresService.deleteAdventure(id).subscribe( response => 
-      {
-      this.getOwnedAdventures();
-      }
-    );
   }
 
   public onClickSubmit(): void {

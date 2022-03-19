@@ -26,12 +26,4 @@ export class OwnedAdventuresService {
   getUser(): Observable<any> {
     return this._http.get<Observable<any>>('http://localhost:8080/users/' + localStorage.getItem('userId'));
   }
-
-  deleteAdventure(id: number){
-   return this._http.delete<any>('http://localhost:8080/adventures/' + id)
-    .pipe(
-      tap(data => console.log("data: ", data))
-    )
-  }
-
 }
