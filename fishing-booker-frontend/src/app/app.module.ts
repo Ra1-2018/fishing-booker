@@ -81,6 +81,7 @@ import { ReservationClientComponent } from './reservation-client/reservation-cli
 import { ClientReviewComponent } from './client/client-review/client-review.component';
 import { OwnedAdventuresComponent } from './owned-adventures/owned-adventures.component';
 import { AdventureDetailOwnerComponent } from './adventure-detail-owner/adventure-detail-owner.component';
+import { AdventureEditComponent } from './adventure-edit/adventure-edit.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +125,8 @@ import { AdventureDetailOwnerComponent } from './adventure-detail-owner/adventur
     ReservationClientComponent,
     ClientReviewComponent,
     OwnedAdventuresComponent,
-    AdventureDetailOwnerComponent
+    AdventureDetailOwnerComponent,
+    AdventureEditComponent
   ],
   imports: [
     BrowserModule,

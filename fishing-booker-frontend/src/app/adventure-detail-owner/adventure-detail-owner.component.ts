@@ -58,11 +58,11 @@ export class AdventureDetailOwnerComponent implements OnInit {
       )
   }
 
-  public onClickSubmit1(id:number): void {
+  public edit(id:number): void {
     this.router.navigate(['adventure-edit/'+ id]);
   }
 
-  public onClickSubmit2(id:number): void {
+  public delete(id:number): void {
     this.adventureDetailOwnerService.deleteAdventure(id).subscribe(
       response => {this.router.navigate(['owned-adventures']); }
       );
