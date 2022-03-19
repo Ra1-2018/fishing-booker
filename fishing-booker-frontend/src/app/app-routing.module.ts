@@ -37,6 +37,7 @@ import { SpecialRegistrationComponent } from './special-registration/special-reg
 import { ReservationHistoryComponent } from './reservation-history/reservation-history.component';
 import { ReservationClientComponent } from './reservation-client/reservation-client.component';
 import { OwnedAdventuresComponent } from './owned-adventures/owned-adventures.component';
+import { AdventureDetailOwnerComponent } from './adventure-detail-owner/adventure-detail-owner.component';
 
 const routes: Routes = [
   { path: 'adventures', component: AdventuresComponent},
@@ -75,7 +76,8 @@ const routes: Routes = [
   { path: 'boat-owner-detail/:id', component: BoatOwnerDetailComponent},
   { path: 'instructor-detail/:id', component: InstructorDetailComponent},
   { path: 'client-detail/:id', component: ClientDetailComponent},
-  { path: 'owned-adventures', component: OwnedAdventuresComponent}
+  { path: 'owned-adventures', component: OwnedAdventuresComponent},
+  { path: 'adventure-detail-owner/:id', component: AdventureDetailOwnerComponent}
 ];
 
 @NgModule({

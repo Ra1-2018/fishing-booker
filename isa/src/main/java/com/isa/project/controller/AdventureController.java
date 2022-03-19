@@ -113,6 +113,7 @@ public class AdventureController {
         return new ResponseEntity<>(new AdventureDTO(adventure), HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteAdventure(@PathVariable long id) {
 

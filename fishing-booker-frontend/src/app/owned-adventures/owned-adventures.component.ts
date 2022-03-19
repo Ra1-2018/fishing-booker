@@ -21,10 +21,13 @@ export class OwnedAdventuresComponent implements OnInit {
                   name: ['', Validators.required],
                   address: ['', Validators.required],
                   description: ['', Validators.required],
-                  roomsTotalNumber: [],
                   behaviorRules: ['', Validators.required],
-                  ownerId: localStorage.getItem('userId'),
-                  priceList: ['', Validators.required],
+                  pricePerDay: ['', Validators.required],
+                  maxNumOfPeople: [Validators.required],
+                  instructorBiography: ['',Validators.required],
+                  fishingGear: ['',Validators.required],
+                  cancellation: [Validators.required],
+                  ownerId: localStorage.getItem('userId')
               });
               }
 
@@ -60,7 +63,6 @@ export class OwnedAdventuresComponent implements OnInit {
       next: (data) => {
       alert("Succesfully created!")
       this.getOwnedAdventures();
-
     },
       error: (err) => {alert("Error has occured, adventure was not created!")}
     });
@@ -78,8 +80,8 @@ export class OwnedAdventuresComponent implements OnInit {
       switch (sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
         case 'address': return compare(a.address, b.address, isAsc);
-        case 'roomsTotalNumber': return compare(a.roomsTotalNumber, b.roomsTotalNumber, isAsc);
-        case 'instructor': return compare(a.adventureOwner.email, b.adventureOwner.email, isAsc);
+        case 'pricePerDay': return compare(a.pricePerDay, b.pricePerDay, isAsc);
+        case 'description': return compare(a.description, b.description, isAsc);
         default: return 0;
       }
     });
