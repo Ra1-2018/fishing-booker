@@ -20,8 +20,6 @@ public class CottageOwnerService {
         return cottageOwnerRepository.findById(id).orElseGet(null);
     }
 
-    public CottageOwner findOneWithCottages(long cottageOwnerId) { return cottageOwnerRepository.findOneWithCottages(cottageOwnerId); }
-
     public CottageOwner save(CottageOwner cottageOwner) {
         return cottageOwnerRepository.save(cottageOwner);
     }

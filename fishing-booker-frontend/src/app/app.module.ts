@@ -82,6 +82,7 @@ import { ClientReviewComponent } from './client/client-review/client-review.comp
 import { OwnedAdventuresComponent } from './owned-adventures/owned-adventures.component';
 import { AdventureDetailOwnerComponent } from './adventure-detail-owner/adventure-detail-owner.component';
 import { AdventureEditComponent } from './adventure-edit/adventure-edit.component';
+import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { AdventureEditComponent } from './adventure-edit/adventure-edit.componen
     ClientReviewComponent,
     OwnedAdventuresComponent,
     AdventureDetailOwnerComponent,
-    AdventureEditComponent
+    AdventureEditComponent,
+    BoatDetailOwnerComponent
   ],
   imports: [
     BrowserModule,

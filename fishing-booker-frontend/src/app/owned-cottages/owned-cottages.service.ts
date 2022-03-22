@@ -28,7 +28,7 @@ export class OwnedCottagesService {
   }
 
   deleteCottage(id: number){
-   return this._http.delete<any>('http://localhost:8080/cottages/' + id)
+   return this._http.get<any>('http://localhost:8080/cottages/delete/' + id)
     .pipe(
       tap(data => console.log("data: ", data))
     )

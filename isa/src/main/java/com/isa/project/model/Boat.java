@@ -11,7 +11,7 @@ public class Boat extends Service{
     @Column
     private String length;
     @Column
-    private String numberOfEngines;
+    private int numberOfEngines;
     @Column
     private String enginePower;
     @Column
@@ -31,7 +31,7 @@ public class Boat extends Service{
         super();
     }
 
-    public Boat(long id, String name, String description, String behaviorRules, double pricePerDay, String address, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String fishingEquipment, String cancellationTerms, Set<Reservation> reservations, BoatOwner boatOwner, Set<TimeRange> freeReservations, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints) {
+    public Boat(long id, String name, String description, String behaviorRules, double pricePerDay, String address, String type, String length, int numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String fishingEquipment, String cancellationTerms, Set<Reservation> reservations, BoatOwner boatOwner, Set<TimeRange> freeReservations, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints) {
         super(id, name, description, behaviorRules, pricePerDay, address, ServiceType.BOAT, reservations, freeReservations, maxNumberOfPeople, additionalServices, actions, reviews, subscribedClients, complaints);
         this.type = type;
         this.length = length;
@@ -60,11 +60,11 @@ public class Boat extends Service{
         this.length = length;
     }
 
-    public String getNumberOfEngines() {
+    public int getNumberOfEngines() {
         return numberOfEngines;
     }
 
-    public void setNumberOfEngines(String numberOfEngines) {
+    public void setNumberOfEngines(int numberOfEngines) {
         this.numberOfEngines = numberOfEngines;
     }
 

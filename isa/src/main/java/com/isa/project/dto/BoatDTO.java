@@ -1,7 +1,9 @@
 package com.isa.project.dto;
 
+import com.isa.project.model.Action;
 import com.isa.project.model.AdditionalService;
 import com.isa.project.model.Boat;
+import com.isa.project.model.TimeRange;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +13,7 @@ public class BoatDTO {
     private String name;
     private String type;
     private String length;
-    private String numberOfEngines;
+    private int numberOfEngines;
     private String enginePower;
     private String maximumVelocity;
     private String navigationEquipment;
@@ -25,6 +27,8 @@ public class BoatDTO {
     private AppUserDTO boatOwner;
     private double averageGrade;
     private Set<AdditionalServiceDTO> additionalServices;
+    private Set<TimeRangeDTO> freePeriods;
+    private Set<ActionDTO> actions;
 
     public BoatDTO() {}
 
@@ -50,9 +54,17 @@ public class BoatDTO {
         for(AdditionalService additionalService : boat.getAdditionalServices()) {
             this.additionalServices.add(new AdditionalServiceDTO(additionalService));
         }
+        this.freePeriods = new HashSet<>();
+        for(TimeRange timeRange : boat.getFreePeriods()) {
+            this.freePeriods.add(new TimeRangeDTO(timeRange));
+        }
+        this.actions = new HashSet<>();
+        for(Action action: boat.getActions()) {
+            this.actions.add(new ActionDTO(action));
+        }
     }
 
-    public BoatDTO(long id, String name, String type, String length, String numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner, double averageGrade, Set<AdditionalServiceDTO> additionalServices) {
+    public BoatDTO(long id, String name, String type, String length, int numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner, double averageGrade, Set<AdditionalServiceDTO> additionalServices) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -71,6 +83,8 @@ public class BoatDTO {
         this.boatOwner = boatOwner;
         this.averageGrade = averageGrade;
         this.additionalServices = additionalServices;
+        this.freePeriods = freePeriods;
+        this.actions = actions;
     }
 
     public long getId() {
@@ -89,7 +103,7 @@ public class BoatDTO {
         return length;
     }
 
-    public String getNumberOfEngines() {
+    public int getNumberOfEngines() {
         return numberOfEngines;
     }
 
@@ -144,4 +158,8 @@ public class BoatDTO {
     public Set<AdditionalServiceDTO> getAdditionalServices() {
         return additionalServices;
     }
+
+    public Set<TimeRangeDTO> getFreePeriods() { return freePeriods; }
+
+    public Set<ActionDTO> getActions() { return actions; }
 }

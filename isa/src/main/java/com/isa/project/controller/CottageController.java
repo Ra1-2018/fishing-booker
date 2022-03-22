@@ -117,8 +117,9 @@ public class CottageController {
         return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
     @CrossOrigin(origins = "http://localhost:4200")
-    @DeleteMapping(value = "/{id}")
+    @GetMapping(value = "/delete/{id}")
     public ResponseEntity<Void> deleteCottage(@PathVariable long id) {
 
         Cottage cottage = cottageService.findById(id);
