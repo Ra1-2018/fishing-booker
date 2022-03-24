@@ -1,12 +1,11 @@
 package com.isa.project.controller;
 
+import com.isa.project.dto.BoatDTO;
+import com.isa.project.dto.CottageDTO;
 import com.isa.project.dto.ServiceCriteriaDTO;
 import com.isa.project.dto.ServiceDTO;
-import com.isa.project.model.Client;
-import com.isa.project.model.Service;
-import com.isa.project.model.TimeRange;
-import com.isa.project.service.AppUserService;
-import com.isa.project.service.ServiceService;
+import com.isa.project.model.*;
+import com.isa.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +28,18 @@ public class ServiceController {
 
     @Autowired
     private AppUserService appUserService;
+
+    @Autowired
+    private BoatService boatService;
+
+    @Autowired
+    private BoatOwnerService boatOwnerService;
+
+    @Autowired
+    private CottageService cottageService;
+
+    @Autowired
+    private CottageOwnerService cottageOwnerService;
 
     @PreAuthorize("hasRole('CLIENT')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/search")

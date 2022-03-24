@@ -27,7 +27,7 @@ public abstract class Service {
     @Column
     private int maxNumberOfPeople;
 
-    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
 
     @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

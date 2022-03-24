@@ -32,36 +32,51 @@ public class ReservationController {
     private EmailService emailService;
 
     @Autowired
+    private CottageService cottageService;
+
+    @Autowired
+    private BoatService boatService;
+
+    @Autowired
     private AdditionalServiceService additionalServiceService;
 
     @Autowired
     private ReservationTransactionService reservationTransactionService;
 
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
-    @GetMapping(value = "cottage_owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<ReservationDTO>> findByCottageOwner(@PathVariable("id") Long id) {
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER')")
+    @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<ReservationDTO>> findByOwner(@PathVariable("id") Long id) {
 
-        CottageOwner cottageOwner = (CottageOwner) appUserService.findOne(id);
-        if(cottageOwner == null) {
+        AppUser appUser = appUserService.findOne(id);
+        if (appUser == null) {
             return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        Collection<Cottage> cottages = cottageOwner.getCottages();
-
-        Collection<Reservation> reservations = new ArrayList<>();
-
-        for (Cottage cottage : cottages) {
-            Collection<Reservation> reservationsList = reservationService.findByService(cottage);
-            for (Reservation reservation : reservationsList) {
-                reservations.add(reservation);
-            }
         }
 
         Collection<ReservationDTO> reservationDTOS = new ArrayList<>();
 
-        for(Reservation reservation : reservations) {
-            reservationDTOS.add(new ReservationDTO(reservation));
+        if(appUser.getAppUserType() == AppUserType.COTTAGE_OWNER) {
+            CottageOwner cottageOwner = (CottageOwner) appUser;
+            Collection<Cottage> cottages = cottageService.findCottagesByOwner(cottageOwner);
+
+            for (Cottage cottage : cottages) {
+                Collection<Reservation> reservations = reservationService.findByService(cottage);
+                for (Reservation reservation : reservations) {
+                    reservationDTOS.add(new ReservationDTO(reservation));
+                }
+            }
         }
+        else if (appUser.getAppUserType() == AppUserType.BOAT_OWNER) {
+            BoatOwner boatOwner = (BoatOwner) appUser;
+            Collection<Boat> boats = boatService.findBoatsByOwner(boatOwner);
+
+            for (Boat boat : boats) {
+                Collection<Reservation> reservations = reservationService.findByService(boat);
+                for (Reservation reservation : reservations) {
+                    reservationDTOS.add(new ReservationDTO(reservation));
+                }
+            }
+        }
+
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
 
@@ -148,7 +163,7 @@ public class ReservationController {
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('CLIENT') || hasRole('COTTAGE_OWNER')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationDTO> save(@RequestBody ReservationDTO reservationDTO) {
         Service service = serviceService.findById(reservationDTO.getService().getId());

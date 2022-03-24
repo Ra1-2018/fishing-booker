@@ -3,6 +3,7 @@ package com.isa.project.controller;
 import com.isa.project.dto.*;
 import com.isa.project.model.*;
 import com.isa.project.service.AppUserService;
+import com.isa.project.service.OwnerService;
 import com.isa.project.service.RegistrationRequestService;
 import com.isa.project.util.TokenUtils;
 import com.isa.project.verification.EmailService;
@@ -48,6 +49,9 @@ public class AppUserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private OwnerService ownerService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUserDTO> save(@RequestBody AppUserDTO appUserDTO) {
@@ -355,5 +359,23 @@ public class AppUserController {
         appUser.setFirstReg(false);
         appUser = (Administrator) appUserService.saveAdministrator(appUser);
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<AppUserDTO>> findOwnerClients(@PathVariable("id") long id) {
+        AppUser appUser = appUserService.findOne(id);
+
+        if(appUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Collection<Client> clients = ownerService.getOwnerClients(appUser);
+
+        Collection<AppUserDTO> clientDTOS = new ArrayList<>();
+
+        for (Client client : clients) {
+            clientDTOS.add(new AppUserDTO(client));
+        }
+        return new ResponseEntity<>(clientDTOS, HttpStatus.OK);
     }
 }

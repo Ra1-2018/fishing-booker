@@ -27,4 +27,12 @@ export class CottageDetailOwnerService {
   addAction(action: any): Observable<any> {
     return this._http.post<Observable<any>>('http://localhost:8080/actions', action);
   }
+
+  getClients(): Observable<any> {
+    return this._http.get<any>('http://localhost:8080/users/owner/' + localStorage.getItem('userId'));
+  }
+
+  makeReservation(reservation: any) {
+    return this._http.post('http://localhost:8080/reservations', reservation);
+  }
 }
