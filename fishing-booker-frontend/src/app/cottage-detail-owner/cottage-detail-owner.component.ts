@@ -19,6 +19,7 @@ export class CottageDetailOwnerComponent implements OnInit {
   errorMessage = '';
   services: any[] = [];
   clients: any[] = [];
+  id: number|undefined;
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
@@ -58,9 +59,9 @@ export class CottageDetailOwnerComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.getCottage(id);
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.id) {
+      this.getCottage(this.id);
     }
   }
 
@@ -92,6 +93,7 @@ export class CottageDetailOwnerComponent implements OnInit {
     this.cottageDetailOwnerService.addFreePeriod(this.myFormGroup.getRawValue()).subscribe({
       next: (data) => {
       alert("Succesfully created!")
+      this.getCottage(this.id as number);
 
     },
       error: (err) => {alert("Error has occured, free period was not created!")}
@@ -113,12 +115,13 @@ export class CottageDetailOwnerComponent implements OnInit {
         maxNumberOfPeople: this.myFormGroupAction.get('maxNumberOfPeople')?.value,
         additionalServices: this.additionalServicesField,
         price: this.myFormGroupAction.get('price')?.value,
-        service: { id: Number(this.route.snapshot.paramMap.get('id'))} 
+        service: { id: this.id} 
     }
 
     this.cottageDetailOwnerService.addAction(action).subscribe({
       next: (data) => {
       alert("Succesfully created!")
+      this.getCottage(this.id as number);
 
       },
       error: (err) => {alert("Error has occured, action was not created!")}
@@ -135,6 +138,7 @@ export class CottageDetailOwnerComponent implements OnInit {
     this.cottageDetailOwnerService.addAdditionalService(this.additionalServiceFormGroup.getRawValue()).subscribe({
       next: (data) => {
       alert("Succesfully created!")
+      this.getCottage(this.id as number);
 
     },
       error: (err) => {alert("Error has occured, additional service was not created!")}
@@ -168,13 +172,14 @@ export class CottageDetailOwnerComponent implements OnInit {
         numberOfPeople: this.reservationFormGroup.get('numberOfPeople')?.value,
         client: this.reservationFormGroup.get('client')?.value,
         additionalServices: this.reservationAdditionalServices,
-        service: { id: Number(this.route.snapshot.paramMap.get('id'))},
+        service: { id: this.id},
         price: this.reservationPrice 
     }
 
     console.log(reservation);
     this.cottageDetailOwnerService.makeReservation(reservation).subscribe({
       next: (data) => {
+      this.getCottage(this.id as number);
       alert("Succesfully created!")
 
       },

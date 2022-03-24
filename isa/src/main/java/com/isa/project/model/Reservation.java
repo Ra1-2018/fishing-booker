@@ -26,7 +26,7 @@ public class Reservation {
     @Column
     private double price; //racunica broja dana i cene po danu ( i broja ljudi)
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")
     private Service service;
 
