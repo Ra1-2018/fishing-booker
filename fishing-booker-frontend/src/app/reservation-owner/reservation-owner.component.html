@@ -1,0 +1,57 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h5 class="modal-title" id="reservationLabel">Reservation</h5>
+            <ng-container [formGroup]="this.myFormGroup">
+                <div class="mb-3">
+                    <label for="service" class="form-label">Service:</label>
+                    <select id="service" class="form-control" formControlName="service">
+                        <option *ngFor="let service of services" [ngValue]="service">{{service.name}}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="client" class="form-label">Client:</label>
+                    <select id="client" class="form-control" formControlName="client">
+                        <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="startDate" class="form-label">Start time:</label>
+                    <input type="datetime-local" class="form-control" id="startDate" placeholder="Start date" formControlName="startDate">
+                </div>
+                <div class="mb-3">
+                      <label for="durationInDays" class="form-label">Number of days:</label>
+                      <input type="number" class="form-control" id="durationInDays" placeholder="Number of days" formControlName="durationInDays">
+                </div>
+                <div class="mb-3">
+                    <label for="numberOfPeople" class="form-label">Number of people:</label>
+                    <input type="number" class="form-control" id="numberOfPeople" placeholder="Number of people" formControlName="numberOfPeople">
+                </div>
+                <div *ngIf="viewedService.additionalServices.length != 0" class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Additional service</td>
+                                <td>Price per day</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor = "let additionalService of viewedService.additionalServices">
+                                <td>{{additionalService.name}}</td>
+                                <td>{{additionalService.price}}</td>
+                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (change)="fieldsChange($event, additionalService)"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class = "col-md-6">Total price:</div>
+                    <div class = "col-md-6"></div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+        

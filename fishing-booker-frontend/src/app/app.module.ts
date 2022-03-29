@@ -83,6 +83,7 @@ import { OwnedAdventuresComponent } from './owned-adventures/owned-adventures.co
 import { AdventureDetailOwnerComponent } from './adventure-detail-owner/adventure-detail-owner.component';
 import { AdventureEditComponent } from './adventure-edit/adventure-edit.component';
 import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
+import { ReservationOwnerComponent } from './reservation-owner/reservation-owner.component';
 
 @NgModule({
   declarations: [
@@ -128,7 +129,8 @@ import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.
     OwnedAdventuresComponent,
     AdventureDetailOwnerComponent,
     AdventureEditComponent,
-    BoatDetailOwnerComponent
+    BoatDetailOwnerComponent,
+    ReservationOwnerComponent
   ],
   imports: [
     BrowserModule,
