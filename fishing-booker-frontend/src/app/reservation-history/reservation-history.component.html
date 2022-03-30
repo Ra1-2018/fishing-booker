@@ -17,7 +17,8 @@
         <td>{{reservation.price}}</td>
         <td>{{reservation.reservationStartDateAndTime | date:'longDate'}}</td>
         <td>{{reservation.durationInDays}}</td>
-        <td> <button class="btn btn-light" [routerLink]="['/reservation-client', reservation.client.id]"> {{reservation.client.name}} </button></td>
+        <td><a [routerLink]="['/reservation-client', reservation.client.id]"> {{reservation.client.name}} {{reservation.client.surname}}</a></td>
+        <td> <a *ngIf="reservation.reported==false" [routerLink]="['/report', reservation.id]">Write report</a>  </td>
       </tr>
     </tbody>
   </table>

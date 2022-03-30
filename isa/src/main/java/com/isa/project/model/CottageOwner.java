@@ -12,10 +12,14 @@ public class CottageOwner extends AppUser {
     @OneToMany(mappedBy = "cottageOwner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Cottage> cottages = new HashSet<Cottage>();
 
+    @OneToMany(mappedBy = "cottageOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Report> reports = new HashSet<>();
+
     public CottageOwner() { }
 
     public CottageOwner(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
         super(id, email, password, name, surname, address, city, country, telephone, AppUserType.COTTAGE_OWNER);
+        this.reports = new HashSet<>();
     }
 
     public Set<Cottage> getCottages() { return cottages; }
@@ -31,5 +35,13 @@ public class CottageOwner extends AppUser {
     public void removeCottage(Cottage cottage) {
         cottages.remove(cottage);
         cottage.setCottageOwner(null);
+    }
+
+    public Set<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        this.reports = reports;
     }
 }

@@ -13,7 +13,7 @@ export class ReservationClientComponent implements OnInit {
   client: any
   errorMessage = '';
 
-  constructor(private route: ActivatedRoute, private router: Router, private reservationClientService: ReservationClientService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private reservationClientService: ReservationClientService) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));

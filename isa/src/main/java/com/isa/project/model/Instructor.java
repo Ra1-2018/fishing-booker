@@ -8,13 +8,17 @@ import java.util.Set;
 public class Instructor extends AppUser {
 
     @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Adventure> adventures = new HashSet<Adventure>();
+    private Set<Adventure> adventures = new HashSet<>();
+
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Report> reports = new HashSet<>();
 
     public Instructor() { }
 
     public Instructor(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
         super(id, email, password, name, surname, address, city, country, telephone, AppUserType.INSTRUCTOR);
-        this.adventures = new HashSet<Adventure>();
+        this.adventures = new HashSet<>();
+        this.reports = new HashSet<>();
     }
 
     public Set<Adventure> getAdventures() {
@@ -33,5 +37,13 @@ public class Instructor extends AppUser {
     public void removeAdventure(Adventure adventure) {
         adventures.remove(adventure);
         adventure.setInstructor(null);
+    }
+
+    public Set<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        this.reports = reports;
     }
 }

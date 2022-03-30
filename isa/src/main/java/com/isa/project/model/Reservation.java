@@ -26,6 +26,9 @@ public class Reservation {
     @Column
     private double price; //racunica broja dana i cene po danu ( i broja ljudi)
 
+    @Column
+    private boolean reported;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")
     private Service service;
@@ -46,6 +49,7 @@ public class Reservation {
         this.price = price;
         this.service = service;
         this.client = client;
+        this.reported = false;
     }
 
     public long getId() {
@@ -116,4 +120,8 @@ public class Reservation {
         additionalServices.add(additionalService);
         additionalService.getReservations().add(this);
     }
+
+    public boolean isReported() { return reported; }
+
+    public void setReported(boolean reported) { this.reported = reported; }
 }

@@ -13,6 +13,9 @@ public class Client extends AppUser{
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Review> reviews = new HashSet<>();
 
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Report> reports = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "subscription",
@@ -34,6 +37,7 @@ public class Client extends AppUser{
         this.reviews = reviews;
         this.subscriptions = subscriptions;
         this.complaints = complaints;
+        this.reports = new HashSet<>();
     }
 
     public Set<Reservation> getReservations() {
@@ -79,4 +83,8 @@ public class Client extends AppUser{
     public void setComplaints(Set<Complaint> complaints) {
         this.complaints = complaints;
     }
+
+    public Set<Report> getReports() { return reports; }
+
+    public void setReports(Set<Report> reports) { this.reports = reports; }
 }

@@ -80,7 +80,7 @@ import { ReservationHistoryComponent } from './reservation-history/reservation-h
 import { ReservationClientComponent } from './reservation-client/reservation-client.component';
 import { ClientReviewComponent } from './client/client-review/client-review.component';
 import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
-import { ReservationOwnerComponent } from './reservation-owner/reservation-owner.component';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +124,7 @@ import { ReservationOwnerComponent } from './reservation-owner/reservation-owner
     ReservationClientComponent,
     ClientReviewComponent,
     BoatDetailOwnerComponent,
-    ReservationOwnerComponent
+    ReportComponent
   ],
   imports: [
     BrowserModule,
