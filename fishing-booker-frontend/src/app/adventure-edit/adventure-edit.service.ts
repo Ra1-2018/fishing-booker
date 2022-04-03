@@ -17,6 +17,6 @@ export class AdventureEditService {
   }
 
   updateAdventure(adventure: any): Observable<any> {
-    return this._http.put<Observable<any>>('http://localhost:8080/adventure', adventure);
+    return this._http.post<Observable<any>>('http://localhost:8080/adventures/update', adventure);
   }
 }

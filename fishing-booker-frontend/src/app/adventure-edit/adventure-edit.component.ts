@@ -50,9 +50,14 @@ export class AdventureEditComponent implements OnInit {
       return;
     }
     this.adventureEditService.updateAdventure(this.myFormGroup.getRawValue()).subscribe({
-      next: (data) => {alert("Succesfully updated!")},
+      next: (data) => {alert("Succesfully updated!")
+      this.back()},
       error: (err) => {alert("An unexpected error!")}
     });
+  }
+
+  back(): void {
+    this.router.navigate(['adventure-detail-owner/'+ this.route.snapshot.paramMap.get('id')]);
   }
 
 }

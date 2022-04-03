@@ -60,5 +60,13 @@
                 </div>
             </div>
         </div>
+        <br>
+        <div>
+            <br>
+            <h5>Pictures our clients took of this adventure</h5>
+            <div *ngFor='let image of images'>
+                <img src='{{image}}' width="200" height="200"/>
+            </div>            
+        </div>
     </div>
 </div>

@@ -14,6 +14,7 @@ export class AdventureDetailComponent implements OnInit {
   errorMessage = '';
   id: number|undefined;
   subscriptions:any[] = []
+  images:String = '..//assets//adventure.jpg'
 
   constructor(private route: ActivatedRoute, 
               private router: Router, 

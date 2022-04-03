@@ -49,6 +49,7 @@ public class AdventureController {
         return new ResponseEntity<>(new AdventureDTO(adventure), HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<AdventureDTO>> getOwnerAdventures(@PathVariable("id") Long id) {
         Instructor instructor = instructorService.findById(id);
@@ -61,6 +62,7 @@ public class AdventureController {
     }
 
     @PreAuthorize("hasRole('INSTRUCTOR')")
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<AdventureDTO> createAdventure(@PathVariable("id") Long id, @RequestBody AdventureDTO adventureDTO) {
 
@@ -88,6 +90,7 @@ public class AdventureController {
     }
 
     @PreAuthorize("hasRole('INSTRUCTOR')")
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(value = "/update", consumes = "application/json")
     public ResponseEntity<AdventureDTO> updateAdventure(@RequestBody AdventureDTO adventureDTO) {
 
@@ -101,7 +104,6 @@ public class AdventureController {
         adventure.setBehaviorRules(adventureDTO.getBehaviorRules());
         adventure.setDescription(adventureDTO.getDescription());
         adventure.setName(adventureDTO.getName());
-        adventure.setInstructor(instructorService.findById(adventureDTO.getInstructor().getId()));
         adventure.setPricePerDay(adventureDTO.getPricePerDay());
         adventure.setMaxNumberOfPeople(adventureDTO.getMaxNumberOfPeople());
         adventure.setCancellation(adventureDTO.getCancellation());
@@ -114,6 +116,7 @@ public class AdventureController {
     }
 
     @PreAuthorize("hasRole('INSTRUCTOR')")
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteAdventure(@PathVariable long id) {
 
@@ -125,5 +128,22 @@ public class AdventureController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(value = "images/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<String>> getAdventureImages(@PathVariable("id") Long id) {
+        Adventure adventure = adventureService.findById(id);
+
+        if(adventure == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Collection<String> images = new ArrayList<>();
+        String adventureImages = adventure.getImages();
+        for (String i : images) {
+            images.add(i);
+        }
+        return new ResponseEntity<>(images, HttpStatus.OK);
     }
 }
