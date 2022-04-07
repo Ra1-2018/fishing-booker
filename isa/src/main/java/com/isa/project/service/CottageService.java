@@ -34,19 +34,19 @@ public class CottageService{
 
     public List<Cottage> findCottagesByOwner(CottageOwner cottageOwner) { return cottageRepository.findCottagesByOwner(cottageOwner); }
 
-    @Cacheable("cottage")
+    @Cacheable("service")
     public Cottage findById(Long id) {
         LOG.info("Cottage with id: " + id + " successfully cached!");
         return cottageRepository.findById(id).orElse(null);
     }
 
-    @CachePut(value = "cottage", key = "#cottage.id")
+    @CachePut(value = "service", key = "#cottage.id")
     public Cottage save(Cottage cottage) {
         cottage.setLastUpdateDate(new Date());
         return cottageRepository.save(cottage);
     }
 
-    @CacheEvict(cacheNames = {"cottage"}, key = "#cottage.id")
+    @CacheEvict(cacheNames = {"service"}, key = "#cottage.id")
     public void remove(long id) {
         cottageRepository.deleteById(id);
     }

@@ -42,9 +42,9 @@
     </cache-template>
 
     <!-- Cache configurations -->
-    <cache alias="cottage" uses-template="default">
+    <cache alias="service" uses-template="default">
         <key-type>java.lang.Long</key-type>
-        <value-type>com.isa.project.model.Cottage</value-type>
+        <value-type>com.isa.project.model.Service</value-type>
         <resources>
             <heap>2</heap>
         </resources>
