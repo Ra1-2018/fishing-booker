@@ -1,47 +1,60 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-4">
-            <ng-container [formGroup]="this.myFormGroup">
-                <div class="mb-3">
+            <h1 style="text-align: center;">Register</h1>
+            <form (ngSubmit)="onClickSubmit()" #registerForm="ngForm">
+                <div class="form-group mb-3">
                   <label for="email" class="form-label">Email address:</label>
-                  <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email">
+                  <input type="email" class="form-control" id="email" required placeholder="Email" [(ngModel)]="user.email" name="email" #email="ngModel" ngModel email>
+                    <div [hidden]="email.valid || email.untouched"
+                    class="alert alert-danger">
+                    Incorrect format
+                    </div>
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                   <label for="password" class="form-label">Password:</label>
-                  <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+                  <input type="password" class="form-control" id="password" required placeholder="Password" [(ngModel)]="user.password" name="password" #password="ngModel">
+                    <div [hidden]="password.valid || password.pristine"
+                    class="alert alert-danger">
+                    Password is required
+                    </div>
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="rePassword" class="form-label">Re-enter password:</label>
-                    <input type="password" class="form-control" id="rePassword" placeholder="Re-enter password" formControlName="rePassword">
-                  </div>
-                <div class="mb-3">
+                    <input [ngClass]="user.rePassword == user.password && user.rePassword != '' ? 'valid' : 'invalid'" type="password" class="form-control" id="rePassword" placeholder="Re-enter password" [(ngModel)]="user.rePassword" name="rePassword" #rePassword="ngModel">
+                    <div [hidden]="user.rePassword == user.password || rePassword.untouched"
+                        class="alert alert-danger">
+                    Password doesn't match
+                    </div>
+                </div>
+                <div class="form-group mb-3">
                     <label for="name" class="form-label">Name:</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
+                    <input type="text" class="form-control" id="name" placeholder="Name" [(ngModel)]="user.name" name="name" #name="ngModel">
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="surname" class="form-label">Surname:</label>
-                    <input type="text" class="form-control" id="surname" placeholder="Surname" formControlName="surname">
+                    <input type="text" class="form-control" id="surname" placeholder="Surname" [(ngModel)]="user.surname" name="surname" #surname="ngModel">
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="address" class="form-label">Address:</label>
-                    <input type="text" class="form-control" id="address" placeholder="Address" formControlName="address">
+                    <input type="text" class="form-control" id="address" placeholder="Address" [(ngModel)]="user.address" name="address" #address="ngModel">
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="city" class="form-label">City:</label>
-                    <input type="text" class="form-control" id="city" placeholder="City" formControlName="city">
+                    <input type="text" class="form-control" id="city" placeholder="City" [(ngModel)]="user.city" name="city" #city="ngModel">
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="country" class="form-label">Country:</label>
-                    <input type="text" class="form-control" id="country" placeholder="Country" formControlName="country">
+                    <input type="text" class="form-control" id="country" placeholder="Country" [(ngModel)]="user.country" name="country" #country="ngModel">
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="telephone" class="form-label">Telephone:</label>
-                    <input type="text" class="form-control" id="telephone" placeholder="Telephone" formControlName="telephone">
+                    <input type="text" class="form-control" id="telephone" placeholder="Telephone" [(ngModel)]="user.telephone" name="telephone" #telephone="ngModel">
                 </div>
                 <div class="d-grid col-6 mx-auto">
-                    <button class="btn btn-primary" (click)="onClickSubmit()">Submit</button>
+                    <button class="btn btn-primary" type="submit" [disabled]="!registerForm.form.valid || user.password != user.rePassword">Submit</button>
                 </div>
-            </ng-container>
+            </form>
         </div>
     </div>
 </div>

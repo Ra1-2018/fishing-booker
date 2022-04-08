@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../model/user';
 import { RegistrationService } from './registration.service';
 
 @Component({
@@ -9,39 +9,15 @@ import { RegistrationService } from './registration.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  public readonly myFormGroup: FormGroup;
+  user = new User('', '', '', '', '', '', '', '', '');
 
-  constructor(private registrationService: RegistrationService,
-    private readonly formBuilder: FormBuilder) { 
-      this.myFormGroup = this.formBuilder.group({
-        email: ['', Validators.compose([Validators.required, Validators.email])],
-        password: ['', Validators.required],
-        rePassword: ['', Validators.required],
-        name: [],
-        surname: [],
-        address: [],
-        city: [],
-        country: [],
-        telephone: []
-    });
-    }
+  constructor(private registrationService: RegistrationService) { }
 
   ngOnInit(): void {
   }
 
   public onClickSubmit(): void {
-    if (this.myFormGroup.invalid) {
-        // stop here if it's invalid
-        alert('Invalid input');
-        return;
-    }
-    var rePassword = this.myFormGroup.get('rePassword')?.value;
-    var password = this.myFormGroup.get('password')?.value;
-    if(password != rePassword) {
-      alert("Password doesn't match!");
-      return;
-    }
-    this.registrationService.registerUser(this.myFormGroup.getRawValue()).subscribe({
+    this.registrationService.registerUser(this.user).subscribe({
       next: (data) => {alert("Succesfully registered!")},
       error: (err) => {alert("Email already in use!")}
     });
