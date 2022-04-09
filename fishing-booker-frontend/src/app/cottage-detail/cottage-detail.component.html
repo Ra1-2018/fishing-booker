@@ -52,6 +52,11 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <app-image-slideshow [images]="images" [serviceId]="id"></app-image-slideshow>                              
+                    </div>
+                </div>
                 <div class="row">
                     <a [routerLink]="['/actions', id]">View actions</a>
                 </div>
