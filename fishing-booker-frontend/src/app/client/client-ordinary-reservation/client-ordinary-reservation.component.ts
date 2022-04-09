@@ -1,7 +1,6 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
+import { ReservationSearch } from 'src/app/model/reservation-search';
 import { ClientOrdinaryReservationService } from './client-ordinary-reservation.service';
 
 @Component({
@@ -25,34 +24,18 @@ export class ClientOrdinaryReservationComponent implements OnInit {
   viewedService: any = {
     additionalServices: []
   }
+  search = new ReservationSearch('', null, null, '', null, null);
 
-  public readonly myFormGroup: FormGroup;
-
-  constructor(private reservationService: ClientOrdinaryReservationService,
-              private readonly formBuilder: FormBuilder) {
-                this.myFormGroup = this.formBuilder.group({
-                  serviceType: [null, Validators.required],
-                  startDate: [null, Validators.required],
-                  durationInDays: [null, Validators.required],
-                  numberOfPeople: [null, Validators.required],
-                  address: [''],
-                  minAverageGrade: []
-                });
-               }
+  constructor(private reservationService: ClientOrdinaryReservationService) { }
 
   ngOnInit(): void {
   }
 
   public onClickSubmit(): void {
-    if (this.myFormGroup.invalid) {
-      // stop here if it's invalid
-      alert('Invalid input');
-      return;
-    }
-    this.reservation.reservationStartDateAndTime = this.myFormGroup.controls['startDate'].value;
-    this.reservation.durationInDays = this.myFormGroup.controls['durationInDays'].value;
-    this.reservation.numberOfPeople = this.myFormGroup.controls['numberOfPeople'].value;
-    this.reservationService.getServices(this.myFormGroup.getRawValue()).subscribe(
+    this.reservation.reservationStartDateAndTime = this.search.startDate;
+    this.reservation.durationInDays = this.search.durationInDays;
+    this.reservation.numberOfPeople = this.search.numberOfPeople;
+    this.reservationService.getServices(this.search).subscribe(
       services => {
         this.services = services;
         this.sortedData = this.services.slice();
@@ -87,7 +70,7 @@ export class ClientOrdinaryReservationComponent implements OnInit {
         alert("Successful reservation");
         this.services = [];
         this.sortedData = [];
-        this.myFormGroup.reset();
+        //this.myFormGroup.reset();
       },
       error: error => alert("An error occured.")
       });
