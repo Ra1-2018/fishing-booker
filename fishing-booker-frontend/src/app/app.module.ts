@@ -81,6 +81,7 @@ import { ReservationClientComponent } from './reservation-client/reservation-cli
 import { ClientReviewComponent } from './client/client-review/client-review.component';
 import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
 import { ReportComponent } from './report/report.component';
+import { ImageSlideshowComponent } from './image-slideshow/image-slideshow.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +125,8 @@ import { ReportComponent } from './report/report.component';
     ReservationClientComponent,
     ClientReviewComponent,
     BoatDetailOwnerComponent,
-    ReportComponent
+    ReportComponent,
+    ImageSlideshowComponent
   ],
   imports: [
     BrowserModule,

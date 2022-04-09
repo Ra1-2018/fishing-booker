@@ -1,0 +1,20 @@
+<!-- Slideshow container -->
+<div *ngIf="images.length>0" class="slideshow-container">
+
+    <!-- Full-width images with number and caption text -->
+    <div>
+        <div class="numbertext">{{imageIndex + 1}} / {{images.length}}</div>
+        <img src="{{'data:image/jpg;base64,' + images[imageIndex].base64}}" style="width:100%"> 
+    </div>
+
+    <!-- Next and previous buttons -->
+    <a *ngIf="isOwner" class="delete" (click)="deleteImage()">&#10005;</a>
+    <a *ngIf="imageIndex > 0" class="prev" (click)="prevSlide()">&#10094;</a>
+    <a *ngIf="imageIndex < images.length - 1" class="next" (click)="nextSlide()">&#10095;</a>
+</div>
+<br>
+
+<!-- The dots/circles -->
+<div *ngIf="images.length>0" style="text-align:center">
+    <span *ngFor="let image of images; let i = index" class="dot" (click)="currentSlide(i)"></span>
+</div>

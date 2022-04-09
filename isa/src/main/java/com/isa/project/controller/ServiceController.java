@@ -12,7 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,6 +42,9 @@ public class ServiceController {
 
     @Autowired
     private CottageOwnerService cottageOwnerService;
+
+    @Autowired
+    private ImageService imageService;
 
     @PreAuthorize("hasRole('CLIENT')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/search")
