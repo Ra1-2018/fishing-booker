@@ -18,7 +18,7 @@ export class RegistrationComponent implements OnInit {
 
   public onClickSubmit(): void {
     this.registrationService.registerUser(this.user).subscribe({
-      next: (data) => {alert("Succesfully registered!")},
+      next: (data) => {alert("A Confirmation email was sent. Please check your inbox.")},
       error: (err) => {alert("Email already in use!")}
     });
   }
