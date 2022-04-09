@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { ReservationSearch } from 'src/app/model/reservation-search';
 import { ClientOrdinaryReservationService } from './client-ordinary-reservation.service';
@@ -63,14 +64,14 @@ export class ClientOrdinaryReservationComponent implements OnInit {
     });
   }
 
-  makeReservation() {
+  makeReservation(searchForm: NgForm) {
     this.reservationService.makeReservation(this.reservation).subscribe({
       next: response => {
         document.getElementById("closeButton")?.click();
         alert("Successful reservation");
         this.services = [];
         this.sortedData = [];
-        //this.myFormGroup.reset();
+        searchForm.resetForm();
       },
       error: error => alert("An error occured.")
       });

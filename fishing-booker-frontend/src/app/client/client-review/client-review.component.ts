@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
+import { Review } from 'src/app/model/review';
 import { ClientReviewService } from './client-review.service';
 
 @Component({
@@ -9,17 +10,10 @@ import { ClientReviewService } from './client-review.service';
 })
 export class ClientReviewComponent implements OnInit {
 
-  public readonly myFormGroup: FormGroup;
+  review = new Review(null, null, '', {id: parseInt(localStorage.getItem('userId') as string)});
   services: any[] = [];
 
-  constructor(private _reviewService: ClientReviewService,
-              private readonly formBuilder: FormBuilder) {
-                this.myFormGroup = this.formBuilder.group({
-                  service: ['', Validators.required],
-                  grade: ['', Validators.required],
-                  revision: ['']
-                });
-               }
+  constructor(private _reviewService: ClientReviewService) { }
 
   ngOnInit(): void {
     this.getServices();
@@ -31,22 +25,11 @@ export class ClientReviewComponent implements OnInit {
     );
   }
 
-  public onClickSubmit(): void {
-    if (this.myFormGroup.invalid) {
-      // stop here if it's invalid
-      alert('Invalid input');
-      return;
-    }
-    const review = {
-      grade: this.myFormGroup.get('grade')?.value,
-      revision: this.myFormGroup.get('revision')?.value,
-      client: {id: parseInt(localStorage.getItem('userId') as string)},
-      service: this.myFormGroup.get('service')?.value
-    }
-    this._reviewService.postReview(review).subscribe({
+  public onClickSubmit(reviewForm: NgForm): void {
+    this._reviewService.postReview(this.review).subscribe({
       next: () => {
         alert("Review submitted");
-        this.myFormGroup.reset();
+        reviewForm.resetForm();
       },
       error: () => "An error ocurred"
     });

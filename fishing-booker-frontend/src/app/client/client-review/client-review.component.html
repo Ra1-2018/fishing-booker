@@ -1,25 +1,29 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <ng-container [formGroup]="this.myFormGroup">
-                <div class="mb-3">
+            <form (ngSubmit)="onClickSubmit(reviewForm)" #reviewForm="ngForm">
+                <div class="form-group mb-3">
                     <label for="service" class="form-label"> Service:</label>
-                    <select id="service" class="form-control" formControlName="service">
+                    <select id="service" class="form-control" [(ngModel)]="review.service" required name="service" #service="ngModel">
                         <option *ngFor="let service of services" [ngValue]="service">{{service.name}}</option>
                     </select>
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="grade" class="form-label">Grade:</label>
-                    <input type="number" class="form-control" min="1" max="5" id="grade" placeholder="grade" formControlName="grade">
+                    <input type="number" class="form-control" min="1" max="5" id="grade" placeholder="grade" [(ngModel)]="review.grade" required name="grade" #grade="ngModel">
+                    <div [hidden]="grade.valid || grade.pristine"
+                    class="alert alert-danger">
+                    Grade should be 1-5
+                    </div>
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="revision" class="form-label">Revision:</label>
-                    <textarea rows="20" type="text" class="form-control" id="revision" placeholder="revision" formControlName="revision"></textarea>
+                    <textarea rows="20" type="text" class="form-control" id="revision" placeholder="Revision" [(ngModel)]="review.revision" name="revision" #revision="ngModel"></textarea>
                 </div>
                 <div class="d-grid col-6 mx-auto">
-                    <button class="btn btn-primary" (click)="onClickSubmit()">Submit</button>
+                    <button class="btn btn-primary" type="submit" [disabled]="!reviewForm.form.valid">Submit</button>
                 </div>
-            </ng-container>
+            </form>
         </div>
     </div>
 </div>
