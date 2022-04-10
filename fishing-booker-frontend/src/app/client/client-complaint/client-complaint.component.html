@@ -12,6 +12,10 @@
                 <div class="form-group mb-3">
                     <label for="content" class="form-label">Complaint:</label>
                     <textarea rows="20" class="form-control" id="content" [(ngModel)]="complaint.content" required name="content" #content="ngModel"></textarea>
+                    <div [hidden]="content.valid || content.pristine"
+                    class="alert alert-danger">
+                    Complaint content is required
+                    </div>
                 </div>
                 <div class="d-grid col-6 mx-auto">
                     <button class="btn btn-primary" type="submit" [disabled]="!complaintForm.form.valid">Submit</button>
