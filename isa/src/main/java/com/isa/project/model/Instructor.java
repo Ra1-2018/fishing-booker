@@ -13,12 +13,16 @@ public class Instructor extends AppUser {
     @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Report> reports = new HashSet<>();
 
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Penalty> penalties = new HashSet<>();
+
     public Instructor() { }
 
     public Instructor(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
         super(id, email, password, name, surname, address, city, country, telephone, AppUserType.INSTRUCTOR);
         this.adventures = new HashSet<>();
         this.reports = new HashSet<>();
+        this.penalties = new HashSet<>();
     }
 
     public Set<Adventure> getAdventures() {
@@ -45,5 +49,13 @@ public class Instructor extends AppUser {
 
     public void setReports(Set<Report> reports) {
         this.reports = reports;
+    }
+
+    public Set<Penalty> getPenalties() {
+        return penalties;
+    }
+
+    public void setPenalties(Set<Penalty> penalties) {
+        this.penalties = penalties;
     }
 }

@@ -13,6 +13,9 @@ public class BoatOwner extends AppUser {
     @OneToMany(mappedBy = "boatOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Report> reports = new HashSet<>();
 
+    @OneToMany(mappedBy = "boatOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Penalty> penalties;
+
     public BoatOwner() {
     }
 
@@ -20,6 +23,7 @@ public class BoatOwner extends AppUser {
         super(id, email, password, name, surname, address, city, country, telephone, AppUserType.BOAT_OWNER);
         this.boats = new HashSet<>();
         this.reports = new HashSet<>();
+        this.penalties = new HashSet<>();
     }
 
     public Set<Boat> getBoats() {
@@ -46,5 +50,13 @@ public class BoatOwner extends AppUser {
 
     public void setReports(Set<Report> reports) {
         this.reports = reports;
+    }
+
+    public Set<Penalty> getPenalties() {
+        return penalties;
+    }
+
+    public void setPenalties(Set<Penalty> penalties) {
+        this.penalties = penalties;
     }
 }
