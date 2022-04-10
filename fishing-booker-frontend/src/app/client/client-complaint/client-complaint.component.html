@@ -1,21 +1,22 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <ng-container [formGroup]="this.myFormGroup">
-                <div class="mb-3">
+            <h1 style="text-align: center;">Write a complaint</h1>
+            <form (ngSubmit)="onClickSubmit(complaintForm)" #complaintForm="ngForm">
+                <div class="form-group mb-3">
                     <label for="service" class="form-label">Service:</label>
-                    <select id="service" class="form-control" formControlName="service">
+                    <select id="service" class="form-control" [(ngModel)]="complaint.service" required name="service" #service="ngModel">
                         <option *ngFor="let service of services" [ngValue]="service">{{service.name}}</option>
                     </select>
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="content" class="form-label">Complaint:</label>
-                    <textarea rows="20" class="form-control" id="content" formControlName="content"></textarea>
+                    <textarea rows="20" class="form-control" id="content" [(ngModel)]="complaint.content" required name="content" #content="ngModel"></textarea>
                 </div>
                 <div class="d-grid col-6 mx-auto">
-                    <button class="btn btn-primary" (click)="onClickSubmit()">Submit</button>
-                  </div>
-            </ng-container>
+                    <button class="btn btn-primary" type="submit" [disabled]="!complaintForm.form.valid">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
+import { Complaint } from 'src/app/model/complaint';
 import { ClientComplaintService } from './client-complaint.service';
 
 @Component({
@@ -9,16 +10,10 @@ import { ClientComplaintService } from './client-complaint.service';
 })
 export class ClientComplaintComponent implements OnInit {
 
-  public readonly myFormGroup: FormGroup;
   services: any[] = [];
+  complaint = new Complaint(null, '', {id: parseInt(localStorage.getItem('userId') as string)});
 
-  constructor(private complaintService: ClientComplaintService,
-              private readonly formBluilder: FormBuilder) {
-                this.myFormGroup = this.formBluilder.group({
-                  service: ['', Validators.required],
-                  content: ['', Validators.required]
-                });
-               }
+  constructor(private complaintService: ClientComplaintService) { }
 
   ngOnInit(): void {
     this.getServices();
@@ -30,23 +25,13 @@ export class ClientComplaintComponent implements OnInit {
     );
   }
 
-  onClickSubmit() {
-    if (this.myFormGroup.invalid) {
-      // stop here if it's invalid
-      alert('Invalid input');
-      return;
-    }
-    const complaint = {
-      service: this.myFormGroup.get('service')?.value,
-      client: {id: parseInt(localStorage.getItem('userId') as string)},
-      content: this.myFormGroup.get('content')?.value
-    }
-    this.complaintService.submitComplaint(complaint).subscribe({
+  onClickSubmit(complaintForm: NgForm) {
+    this.complaintService.submitComplaint(this.complaint).subscribe({
       next: () => {
         alert("Complaint submitted");
-        this.myFormGroup.reset();
+        complaintForm.resetForm();
       },
       error: () => alert("An error ocurred")
-    })
+    });
   }
 }

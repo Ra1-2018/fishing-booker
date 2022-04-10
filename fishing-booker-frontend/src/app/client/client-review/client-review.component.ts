@@ -31,7 +31,7 @@ export class ClientReviewComponent implements OnInit {
         alert("Review submitted");
         reviewForm.resetForm();
       },
-      error: () => "An error ocurred"
+      error: () => alert("An error ocurred")
     });
   }
 }
