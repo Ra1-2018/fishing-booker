@@ -7,6 +7,7 @@ import com.isa.project.model.Reservation;
 import com.isa.project.model.TimeRange;
 import com.isa.project.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -209,6 +210,7 @@ public class ServiceService {
         return services;
     }
 
+    @CachePut(value = "service", key = "#service.id")
     public com.isa.project.model.Service save(com.isa.project.model.Service service) {
         service.setLastUpdateDate(new Date());
         return serviceRepository.save(service);

@@ -1,39 +1,52 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-4">
-            <ng-container [formGroup]="this.myFormGroup">
-                <div class="mb-3">
+            <h1 style="text-align: center;">Make a reservation</h1>
+            <form (ngSubmit)="onClickSubmit()" #searchForm="ngForm">
+                <div class="form-group mb-3">
                     <label for="serviceType" class="form-label">Service type:</label>
-                    <select formControlName="serviceType" class="form-select" aria-label="Choose service type" id="serviceType">
+                    <select class="form-select" required aria-label="Choose service type" id="serviceType" [(ngModel)]="search.serviceType" name="serviceType" #serviceType="ngModel">
                         <option value="COTTAGE">Cottage</option>
                         <option value="BOAT">Boat</option>
                         <option value="ADVENTURE">Adventure</option>
                     </select>
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                   <label for="startDate" class="form-label">Start time:</label>
-                  <input type="datetime-local" class="form-control" id="startDate" placeholder="Start date" formControlName="startDate">
+                  <input type="datetime-local" class="form-control" id="startDate" required placeholder="Start date" [(ngModel)]="search.startDate" name="startDate" #startDate="ngModel">
+                  <div [hidden]="startDate.valid || startDate.pristine"
+                  class="alert alert-danger">
+                  Start time is required
+                  </div>
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="durationInDays" class="form-label">Number of days:</label>
-                    <input type="number" class="form-control" id="durationInDays" placeholder="Number of days" formControlName="durationInDays">
+                    <input type="number" min="1" class="form-control" id="durationInDays" required placeholder="Number of days" [(ngModel)]="search.durationInDays" name="durationInDays" #durationInDays="ngModel">
+                    <div [hidden]="durationInDays.valid || durationInDays.pristine"
+                    class="alert alert-danger">
+                    Duration is required
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="address" class="form-label">Address:</label>
-                    <input type="text" class="form-control" id="address" placeholder="Address" formControlName="address">
-                </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="numberOfPeople" class="form-label">Number of people:</label>
-                    <input type="number" class="form-control" id="numberOfPeople" placeholder="Number of people" formControlName="numberOfPeople">
+                    <input type="number" min="1" class="form-control" id="numberOfPeople" required placeholder="Number of people" [(ngModel)]="search.numberOfPeople" name="numberOfPeople" #numberOfPeople="ngModel">
+                    <div [hidden]="numberOfPeople.valid || numberOfPeople.pristine"
+                    class="alert alert-danger">
+                    Number of people is required
+                    </div>
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <input type="text" class="form-control" id="address" placeholder="Address" [(ngModel)]="search.address" name="address" #address="ngModel">
+                </div>
+                <div class="form-group mb-3">
                     <label for="minAverageGrade" class="form-label">Minimum average grade:</label>
-                    <input type="number" min="1" max="5" class="form-control" id="minAverageGrade" placeholder="Minimum average grade" formControlName="minAverageGrade">
+                    <input type="number" min="1" max="5" class="form-control" id="minAverageGrade" placeholder="Minimum average grade" [(ngModel)]="search.minAverageGrade" name="minAverageGrade" #minAverageGrade="ngModel">
                 </div>
                 <div class="d-grid col-6 mx-auto">
-                    <button class="btn btn-primary" (click)="onClickSubmit()">Search</button>
+                    <button class="btn btn-primary" type="submit" [disabled]="!searchForm.form.valid">Search</button>
                 </div>
-            </ng-container>
+            </form>
         </div>
     </div>
 </div>
@@ -121,7 +134,7 @@
         </div>
         <div class="modal-footer">
           <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" (click)="makeReservation()">OK</button>
+          <button type="button" class="btn btn-primary" (click)="makeReservation(searchForm)">OK</button>
         </div>
       </div>
     </div>
