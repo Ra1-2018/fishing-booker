@@ -12,8 +12,10 @@ export class BoatDetailComponent implements OnInit {
 
   boat: any;
   errorMessage = '';
-  id: number|undefined;
-  subscriptions:any[] = []
+  id: number = 0;
+  subscriptions:any[] = [];
+  images: any[] = [];
+
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -24,6 +26,7 @@ export class BoatDetailComponent implements OnInit {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     if (this.id) {
       this.getBoat(this.id);
+      this.getImages(this.id);
     }
     if(this.loginService.isLoggedIn && this.loginService.userType == 'CLIENT') {
       this.getSubscriptions();
@@ -33,6 +36,13 @@ export class BoatDetailComponent implements OnInit {
   getBoat(id: number): void {
     this.boatDetailService.getBoat(id).subscribe({
       next: boat => this.boat = boat,
+      error: err => this.errorMessage = err
+    })
+  }
+
+  getImages(id: number) {
+    this.boatDetailService.getImages(id).subscribe({
+      next: images => this.images = images,     
       error: err => this.errorMessage = err
     })
   }
