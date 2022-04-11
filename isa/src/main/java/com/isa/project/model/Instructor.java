@@ -13,7 +13,7 @@ public class Instructor extends AppUser {
     @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Report> reports = new HashSet<>();
 
-    @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY)
     private Set<Penalty> penalties = new HashSet<>();
 
     public Instructor() { }

@@ -201,7 +201,7 @@ public class ReservationController {
 
         Client client = (Client) appUserService.findOne(reservationDTO.getClient().getId());
 
-        if(client == null) {
+        if(client == null || client.isSanctioned()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

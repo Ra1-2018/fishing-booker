@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('jwt', data.userTokenState.accessToken)
         this.loginService.isLoggedIn = true;
         this.loginService.userType = data.appUserType;
+        this.loginService.isSanctioned = data.sanctioned;
         if(data.firstReg==true && data.appUserType=='ADMIN') {
             //this.show = true;
             this.router.navigate(['login-new-admin']);

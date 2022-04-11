@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
+import { LoginService } from 'src/app/login/login.service';
 import { ReservationSearch } from 'src/app/model/reservation-search';
 import { ClientOrdinaryReservationService } from './client-ordinary-reservation.service';
 
@@ -27,7 +28,8 @@ export class ClientOrdinaryReservationComponent implements OnInit {
   }
   search = new ReservationSearch('', null, null, '', null, null);
 
-  constructor(private reservationService: ClientOrdinaryReservationService) { }
+  constructor(private reservationService: ClientOrdinaryReservationService,
+              public readonly loginService: LoginService) { }
 
   ngOnInit(): void {
   }

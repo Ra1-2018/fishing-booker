@@ -14,7 +14,7 @@ public class PenaltyDTO {
 
     public PenaltyDTO(Penalty penalty) {
         this.id = penalty.getId();
-        this.dateIssued = new Date();
+        this.dateIssued = penalty.getDateIssued();
         this.client = new AppUserDTO(penalty.getClient());
         if(penalty.getBoatOwner() != null) {
             this.owner = new AppUserDTO(penalty.getBoatOwner());

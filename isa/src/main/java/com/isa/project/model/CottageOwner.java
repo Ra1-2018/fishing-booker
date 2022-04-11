@@ -15,7 +15,7 @@ public class CottageOwner extends AppUser {
     @OneToMany(mappedBy = "cottageOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Report> reports = new HashSet<>();
 
-    @OneToMany(mappedBy = "cottageOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cottageOwner", fetch = FetchType.LAZY)
     private Set<Penalty> penalties = new HashSet<>();
 
     public CottageOwner() { }

@@ -82,6 +82,7 @@ import { ClientReviewComponent } from './client/client-review/client-review.comp
 import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
 import { ReportComponent } from './report/report.component';
 import { ImageSlideshowComponent } from './image-slideshow/image-slideshow.component';
+import { ClientPenaltiesComponent } from './client/client-penalties/client-penalties.component';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { ImageSlideshowComponent } from './image-slideshow/image-slideshow.compo
     ClientReviewComponent,
     BoatDetailOwnerComponent,
     ReportComponent,
-    ImageSlideshowComponent
+    ImageSlideshowComponent,
+    ClientPenaltiesComponent
   ],
   imports: [
     BrowserModule,

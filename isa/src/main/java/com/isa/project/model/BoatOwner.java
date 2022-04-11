@@ -13,7 +13,7 @@ public class BoatOwner extends AppUser {
     @OneToMany(mappedBy = "boatOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Report> reports = new HashSet<>();
 
-    @OneToMany(mappedBy = "boatOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "boatOwner", fetch = FetchType.LAZY)
     private Set<Penalty> penalties;
 
     public BoatOwner() {
