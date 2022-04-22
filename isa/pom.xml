@@ -11,6 +11,7 @@
 	<groupId>com.isa</groupId>
 	<artifactId>isa</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>isa</name>
 	<description>Isa project for fishing booker</description>
 	<properties>
