@@ -17,7 +17,12 @@ public class BoatDTO {
     private String enginePower;
     private String maximumVelocity;
     private String navigationEquipment;
-    private String address;
+    private String city;
+    private String street;
+    private String number;
+    private String zipCode;
+    private String latitude;
+    private String longitude;
     private String description;
     private int maxNumberOfPeople;
     private String behaviorRules;
@@ -41,7 +46,12 @@ public class BoatDTO {
         this.enginePower = boat.getEnginePower();
         this.maximumVelocity = boat.getMaximumVelocity();
         this.navigationEquipment = boat.getNavigationEquipment();
-        this.address = boat.getAddress();
+        this.city = boat.getLocation().getCity();
+        this.street = boat.getLocation().getStreet();
+        this.number = boat.getLocation().getNumber();
+        this.zipCode = boat.getLocation().getZipCode();
+        this.latitude = boat.getLocation().getLatitude();
+        this.longitude = boat.getLocation().getLongitude();
         this.description = boat.getDescription();
         this.maxNumberOfPeople = boat.getMaxNumberOfPeople();
         this.behaviorRules = boat.getBehaviorRules();
@@ -64,7 +74,7 @@ public class BoatDTO {
         }
     }
 
-    public BoatDTO(long id, String name, String type, String length, int numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String address, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner, double averageGrade, Set<AdditionalServiceDTO> additionalServices) {
+    public BoatDTO(long id, String name, String type, String length, int numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String city, String street, String number, String zipCode, String latitude, String longitude, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner, double averageGrade, Set<AdditionalServiceDTO> additionalServices) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -73,7 +83,12 @@ public class BoatDTO {
         this.enginePower = enginePower;
         this.maximumVelocity = maximumVelocity;
         this.navigationEquipment = navigationEquipment;
-        this.address = address;
+        this.city = city;
+        this.street = street;
+        this.number = number;
+        this.zipCode = zipCode;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.description = description;
         this.maxNumberOfPeople = maxNumberOfPeople;
         this.behaviorRules = behaviorRules;
@@ -119,9 +134,17 @@ public class BoatDTO {
         return navigationEquipment;
     }
 
-    public String getAddress() {
-        return address;
-    }
+    public String getCity() { return city; }
+
+    public String getStreet() { return street; }
+
+    public String getNumber() { return number; }
+
+    public String getZipCode() { return zipCode; }
+
+    public String getLatitude() { return latitude; }
+
+    public String getLongitude() { return longitude; }
 
     public String getDescription() {
         return description;

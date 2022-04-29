@@ -82,6 +82,7 @@ import { ClientReviewComponent } from './client/client-review/client-review.comp
 import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
 import { ReportComponent } from './report/report.component';
 import { ImageSlideshowComponent } from './image-slideshow/image-slideshow.component';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -169,7 +170,14 @@ import { ImageSlideshowComponent } from './image-slideshow/image-slideshow.compo
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AgmCoreModule.forRoot({
+
+      apiKey: 'AIzaSyD9J8JKaQinAWb0q9usoTavpickUnpKHXg',
+
+      libraries: ['places']
+
+    })
   ],
   providers: [
     {

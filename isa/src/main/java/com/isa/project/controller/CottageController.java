@@ -2,12 +2,10 @@ package com.isa.project.controller;
 
 import com.isa.project.dto.CottageDTO;
 import com.isa.project.dto.TimeRangeDTO;
-import com.isa.project.model.Cottage;
-import com.isa.project.model.CottageOwner;
-import com.isa.project.model.ServiceType;
-import com.isa.project.model.TimeRange;
+import com.isa.project.model.*;
 import com.isa.project.service.CottageOwnerService;
 import com.isa.project.service.CottageService;
+import com.isa.project.service.LocationService;
 import com.isa.project.service.TimeRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +29,9 @@ public class CottageController {
 
     @Autowired
     private CottageOwnerService cottageOwnerService;
+
+    @Autowired
+    private LocationService locationService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -78,7 +79,6 @@ public class CottageController {
         }
 
         Cottage cottage = new Cottage();
-        cottage.setAddress(cottageDTO.getAddress());
         cottage.setBehaviorRules(cottageDTO.getBehaviorRules());
         cottage.setDescription(cottageDTO.getDescription());
         cottage.setName(cottageDTO.getName());
@@ -87,7 +87,11 @@ public class CottageController {
         cottage.setMaxNumberOfPeople(cottageDTO.getMaxNumberOfPeople());
         cottage.setRoomsTotalNumber(cottageDTO.getRoomsTotalNumber());
         cottage.setServiceType(ServiceType.COTTAGE);
-        cottageService.save(cottage);
+        cottage = cottageService.save(cottage);
+
+        Location location = new Location( null , cottageDTO.getCity(), cottageDTO.getStreet(), cottageDTO.getNumber(), cottageDTO.getZipCode(), cottageDTO.getLatitude(), cottageDTO.getLongitude(), cottage);
+        cottage.setLocation(location);
+        locationService.save(location);
 
         return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.CREATED);
     }
@@ -103,7 +107,7 @@ public class CottageController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        cottage.setAddress(cottageDTO.getAddress());
+        //cottage.setAddress(cottageDTO.getAddress());
         cottage.setBehaviorRules(cottageDTO.getBehaviorRules());
         cottage.setDescription(cottageDTO.getDescription());
         cottage.setName(cottageDTO.getName());

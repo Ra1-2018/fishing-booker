@@ -72,7 +72,7 @@ public class BoatController {
         }
 
         Boat boat = new Boat();
-        boat.setAddress(boatDTO.getAddress());
+        //boat.setLocation(new Location( 1L , boatDTO.getCity(), boatDTO.getStreet(), boatDTO.getNumber(), boatDTO.getZipCode(), boatDTO.getLatitude(), boatDTO.getLongitude(), boat));
         boat.setBehaviorRules(boatDTO.getBehaviorRules());
         boat.setBoatOwner(boatOwner);
         boat.setName(boatDTO.getName());
@@ -91,6 +91,10 @@ public class BoatController {
 
         boatService.save(boat);
 
+        //boat.setLocation(new Location( 1L , boatDTO.getCity(), boatDTO.getStreet(), boatDTO.getNumber(), boatDTO.getZipCode(), boatDTO.getLatitude(), boatDTO.getLongitude(), boat));
+
+        //boatService.save(boat);
+
         return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.CREATED);
     }
 
@@ -105,7 +109,7 @@ public class BoatController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        boat.setAddress(boatDTO.getAddress());
+
         boat.setBehaviorRules(boatDTO.getBehaviorRules());
         boat.setName(boatDTO.getName());
         boat.setDescription(boatDTO.getDescription());
@@ -121,6 +125,10 @@ public class BoatController {
         boat.setPricePerDay(boatDTO.getPricePerDay());
 
         boatService.save(boat);
+
+        //boat.setLocation(new Location( 1L , boatDTO.getCity(), boatDTO.getStreet(), boatDTO.getNumber(), boatDTO.getZipCode(), boatDTO.getLatitude(), boatDTO.getLongitude(), boat));
+
+        //boatService.save(boat);
 
         return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.OK);
     }
