@@ -1,6 +1,7 @@
 package com.isa.project.service;
 
 import com.isa.project.model.Adventure;
+import com.isa.project.model.Instructor;
 import com.isa.project.repository.AdventureRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ public class AdventureService{
     private AdventureRepository adventureRepository;
 
     public List<Adventure> findAll() { return adventureRepository.findAll(); }
+
+    public List<Adventure> findAdventureByInstructor(Instructor instructor) { return adventureRepository.findByInstructor(instructor); }
 
     @Cacheable("service")
     public Adventure findById(long id) {

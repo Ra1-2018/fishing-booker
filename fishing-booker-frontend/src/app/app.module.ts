@@ -83,6 +83,9 @@ import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.
 import { ReportComponent } from './report/report.component';
 import { ImageSlideshowComponent } from './image-slideshow/image-slideshow.component';
 import { AgmCoreModule } from '@agm/core';
+import { BusinessReportComponent } from './business-report/business-report.component';
+import { NgChartsModule } from 'ng2-charts';
+
 
 @NgModule({
   declarations: [
@@ -127,7 +130,8 @@ import { AgmCoreModule } from '@agm/core';
     ClientReviewComponent,
     BoatDetailOwnerComponent,
     ReportComponent,
-    ImageSlideshowComponent
+    ImageSlideshowComponent,
+    BusinessReportComponent
   ],
   imports: [
     BrowserModule,
@@ -171,6 +175,7 @@ import { AgmCoreModule } from '@agm/core';
     MatTooltipModule,
     MatTreeModule,
     BrowserAnimationsModule,
+    NgChartsModule,
     AgmCoreModule.forRoot({
 
       apiKey: 'AIzaSyD9J8JKaQinAWb0q9usoTavpickUnpKHXg',
