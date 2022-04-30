@@ -7,7 +7,7 @@ import TileLayer from 'ol/layer/Tile';
 import { OwnedBoatsService } from './owned-boats.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
-import { toLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 import { createInjectorType } from '@angular/compiler/src/render3/r3_injector_compiler';
 import { add } from 'ol/coordinate';
 

@@ -76,7 +76,6 @@ public class BoatController {
         }
 
         Boat boat = new Boat();
-        //boat.setLocation(new Location( 1L , boatDTO.getCity(), boatDTO.getStreet(), boatDTO.getNumber(), boatDTO.getZipCode(), boatDTO.getLatitude(), boatDTO.getLongitude(), boat));
         boat.setBehaviorRules(boatDTO.getBehaviorRules());
         boat.setBoatOwner(boatOwner);
         boat.setName(boatDTO.getName());
@@ -125,11 +124,11 @@ public class BoatController {
         boat.setType(boatDTO.getType());
         boat.setMaximumVelocity(boatDTO.getMaximumVelocity());
         boat.setPricePerDay(boatDTO.getPricePerDay());
-        boatService.save(boat);
 
         Location location = new Location( null , boatDTO.getCity(), boatDTO.getStreet(), boatDTO.getNumber(), boatDTO.getZipCode(), boatDTO.getLatitude(), boatDTO.getLongitude(), boat);
         boat.setLocation(location);
         locationService.save(location);
+        boatService.save(boat);
 
         return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.OK);
     }
