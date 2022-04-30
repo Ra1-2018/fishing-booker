@@ -107,7 +107,6 @@ public class CottageController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        //cottage.setAddress(cottageDTO.getAddress());
         cottage.setBehaviorRules(cottageDTO.getBehaviorRules());
         cottage.setDescription(cottageDTO.getDescription());
         cottage.setName(cottageDTO.getName());
@@ -117,6 +116,10 @@ public class CottageController {
         cottage.setRoomsTotalNumber(cottageDTO.getRoomsTotalNumber());
 
         cottageService.save(cottage);
+
+        Location location = new Location( null , cottageDTO.getCity(), cottageDTO.getStreet(), cottageDTO.getNumber(), cottageDTO.getZipCode(), cottageDTO.getLatitude(), cottageDTO.getLongitude(), cottage);
+        cottage.setLocation(location);
+        locationService.save(location);
 
         return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.OK);
     }

@@ -23,7 +23,7 @@
       <tbody>
         <tr *ngFor="let boat of sortedData | search: query">
           <td class="col-3" [routerLink]="['/boat-detail-owner', boat.id]" >{{boat.name}}</td>
-          <td class="col-3" [routerLink]="['/boat-detail-owner', boat.id]" >{{boat.address}}</td>
+          <td class="col-3" [routerLink]="['/boat-detail-owner', boat.id]" >{{boat.city}}, {{boat.street}} {{boat.number}}</td>
           <td class="col-2" [routerLink]="['/boat-detail-owner', boat.id]" >{{boat.fishingEquipment}}</td>
           <td class="col-3" [routerLink]="['/boat-detail-owner', boat.id]" >{{boat.description}}</td>
           <td class="col-1"><button class="btn btn-secondary" (click)="onClickDelete(boat.id);">Delete</button> </td>
@@ -44,7 +44,7 @@
         </div>
         <div class="modal-body">
           <div class="row justify-content-center">
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <ng-container [formGroup]="this.myFormGroup">
                   <div class="mb-2">
                     <label for="name" class="form-label">Name:</label>
@@ -83,16 +83,36 @@
                     <input type="navigationEquipment" class="form-control" id="navigationEquipment" placeholder="navigationEquipment" formControlName="navigationEquipment">
                   </div>
                   <div class="mb-2">
-                    <label for="address" class="form-label">Address:</label>
-                    <input type="address" class="form-control" id="address" placeholder="Address" formControlName="address">
-                  </div>
-                  <div class="mb-2">
                     <label for="maxNumberOfPeople" class="form-label">Maximum people:</label>
                     <input type="number" class="form-control" id="maxNumberOfPeople" placeholder="maxNumberOfPeople" formControlName="maxNumberOfPeople">
                   </div>
                   <div class="mb-2">
                     <label for="fishingEquipment" class="form-label">Fishing equipment:</label>
                     <input type="fishingEquipment" class="form-control" id="fishingEquipment" placeholder="fishingEquipment" formControlName="fishingEquipment">
+                  </div>
+                  <div hidden>
+                    <input type="text" id="latitudeInput">
+                    <input type="text" id="longitudeInput">
+                  </div>
+                  <div class="mb-2">
+                    <label for="cityInput" class="form-label"> City </label>
+                    <input id="cityInput" type="text" class="form-control" placeholder="City" formControlName="city" >
+                  </div>
+                  <div class="mb-2">
+                    <label for="streetInput" class="form-label"> Street </label>
+                    <input id="streetInput" type="text" class="form-control" placeholder="Street" formControlName="street"  >
+                  </div>
+                  <div class="mb-2">
+                    <label for="numberInput" class="form-label"> Number </label>
+                    <input id="numberInput" type="text" class="form-control" placeholder="Number" formControlName="number" >
+                  </div>
+                  <div class="mb-2">
+                    <label for="zipCodeInput" class="form-label"> Zip code </label>
+                    <input id="zipCodeInput" type="text" class="form-control" placeholder="ZIP code" formControlName="zipCode" >
+                  </div>
+                  <div class="mb-2"> 
+                    <div id="map" class="map" click="onMapClick()">
+                    </div>
                   </div>
                   <div class="mb-2">
                     <label for="cancellationTerms" class="form-label">Cancellation terms:</label>
@@ -104,7 +124,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickSubmit()">Add cottage</button>
+          <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickSubmit()">Add boat</button>
         </div>
       </div>
     </div>

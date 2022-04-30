@@ -89,8 +89,6 @@ export class OwnedCottagesComponent implements OnInit {
 
   public onClickSubmit(): void {
     if (this.myFormGroup.invalid) {
-        console.log(this.myFormGroup.getRawValue());
-        // stop here if it's invalid
         alert('Invalid input');
         return;
     }

@@ -5,6 +5,7 @@ import com.isa.project.dto.CottageDTO;
 import com.isa.project.model.*;
 import com.isa.project.service.BoatOwnerService;
 import com.isa.project.service.BoatService;
+import com.isa.project.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +25,9 @@ public class BoatController {
 
     @Autowired
     private BoatOwnerService boatOwnerService;
+
+    @Autowired
+    private LocationService locationService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -88,12 +92,11 @@ public class BoatController {
         boat.setMaximumVelocity(boatDTO.getMaximumVelocity());
         boat.setPricePerDay(boatDTO.getPricePerDay());
         boat.setServiceType(ServiceType.BOAT);
+        boat = boatService.save(boat);
 
-        boatService.save(boat);
-
-        //boat.setLocation(new Location( 1L , boatDTO.getCity(), boatDTO.getStreet(), boatDTO.getNumber(), boatDTO.getZipCode(), boatDTO.getLatitude(), boatDTO.getLongitude(), boat));
-
-        //boatService.save(boat);
+        Location location = new Location( null , boatDTO.getCity(), boatDTO.getStreet(), boatDTO.getNumber(), boatDTO.getZipCode(), boatDTO.getLatitude(), boatDTO.getLongitude(), boat);
+        boat.setLocation(location);
+        locationService.save(location);
 
         return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.CREATED);
     }
@@ -109,7 +112,6 @@ public class BoatController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-
         boat.setBehaviorRules(boatDTO.getBehaviorRules());
         boat.setName(boatDTO.getName());
         boat.setDescription(boatDTO.getDescription());
@@ -123,12 +125,11 @@ public class BoatController {
         boat.setType(boatDTO.getType());
         boat.setMaximumVelocity(boatDTO.getMaximumVelocity());
         boat.setPricePerDay(boatDTO.getPricePerDay());
-
         boatService.save(boat);
 
-        //boat.setLocation(new Location( 1L , boatDTO.getCity(), boatDTO.getStreet(), boatDTO.getNumber(), boatDTO.getZipCode(), boatDTO.getLatitude(), boatDTO.getLongitude(), boat));
-
-        //boatService.save(boat);
+        Location location = new Location( null , boatDTO.getCity(), boatDTO.getStreet(), boatDTO.getNumber(), boatDTO.getZipCode(), boatDTO.getLatitude(), boatDTO.getLongitude(), boat);
+        boat.setLocation(location);
+        locationService.save(location);
 
         return new ResponseEntity<>(new BoatDTO(boat), HttpStatus.OK);
     }

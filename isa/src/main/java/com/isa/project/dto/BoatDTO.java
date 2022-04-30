@@ -46,12 +46,14 @@ public class BoatDTO {
         this.enginePower = boat.getEnginePower();
         this.maximumVelocity = boat.getMaximumVelocity();
         this.navigationEquipment = boat.getNavigationEquipment();
-        this.city = boat.getLocation().getCity();
-        this.street = boat.getLocation().getStreet();
-        this.number = boat.getLocation().getNumber();
-        this.zipCode = boat.getLocation().getZipCode();
-        this.latitude = boat.getLocation().getLatitude();
-        this.longitude = boat.getLocation().getLongitude();
+        if (boat.getLocation() != null) {
+            this.city = boat.getLocation().getCity();
+            this.street = boat.getLocation().getStreet();
+            this.number = boat.getLocation().getNumber();
+            this.zipCode = boat.getLocation().getZipCode();
+            this.latitude = boat.getLocation().getLatitude();
+            this.longitude = boat.getLocation().getLongitude();
+        }
         this.description = boat.getDescription();
         this.maxNumberOfPeople = boat.getMaxNumberOfPeople();
         this.behaviorRules = boat.getBehaviorRules();
