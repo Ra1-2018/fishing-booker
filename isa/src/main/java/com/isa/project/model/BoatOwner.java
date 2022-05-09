@@ -8,14 +8,22 @@ import java.util.Set;
 public class BoatOwner extends AppUser {
 
     @OneToMany(mappedBy = "boatOwner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Boat> boats = new HashSet<Boat>();
+    private Set<Boat> boats = new HashSet<>();
+
+    @OneToMany(mappedBy = "boatOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Report> reports = new HashSet<>();
+
+    @OneToMany(mappedBy = "boatOwner", fetch = FetchType.LAZY)
+    private Set<Penalty> penalties;
 
     public BoatOwner() {
     }
 
     public BoatOwner(long id, String email, String password, String name, String surname, String address, String city, String country, String telephone) {
         super(id, email, password, name, surname, address, city, country, telephone, AppUserType.BOAT_OWNER);
-        this.boats = new HashSet<Boat>();
+        this.boats = new HashSet<>();
+        this.reports = new HashSet<>();
+        this.penalties = new HashSet<>();
     }
 
     public Set<Boat> getBoats() {
@@ -34,5 +42,21 @@ public class BoatOwner extends AppUser {
     public void removeBoat(Boat boat) {
         boats.remove(boat);
         boat.setBoatOwner(null);
+    }
+
+    public Set<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        this.reports = reports;
+    }
+
+    public Set<Penalty> getPenalties() {
+        return penalties;
+    }
+
+    public void setPenalties(Set<Penalty> penalties) {
+        this.penalties = penalties;
     }
 }

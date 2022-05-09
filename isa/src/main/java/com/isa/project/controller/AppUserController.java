@@ -225,7 +225,7 @@ public class AppUserController {
             admin = (Administrator) appUserService.findOne(appUser.getId());
             return new ResponseEntity<>(new LoginResponseDTO(appUser, userTokenState, admin.isFirstReg()), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new LoginResponseDTO(appUser, userTokenState), HttpStatus.OK);
+            return new ResponseEntity<>(new LoginResponseDTO(appUser, userTokenState, false), HttpStatus.OK);
         }
     }
 

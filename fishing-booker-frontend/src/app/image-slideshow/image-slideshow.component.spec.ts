@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReservationOwnerComponent } from './reservation-owner.component';
+import { ImageSlideshowComponent } from './image-slideshow.component';
 
-describe('ReservationOwnerComponent', () => {
-  let component: ReservationOwnerComponent;
-  let fixture: ComponentFixture<ReservationOwnerComponent>;
+describe('ImageSlideshowComponent', () => {
+  let component: ImageSlideshowComponent;
+  let fixture: ComponentFixture<ImageSlideshowComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReservationOwnerComponent ]
+      declarations: [ ImageSlideshowComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReservationOwnerComponent);
+    fixture = TestBed.createComponent(ImageSlideshowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

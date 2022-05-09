@@ -10,13 +10,22 @@ import { BoatDetailOwnerService } from './boat-detail-owner.service';
 })
 export class BoatDetailOwnerComponent implements OnInit {
 
-  boat: any 
-  additionalServicesField: any[] = []
-  price: any
+  boat: any;
+  images: any[] = [];
+  additionalServicesField: any[] = [];
+  reservationAdditionalServices: any[] = [];
+  price: any;
+  reservationPrice: number = 0;
   errorMessage = '';
+  services: any[] = [];
+  clients: any[] = [];
+  id: number = 0;
+  selectedFile: any;
+  isOwner: boolean = true;
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
+  public readonly reservationFormGroup: FormGroup;
 
   constructor(private route: ActivatedRoute, 
     private router: Router, private boatDetailOwnerService: BoatDetailOwnerService, 
@@ -42,18 +51,39 @@ export class BoatDetailOwnerComponent implements OnInit {
           price: ['', Validators.required],
           serviceId: Number(this.route.snapshot.paramMap.get('id'))
         });
+        this.reservationFormGroup = this.formBuilder.group({
+          reservationStartDateAndTime: [null, Validators.required],
+          durationInDays: [null, Validators.required],
+          numberOfPeople: [null, Validators.required],
+          client: [null, Validators.required]
+        });
      }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.getBoat(id);
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.id) {
+      this.getBoat(this.id);
+      this.getImages(this.id);
   }
 }
 
   getBoat(id: number): void {
     this.boatDetailOwnerService.getBoat(id).subscribe({
       next: boat => this.boat = boat,
+      error: err => this.errorMessage = err
+    })
+  }
+
+  getClients() {
+    this.boatDetailOwnerService.getClients().subscribe({
+      next: clients => this.clients = clients,
+      error: err => this.errorMessage = err
+    })
+  }
+
+  getImages(id: number) {
+    this.boatDetailOwnerService.getImages(id).subscribe({
+      next: images => this.images = images,     
       error: err => this.errorMessage = err
     })
   }
@@ -136,4 +166,87 @@ export class BoatDetailOwnerComponent implements OnInit {
     console.log(this.additionalServicesField);
   }
 
+  public makeReservation(): void {
+
+    if (this.reservationFormGroup.invalid) {
+      alert('Invalid input');
+      return;
+    }
+
+    const reservation = {
+        reservationStartDateAndTime: this.reservationFormGroup.get('reservationStartDateAndTime')?.value,
+        durationInDays: this.reservationFormGroup.get('durationInDays')?.value,
+        numberOfPeople: this.reservationFormGroup.get('numberOfPeople')?.value,
+        client: this.reservationFormGroup.get('client')?.value,
+        additionalServices: this.reservationAdditionalServices,
+        service: { id: this.id},
+        price: this.reservationPrice 
+    }
+
+    console.log(reservation);
+    this.boatDetailOwnerService.makeReservation(reservation).subscribe({
+      next: (data) => {
+      this.getBoat(this.id as number);
+      alert("Succesfully created!")
+
+      },
+      error: (err) => {alert("Error has occured, reservation was not created!")}
+    });
+  }
+
+  onDurationChange(): void {   
+    this.reservationPrice = this.boat.pricePerDay * this.reservationFormGroup.get('durationInDays')?.value;
+    for(let additionalService of this.reservationAdditionalServices) {
+      this.reservationPrice += additionalService.price * this.reservationFormGroup.get('durationInDays')?.value;
+    }
+    console.log(this.reservationPrice);
+  }
+
+  fieldsChangeReservation(values:any, additionalService: any):void {
+    console.log(values.currentTarget.checked);
+    if(values.currentTarget.checked) {
+      this.reservationAdditionalServices.push(additionalService);
+      this.reservationPrice += additionalService.price * this.reservationFormGroup.get('durationInDays')?.value;
+    }
+    else {
+      const index: number = this.reservationAdditionalServices.indexOf(additionalService);
+      if (index !== -1) {
+          this.reservationAdditionalServices.splice(index, 1);
+          this.reservationPrice -= additionalService.price * this.reservationFormGroup.get('durationInDays')?.value;
+      }        
+    }
+    console.log(this.reservationAdditionalServices);
+  }
+
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+    });
+
+    reader.readAsDataURL(file);
+  }
+
+  onClickAddImage() {
+
+    this.boatDetailOwnerService.uploadImage(this.selectedFile.file, this.id as number).subscribe({
+      next: (data) => 
+      { 
+        alert("Succesfully uploaded image!"); 
+        this.getImages(this.id as number);
+      },
+      error: (err) => 
+      {
+        alert("Error has occured, image was not uploaded!")
+      }
+    });
+  }
+
+}
+
+class ImageSnippet {
+  constructor(public src: string, public file: File) {}
 }

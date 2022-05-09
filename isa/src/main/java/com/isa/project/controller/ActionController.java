@@ -101,7 +101,7 @@ public class ActionController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Client client = (Client) appUserService.findOne(clientId);
-        if(client == null) {
+        if(client == null || client.isSanctioned()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         try {

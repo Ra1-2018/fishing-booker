@@ -15,6 +15,14 @@ export class ReservationClientService {
       tap(data => console.log("data: ", data))
     )
   }
+
+  submitReport(report: any) {
+    return this._http.post('http://localhost:8080/reports', report)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    );
+  }
 }
+
 
 

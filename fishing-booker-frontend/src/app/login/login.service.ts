@@ -8,8 +8,8 @@ import { Observable, tap } from 'rxjs';
 export class LoginService {
 
   isLoggedIn = false;
-  isCottageOwner = false;
   userType = '';
+  isSanctioned = false;
 
   constructor(private _http: HttpClient) { }
 

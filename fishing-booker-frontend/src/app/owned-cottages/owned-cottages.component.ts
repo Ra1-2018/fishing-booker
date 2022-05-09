@@ -17,6 +17,7 @@ export class OwnedCottagesComponent implements OnInit {
 
   cottages: any[] = []
   sortedData: any[] = []
+  selectedFile: any 
 
   constructor(private _cottageService: OwnedCottagesService, private readonly formBuilder: FormBuilder) {
     this.myFormGroup = this.formBuilder.group({
@@ -87,11 +88,14 @@ export class OwnedCottagesComponent implements OnInit {
       }
     });
   }
-
 }
   
   function compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  class ImageSnippet {
+    constructor(public src: string, public file: File) {}
   }
 
 

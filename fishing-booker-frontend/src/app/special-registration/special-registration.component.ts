@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SpecialRegistrationRequest } from '../model/special-registration-request';
 import { SpecialRegistrationService } from './special-registration.service';
 
 @Component({
@@ -9,43 +9,16 @@ import { SpecialRegistrationService } from './special-registration.service';
 })
 export class SpecialRegistrationComponent implements OnInit {
 
-  public readonly myFormGroup: FormGroup;
+  user = new SpecialRegistrationRequest('', '', '', '', '', '', '', '', '', '', '');
 
-  constructor(private specialRegistrationService: SpecialRegistrationService,
-    private readonly formBuilder: FormBuilder) { 
-      this.myFormGroup = this.formBuilder.group({
-        email: ['', Validators.compose([Validators.required, Validators.email])],
-        password: ['', Validators.required],
-        rePassword: ['', Validators.required],
-        name: [],
-        surname: [],
-        address: [],
-        city: [],
-        country: [],
-        telephone: [],
-        appUserType: [],
-        explanation: []
-    });
-  }
+  constructor(private specialRegistrationService: SpecialRegistrationService) { }
 
   ngOnInit(): void {
   }
 
   public onClickSubmit(): void {
-    console.log(this.myFormGroup.getRawValue());
-    if (this.myFormGroup.invalid) {
-        alert('Invalid input');
-        return;
-    }
-    var rePassword = this.myFormGroup.get('rePassword')?.value;
-    var password = this.myFormGroup.get('password')?.value;
-    if(password != rePassword) {
-      alert("Password doesn't match!");
-      return;
-    }
-
-    this.specialRegistrationService.registerSpecialUser(this.myFormGroup.getRawValue()).subscribe({
-      next: (data) => {alert("Succesfully registered!")},
+    this.specialRegistrationService.registerSpecialUser(this.user).subscribe({
+      next: (data) => {alert("Your request was submitted and is pending for approval.")},
       error: (err) => {alert("Email already in use!")}
     });
   }

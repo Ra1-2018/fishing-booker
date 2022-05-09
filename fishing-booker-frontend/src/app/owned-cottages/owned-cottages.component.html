@@ -18,6 +18,7 @@
           <th mat-sort-header="address">Address</th>
           <th mat-sort-header="roomsTotalNumber">Number of rooms</th>
           <th mat-sort-header="description">Description</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -42,7 +43,7 @@
         </div>
         <div class="modal-body">
           <div class="row justify-content-center">
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <ng-container [formGroup]="this.myFormGroup">
                   <div class="mb-2">
                     <label for="name" class="form-label">Name:</label>

@@ -40,7 +40,8 @@ import { OwnedAdventuresComponent } from './owned-adventures/owned-adventures.co
 import { AdventureDetailOwnerComponent } from './adventure-detail-owner/adventure-detail-owner.component';
 import { AdventureEditComponent } from './adventure-edit/adventure-edit.component';
 import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
-import { ReservationOwnerComponent } from './reservation-owner/reservation-owner.component';
+import { ReportComponent } from './report/report.component';
+import { ClientPenaltiesComponent } from './client/client-penalties/client-penalties.component';
 
 const routes: Routes = [
   { path: 'adventures', component: AdventuresComponent},
@@ -83,7 +84,8 @@ const routes: Routes = [
   { path: 'adventure-detail-owner/:id', component: AdventureDetailOwnerComponent},
   { path: 'adventure-edit/:id', component: AdventureEditComponent},
   { path: 'boat-detail-owner/:id', component: BoatDetailOwnerComponent},
-  { path: 'reservation-owner', component: ReservationOwnerComponent}
+  { path: 'report/:id', component: ReportComponent},
+  { path: 'client-penalties', component: ClientPenaltiesComponent}
 ];
 
 @NgModule({

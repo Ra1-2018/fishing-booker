@@ -16,6 +16,10 @@ export class BoatDetailService {
     )
   }
 
+  getImages(id: number): Observable<any> {
+    return this._http.get<any>('http://localhost:8080/images/' + id);
+  }
+
   delete(id: number): Observable<any> {
     return this._http.delete<Observable<any>>('http://localhost:8080/boats/' + id)
   }

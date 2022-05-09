@@ -79,10 +79,15 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <app-image-slideshow [images]="images" [serviceId]="id"></app-image-slideshow>                              
+                    </div>
+                </div>
                 <div class="row">
                     <a [routerLink]="['/actions', id]">View actions</a>
                 </div>
-                <<div class="row">
+                <div class="row">
                   <small><button *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'"  class="btn btn-outline-danger btn-sm" name="deleteButton" (click)="delete(boat.id)">Delete</button></small>
                 </div>
             </div>

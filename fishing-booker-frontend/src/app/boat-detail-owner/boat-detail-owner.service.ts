@@ -27,4 +27,22 @@ export class BoatDetailOwnerService {
   addAction(action: any): Observable<any> {
     return this._http.post<Observable<any>>('http://localhost:8080/actions', action);
   }
+
+  makeReservation(reservation: any) {
+    return this._http.post('http://localhost:8080/reservations', reservation);
+  }
+
+  getClients(): Observable<any> {
+    return this._http.get<any>('http://localhost:8080/users/owner/' + localStorage.getItem('userId'));
+  }
+
+  getImages(id: number): Observable<any> {
+    return this._http.get<any>('http://localhost:8080/images/' + id);
+  }
+
+  public uploadImage(image: File, id: number): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', image);
+    return this._http.post('http://localhost:8080/images/' + id, formData);   
+  }
 }

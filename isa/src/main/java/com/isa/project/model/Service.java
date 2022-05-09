@@ -28,6 +28,9 @@ public abstract class Service {
     private int maxNumberOfPeople;
 
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Image> images = new HashSet<>();
+
+    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
 
     @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -76,7 +79,7 @@ public abstract class Service {
         this.subscribedClients = subscribedClients;
         this.complaints = complaints;
         this.lastUpdateDate = new Date();
-        this.images = images;
+        this.images =  new HashSet<>();
     }
 
     public long getId() {
@@ -259,4 +262,7 @@ public abstract class Service {
         this.lastUpdateDate = lastUpdateDate;
     }
 
+    public Set<Image> getImages() { return images; }
+
+    public void setImages(Set<Image> images) { this.images = images; }
 }

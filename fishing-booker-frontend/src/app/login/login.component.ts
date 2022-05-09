@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginCredentials } from '../model/loginCredentials';
 import { LoginService } from './login.service';
 
 @Component({
@@ -10,39 +11,24 @@ import { LoginService } from './login.service';
 })
 export class LoginComponent implements OnInit {
 
-  public readonly myFormGroup: FormGroup;
-  public readonly newPasswordFormGroup: FormGroup;
   public show:boolean = true;
+  loginCredentials = new LoginCredentials('', '');
 
   constructor(private loginService: LoginService,
-              private readonly formBuilder: FormBuilder,
-              private router: Router) {
-                this.myFormGroup = this.formBuilder.group({
-                  email: ['', Validators.compose([Validators.required, Validators.email])],
-                  password: ['', Validators.required],
-                });
-                this.newPasswordFormGroup = this.formBuilder.group({
-                  password: ['', Validators.required],
-                  rePassword: ['', Validators.required]
-                });
-               }
+              private router: Router) {}
 
   ngOnInit(): void {
   }
 
-  public onClickSubmit(): void {
-    if (this.myFormGroup.invalid) {
-        // stop here if it's invalid
-        alert('Invalid input');
-        return;
-    }
-    this.loginService.loginUser(this.myFormGroup.getRawValue()).subscribe({
+  public onClickSubmit() {
+    this.loginService.loginUser(this.loginCredentials).subscribe({
       next: (data) => {
         localStorage.setItem('userId', data.id);
         localStorage.setItem('userType', data.appUserType)
         localStorage.setItem('jwt', data.userTokenState.accessToken)
         this.loginService.isLoggedIn = true;
         this.loginService.userType = data.appUserType;
+        this.loginService.isSanctioned = data.sanctioned;
         if(data.firstReg==true && data.appUserType=='ADMIN') {
             //this.show = true;
             this.router.navigate(['login-new-admin']);
@@ -55,7 +41,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  public onClickUpdate(): void {
+  /*public onClickUpdate(): void {
     if (this.myFormGroup.invalid) {
       // stop here if it's invalid
       alert('Invalid input');
@@ -67,5 +53,5 @@ export class LoginComponent implements OnInit {
       },
       error: (err) => {alert("An unexpected error!")}
     });
-  }
+  }*/
 }

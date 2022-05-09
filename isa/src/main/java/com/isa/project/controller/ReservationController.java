@@ -44,6 +44,34 @@ public class ReservationController {
     private ReservationTransactionService reservationTransactionService;
 
     @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER')")
+    @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReservationDTO> findOne(@PathVariable("id") Long id) {
+        Reservation reservation = reservationService.findById(id);
+
+        if(reservation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER')")
+    @PostMapping(value="penal", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReservationDTO> givePenal(@RequestBody ReservationDTO reservationDTO) {
+        Reservation reservation = reservationService.findById(reservationDTO.getId());
+
+        if(reservation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        //reservation.setPenal(true);
+        reservation.setReported(true);
+        reservationService.save(reservation);
+
+        return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER')")
     @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<ReservationDTO>> findByOwner(@PathVariable("id") Long id) {
 
@@ -173,7 +201,7 @@ public class ReservationController {
 
         Client client = (Client) appUserService.findOne(reservationDTO.getClient().getId());
 
-        if(client == null) {
+        if(client == null || client.isSanctioned()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

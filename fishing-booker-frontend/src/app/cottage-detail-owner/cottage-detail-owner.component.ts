@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 })
 export class CottageDetailOwnerComponent implements OnInit {
   cottage: any;
+  images: any[] = [];
   additionalServicesField: any[] = [];
   reservationAdditionalServices: any[] = [];
   price: any;
@@ -19,7 +20,9 @@ export class CottageDetailOwnerComponent implements OnInit {
   errorMessage = '';
   services: any[] = [];
   clients: any[] = [];
-  id: number|undefined;
+  id: number = 0;
+  selectedFile: any;
+  isOwner: boolean = true;
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
@@ -62,6 +65,7 @@ export class CottageDetailOwnerComponent implements OnInit {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     if (this.id) {
       this.getCottage(this.id);
+      this.getImages(this.id);
     }
   }
 
@@ -78,6 +82,14 @@ export class CottageDetailOwnerComponent implements OnInit {
       error: err => this.errorMessage = err
     })
   }
+
+  getImages(id: number) {
+    this.cottageDetailOwnerService.getImages(id).subscribe({
+      next: images => this.images = images,     
+      error: err => this.errorMessage = err
+    })
+  }
+
 
   public onClickSubmit(id:number): void {
     this.router.navigate(['cottage-edit/'+ id]);
@@ -211,4 +223,34 @@ export class CottageDetailOwnerComponent implements OnInit {
     console.log(this.reservationAdditionalServices);
   }
 
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+    });
+
+    reader.readAsDataURL(file);
+  }
+
+  onClickAddImage() {
+
+    this.cottageDetailOwnerService.uploadImage(this.selectedFile.file, this.id as number).subscribe({
+      next: (data) => 
+      { 
+        alert("Succesfully uploaded image!"); 
+        this.getImages(this.id as number);
+      },
+      error: (err) => 
+      {
+        alert("Error has occured, image was not uploaded!")
+      }
+    });
+  }
+}
+
+class ImageSnippet {
+  constructor(public src: string, public file: File) {}
 }

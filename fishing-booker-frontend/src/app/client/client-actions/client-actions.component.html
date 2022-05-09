@@ -18,7 +18,7 @@
         <td>{{action.startTime | date:'short'}}</td>
         <td>{{action.durationInDays}}</td>
         <td>{{action.maxNumberOfPeople}}</td>
-        <td *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'"><button class="btn btn-secondary btn-sm" (click)="makeReservation(action)">Make reservation</button></td>
+        <td *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT' && !loginService.isSanctioned"><button class="btn btn-secondary btn-sm" (click)="makeReservation(action)">Make reservation</button></td>
       </tr>
     </tbody>
   </table>

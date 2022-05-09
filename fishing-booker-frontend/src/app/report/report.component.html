@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="select" class="form-label">Select option: </label>
+                <select class="form-control" [(ngModel)]="selectedValue">
+                    <option value="report">Write a report</option>
+                    <option value="penal">Give penal</option>
+                </select>
+            </div>
+            <ng-container *ngIf="selectedValue=='report'" [formGroup]="this.reportFormGroup">
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="sanctionRequested" formControlName="sanctionRequested">
+                    <label class="form-check-label" for="sanctionRequested">Request saction</label>
+                  </div>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Comment:</label>
+                    <textarea rows="10" id="comment" type="text" class="form-control" formControlName="comment"></textarea>
+                </div>
+                <div class="d-grid col-4 mx-auto">
+                    <button type="button" class="btn btn-primary" (click)="submitReport()">Submit</button>
+                </div>
+            </ng-container>
+            <div *ngIf="selectedValue=='penal'">
+                <div class="mb-3">
+                    <label class="form-label"> A client didn't show up and will receive a penalty</label>
+                </div>
+                <div class="d-grid col-4 mx-auto">
+                    <button type="button" class="btn btn-primary" (click)="givePenal()">Penal</button>    
+                </div>   
+            </div>
+        </div>
+    </div>
+</div>

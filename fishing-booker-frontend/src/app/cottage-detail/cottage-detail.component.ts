@@ -12,8 +12,9 @@ export class CottageDetailComponent implements OnInit {
 
   cottage: any;
   errorMessage = '';
-  id: number|undefined;
-  subscriptions:any[] = []
+  id: number = 0;
+  subscriptions:any[] = [];
+  images: any[] = [];
 
   constructor(public readonly loginService: LoginService,
     private route: ActivatedRoute,
@@ -24,6 +25,7 @@ export class CottageDetailComponent implements OnInit {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     if (this.id) {
       this.getCottage(this.id);
+      this.getImages(this.id);
     }
     if(this.loginService.isLoggedIn && this.loginService.userType == 'CLIENT') {
       this.getSubscriptions();
@@ -33,6 +35,13 @@ export class CottageDetailComponent implements OnInit {
   getCottage(id: number): void {
     this.cottageDetailService.getCottage(id).subscribe({
       next: cottage => this.cottage = cottage,
+      error: err => this.errorMessage = err
+    })
+  }
+
+  getImages(id: number) {
+    this.cottageDetailService.getImages(id).subscribe({
+      next: images => this.images = images,     
       error: err => this.errorMessage = err
     })
   }
