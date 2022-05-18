@@ -39,6 +39,13 @@
                     <div class="col-md-2" style="margin-bottom: 20px ;">Average grade:</div>
                     <div class="col-md-10">{{adventure.averageGrade}}</div>
                 </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <app-image-slideshow [images]="images" [serviceId]="id"></app-image-slideshow>                              
+                    </div>
+                </div>
+
                 <div *ngIf="adventure.additionalServices.length != 0" class="row">
                     <table class="table">
                         <thead>
@@ -59,14 +66,6 @@
                     <a [routerLink]="['/actions', id]">View actions</a>
                 </div>
             </div>
-        </div>
-        <br>
-        <div>
-            <br>
-            <h5>Pictures our clients took of this adventure</h5>
-            <div *ngFor='let image of images'>
-                <img src='{{image}}' width="200" height="200"/>
-            </div>            
         </div>
     </div>
 </div>

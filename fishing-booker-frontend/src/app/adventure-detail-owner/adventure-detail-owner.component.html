@@ -40,9 +40,17 @@
                 <div class="row" style="margin-top: 20px ;">
                     <div class="col-md-2" style="margin-bottom: 20px ;"><button (click)="edit(adventure.id)" class="btn btn-primary">Edit</button></div>
                     <div class="col-md-1" style="margin-bottom: 20px ;"><button (click)="delete(adventure.id)" class="btn btn-danger">Delete</button></div>
+                    <div class="col-md-1" style="margin-bottom: 20px ;"><button style="width: 200px;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModal">Upload images</button></div>
                 </div>
             </div>
         </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <app-image-slideshow [images]="images" [isOwner]="isOwner" [serviceId]="id"></app-image-slideshow>                              
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-10">
                 <label class="m-2">Free periods</label>
@@ -233,3 +241,24 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
+    <div class="modal-dialog" data-target="#modal">
+      <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalDialog">Image</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-2">
+                    <label for="formFile" class="form-label">Upload image: </label>
+                    <input #imageInput class="form-control" type="file" id="formFile" (change)="processFile(imageInput)">
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddImage()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>

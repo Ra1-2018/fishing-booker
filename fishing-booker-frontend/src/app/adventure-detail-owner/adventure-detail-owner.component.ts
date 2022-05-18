@@ -10,10 +10,14 @@ import { AdventureDetailOwnerService } from './adventure-detail-owner.service';
 })
 export class AdventureDetailOwnerComponent implements OnInit {
 
+  images: any[] = [];
   adventure: any;
   additionalServicesField: any[] = [];
   price: any;
   errorMessage = '';
+  id: number = 0;
+  selectedFile: any;
+  isOwner: boolean = true;
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
@@ -46,16 +50,24 @@ export class AdventureDetailOwnerComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.getAdventure(id);
-    console.log(id);
-    
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    if(this.id) {
+      this.getAdventure(this.id);
+      this.getImages(this.id);
+    }    
   }
 
   getAdventure(id: number): void {
     this.adventureDetailOwnerService.getAdventure(id).subscribe(
       adventure => this.adventure = adventure
       )
+  }
+
+  getImages(id: number) {
+    this.adventureDetailOwnerService.getImages(id).subscribe({
+      next: images => this.images = images,     
+      error: err => this.errorMessage = err
+    })
   }
 
   public edit(id:number): void {
@@ -141,4 +153,35 @@ export class AdventureDetailOwnerComponent implements OnInit {
     }
     console.log(this.additionalServicesField);
   }
+
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+    });
+
+    reader.readAsDataURL(file);
+  }
+
+  onClickAddImage() {
+
+    this.adventureDetailOwnerService.uploadImage(this.selectedFile.file, this.id as number).subscribe({
+      next: (data) => 
+      { 
+        alert("Succesfully uploaded image!"); 
+        this.getImages(this.id as number);
+      },
+      error: (err) => 
+      {
+        alert("Error has occured, image was not uploaded!")
+      }
+    });
+  }
+}
+
+class ImageSnippet {
+  constructor(public src: string, public file: File) {}
 }

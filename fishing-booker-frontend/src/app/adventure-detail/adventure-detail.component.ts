@@ -12,9 +12,9 @@ export class AdventureDetailComponent implements OnInit {
 
   adventure: any;
   errorMessage = '';
-  id: number|undefined;
+  id: number = 0;
   subscriptions:any[] = []
-  images:String = '..//assets//adventure.jpg'
+  images: any[] = [];
 
   constructor(private route: ActivatedRoute, 
               private router: Router, 
@@ -27,6 +27,7 @@ export class AdventureDetailComponent implements OnInit {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     if (this.id) {
       this.getAdventure(this.id);
+      this.getImages(this.id);
     }
     if(this.loginService.isLoggedIn && this.loginService.userType == 'CLIENT') {
       this.getSubscriptions();
@@ -36,6 +37,13 @@ export class AdventureDetailComponent implements OnInit {
   getAdventure(id: number) : void {
     this.adventureDetailService.getAdventure(id).subscribe({
       next: adventure => this.adventure = adventure,
+      error: err => this.errorMessage = err
+    })
+  }
+
+  getImages(id: number) {
+    this.adventureDetailService.getImages(id).subscribe({
+      next: images => this.images = images,     
       error: err => this.errorMessage = err
     })
   }

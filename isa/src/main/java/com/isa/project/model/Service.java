@@ -57,9 +57,6 @@ public abstract class Service {
     @Column
     private Date lastUpdateDate;
 
-    @Column
-    private String images;
-
     public Service() {}
 
     public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints, String images) {
@@ -149,14 +146,6 @@ public abstract class Service {
     public Set<TimeRange> getFreePeriods() { return freePeriods;}
 
     public void setFreePeriods(Set<TimeRange> freePeriods) { this.freePeriods = freePeriods; }
-
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(String images) {
-        this.images = images;
-    }
 
     public int getMaxNumberOfPeople() {
         return maxNumberOfPeople;

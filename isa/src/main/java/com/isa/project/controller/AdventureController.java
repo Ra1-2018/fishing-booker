@@ -129,21 +129,4 @@ public class AdventureController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping(value = "images/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<String>> getAdventureImages(@PathVariable("id") Long id) {
-        Adventure adventure = adventureService.findById(id);
-
-        if(adventure == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        Collection<String> images = new ArrayList<>();
-        String adventureImages = adventure.getImages();
-        for (String i : images) {
-            images.add(i);
-        }
-        return new ResponseEntity<>(images, HttpStatus.OK);
-    }
 }
