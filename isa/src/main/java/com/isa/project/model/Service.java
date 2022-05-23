@@ -226,13 +226,14 @@ public abstract class Service {
     }
 
     public double getAverageGrade() {
-        if(reviews.size() == 0)
-            return 0;
-        double sum = 0;
-        for(Review review: reviews) {
-            sum += review.getGrade();
-        }
-        return sum/reviews.size();
+//        if(reviews.size() == 0)
+//            return 0;
+//        double sum = 0;
+//        for(Review review: reviews) {
+//            sum += review.getGrade();
+//        }
+//        return sum/reviews.size();
+        return 3;
     }
 
     public Integer getVersion() {

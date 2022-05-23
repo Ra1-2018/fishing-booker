@@ -21,7 +21,7 @@ export class AdventureDetailOwnerService {
   }
 
   addFreePeriod(freePeriod: any): Observable<any> {
-    return this._http.post<Observable<any>>('http://localhost:8080/timeRanges', freePeriod);
+    return this._http.post<Observable<any>>('http://localhost:8080/timeRanges/adventure', freePeriod);
   }
 
   addAdditionalService(additionalService: any): Observable<any> {

@@ -59,7 +59,7 @@ export class AdventureDetailOwnerComponent implements OnInit {
 
   getAdventure(id: number): void {
     this.adventureDetailOwnerService.getAdventure(id).subscribe(
-      adventure => this.adventure = adventure
+      adventure => this.adventure = adventure,
       )
   }
 
@@ -91,7 +91,7 @@ export class AdventureDetailOwnerComponent implements OnInit {
     this.adventureDetailOwnerService.addFreePeriod(this.myFormGroup.getRawValue()).subscribe({
       next: (data) => {
       alert("Succesfully created!")
-
+      this.getAdventure(this.id as number);
     },
       error: (err) => {alert("Error has occured, free period was not created!")}
     });

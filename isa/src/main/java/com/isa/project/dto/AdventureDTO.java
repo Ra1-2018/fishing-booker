@@ -1,8 +1,6 @@
 package com.isa.project.dto;
 
-import com.isa.project.model.AdditionalService;
-import com.isa.project.model.Adventure;
-import com.isa.project.model.ReservationCancellation;
+import com.isa.project.model.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +18,8 @@ public class AdventureDTO {
     private ReservationCancellation cancellation;
     private AppUserDTO instructor;
     private double averageGrade;
+    private Set<TimeRangeDTO> freePeriods;
+    private Set<ActionDTO> actions;
     private Set<AdditionalServiceDTO> additionalServices;
 
     public long getId() {
@@ -74,6 +74,10 @@ public class AdventureDTO {
         return additionalServices;
     }
 
+    public Set<TimeRangeDTO> getFreePeriods() { return freePeriods; }
+
+    public Set<ActionDTO> getActions() { return actions; }
+
     public AdventureDTO() {}
 
     public AdventureDTO(Adventure adventure) {
@@ -93,9 +97,17 @@ public class AdventureDTO {
         for(AdditionalService additionalService : adventure.getAdditionalServices()) {
             this.additionalServices.add(new AdditionalServiceDTO(additionalService));
         }
+        this.freePeriods = new HashSet<>();
+        for(TimeRange timeRange : adventure.getFreePeriods()) {
+            this.freePeriods.add(new TimeRangeDTO(timeRange));
+        }
+        this.actions = new HashSet<>();
+        for(Action action: adventure.getActions()) {
+            this.actions.add(new ActionDTO(action));
+        }
     }
 
-    public AdventureDTO(long id, String name, String address, String description, String instructorBiography, int maxNumberOfPeople, String behaviorRules, String fishingGear, double pricePerDay, ReservationCancellation cancellation, AppUserDTO instructor, double averageGrade, Set<AdditionalServiceDTO> additionalServices) {
+    public AdventureDTO(long id, String name, String address, String description, String instructorBiography, int maxNumberOfPeople, String behaviorRules, String fishingGear, double pricePerDay, ReservationCancellation cancellation, AppUserDTO instructor, double averageGrade, Set<AdditionalServiceDTO> additionalServices, Set<ActionDTO> actions, Set<TimeRangeDTO> freePeriods) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -109,5 +121,7 @@ public class AdventureDTO {
         this.instructor = instructor;
         this.averageGrade = averageGrade;
         this.additionalServices = additionalServices;
+        this.freePeriods = freePeriods;
+        this.actions = actions;
     }
 }

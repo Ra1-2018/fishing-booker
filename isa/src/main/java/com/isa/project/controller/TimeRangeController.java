@@ -1,12 +1,8 @@
 package com.isa.project.controller;
 
-import com.isa.project.dto.CottageDTO;
-import com.isa.project.dto.ServiceDTO;
-import com.isa.project.dto.TimeRangeDTO;
-import com.isa.project.model.Client;
-import com.isa.project.model.Cottage;
-import com.isa.project.model.Service;
-import com.isa.project.model.TimeRange;
+import com.isa.project.dto.*;
+import com.isa.project.model.*;
+import com.isa.project.service.AdventureService;
 import com.isa.project.service.CottageService;
 import com.isa.project.service.ServiceService;
 import com.isa.project.service.TimeRangeService;
@@ -26,6 +22,9 @@ public class TimeRangeController {
 
     @Autowired
     private CottageService cottageService;
+
+    @Autowired
+    private AdventureService advantureService;
 
     @Autowired
     private ServiceService serviceService;
@@ -48,6 +47,24 @@ public class TimeRangeController {
         }
         else {
             return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping(consumes = "application/json", value = "adventure")
+    public ResponseEntity<AdventureDTO> createFreePeriodForAdventure(@RequestBody TimeRangeDTO timeRangeDTO) {
+
+        Adventure adventure = advantureService.findById(timeRangeDTO.getServiceId());
+
+        if(adventure == null) { return new ResponseEntity<>(HttpStatus.BAD_REQUEST); }
+        TimeRange freePeriod = new TimeRange(timeRangeDTO.getId(), timeRangeDTO.getStartDate(), timeRangeDTO.getEndDate(), adventure);
+        if(serviceService.isFreePeriodValid(freePeriod)) {
+            serviceService.addFreePeriod(freePeriod);
+            return new ResponseEntity<>(new AdventureDTO(adventure), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(new AdventureDTO(adventure), HttpStatus.BAD_REQUEST);
         }
     }
 }
