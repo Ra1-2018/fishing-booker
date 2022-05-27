@@ -118,7 +118,7 @@ export class AdventureDetailOwnerComponent implements OnInit {
     this.adventureDetailOwnerService.addAction(action).subscribe({
       next: (data) => {
       alert("Succesfully created!")
-
+      this.getAdventure(this.id as number);
     },
       error: (err) => {alert("Error has occured, action was not created!")}
     });
@@ -134,7 +134,7 @@ export class AdventureDetailOwnerComponent implements OnInit {
     this.adventureDetailOwnerService.addAdditionalService(this.additionalServiceFormGroup.getRawValue()).subscribe({
       next: (data) => {
       alert("Succesfully created!")
-
+      this.getAdventure(this.id as number);
     },
       error: (err) => {alert("Error has occured, additional service was not created!")}
     });

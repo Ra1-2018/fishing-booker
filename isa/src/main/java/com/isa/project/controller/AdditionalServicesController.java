@@ -2,12 +2,10 @@ package com.isa.project.controller;
 
 import com.isa.project.dto.AdditionalServiceDTO;
 import com.isa.project.dto.CottageDTO;
-import com.isa.project.model.AdditionalService;
-import com.isa.project.model.Cottage;
-import com.isa.project.model.CottageOwner;
-import com.isa.project.model.ServiceType;
+import com.isa.project.model.*;
 import com.isa.project.service.AdditionalServiceService;
 import com.isa.project.service.CottageService;
+import com.isa.project.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +19,20 @@ import java.util.Properties;
 public class AdditionalServicesController {
 
     @Autowired
-    private CottageService cottageService;
+    private ServiceService serviceService;
 
     @Autowired
     private AdditionalServiceService additionalServiceService;
 
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('INSTRUCTOR')")
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<AdditionalServiceDTO> createAdditionalService(@RequestBody AdditionalServiceDTO additionalServiceDTO) {
 
 
-        Cottage cottage = cottageService.findById(additionalServiceDTO.getServiceId());
+        Service service = serviceService.findById(additionalServiceDTO.getServiceId());
 
-        if (cottage == null) {
+        if (service == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -42,11 +40,11 @@ public class AdditionalServicesController {
 
         additionalService.setName(additionalServiceDTO.getName());
         additionalService.setPrice(additionalServiceDTO.getPrice());
-        additionalService.setService(cottage);
+        additionalService.setService(service);
 
         additionalServiceService.save(additionalService);
-        cottage.addAdditionalService(additionalService);
-        cottageService.save(cottage);
+        service.addAdditionalService(additionalService);
+        serviceService.save(service);
 
         return new ResponseEntity<>(new AdditionalServiceDTO(additionalService), HttpStatus.CREATED);
     }
