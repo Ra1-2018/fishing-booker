@@ -211,6 +211,7 @@ public class ServiceService {
         return services;
     }
 
+    @Transactional
     @CachePut(value = "service", key = "#service.id")
     public com.isa.project.model.Service save(com.isa.project.model.Service service) {
         service.setLastUpdateDate(new Date());
