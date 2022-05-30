@@ -20,9 +20,25 @@
                     <div class="col-md-2" style="margin-bottom: 20px ;">Description:</div>
                     <div class="col-md-10">{{cottage.description}}</div>
                 </div>
-                <div class="row">
-                    <div class="col-md-2" style="margin-bottom: 20px ;">Number of rooms:</div>
-                    <div class="col-md-10">{{cottage.roomsTotalNumber}}</div>
+                <div *ngIf="cottage.rooms.length != 0" class="row">
+                    <div class="col-md-4">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>No.</td>
+                                <td>Room</td>
+                                <td>Beds per room</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor = "let room of cottage.rooms; index as i">
+                                <td> No. {{i+1}} </td>
+                                <td>{{room.roomCode}}</td>
+                                <td>{{room.numberOfBeds}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2" style="margin-bottom: 20px ;">Behavior rules:</div>

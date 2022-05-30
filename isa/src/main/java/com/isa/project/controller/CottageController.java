@@ -1,12 +1,10 @@
 package com.isa.project.controller;
 
 import com.isa.project.dto.CottageDTO;
+import com.isa.project.dto.RoomDTO;
 import com.isa.project.dto.TimeRangeDTO;
 import com.isa.project.model.*;
-import com.isa.project.service.CottageOwnerService;
-import com.isa.project.service.CottageService;
-import com.isa.project.service.LocationService;
-import com.isa.project.service.TimeRangeService;
+import com.isa.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,10 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/cottages")
@@ -32,6 +27,9 @@ public class CottageController {
 
     @Autowired
     private LocationService locationService;
+
+    @Autowired
+    private RoomService roomService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -85,13 +83,24 @@ public class CottageController {
         cottage.setCottageOwner(cottageOwner);
         cottage.setPricePerDay(cottageDTO.getPricePerDay());
         cottage.setMaxNumberOfPeople(cottageDTO.getMaxNumberOfPeople());
-        cottage.setRoomsTotalNumber(cottageDTO.getRoomsTotalNumber());
         cottage.setServiceType(ServiceType.COTTAGE);
         cottage = cottageService.save(cottage);
 
         Location location = new Location( null , cottageDTO.getCity(), cottageDTO.getStreet(), cottageDTO.getNumber(), cottageDTO.getZipCode(), cottageDTO.getLatitude(), cottageDTO.getLongitude(), cottage);
         cottage.setLocation(location);
         locationService.save(location);
+
+        Collection<RoomDTO> roomDTOS = cottageDTO.getRooms();
+        Set<Room> rooms = new HashSet<>();
+        if(roomDTOS != null ) {
+            for(RoomDTO roomDTO : roomDTOS) {
+                rooms.add(new Room(roomDTO.getId(), roomDTO.getRoomCode(), roomDTO.getNumberOfBeds(), cottage));
+            }
+        }
+        cottage.setRooms(rooms);
+        for(Room room: rooms) {
+            roomService.save(room);
+        }
 
         return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.CREATED);
     }
@@ -113,13 +122,37 @@ public class CottageController {
         cottage.setPricePerDay(cottageDTO.getPricePerDay());
         cottage.setMaxNumberOfPeople(cottageDTO.getMaxNumberOfPeople());
         cottage.setCottageOwner(cottageOwnerService.findById(cottageDTO.getCottageOwner().getId()));
-        cottage.setRoomsTotalNumber(cottageDTO.getRoomsTotalNumber());
-
-        cottageService.save(cottage);
 
         Location location = new Location( null , cottageDTO.getCity(), cottageDTO.getStreet(), cottageDTO.getNumber(), cottageDTO.getZipCode(), cottageDTO.getLatitude(), cottageDTO.getLongitude(), cottage);
         cottage.setLocation(location);
         locationService.save(location);
+
+        Collection<RoomDTO> roomDTOS = cottageDTO.getRooms();
+        Set<Room> rooms = new HashSet<>();
+        if(roomDTOS != null ) {
+            for(RoomDTO roomDTO : roomDTOS) {
+                rooms.add(new Room(roomDTO.getId(), roomDTO.getRoomCode(), roomDTO.getNumberOfBeds(), cottage));
+            }
+        }
+
+        for(Room room: roomService.findByCottage(cottage)) {
+            if(!rooms.contains(room)) {
+                cottage.removeRoom(room);
+            }
+        }
+        for(Room room: rooms) {
+            roomService.save(room);
+        }
+
+        cottage.setRooms(rooms);
+        cottageService.save(cottage);
+
+        for(Room room: roomService.findByCottage(cottage)) {
+            if(!rooms.contains(room)) {
+                System.out.println("Nema");
+                roomService.deleteById(room.getId());
+            }
+        }
 
         return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.OK);
     }

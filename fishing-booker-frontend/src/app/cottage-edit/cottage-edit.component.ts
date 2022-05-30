@@ -10,6 +10,7 @@ import TileLayer from 'ol/layer/Tile';
 import { fromLonLat, toLonLat } from 'ol/proj';
 import { createInjectorType } from '@angular/compiler/src/render3/r3_injector_compiler';
 import { add } from 'ol/coordinate';
+import { Room } from '../model/room';
 
 @Component({
   selector: 'app-cottage-edit',
@@ -19,30 +20,27 @@ import { add } from 'ol/coordinate';
 export class CottageEditComponent implements OnInit {
 
   public map!: Map
-  cottage: any
   errorMessage = '';
   coord: any[] = []
-  public readonly myFormGroup: FormGroup;
 
-  constructor(private route: ActivatedRoute, 
-    private router: Router, 
-    private cottageEditService: CottageEditService,
-    private readonly formBuilder: FormBuilder) {
-        this.myFormGroup = this.formBuilder.group({
-        id: [],
-        name: [],
-        city: [],
-        street: [],
-        number: [],
-        zipCode: [],
-        latitude: [],
-        longitude: [],
-        description: [],
-        roomsTotalNumber: [],
-        behaviorRules: [],
-        cottageOwner: []
-    });
+  rooms: Array<Room> = [];
+
+  cottage: any = {
+    name: '',
+    description: '',
+    behaviorRules: '',
+    ownerId: localStorage.getItem('userId'),
+    priceList: '',
+    city: '',
+    street: '',
+    number: '',
+    zipCode: '',
+    latitude: '',
+    longitude: '',
+    rooms: this.rooms
   }
+
+  constructor(private route: ActivatedRoute, private router: Router, private cottageEditService: CottageEditService) { }
 
   ngOnInit(): void {
     this.retrieveData();
@@ -51,7 +49,7 @@ export class CottageEditComponent implements OnInit {
   private retrieveData(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.cottageEditService.getCottage(id).subscribe((res: any) => {
-      this.myFormGroup.patchValue(res);
+      this.cottage = res;
       this.coord = fromLonLat([parseFloat(res.longitude), parseFloat(res.latitude)]),
       this.map = new Map({
         layers: [
@@ -73,21 +71,32 @@ export class CottageEditComponent implements OnInit {
   }
 
   public onClickSubmit(): void {
-    if (this.myFormGroup.invalid) {
+    if (this.cottage.invalid) {
       alert('Invalid input');
       return;
     }
-    this.cottageEditService.updateCottage(this.myFormGroup.getRawValue()).subscribe({
+    this.cottageEditService.updateCottage(this.cottage).subscribe({
       next: (data) => {alert("Succesfully updated!") 
       this.back()},
       error: (err) => {alert("An unexpected error!")}
     });
   }
 
+  public addRoom(): void {
+    this.cottage.rooms.push(new Room('', 1, null));
+  }
+  
+  public removeRoom(room : Room): void {
+    const index: number = this.cottage.rooms.indexOf(room);
+    if (index !== -1) {
+      this.cottage.rooms.splice(index, 1);
+    } 
+  }
+
   reverseGeocode(coords: any) {
     var coord = toLonLat(coords)
-    this.myFormGroup.controls['longitude'].setValue(coord[0].toString());
-    this.myFormGroup.controls['latitude'].setValue(coord[1].toString());
+    this.cottage.longitude = coord[0].toString();
+    this.cottage.latitude = coord[1].toString();
    fetch('https://nominatim.openstreetmap.org/reverse?lat=' + coord[1] + '&lon=' + coord[0] + '&format=json')
       .then(function(response) {
              return response.json();
@@ -96,21 +105,21 @@ export class CottageEditComponent implements OnInit {
 
             console.log(json.address);
             if (json.address.city) {
-            this.myFormGroup.controls['city'].setValue(json.address.city); 
+            this.cottage.city = json.address.city; 
             } else if (json.address.city_district) {
-            this.myFormGroup.controls['city'].setValue(json.address.city_district);
+            this.cottage.city = json.address.city_district;
             }
 
             if (json.address.road) {
-            this.myFormGroup.controls['street'].setValue(json.address.road);
+            this.cottage.street = json.address.road;
             }
 
             if (json.address.house_number) {
-            this.myFormGroup.controls['number'].setValue(json.address.house_number);
+            this.cottage.number = json.address.house_number;
             }
 
             if(json.address.postcode){
-            this.myFormGroup.controls['zipCode'].setValue(json.address.postcode);
+            this.cottage.zipCode = json.address.postcode;
             }
         });
     }

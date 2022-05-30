@@ -5,13 +5,13 @@ import View from 'ol/View';
 import { OSM } from 'ol/source';
 import TileLayer from 'ol/layer/Tile';
 import { OwnedCottagesService } from './owned-cottages.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { CottageService } from '../cottages/cottage.service';
 import { toLonLat } from 'ol/proj';
 import { createInjectorType } from '@angular/compiler/src/render3/r3_injector_compiler';
 import { add } from 'ol/coordinate';
-
+import { Room } from '../model/room';
 
 @Component({
   selector: 'app-owned-cottages',
@@ -22,30 +22,29 @@ export class OwnedCottagesComponent implements OnInit {
 
   query: '' | undefined;
 
-  public readonly myFormGroup: FormGroup;
-
   public map!: Map
-  cottages: any[] = []
-  sortedData: any[] = []
-  selectedFile: any 
-  
+  cottages: any[] = [];
+  sortedData: any[] = [];
+  selectedFile: any;
 
-  constructor(private _cottageService: OwnedCottagesService, private readonly formBuilder: FormBuilder) {
-    this.myFormGroup = this.formBuilder.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      roomsTotalNumber: [],
-      behaviorRules: ['', Validators.required],
-      ownerId: localStorage.getItem('userId'),
-      priceList: ['', Validators.required],
-      city: ['', Validators.required],
-			street: ['', Validators.required],
-		  number: ['', Validators.required],
-			zipCode: ['', Validators.required],
-			latitude: ['', Validators.required],
-			longitude: ['', Validators.required],
-  });
+  rooms: Array<Room> = [];
 
+  cottage: any = {
+    name: '',
+    description: '',
+    behaviorRules: '',
+    ownerId: localStorage.getItem('userId'),
+    priceList: '',
+    city: '',
+    street: '',
+    number: '',
+    zipCode: '',
+    latitude: '',
+    longitude: '',
+    rooms: this.rooms
+  }
+
+  constructor(private _cottageService: OwnedCottagesService) {
   }
 
   ngOnInit(): void {
@@ -68,7 +67,17 @@ export class OwnedCottagesComponent implements OnInit {
       this.reverseGeocode(e.coordinate);
     });
   }
+
+  public addRoom(): void {
+    this.rooms.push(new Room('', 1, null));
+  }
   
+  public removeRoom(room : Room): void {
+    const index: number = this.rooms.indexOf(room);
+    if (index !== -1) {
+      this.rooms.splice(index, 1);
+    } 
+  }
 
   getCottages() {
     this._cottageService.getCottages().subscribe(
@@ -88,12 +97,13 @@ export class OwnedCottagesComponent implements OnInit {
   }
 
   public onClickSubmit(): void {
-    if (this.myFormGroup.invalid) {
+    if (this.cottage.invalid) {
         alert('Invalid input');
         return;
     }
 
-    this._cottageService.createCottage(this.myFormGroup.getRawValue()).subscribe({
+    this.cottage.rooms = this.rooms;
+    this._cottageService.createCottage(this.cottage).subscribe({
       next: (data) => {
       alert("Succesfully created!")
       this.getCottages();
@@ -114,9 +124,9 @@ export class OwnedCottagesComponent implements OnInit {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
-        /*case 'address': return compare(a.address, b.address, isAsc);*/
-        case 'roomsTotalNumber': return compare(a.roomsTotalNumber, b.roomsTotalNumber, isAsc);
-        case 'cottageOwner': return compare(a.cottageOwner.email, b.cottageOwner.email, isAsc);
+        //case 'address': return compare(a.address, b.address, isAsc);
+        //case 'roomsTotalNumber': return compare(a.roomsTotalNumber, b.roomsTotalNumber, isAsc);
+        case 'description': return compare(a.description, b.description, isAsc);
         default: return 0;
       }
     });
@@ -124,8 +134,8 @@ export class OwnedCottagesComponent implements OnInit {
 
   reverseGeocode(coords: any) {
     var coord = toLonLat(coords)
-    this.myFormGroup.controls['longitude'].setValue(coord[0].toString());
-    this.myFormGroup.controls['latitude'].setValue(coord[1].toString());
+    this.cottage.longitude = coord[0].toString();
+    this.cottage.latitude = coord[1].toString();
    fetch('https://nominatim.openstreetmap.org/reverse?lat=' + coord[1] + '&lon=' + coord[0] + '&format=json')
       .then(function(response) {
              return response.json();
@@ -134,21 +144,21 @@ export class OwnedCottagesComponent implements OnInit {
 
             console.log(json.address);
             if (json.address.city) {
-            this.myFormGroup.controls['city'].setValue(json.address.city); 
+            this.cottage.city = json.address.city; 
             } else if (json.address.city_district) {
-            this.myFormGroup.controls['city'].setValue(json.address.city_district);
+            this.cottage.city = json.address.city_district;
             }
 
             if (json.address.road) {
-            this.myFormGroup.controls['street'].setValue(json.address.road);
+            this.cottage.street = json.address.road;
             }
 
             if (json.address.house_number) {
-            this.myFormGroup.controls['number'].setValue(json.address.house_number);
+            this.cottage.number = json.address.house_number;
             }
 
             if(json.address.postcode){
-            this.myFormGroup.controls['zipCode'].setValue(json.address.postcode);
+            this.cottage.zipCode = json.address.postcode;
             }
         });
     }
