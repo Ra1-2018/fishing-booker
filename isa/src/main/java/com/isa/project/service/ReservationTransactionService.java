@@ -5,6 +5,7 @@ import com.isa.project.model.AdditionalService;
 import com.isa.project.model.Client;
 import com.isa.project.model.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +27,13 @@ public class ReservationTransactionService {
     private ActionService actionService;
 
     @Transactional(readOnly = false)
-    public Reservation makeRegularReservation(Reservation reservation) {
+    public Reservation makeRegularReservation(Reservation reservation) throws OptimisticLockingFailureException{
             serviceService.RemoveFreePeriod(reservation);
             return reservationService.save(reservation);
     }
 
     @Transactional(readOnly = false)
-    public Reservation makeReservationFromAction(Action action, Client client) {
+    public Reservation makeReservationFromAction(Action action, Client client) throws OptimisticLockingFailureException {
         Reservation reservation = new Reservation();
         reservation.setReservationStartDateAndTime(action.getStartTime());
         reservation.setDurationInDays(action.getDurationInDays());
@@ -48,5 +49,12 @@ public class ReservationTransactionService {
         serviceService.save(service);
         actionService.deleteById(action.getId());
         return reservationService.save(reservation);
+    }
+
+    @Transactional(readOnly = false)
+    public void cancelReservation(Reservation reservation) throws OptimisticLockingFailureException{
+        serviceService.RestoreFreePeriod(reservation);
+        reservationService.deleteById(reservation.getId());
+        serviceService.save(reservation.getService());
     }
 }
