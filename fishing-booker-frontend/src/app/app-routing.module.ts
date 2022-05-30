@@ -39,6 +39,7 @@ import { ReservationClientComponent } from './reservation-client/reservation-cli
 import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
 import { ReportComponent } from './report/report.component';
 import { ClientPenaltiesComponent } from './client/client-penalties/client-penalties.component';
+import { BusinessReportComponent } from './business-report/business-report.component';
 
 const routes: Routes = [
   { path: 'adventures', component: AdventuresComponent},
@@ -79,7 +80,8 @@ const routes: Routes = [
   { path: 'client-detail/:id', component: ClientDetailComponent},
   { path: 'boat-detail-owner/:id', component: BoatDetailOwnerComponent},
   { path: 'report/:id', component: ReportComponent},
-  { path: 'client-penalties', component: ClientPenaltiesComponent}
+  { path: 'client-penalties', component: ClientPenaltiesComponent},
+  { path: 'business-report', component: BusinessReportComponent}
 ];
 
 @NgModule({

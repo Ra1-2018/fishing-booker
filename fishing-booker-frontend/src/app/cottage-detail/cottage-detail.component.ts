@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../login/login.service';
 import { CottageDetailService } from './cottage-detail.service';
+import 'ol/ol.css';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import { OSM } from 'ol/source';
+import TileLayer from 'ol/layer/Tile';
+import { fromLonLat, toLonLat } from 'ol/proj';
 
 @Component({
   selector: 'app-cottage-detail',
@@ -10,11 +16,13 @@ import { CottageDetailService } from './cottage-detail.service';
 })
 export class CottageDetailComponent implements OnInit {
 
+  public map!: Map
   cottage: any;
   errorMessage = '';
   id: number = 0;
   subscriptions:any[] = [];
   images: any[] = [];
+  coord: any[] = []
 
   constructor(public readonly loginService: LoginService,
     private route: ActivatedRoute,
@@ -34,9 +42,26 @@ export class CottageDetailComponent implements OnInit {
 
   getCottage(id: number): void {
     this.cottageDetailService.getCottage(id).subscribe({
-      next: cottage => this.cottage = cottage,
+      next: cottage => { 
+        this.cottage = cottage,
+        this.coord = fromLonLat([parseFloat(this.cottage.longitude), parseFloat(this.cottage.latitude)]),
+        this.map = new Map({
+          layers: [
+            new TileLayer({
+              source: new OSM(),
+            }),
+          ],
+          target: 'map',
+          view: new View({ 
+            
+            center: this.coord,
+            zoom:17, maxZoom: 18, 
+          }),
+        });
+      },
       error: err => this.errorMessage = err
-    })
+    });
+    
   }
 
   getImages(id: number) {

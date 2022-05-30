@@ -18,8 +18,8 @@ public class Cottage extends Service{
         super();
     }
 
-    public Cottage(long id, String name, String description, String behaviorRules, double pricePerDay, String address, int roomsTotalNumber, Set<Reservation> reservations, CottageOwner cottageOwner, Set<TimeRange> freeReservations, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints) {
-        super(id, name, description, behaviorRules, pricePerDay, address, ServiceType.COTTAGE, reservations, freeReservations, maxNumberOfPeople, additionalServices, actions, reviews, subscribedClients, complaints);
+    public Cottage(long id, String name, String description, String behaviorRules, double pricePerDay, int roomsTotalNumber, Set<Reservation> reservations, CottageOwner cottageOwner, Set<TimeRange> freeReservations, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints, Location location) {
+        super(id, name, description, behaviorRules, pricePerDay, ServiceType.COTTAGE, reservations, freeReservations, maxNumberOfPeople, additionalServices, actions, reviews, subscribedClients, complaints, location);
         this.roomsTotalNumber = roomsTotalNumber;
         this.cottageOwner = cottageOwner;
     }

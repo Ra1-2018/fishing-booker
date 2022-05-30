@@ -3,6 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CottageDetailOwnerService } from './cottage-detail-owner.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import 'ol/ol.css';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import { OSM } from 'ol/source';
+import TileLayer from 'ol/layer/Tile';
+import { fromLonLat, toLonLat } from 'ol/proj';
 
 
 @Component({
@@ -11,6 +17,8 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./cottage-detail-owner.component.css']
 })
 export class CottageDetailOwnerComponent implements OnInit {
+
+  public map!: Map
   cottage: any;
   images: any[] = [];
   additionalServicesField: any[] = [];
@@ -23,6 +31,7 @@ export class CottageDetailOwnerComponent implements OnInit {
   id: number = 0;
   selectedFile: any;
   isOwner: boolean = true;
+  coord: any[] = []
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
@@ -71,7 +80,22 @@ export class CottageDetailOwnerComponent implements OnInit {
 
   getCottage(id: number): void {
     this.cottageDetailOwnerService.getCottage(id).subscribe({
-      next: cottage => this.cottage = cottage,
+      next: cottage => { this.cottage = cottage,
+        this.coord = fromLonLat([parseFloat(this.cottage.longitude), parseFloat(this.cottage.latitude)]),
+        this.map = new Map({
+          layers: [
+            new TileLayer({
+              source: new OSM(),
+            }),
+          ],
+          target: 'map',
+          view: new View({ 
+            
+            center: this.coord,
+            zoom:17, maxZoom: 18, 
+          }),
+        });
+      },
       error: err => this.errorMessage = err
     })
   }

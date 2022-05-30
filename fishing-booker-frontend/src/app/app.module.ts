@@ -83,6 +83,9 @@ import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.
 import { ReportComponent } from './report/report.component';
 import { ImageSlideshowComponent } from './image-slideshow/image-slideshow.component';
 import { ClientPenaltiesComponent } from './client/client-penalties/client-penalties.component';
+import { AgmCoreModule } from '@agm/core';
+import { BusinessReportComponent } from './business-report/business-report.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -128,7 +131,8 @@ import { ClientPenaltiesComponent } from './client/client-penalties/client-penal
     BoatDetailOwnerComponent,
     ReportComponent,
     ImageSlideshowComponent,
-    ClientPenaltiesComponent
+    ClientPenaltiesComponent,
+    BusinessReportComponent
   ],
   imports: [
     BrowserModule,
@@ -171,7 +175,15 @@ import { ClientPenaltiesComponent } from './client/client-penalties/client-penal
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgChartsModule,
+    AgmCoreModule.forRoot({
+
+      apiKey: 'AIzaSyD9J8JKaQinAWb0q9usoTavpickUnpKHXg',
+
+      libraries: ['places']
+
+    })
   ],
   providers: [
     {

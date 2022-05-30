@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BoatDetailOwnerService } from './boat-detail-owner.service';
+import 'ol/ol.css';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import { OSM } from 'ol/source';
+import TileLayer from 'ol/layer/Tile';
+import { fromLonLat, toLonLat } from 'ol/proj';
 
 @Component({
   selector: 'app-boat-detail-owner',
@@ -10,6 +16,7 @@ import { BoatDetailOwnerService } from './boat-detail-owner.service';
 })
 export class BoatDetailOwnerComponent implements OnInit {
 
+  public map!: Map
   boat: any;
   images: any[] = [];
   additionalServicesField: any[] = [];
@@ -22,6 +29,7 @@ export class BoatDetailOwnerComponent implements OnInit {
   id: number = 0;
   selectedFile: any;
   isOwner: boolean = true;
+  coord: any[] = []
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
@@ -69,7 +77,22 @@ export class BoatDetailOwnerComponent implements OnInit {
 
   getBoat(id: number): void {
     this.boatDetailOwnerService.getBoat(id).subscribe({
-      next: boat => this.boat = boat,
+      next:  boat => { this.boat = boat,
+        this.coord = fromLonLat([parseFloat(this.boat.longitude), parseFloat(this.boat.latitude)]),
+        this.map = new Map({
+          layers: [
+            new TileLayer({
+              source: new OSM(),
+            }),
+          ],
+          target: 'map',
+          view: new View({ 
+            
+            center: this.coord,
+            zoom:17, maxZoom: 18, 
+          }),
+        });
+      },
       error: err => this.errorMessage = err
     })
   }

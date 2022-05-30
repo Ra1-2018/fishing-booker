@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../login/login.service';
 import { BoatDetailService } from './boat-detail.service';
+import 'ol/ol.css';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import { OSM } from 'ol/source';
+import TileLayer from 'ol/layer/Tile';
+import { fromLonLat, toLonLat } from 'ol/proj';
 
 @Component({
   selector: 'app-boat-detail',
@@ -10,12 +16,13 @@ import { BoatDetailService } from './boat-detail.service';
 })
 export class BoatDetailComponent implements OnInit {
 
+  public map!: Map
   boat: any;
   errorMessage = '';
   id: number = 0;
   subscriptions:any[] = [];
   images: any[] = [];
-
+  coord: any[] = []
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -35,7 +42,22 @@ export class BoatDetailComponent implements OnInit {
 
   getBoat(id: number): void {
     this.boatDetailService.getBoat(id).subscribe({
-      next: boat => this.boat = boat,
+      next: boat => { this.boat = boat, 
+        this.coord = fromLonLat([parseFloat(this.boat.longitude), parseFloat(this.boat.latitude)]),
+        this.map = new Map({
+          layers: [
+            new TileLayer({
+              source: new OSM(),
+            }),
+          ],
+          target: 'map',
+          view: new View({ 
+            
+            center: this.coord,
+            zoom:17, maxZoom: 18, 
+          }),
+        });
+      },
       error: err => this.errorMessage = err
     })
   }

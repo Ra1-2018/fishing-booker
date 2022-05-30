@@ -12,9 +12,11 @@ public class DeletionRequest {
     private String userEmail;
     @Column
     private String explanation;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "responseToDeletionRequest_id", referencedColumnName = "id")
     private ResponseToDeletionRequest responseToDeletionRequest;
+
     @Column
     private Date dateSubmitted;
 

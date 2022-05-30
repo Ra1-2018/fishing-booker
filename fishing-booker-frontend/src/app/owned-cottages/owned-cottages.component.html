@@ -24,7 +24,7 @@
       <tbody>
         <tr *ngFor="let cottage of sortedData | search: query">
           <td class="col-3" [routerLink]="['/cottage-detail-owner', cottage.id]" >{{cottage.name}}</td>
-          <td class="col-3" [routerLink]="['/cottage-detail-owner', cottage.id]" >{{cottage.address}}</td>
+          <td class="col-3" [routerLink]="['/cottage-detail-owner', cottage.id]" >{{cottage.city}}, {{cottage.street}} {{cottage.number}}</td>
           <td class="col-2" [routerLink]="['/cottage-detail-owner', cottage.id]" >{{cottage.roomsTotalNumber}}</td>
           <td class="col-3" [routerLink]="['/cottage-detail-owner', cottage.id]" >{{cottage.description}}</td>
           <td class="col-1"><button class="btn btn-secondary" (click)="onClickDelete(cottage.id);">Delete</button> </td>
@@ -61,9 +61,29 @@
                     <label for="priceList" class="form-label">Price list:</label>
                     <input type="priceList" class="form-control" id="priceList" placeholder="Price list" formControlName="priceList">
                   </div>
+                  <div hidden>
+                    <input type="text" id="latitudeInput">
+                    <input type="text" id="longitudeInput">
+                  </div>
                   <div class="mb-2">
-                    <label for="address" class="form-label">Address:</label>
-                    <input type="address" class="form-control" id="address" placeholder="Address" formControlName="address">
+                    <label for="cityInput" class="form-label"> City </label>
+                    <input id="cityInput" type="text" class="form-control" placeholder="City" formControlName="city" >
+                  </div>
+                  <div class="mb-2">
+                    <label for="streetInput" class="form-label"> Street </label>
+                    <input id="streetInput" type="text" class="form-control" placeholder="Street" formControlName="street"  >
+                  </div>
+                  <div class="mb-2">
+                    <label for="numberInput" class="form-label"> Number </label>
+                    <input id="numberInput" type="text" class="form-control" placeholder="Number" formControlName="number" >
+                  </div>
+                  <div class="mb-2">
+                    <label for="zipCodeInput" class="form-label"> Zip code </label>
+                    <input id="zipCodeInput" type="text" class="form-control" placeholder="ZIP code" formControlName="zipCode" >
+                  </div>
+                  <div class="mb-2"> 
+                    <div id="map" class="map" click="onMapClick()">
+                    </div>
                   </div>
                   <div class="mb-2">
                     <label for="roomsTotalNumber" class="form-label">Total number of rooms:</label>
@@ -75,7 +95,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickSubmit()">Add cottage</button>
+          <button id="submitButton" type="submit" class="btn btn-primary" (click)="onClickSubmit()">Add cottage</button>
         </div>
       </div>
     </div>
