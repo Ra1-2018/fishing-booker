@@ -41,6 +41,9 @@
                 <div class="d-grid col-6 mx-auto justify-content-center">
                     <a [routerLink]="[]" data-bs-toggle="modal" data-bs-target="#exampleModal">Request profile deletion</a>
                 </div>
+                <div class="d-grid col-6 mx-auto justify-content-center">
+                    <a [routerLink]="[]" data-bs-toggle="modal" data-bs-target="#passwordModal">Change password</a>
+                </div>
             </ng-container>
         </div>
 
@@ -102,3 +105,41 @@
       </div>
     </div>
   </div>
+
+<!-- Modal -->
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="passwordModalLabel">Change password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <ng-container [formGroup]="this.changePasswordFormGroup">
+                        <!-- <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current password:</label>
+                            <input rows="10" id="currentPassword" type="password" class="form-control" formControlName="currentPassword">
+                        </div> -->
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New password:</label>
+                            <input rows="10" id="newPassword" type="password" class="form-control" formControlName="newPassword">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newRePassword" class="form-label">Repeat new password:</label>
+                            <input rows="10" id="newRePassword" type="password" class="form-control" formControlName="newRePassword">
+                        </div>
+                        <div class="modal-footer">
+                            <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="submitChangePassword()">Submit</button>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

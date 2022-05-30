@@ -38,4 +38,11 @@ export class ProfileService {
       tap(data => console.log("data: ", data))
     );
   }
+
+  submitChangePassword(changePassword: any) {
+    return this._http.post('http://localhost:8080/users/changePassword', changePassword)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    );
+  }
 }

@@ -361,6 +361,18 @@ public class AppUserController {
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/changePassword")
+    public ResponseEntity<ChangePasswordDTO> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+        AppUser appUser = appUserService.findOne(changePasswordDTO.getUserID());
+        if(appUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        appUser.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+        appUserService.save(appUser);
+        return new ResponseEntity<>(new ChangePasswordDTO(), HttpStatus.OK);
+    }
+
     @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<AppUserDTO>> findOwnerClients(@PathVariable("id") long id) {
         AppUser appUser = appUserService.findOne(id);

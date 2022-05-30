@@ -13,9 +13,11 @@ export class ProfileComponent implements OnInit {
 
   public readonly myFormGroup: FormGroup;
   public readonly deletionRequestFormGroup: FormGroup;
+  public readonly changePasswordFormGroup: FormGroup;
   requests: any[] = [];
   selectedUser: any;
   userEmail:string = ''
+  userID:number = 0;
 
   constructor(public readonly loginService: LoginService,
               private profileService: ProfileService,
@@ -33,6 +35,11 @@ export class ProfileComponent implements OnInit {
               });
               this.deletionRequestFormGroup = this.formBuilder.group({
                 explanation: []
+              })
+              this.changePasswordFormGroup = this.formBuilder.group({
+                //currentPassword: [],
+                newPassword: [],
+                newRePassword: []
               })
               }
 
@@ -57,6 +64,7 @@ export class ProfileComponent implements OnInit {
             // construct ad-hoc.
             this.myFormGroup.patchValue(res);
             this.userEmail = res.email;
+            this.userID = res.id;
         });
   }
 
@@ -68,6 +76,22 @@ export class ProfileComponent implements OnInit {
     this.profileService.submitDeletionRequest(deletionRequest).subscribe({
       next: () => {
         alert("Deletion request submitted");
+        document.getElementById("closeButton")?.click();
+      },
+      error: () => alert("An error occurred")
+    })
+  }
+
+  submitChangePassword() {
+    const changePassword = {
+      //currentPassword: this.changePasswordFormGroup.get('currentPassword')?.value,
+      newPassword: this.changePasswordFormGroup.get('newPassword')?.value,
+      newRePassword: this.changePasswordFormGroup.get('newRePassword')?.value,
+      userID: this.userID
+    }
+    this.profileService.submitChangePassword(changePassword).subscribe({
+      next: () => {
+        alert("Successfully changed password!");
         document.getElementById("closeButton")?.click();
       },
       error: () => alert("An error occurred")
