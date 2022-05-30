@@ -193,7 +193,6 @@ public class ServiceService {
         return true;
     }
 
-    @Transactional
     public void addFreePeriod(TimeRange newFreePeriod) {
         com.isa.project.model.Service service = newFreePeriod.getService();
         service.addFreePeriod(newFreePeriod);

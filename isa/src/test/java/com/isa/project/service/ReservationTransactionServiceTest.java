@@ -123,7 +123,7 @@ public class ReservationTransactionServiceTest {
             public void run() {
                 System.out.println("Startovan Thread 2");
                 Service service = serviceService.findById(1L);
-                serviceService.addFreePeriod(new TimeRange(null, new Date(), new Date(), service));
+                serviceService.save(service);
             }
         });
         try {
