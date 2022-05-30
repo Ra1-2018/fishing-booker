@@ -50,7 +50,8 @@ public class ServiceService {
     }
 
     private boolean matchesCriteria(ServiceCriteriaDTO serviceCriteria, com.isa.project.model.Service service) {
-        return service.getServiceType() == serviceCriteria.getServiceType() && service.getAddress().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()) && service.getMaxNumberOfPeople() >= serviceCriteria.getNumberOfPeople() && service.getAverageGrade() >= serviceCriteria.getMinAverageGrade();
+        //service.getAddress().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase())
+        return service.getServiceType() == serviceCriteria.getServiceType() && service.getMaxNumberOfPeople() >= serviceCriteria.getNumberOfPeople() && service.getAverageGrade() >= serviceCriteria.getMinAverageGrade();
     }
 
     public boolean IsReservationValid(Reservation reservation) {
@@ -210,6 +211,7 @@ public class ServiceService {
         return services;
     }
 
+    @Transactional
     @CachePut(value = "service", key = "#service.id")
     public com.isa.project.model.Service save(com.isa.project.model.Service service) {
         service.setLastUpdateDate(new Date());

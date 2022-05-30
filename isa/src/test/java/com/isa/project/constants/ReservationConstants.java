@@ -20,7 +20,7 @@ public class ReservationConstants {
     public static final double NEW_PRICE = 150;
 
     public static final Client DB_CLIENT = new Client(53L, "client@gmail.com", "ftn", "Klijent", "Klijentic", "Fruskogorska 20", "Novi Sad", "Srbija", "+381691234567", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
-    public static final Service DB_COTTAGE = new Cottage(1L, "Koliba Aladin i Sinovi", "Prelepa koliba", "Nema pusenja unutra", 30, "Bul. Cara Lazara 13", 3, new HashSet<>(), new CottageOwner(), new HashSet<>(), 7, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(),"");
+    public static final Service DB_COTTAGE = new Cottage(1L, "Koliba Aladin i Sinovi", "Prelepa koliba", "Nema pusenja unutra", 30, 5, new HashSet<>(), new CottageOwner(), new HashSet<>(), 3, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new Location()) ;
 
     public static final Long DB_ID_TO_DELETE = 3L;
 

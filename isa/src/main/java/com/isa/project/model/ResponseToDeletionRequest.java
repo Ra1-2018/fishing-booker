@@ -11,8 +11,10 @@ public class ResponseToDeletionRequest {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "administrator_id")
     private Administrator administrator;
+
     @OneToOne(mappedBy = "responseToDeletionRequest")
     private DeletionRequest deletionRequest;
+
     @Column
     private String content;
     @Column

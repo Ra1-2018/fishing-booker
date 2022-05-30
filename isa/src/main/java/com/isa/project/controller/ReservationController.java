@@ -261,8 +261,11 @@ public class ReservationController {
         if(new Date().after(threeDaysBeforeReservation)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        serviceService.RestoreFreePeriod(reservation);
-        reservationService.deleteById(id);
+        try {
+            reservationTransactionService.cancelReservation(reservation);
+        } catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

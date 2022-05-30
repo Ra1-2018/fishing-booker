@@ -21,8 +21,6 @@ public abstract class Service {
     @Column
     private double pricePerDay;
     @Column
-    private String address;
-    @Column
     private ServiceType serviceType;
     @Column
     private int maxNumberOfPeople;
@@ -51,6 +49,9 @@ public abstract class Service {
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Complaint> complaints = new HashSet<>();
 
+    @OneToOne(mappedBy = "service")
+    private Location location;
+
     @Version
     private Integer version;
 
@@ -59,13 +60,12 @@ public abstract class Service {
 
     public Service() {}
 
-    public Service(long id, String name, String description, String behaviorRules, double pricePerDay, String address, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints, String images) {
+    public Service(long id, String name, String description, String behaviorRules, double pricePerDay, ServiceType serviceType, Set<Reservation> reservations, Set<TimeRange> freePeriods, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints, Location location) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.behaviorRules = behaviorRules;
         this.pricePerDay = pricePerDay;
-        this.address = address;
         this.serviceType = serviceType;
         this.reservations = reservations;
         this.freePeriods = freePeriods;
@@ -77,6 +77,7 @@ public abstract class Service {
         this.complaints = complaints;
         this.lastUpdateDate = new Date();
         this.images =  new HashSet<>();
+        this.location = location;
     }
 
     public long getId() {
@@ -119,13 +120,9 @@ public abstract class Service {
         this.pricePerDay = pricePerDay;
     }
 
-    public String getAddress() {
-        return address;
-    }
+    public Location getLocation() { return location; }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    public void setLocation(Location location) { this.location = location; }
 
     public ServiceType getServiceType() {
         return serviceType;

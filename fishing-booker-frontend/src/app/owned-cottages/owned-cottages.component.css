@@ -5,3 +5,9 @@
 tr {
     cursor: pointer;
 }
+
+.map {
+    height: 300px;
+    width: 100%;
+    
+  }

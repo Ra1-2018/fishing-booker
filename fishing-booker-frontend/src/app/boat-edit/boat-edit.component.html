@@ -7,10 +7,6 @@
                     <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
                 </div>
                 <div class="mb-3">
-                        <label for="address" class="form-label">Address:</label>
-                        <input type="text" class="form-control" id="address" placeholder="Address" formControlName="address">
-                </div>
-                <div class="mb-3">
                         <label for="description" class="form-label">Description:</label>
                         <input type="text" class="form-control" id="description" placeholder="Description" formControlName="description">
                 </div>
@@ -42,10 +38,30 @@
                     <label for="navigationEquipment" class="form-label">Navigation equipment:</label>
                     <input type="navigationEquipment" class="form-control" id="navigationEquipment" placeholder="navigationEquipment" formControlName="navigationEquipment">
                 </div>
-                <div class="mb-2">
-                    <label for="address" class="form-label">Address:</label>
-                    <input type="address" class="form-control" id="address" placeholder="Address" formControlName="address">
+                <div hidden>
+                    <input type="text" id="latitudeInput">
+                    <input type="text" id="longitudeInput">
                 </div>
+                <div class="mb-2">
+                    <label for="cityInput" class="form-label"> City: </label>
+                    <input id="cityInput" type="text" class="form-control" placeholder="City" formControlName="city" >
+                </div>
+                  <div class="mb-2">
+                    <label for="streetInput" class="form-label"> Street </label>
+                    <input id="streetInput" type="text" class="form-control" placeholder="Street" formControlName="street"  >
+                  </div>
+                  <div class="mb-2">
+                    <label for="numberInput" class="form-label"> Number </label>
+                    <input id="numberInput" type="text" class="form-control" placeholder="Number" formControlName="number" >
+                  </div>
+                  <div class="mb-2">
+                    <label for="zipCodeInput" class="form-label"> Zip code </label>
+                    <input id="zipCodeInput" type="text" class="form-control" placeholder="ZIP code" formControlName="zipCode" >
+                  </div>
+                  <div class="mb-2"> 
+                    <div id="map" class="map" click="onMapClick()">
+                    </div>
+                  </div>
                 <div class="mb-2">
                     <label for="maxNumberOfPeople" class="form-label">Maximum people:</label>
                     <input type="number" class="form-control" id="maxNumberOfPeople" placeholder="maxNumberOfPeople" formControlName="maxNumberOfPeople">
