@@ -1,5 +1,14 @@
 version: 2.1
 
+executors:
+  java17:
+    docker:
+      - image: 'cimg/openjdk:17.0'
+
+orbs:
+  heroku: circleci/heroku@1.2.6
+  maven: circleci/maven@1.3.0
+
 jobs:
   build-and-test:
     working_directory: ~/test-repository/isa
@@ -15,8 +24,6 @@ jobs:
           name: Test
           command: mvn test
 
-orbs:
-  heroku: circleci/heroku@1.2.6
 workflows:
   heroku_deploy:
     jobs:
