@@ -17,7 +17,7 @@ public class Room {
     @Column
     private int numberOfBeds;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cottage_id")
     private Cottage cottage;
 
