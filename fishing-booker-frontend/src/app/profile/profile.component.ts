@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
   public readonly changePasswordFormGroup: FormGroup;
   public readonly registrationRequestFormGroup: FormGroup;
   requests: any[] = [];
+  review: any[]=[];
   selectedUser: any;
   userEmail:string = ''
   userID:number = 0;
@@ -42,7 +43,7 @@ export class ProfileComponent implements OnInit {
                 explanation: []
               });
               this.changePasswordFormGroup = this.formBuilder.group({
-                //currentPassword: [],
+                currentPassword: [],
                 newPassword: [],
                 newRePassword: []
               })
@@ -57,17 +58,6 @@ export class ProfileComponent implements OnInit {
   private retrieveData(): void {
     this.profileService.getUser()
         .subscribe((res: any) => {
-            // Assuming res has a structure like:
-            // res = {
-            //     field1: "some-string",
-            //     field2: "other-string",
-            //     subgroupName: {
-            //         subfield2: "another-string"
-            //     },
-            // }
-            // Values in res that don't line up to the form structure
-            // are discarded. You can also pass in your own object you
-            // construct ad-hoc.
             this.myFormGroup.patchValue(res);
             this.userEmail = res.email;
             this.userID = res.id;
@@ -90,18 +80,22 @@ export class ProfileComponent implements OnInit {
 
   submitChangePassword() {
     const changePassword = {
-      //currentPassword: this.changePasswordFormGroup.get('currentPassword')?.value,
+      currentPassword: this.changePasswordFormGroup.get('currentPassword')?.value,
       newPassword: this.changePasswordFormGroup.get('newPassword')?.value,
       newRePassword: this.changePasswordFormGroup.get('newRePassword')?.value,
       userID: this.userID
     }
-    this.profileService.submitChangePassword(changePassword).subscribe({
-      next: () => {
-        alert("Successfully changed password!");
-        document.getElementById("closeButton")?.click();
-      },
-      error: () => alert("An error occurred")
-    })
+    if(changePassword.newPassword !== changePassword.newRePassword) {
+      alert("Passwords must match!") 
+    } else {
+      this.profileService.submitChangePassword(changePassword).subscribe({
+        next: () => {
+          alert("Successfully changed password!");
+          document.getElementById("closeButton")?.click();
+        },
+        error: () => alert("An error occurred")
+      })
+    }
   }
 
   submitRegistrationRequest() {
@@ -148,15 +142,6 @@ export class ProfileComponent implements OnInit {
       );
     return;
   }
-
-  // public onDecline(id:number): void{
-  //   this.profileService.declineRequest(id).subscribe(
-  //     response => {this.getRequests(); 
-  //       alert('Request declined');
-  //                 }
-  //     ); 
-  //   return;
-  // }
 
   public onDecline(id:number): void{
     this.requestID = id;

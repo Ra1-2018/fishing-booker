@@ -21,10 +21,6 @@ export class ProfileService {
     return this._http.get<Observable<any>>('http://localhost:8080/users/approve/' + id);
   }
 
-  // declineRequest(id: number): Observable<any> {
-  //   return this._http.get<Observable<any>>('http://localhost:8080/users/decline/' + id)
-  // }
-
   getRequests(): Observable<any[]> {
     return this._http.get<any[]>('http://localhost:8080/users/requests')
     .pipe(

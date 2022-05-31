@@ -381,9 +381,13 @@ public class AppUserController {
         if(appUser == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        appUser.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
-        appUserService.save(appUser);
-        return new ResponseEntity<>(new ChangePasswordDTO(), HttpStatus.OK);
+        if(passwordEncoder.matches(changePasswordDTO.getCurrentPassword(), appUser.getPassword())){
+            appUser.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+            appUserService.save(appUser);
+            return new ResponseEntity<>(new ChangePasswordDTO(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

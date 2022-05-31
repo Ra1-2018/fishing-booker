@@ -50,7 +50,7 @@
         <div name="administratorProfile" *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'">
             <div>                
                 <br>
-                <h3 *ngIf='requests && requests.length' class="h3">Zahtevi za registraciju</h3>
+                <h3 *ngIf='requests && requests.length' class="h3">Registration requests</h3>
                 <table *ngIf='requests && requests.length' class="table">
                     <thead>
                         <tr>
@@ -119,10 +119,10 @@
             <div class="row">
                 <div class="col">
                     <ng-container [formGroup]="this.changePasswordFormGroup">
-                        <!-- <div class="mb-3">
+                        <div class="mb-3">
                             <label for="currentPassword" class="form-label">Current password:</label>
                             <input rows="10" id="currentPassword" type="password" class="form-control" formControlName="currentPassword">
-                        </div> -->
+                        </div>
                         <div class="mb-3">
                             <label for="newPassword" class="form-label">New password:</label>
                             <input rows="10" id="newPassword" type="password" class="form-control" formControlName="newPassword">

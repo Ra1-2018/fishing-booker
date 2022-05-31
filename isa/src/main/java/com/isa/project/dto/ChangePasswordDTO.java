@@ -5,12 +5,14 @@ import java.util.Date;
 public class ChangePasswordDTO {
 
     private Long userID;
+    private String currentPassword;
     private String newPassword;
 
     public ChangePasswordDTO() { }
 
-    public ChangePasswordDTO(Long userID, String newPassword) {
+    public ChangePasswordDTO(Long userID, String currentPassword,String newPassword) {
         this.userID = userID;
+        this.currentPassword = currentPassword;
         this.newPassword = newPassword;
     }
 
@@ -28,5 +30,9 @@ public class ChangePasswordDTO {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getCurrentPassword() {
+        return currentPassword;
     }
 }
