@@ -32,7 +32,6 @@ jobs:
 
 orbs:
   heroku: circleci/heroku@1.2.6
-  sonarcloud: sonarsource/sonarcloud@1.0.3
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
