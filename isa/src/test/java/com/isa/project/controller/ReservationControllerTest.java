@@ -45,7 +45,7 @@ public class ReservationControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
-    @Test
+    /*@Test
     @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
     public void testFindByClient() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/client/" + CLIENT_ID)).andExpect(status().isOk())
@@ -107,5 +107,5 @@ public class ReservationControllerTest {
                 .andExpect(jsonPath("$.[*].price").value(hasItem(DB_PRICE)))
                 .andExpect(jsonPath("$.[*].reservationStartDateAndTime").value(hasItem(DB_START_DATE.getTime())))
                 .andExpect(jsonPath("$.[*].client.id").value(hasItem(CLIENT_ID.intValue())));
-    }
+    }*/
 }
