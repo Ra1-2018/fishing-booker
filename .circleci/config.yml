@@ -2,10 +2,12 @@ version: 2.1
 
 jobs:
   build-and-test:
+    working_directory: ~/test-repository/isa
     docker:
       - image: cimg/openjdk:11.0
     steps:
-      - checkout
+      - checkout:
+          path: ~/test-repository
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
