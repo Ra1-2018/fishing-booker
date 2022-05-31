@@ -25,6 +25,10 @@ export class ProfileService {
     return this._http.get<Observable<any>>('http://localhost:8080/users/approveReview/' + id);
   }
 
+  approveDeletionRequest(id: number): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/approveDeletion/' + id);
+  }
+
   declineReviewRequest(id: number): Observable<any> {
     return this._http.get<Observable<any>>('http://localhost:8080/users/declineReview/' + id);
   }
@@ -38,6 +42,13 @@ export class ProfileService {
 
   getReviews(): Observable<any[]> {
     return this._http.get<any[]>('http://localhost:8080/users/reviews')
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
+
+  getDeletionRequests(): Observable<any[]> {
+    return this._http.get<any[]>('http://localhost:8080/users/deletionRequests')
     .pipe(
       tap(data => console.log("data: ", data))
     )
@@ -59,6 +70,10 @@ export class ProfileService {
 
   submitRegistrationRequest(registrationRequest:any) {
     return this._http.post<Observable<any>>('http://localhost:8080/users/decline', registrationRequest)
+  }
+
+  submitDeletionResponse(deletionResponse:any) {
+    return this._http.post<Observable<any>>('http://localhost:8080/users/declineDeletion', deletionResponse)
   }
 
 }

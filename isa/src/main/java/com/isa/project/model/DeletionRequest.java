@@ -18,6 +18,9 @@ public class DeletionRequest {
     private ResponseToDeletionRequest responseToDeletionRequest;
 
     @Column
+    private boolean approved;
+
+    @Column
     private Date dateSubmitted;
 
     public DeletionRequest() {}
@@ -28,6 +31,7 @@ public class DeletionRequest {
         this.explanation = explanation;
         this.responseToDeletionRequest = responseToDeletionRequest;
         this.dateSubmitted = dateSubmitted;
+        this.approved = false;
     }
 
     public long getId() {
@@ -68,5 +72,13 @@ public class DeletionRequest {
 
     public void setDateSubmitted(Date dateSubmitted) {
         this.dateSubmitted = dateSubmitted;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }

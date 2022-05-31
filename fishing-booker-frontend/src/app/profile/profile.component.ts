@@ -15,12 +15,15 @@ export class ProfileComponent implements OnInit {
   public readonly deletionRequestFormGroup: FormGroup;
   public readonly changePasswordFormGroup: FormGroup;
   public readonly registrationRequestFormGroup: FormGroup;
+  public readonly deletionResponseFormGroup: FormGroup;
+  deletionRequests: any[] = [];
   requests: any[] = [];
   reviews: any[]=[];
   selectedUser: any;
   userEmail:string = ''
   userID:number = 0;
   requestID:number = 0;
+  deletionRequestID: number = 0;
 
   constructor(public readonly loginService: LoginService,
               private profileService: ProfileService,
@@ -42,6 +45,9 @@ export class ProfileComponent implements OnInit {
               this.registrationRequestFormGroup = this.formBuilder.group({
                 explanation: []
               });
+              this.deletionResponseFormGroup = this.formBuilder.group({
+                explanation: []
+              });
               this.changePasswordFormGroup = this.formBuilder.group({
                 currentPassword: [],
                 newPassword: [],
@@ -54,6 +60,7 @@ export class ProfileComponent implements OnInit {
     this.retrieveData();
     this.getRequests();
     this.getReviews();
+    this.getDeletionRequests();
   }
 
   private retrieveData(): void {
@@ -115,6 +122,38 @@ export class ProfileComponent implements OnInit {
     }) 
   }
 
+  submitDeletionResponse() {
+    const deletionResponse = {
+      explanation: this.deletionResponseFormGroup.get('explanation')?.value,
+      userID: this.userID,
+      deletionRequestID: this.deletionRequestID,
+    }
+    this.profileService.submitDeletionResponse(deletionResponse).subscribe({
+      next: () => {
+        this.getDeletionRequests(); 
+        alert("Deleted");
+        document.getElementById("closeButton")?.click();
+      },
+      error: () => alert("An error occurred")
+    }) 
+  }
+
+  // submitRegistrationRequest() {
+  //   const registrationRequest = {
+  //     explanation: this.registrationRequestFormGroup.get('explanation')?.value,
+  //     userID: this.userID,
+  //     requestID: this.requestID,
+  //   }
+  //   this.profileService.submitRegistrationRequest(registrationRequest).subscribe({
+  //     next: () => {
+  //       this.getRequests(); 
+  //       alert("Registration denied");
+  //       document.getElementById("closeButton")?.click();
+  //     },
+  //     error: () => alert("An error occurred")
+  //   }) 
+  // }
+
   getRequests(){
     this.profileService.getRequests().subscribe(
       requests => {
@@ -127,6 +166,14 @@ export class ProfileComponent implements OnInit {
     this.profileService.getReviews().subscribe(
       reviews => {
         this.reviews = reviews;
+      }
+    )
+  }
+
+  getDeletionRequests() {
+    this.profileService.getDeletionRequests().subscribe(
+      deletionRequests => {
+        this.deletionRequests = deletionRequests;
       }
     )
   }
@@ -170,7 +217,20 @@ export class ProfileComponent implements OnInit {
     return;
   }
 
+  onApproveDeletionRequest(id:number):void {
+    this.profileService.approveDeletionRequest(id).subscribe(
+      response => {this.getDeletionRequests(); 
+                   alert('Request for deletion approved');
+                  }
+      );
+    return;
+  }
+
   public onDecline(id:number): void{
     this.requestID = id;
+  }
+
+  public onDeclineDeletion(id:number): void{
+    this.deletionRequestID = id;
   }
 }

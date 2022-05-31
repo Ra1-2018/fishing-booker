@@ -50,6 +50,17 @@ public class EmailService {
     }
 
     @Async
+    public void sendNotificationOfDeclinedRegistrationRequest(ResponseToRegistrationRequest response) throws MailException, InterruptedException {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(response.getAdministrator().getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setText("Your Registration Has Been Declined. Administrator reason for rejection: " + response.getContent());
+        javaMailSender.send(mail);
+
+        System.out.println("Email poslat!");
+    }
+
+    @Async
     public void sendNotificationOfApprovedReview(Review review, AppUser user) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(user.getEmail());
@@ -61,11 +72,11 @@ public class EmailService {
     }
 
     @Async
-    public void sendNotificationOfDeclinedRegistrationRequest(ResponseToRegistrationRequest response) throws MailException, InterruptedException {
+    public void sendNotificationOfDeclinedDeletionRequest(ResponseToDeletionRequest response) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(response.getAdministrator().getEmail());
+        mail.setTo(response.getDeletionRequest().getUserEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
-        mail.setText("Your Registration Has Been Declined. Administrator reason for rejection: " + response.getContent());
+        mail.setText("Your Deletion Has Been Declined. Administrator reason for rejection: " + response.getContent());
         javaMailSender.send(mail);
 
         System.out.println("Email poslat!");

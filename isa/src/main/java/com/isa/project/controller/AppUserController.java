@@ -37,6 +37,9 @@ public class AppUserController {
     private RegistrationRequestService requestService;
 
     @Autowired
+    private DeletionRequestService deletionService;
+
+    @Autowired
     private ReviewService reviewService;
 
     @Autowired
@@ -53,6 +56,9 @@ public class AppUserController {
 
     @Autowired
     private ResponseToRegistrationRequestService responseService;
+
+    @Autowired
+    private ResponseToDeletionRequestService responseDeletionService;
 
     @Autowired
     private EmailService emailService;
@@ -182,6 +188,7 @@ public class AppUserController {
         return new RedirectView("http://localhost:4200/login");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/approve/{id}")
     public ResponseEntity<Void> approveRequest(@PathVariable("id") Long id) {
 
@@ -204,7 +211,7 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/decline")
     public ResponseEntity<Void> declineRequest(@RequestBody ResponseToRegistrationRequestDTO responseRegistrationRequestDTO) {
 
@@ -232,6 +239,7 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/approveReview/{id}")
     public ResponseEntity<Void> approveReviewRequest(@PathVariable("id") Long id) {
 
@@ -263,6 +271,59 @@ public class AppUserController {
 
         try {
             emailService.sendNotificationOfApprovedReview(review, user);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/declineReview/{id}")
+    public ResponseEntity<Void> declineReviewRequest(@PathVariable("id") Long id) {
+
+        Review review = reviewService.findById(id);
+        if(review == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        reviewService.remove(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/approveDeletion/{id}")
+    public ResponseEntity<Void> approveDeletionRequest(@PathVariable("id") Long id) {
+
+        DeletionRequest request = deletionService.findById(id);
+        AppUser user = appUserService.findByEmail(request.getUserEmail());
+        if(request == null || user==null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        deletionService.remove(id);
+        appUserService.remove(user.getId());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/declineDeletion")
+    public ResponseEntity<Void> declineDeletionRequest(@RequestBody ResponseToDeletionRequestDTO responseDeletionRequestDTO) {
+
+        DeletionRequest request = deletionService.findById(responseDeletionRequestDTO.getRequestID());
+        Administrator admin = (Administrator) appUserService.findOne(responseDeletionRequestDTO.getUserID());
+        ResponseToDeletionRequest response = new ResponseToDeletionRequest(null, admin, request, responseDeletionRequestDTO.getExplanation());
+
+        AppUser user = appUserService.findByEmail(request.getUserEmail());
+        if(request == null || user==null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        response.setApproved(false);
+        deletionService.remove(request.getId());
+        responseDeletionService.save(response);
+
+        try {
+            emailService.sendNotificationOfDeclinedDeletionRequest(response);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -376,6 +437,18 @@ public class AppUserController {
                 reviewsDTOs.add(new ReviewDTO(review));
         }
         return new ResponseEntity<>(reviewsDTOs, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/deletionRequests")
+    public ResponseEntity<Collection<DeletionRequestDTO>> findAllDeletionRequests() {
+        Collection<DeletionRequest> requests = deletionService.findAll();
+        Collection<DeletionRequestDTO> requestsDTOs = new ArrayList<>();
+        for (DeletionRequest request : requests) {
+            if (!request.isApproved())
+                requestsDTOs.add(new DeletionRequestDTO(request));
+        }
+        return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
     }
 
     //@PreAuthorize("hasRole('USER')")

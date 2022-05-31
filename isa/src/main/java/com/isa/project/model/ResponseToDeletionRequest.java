@@ -24,13 +24,12 @@ public class ResponseToDeletionRequest {
 
     public ResponseToDeletionRequest() {}
 
-    public ResponseToDeletionRequest(long id, Administrator administrator, DeletionRequest deletionRequest, String content, boolean approved, Date dateSubmitted) {
+    public ResponseToDeletionRequest(Long id, Administrator administrator, DeletionRequest deletionRequest, String content) {
         this.id = id;
         this.administrator = administrator;
         this.deletionRequest = deletionRequest;
         this.content = content;
-        this.approved = approved;
-        this.dateSubmitted = dateSubmitted;
+        this.approved = false;
     }
 
     public long getId() {
