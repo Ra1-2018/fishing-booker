@@ -2,10 +2,7 @@ package com.isa.project.controller;
 
 import com.isa.project.dto.*;
 import com.isa.project.model.*;
-import com.isa.project.service.AppUserService;
-import com.isa.project.service.OwnerService;
-import com.isa.project.service.RegistrationRequestService;
-import com.isa.project.service.ResponseToRegistrationRequestService;
+import com.isa.project.service.*;
 import com.isa.project.util.TokenUtils;
 import com.isa.project.verification.EmailService;
 import com.isa.project.verification.VerificationToken;
@@ -38,6 +35,21 @@ public class AppUserController {
 
     @Autowired
     private RegistrationRequestService requestService;
+
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ServiceService serviceService;
+
+    @Autowired
+    private AdventureService adventureService;
+
+    @Autowired
+    private CottageService cottageService;
+
+    @Autowired
+    private BoatService boatService;
 
     @Autowired
     private ResponseToRegistrationRequestService responseService;
@@ -220,6 +232,44 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/approveReview/{id}")
+    public ResponseEntity<Void> approveReviewRequest(@PathVariable("id") Long id) {
+
+        Review review = reviewService.findById(id);
+        if(review == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        review.setApproved(true);
+        reviewService.save(review);
+
+        Long userID = 0L;
+        Collection<Service> services = serviceService.findAll();
+        for (Service service: services) {
+            if(service.getServiceType().equals(ServiceType.ADVENTURE)){
+                Adventure a = adventureService.findById(service.getId());
+                userID = a.getInstructor().getId();
+            } else if (service.getServiceType().equals(ServiceType.BOAT)) {
+                Boat b = boatService.findById(service.getId());
+                userID = b.getBoatOwner().getId();
+            } else if (service.getServiceType().equals(ServiceType.COTTAGE)) {
+                Cottage c = cottageService.findById(service.getId());
+                userID = c.getCottageOwner().getId();
+            }
+        }
+        AppUser user = appUserService.findOne(userID);
+        if(user==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            emailService.sendNotificationOfApprovedReview(review, user);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
 
@@ -314,6 +364,18 @@ public class AppUserController {
                 requestsDTOs.add(new RegistrationRequestDTO(request));
         }
         return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/reviews")
+    public ResponseEntity<Collection<ReviewDTO>> findAllReviews() {
+        Collection<Review> reviews = reviewService.findAll();
+        Collection<ReviewDTO> reviewsDTOs = new ArrayList<>();
+        for (Review review : reviews) {
+            if (!review.isApproved())
+                reviewsDTOs.add(new ReviewDTO(review));
+        }
+        return new ResponseEntity<>(reviewsDTOs, HttpStatus.OK);
     }
 
     //@PreAuthorize("hasRole('USER')")

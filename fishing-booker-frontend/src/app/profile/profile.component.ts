@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit {
   public readonly changePasswordFormGroup: FormGroup;
   public readonly registrationRequestFormGroup: FormGroup;
   requests: any[] = [];
-  review: any[]=[];
+  reviews: any[]=[];
   selectedUser: any;
   userEmail:string = ''
   userID:number = 0;
@@ -53,6 +53,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.retrieveData();
     this.getRequests();
+    this.getReviews();
   }
 
   private retrieveData(): void {
@@ -122,6 +123,14 @@ export class ProfileComponent implements OnInit {
     )
   }
 
+  getReviews(){
+    this.profileService.getReviews().subscribe(
+      reviews => {
+        this.reviews = reviews;
+      }
+    )
+  }
+
   public onClickSubmit(): void {
     if (this.myFormGroup.invalid) {
       // stop here if it's invalid
@@ -138,6 +147,24 @@ export class ProfileComponent implements OnInit {
     this.profileService.approveRequest(id).subscribe(
       response => {this.getRequests(); 
                    alert('Request approved');
+                  }
+      );
+    return;
+  }
+
+  onApproveReviewRequest(id:number):void {
+    this.profileService.approveReviewRequest(id).subscribe(
+      response => {this.getReviews(); 
+                   alert('Request for review approved');
+                  }
+      );
+    return;
+  }
+
+  onDeclineReviewRequest(id:number):void {
+    this.profileService.declineReviewRequest(id).subscribe(
+      response => {this.getReviews(); 
+                   alert('Request for review declined');
                   }
       );
     return;

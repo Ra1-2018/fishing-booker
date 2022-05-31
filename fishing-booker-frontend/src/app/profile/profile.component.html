@@ -72,6 +72,31 @@
                     </tbody>
                 </table>
             </div>
+
+            <div>                
+                <br>
+                <h3 *ngIf='reviews && reviews.length' class="h3">Review requests</h3>
+                <table *ngIf='reviews && reviews.length' class="table">
+                    <thead>
+                        <tr>
+                            <th class="col">Service</th>
+                            <th class="col">Client Name</th>
+                            <th class="col">Grade</th>
+                            <th class="col">Revision</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor = 'let review of reviews'>
+                            <td>{{review.service.name}}</td>
+                            <td>{{review.client.name}} {{review.client.surname}}</td>
+                            <td>{{review.grade}}</td>
+                            <td>{{review.revision}}</td>
+                            <td><button name="approveReviewRequest" class="btn btn-secondary" (click)="onApproveReviewRequest(review.id);">Approve</button></td>
+                            <td><button name="declineReviewRequest" class="btn btn-secondary" (click)="onDeclineReviewRequest(review.id);">Decline</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

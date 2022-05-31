@@ -50,6 +50,17 @@ public class EmailService {
     }
 
     @Async
+    public void sendNotificationOfApprovedReview(Review review, AppUser user) throws MailException, InterruptedException {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(user.getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setText("You received review for " + review.getService().getName());
+        javaMailSender.send(mail);
+
+        System.out.println("Email poslat!");
+    }
+
+    @Async
     public void sendNotificationOfDeclinedRegistrationRequest(ResponseToRegistrationRequest response) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(response.getAdministrator().getEmail());
