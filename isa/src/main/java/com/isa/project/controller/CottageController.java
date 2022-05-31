@@ -135,11 +135,6 @@ public class CottageController {
             }
         }
 
-        for(Room room: roomService.findByCottage(cottage)) {
-            if(!rooms.contains(room)) {
-                cottage.removeRoom(room);
-            }
-        }
         for(Room room: rooms) {
             roomService.save(room);
         }
@@ -149,7 +144,6 @@ public class CottageController {
 
         for(Room room: roomService.findByCottage(cottage)) {
             if(!rooms.contains(room)) {
-                System.out.println("Nema");
                 roomService.deleteById(room.getId());
             }
         }
