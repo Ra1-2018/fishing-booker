@@ -1,10 +1,10 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-4">
-            <ng-container [formGroup]="this.myFormGroup">
+            <form (ngSubmit)="onClickSubmit()" #cottageEditForm="ngForm">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name:</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
+                    <input type="text" class="form-control" id="name" placeholder="Name" [(ngModel)]="cottage.name" name="name" #name="ngModel" required>
                 </div>
                 <div hidden>
                     <input type="text" id="latitudeInput">
@@ -12,19 +12,19 @@
                 </div>
                 <div class="mb-2">
                     <label for="cityInput" class="form-label"> City: </label>
-                    <input id="cityInput" type="text" class="form-control" placeholder="City" formControlName="city" >
+                    <input id="cityInput" type="text" class="form-control" placeholder="City" [(ngModel)]="cottage.city" name="city" #city="ngModel" required>
                 </div>
                   <div class="mb-2">
                     <label for="streetInput" class="form-label"> Street </label>
-                    <input id="streetInput" type="text" class="form-control" placeholder="Street" formControlName="street"  >
+                    <input id="streetInput" type="text" class="form-control" placeholder="Street" [(ngModel)]="cottage.street" name="street" #street="ngModel" required>
                   </div>
                   <div class="mb-2">
                     <label for="numberInput" class="form-label"> Number </label>
-                    <input id="numberInput" type="text" class="form-control" placeholder="Number" formControlName="number" >
+                    <input id="numberInput" type="text" class="form-control" placeholder="Number" [(ngModel)]="cottage.number" name="number" #number="ngModel" required>
                   </div>
                   <div class="mb-2">
                     <label for="zipCodeInput" class="form-label"> Zip code </label>
-                    <input id="zipCodeInput" type="text" class="form-control" placeholder="ZIP code" formControlName="zipCode" >
+                    <input id="zipCodeInput" type="text" class="form-control" placeholder="ZIP code" [(ngModel)]="cottage.zipCode" name="zipCode" #zipCode="ngModel" required>
                   </div>
                   <div class="mb-2"> 
                     <div id="map" class="map" click="onMapClick()">
@@ -32,20 +32,35 @@
                   </div>
                 <div class="mb-3">
                         <label for="description" class="form-label">Description:</label>
-                        <input type="text" class="form-control" id="description" placeholder="Description" formControlName="description">
-                </div>
-                <div class="mb-3">
-                        <label for="roomsTotalNumber" class="form-label">Number of rooms:</label>
-                        <input type="text" class="form-control" id="roomsTotalNumber" placeholder="Number of rooms" formControlName="roomsTotalNumber">
+                        <input type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="cottage.description" name="description" #description="ngModel" required>
                 </div>
                 <div class="mb-3">
                         <label for="behaviorRules" class="form-label">Behavior rules:</label>
-                        <input type="text" class="form-control" id="behaviorRules" placeholder="Behavior rules" formControlName="behaviorRules">
+                        <input type="text" class="form-control" id="behaviorRules" placeholder="Behavior rules" [(ngModel)]="cottage.behaviorRules" name="behaviorRules" #behaviorRules="ngModel" required>
                 </div>
+                <div class="mb-3">
+                  <label class="m-2">Rooms</label>
+                  <button type="button" class="btn btn-primary m-2" (click)="addRoom()">+</button>
+                  <div class="mb-2 form-group">
+                  <ul class="list-group">
+                    <li *ngFor ="let room of cottage.rooms; index as i" class="list-group-item">
+                      <a class="delete link-secondary" (click)="removeRoom(room)"> Remove </a>
+                      <div class="mb-2 form-group">
+                        <label class="form-label">Room code:</label>
+                        <input class="form-control" type="text" [(ngModel)]="cottage.rooms[i].roomCode" name="roomCode {{i}}">
+                      </div>
+                      <div class="mb-2 form-group">
+                        <label class="form-label">Number of beds:</label>
+                        <input class="form-control" type="number" min="1" max="10" [(ngModel)]="cottage.rooms[i].numberOfBeds" name="numberOfBeds {{i}}">
+                      </div>
+                    </li>
+                  </ul>
+                  </div>
+              </div>
                 <div class="d-grid col-6 mx-auto m-3">
-                    <button class="btn btn-primary" (click)="onClickSubmit()">Update</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>             
-            </ng-container>
+              </form>
         </div>
     </div>
 </div>
