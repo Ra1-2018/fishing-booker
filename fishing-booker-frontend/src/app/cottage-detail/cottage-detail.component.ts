@@ -22,7 +22,7 @@ export class CottageDetailComponent implements OnInit {
   id: number = 0;
   subscriptions:any[] = [];
   images: any[] = [];
-  coord: any[] = []
+  coord: any[] = [];
 
   constructor(public readonly loginService: LoginService,
     private route: ActivatedRoute,
