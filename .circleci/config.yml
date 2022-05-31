@@ -16,9 +16,11 @@ jobs:
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
+          executor: java17
       - run:
           name: Test
           command: mvn test
+          executor: java17
 
 orbs:
   heroku: circleci/heroku@1.2.6
