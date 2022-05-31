@@ -22,5 +22,9 @@ workflows:
     jobs:
       - build-and-test
       - heroku/deploy-via-git:
+          filters:
+            branches:
+              only:
+                - deploy
           requires:
             - build-and-test
