@@ -73,7 +73,6 @@ public class AdventureController {
         }
 
         Adventure adventure = new Adventure();
-        adventure.setAddress(adventureDTO.getAddress());
         adventure.setBehaviorRules(adventureDTO.getBehaviorRules());
         adventure.setDescription(adventureDTO.getDescription());
         adventure.setName(adventureDTO.getName());
@@ -100,7 +99,6 @@ public class AdventureController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        adventure.setAddress(adventureDTO.getAddress());
         adventure.setBehaviorRules(adventureDTO.getBehaviorRules());
         adventure.setDescription(adventureDTO.getDescription());
         adventure.setName(adventureDTO.getName());

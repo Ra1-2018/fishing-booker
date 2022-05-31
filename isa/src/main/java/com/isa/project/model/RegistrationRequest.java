@@ -13,6 +13,10 @@ public class RegistrationRequest {
     @OneToOne(targetEntity = AppUser.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private AppUser user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "responseToRegistrationRequest_id", referencedColumnName = "id")
+    private ResponseToRegistrationRequest responseToRegistrationRequest;
     @Column
     private boolean approved;
 
@@ -56,5 +60,13 @@ public class RegistrationRequest {
 
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    public ResponseToRegistrationRequest getResponseToRegistrationRequest() {
+        return responseToRegistrationRequest;
+    }
+
+    public void setResponseToRegistrationRequest(ResponseToRegistrationRequest responseToRegistrationRequest) {
+        this.responseToRegistrationRequest = responseToRegistrationRequest;
     }
 }

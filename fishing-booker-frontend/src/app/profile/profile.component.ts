@@ -14,10 +14,12 @@ export class ProfileComponent implements OnInit {
   public readonly myFormGroup: FormGroup;
   public readonly deletionRequestFormGroup: FormGroup;
   public readonly changePasswordFormGroup: FormGroup;
+  public readonly registrationRequestFormGroup: FormGroup;
   requests: any[] = [];
   selectedUser: any;
   userEmail:string = ''
   userID:number = 0;
+  requestID:number = 0;
 
   constructor(public readonly loginService: LoginService,
               private profileService: ProfileService,
@@ -35,12 +37,16 @@ export class ProfileComponent implements OnInit {
               });
               this.deletionRequestFormGroup = this.formBuilder.group({
                 explanation: []
-              })
+              });
+              this.registrationRequestFormGroup = this.formBuilder.group({
+                explanation: []
+              });
               this.changePasswordFormGroup = this.formBuilder.group({
                 //currentPassword: [],
                 newPassword: [],
                 newRePassword: []
               })
+
               }
 
   ngOnInit(): void {
@@ -98,6 +104,22 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  submitRegistrationRequest() {
+    const registrationRequest = {
+      explanation: this.registrationRequestFormGroup.get('explanation')?.value,
+      userID: this.userID,
+      requestID: this.requestID,
+    }
+    this.profileService.submitRegistrationRequest(registrationRequest).subscribe({
+      next: () => {
+        this.getRequests(); 
+        alert("Registration denied");
+        document.getElementById("closeButton")?.click();
+      },
+      error: () => alert("An error occurred")
+    }) 
+  }
+
   getRequests(){
     this.profileService.getRequests().subscribe(
       requests => {
@@ -127,12 +149,16 @@ export class ProfileComponent implements OnInit {
     return;
   }
 
+  // public onDecline(id:number): void{
+  //   this.profileService.declineRequest(id).subscribe(
+  //     response => {this.getRequests(); 
+  //       alert('Request declined');
+  //                 }
+  //     ); 
+  //   return;
+  // }
+
   public onDecline(id:number): void{
-    this.profileService.declineRequest(id).subscribe(
-      response => {this.getRequests(); 
-        alert('Request declined');
-                  }
-      ); 
-    return;
+    this.requestID = id;
   }
 }

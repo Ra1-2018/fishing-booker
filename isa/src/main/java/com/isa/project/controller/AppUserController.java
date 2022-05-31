@@ -5,6 +5,7 @@ import com.isa.project.model.*;
 import com.isa.project.service.AppUserService;
 import com.isa.project.service.OwnerService;
 import com.isa.project.service.RegistrationRequestService;
+import com.isa.project.service.ResponseToRegistrationRequestService;
 import com.isa.project.util.TokenUtils;
 import com.isa.project.verification.EmailService;
 import com.isa.project.verification.VerificationToken;
@@ -37,6 +38,9 @@ public class AppUserController {
 
     @Autowired
     private RegistrationRequestService requestService;
+
+    @Autowired
+    private ResponseToRegistrationRequestService responseService;
 
     @Autowired
     private EmailService emailService;
@@ -188,18 +192,27 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/decline/{id}")
-    public ResponseEntity<Void> declineRequest(@PathVariable("id") Long id) {
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/decline")
+    public ResponseEntity<Void> declineRequest(@RequestBody ResponseToRegistrationRequestDTO responseRegistrationRequestDTO) {
 
-        RegistrationRequest request = requestService.findById(id);
+        RegistrationRequest request = requestService.findById(responseRegistrationRequestDTO.getRequestID());
+        Administrator admin = (Administrator) appUserService.findOne(responseRegistrationRequestDTO.getUserID());
+        ResponseToRegistrationRequest response = new ResponseToRegistrationRequest(null, admin, request, responseRegistrationRequestDTO.getExplanation());
+
+        AppUser user = request.getUser();
         if(request == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         request.setApproved(false);
-        requestService.remove(id);
+        user.setEnabled(false);
+        response.setApproved(false);
+        appUserService.save(user);
+        requestService.remove(request.getId());
+        responseService.save(response);
 
         try {
-            emailService.sendNotificationOfDeclinedRegistrationRequest(request);
+            emailService.sendNotificationOfDeclinedRegistrationRequest(response);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
