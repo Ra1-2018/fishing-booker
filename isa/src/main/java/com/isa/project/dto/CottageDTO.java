@@ -1,9 +1,6 @@
 package com.isa.project.dto;
 
-import com.isa.project.model.AdditionalService;
-import com.isa.project.model.Cottage;
-import com.isa.project.model.TimeRange;
-import com.isa.project.model.Action;
+import com.isa.project.model.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +15,6 @@ public class CottageDTO {
     private String latitude;
     private String longitude;
     private String description;
-    private int roomsTotalNumber;
     private String behaviorRules;
     private AppUserDTO cottageOwner;
     private double pricePerDay;
@@ -27,6 +23,7 @@ public class CottageDTO {
     private Set<AdditionalServiceDTO> additionalServices;
     private Set<TimeRangeDTO> freePeriods;
     private Set<ActionDTO> actions;
+    private Set<RoomDTO> rooms;
 
     public CottageDTO() { }
 
@@ -43,7 +40,6 @@ public class CottageDTO {
             this.longitude = cottage.getLocation().getLongitude();
         }
         this.description = cottage.getDescription();
-        this.roomsTotalNumber = cottage.getRoomsTotalNumber();
         this.behaviorRules = cottage.getBehaviorRules();
         this.cottageOwner = new AppUserDTO(cottage.getCottageOwner());
         this.pricePerDay = cottage.getPricePerDay();
@@ -61,9 +57,14 @@ public class CottageDTO {
         for(Action action: cottage.getActions()) {
             this.actions.add(new ActionDTO(action));
         }
+
+        this.rooms = new HashSet<>();
+        for(Room room: cottage.getRooms()) {
+            this.rooms.add(new RoomDTO(room));
+        }
     }
 
-    public CottageDTO(long id, String name, String city, String street, String number, String zipCode, String latitude, String longitude, String description, int roomsTotalNumber, String behaviorRules, AppUserDTO cottageOwner, double pricePerDay, int maxNumberOfPeople, double averageGrade, Set<AdditionalServiceDTO> additionalServices, Set<TimeRangeDTO> freePeriods, Set<ActionDTO> actions) {
+    public CottageDTO(long id, String name, String city, String street, String number, String zipCode, String latitude, String longitude, String description, Set<RoomDTO> rooms, String behaviorRules, AppUserDTO cottageOwner, double pricePerDay, int maxNumberOfPeople, double averageGrade, Set<AdditionalServiceDTO> additionalServices, Set<TimeRangeDTO> freePeriods, Set<ActionDTO> actions) {
         this.id = id;
         this.name = name;
         this.city = city;
@@ -73,7 +74,6 @@ public class CottageDTO {
         this.latitude = latitude;
         this.longitude = longitude;
         this.description = description;
-        this.roomsTotalNumber = roomsTotalNumber;
         this.behaviorRules = behaviorRules;
         this.cottageOwner = cottageOwner;
         this.pricePerDay = pricePerDay;
@@ -82,6 +82,7 @@ public class CottageDTO {
         this.additionalServices = additionalServices;
         this.freePeriods = freePeriods;
         this.actions = actions;
+        this.rooms = rooms;
     }
 
     public long getId() { return id; }
@@ -102,29 +103,21 @@ public class CottageDTO {
 
     public String getDescription() { return description; }
 
-    public int getRoomsTotalNumber() { return roomsTotalNumber; }
-
     public String getBehaviorRules() { return behaviorRules; }
 
     public AppUserDTO getCottageOwner() { return cottageOwner; }
 
-    public double getPricePerDay() {
-        return pricePerDay;
-    }
+    public double getPricePerDay() { return pricePerDay; }
 
-    public int getMaxNumberOfPeople() {
-        return maxNumberOfPeople;
-    }
+    public int getMaxNumberOfPeople() { return maxNumberOfPeople; }
 
-    public double getAverageGrade() {
-        return averageGrade;
-    }
+    public double getAverageGrade() { return averageGrade; }
 
-    public Set<AdditionalServiceDTO> getAdditionalServices() {
-        return additionalServices;
-    }
+    public Set<AdditionalServiceDTO> getAdditionalServices() { return additionalServices; }
 
     public Set<TimeRangeDTO> getFreePeriods() { return freePeriods; }
 
     public Set<ActionDTO> getActions() { return actions; }
+
+    public Set<RoomDTO> getRooms() { return rooms; }
 }
