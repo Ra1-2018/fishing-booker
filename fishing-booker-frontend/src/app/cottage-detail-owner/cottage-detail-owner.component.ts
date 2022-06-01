@@ -31,7 +31,7 @@ export class CottageDetailOwnerComponent implements OnInit {
   id: number = 0;
   selectedFile: any;
   isOwner: boolean = true;
-  coord: any[] = []
+  coord: any[] = [];
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
