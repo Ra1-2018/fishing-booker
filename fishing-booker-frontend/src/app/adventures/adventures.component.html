@@ -10,7 +10,7 @@
   <tbody>
     <tr *ngFor="let adventure of sortedData" [routerLink]="['/adventure', adventure.id]">
       <td>{{adventure.name}}</td>
-      <td>{{adventure.address}}</td>
+      <td>{{adventure.city}}, {{adventure.street}} {{adventure.number}}</td>
       <td>{{adventure.maxNumberOfPeople}}</td>
       <td>{{adventure.averageGrade}}</td>
     </tr>
