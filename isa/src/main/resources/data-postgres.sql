@@ -19,3 +19,7 @@ INSERT INTO public.location (city, latitude, longitude, "number", street, zip_co
 INSERT INTO public.time_range(end_date, start_date, service_id) VALUES ('2022-06-15 00:00:00', '2022-06-09 00:00:00', 1);
 
 INSERT INTO public.reservation (duration_in_days, number_of_people, price, reported, reservation_start_date_and_time, client_id, service_id) VALUES (3, 5, 90, false, '2022-06-06 00:00:00', 1, 1);
+
+INSERT INTO public.subscription(client_id, service_id) VALUES (1, 1);
+
+INSERT INTO public.action(duration_in_days, max_number_of_people, price, start_time, service_id) VALUES (3, 3, 70, '2022-06-20 00:00:00', 1);
