@@ -83,6 +83,17 @@ public class EmailService {
     }
 
     @Async
+    public void sendNotificationOfDeclinedComplaint(ResponseToComplaint response) throws MailException, InterruptedException {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(response.getComplaint().getClient().getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setText("Your Complaint Has Been Declined. Administrator reason for rejection: " + response.getContent());
+        javaMailSender.send(mail);
+
+        System.out.println("Email poslat!");
+    }
+
+    @Async
     public void sendNotificationAdminReg(AppUser appUser, String password) {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(appUser.getEmail());

@@ -43,6 +43,9 @@ public class AppUserController {
     private ReviewService reviewService;
 
     @Autowired
+    private ComplaintService complaintService;
+
+    @Autowired
     private ServiceService serviceService;
 
     @Autowired
@@ -59,6 +62,9 @@ public class AppUserController {
 
     @Autowired
     private ResponseToDeletionRequestService responseDeletionService;
+
+    @Autowired
+    private ResponseToComplaintService responseComplaintService;
 
     @Autowired
     private EmailService emailService;
@@ -331,6 +337,45 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/approveComplaint/{id}")
+    public ResponseEntity<Void> approveComplaint(@PathVariable("id") Long id) {
+
+        Complaint request = complaintService.findById(id);
+        AppUser user = appUserService.findByEmail(request.getClient().getEmail());
+        if(request == null || user==null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        request.setApproved(true);
+        complaintService.save(request);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/declineComplaint")
+    public ResponseEntity<Void> declineComplaint(@RequestBody ResponseToComplaintDTO responseToComplaintDTO) {
+
+        Complaint request = complaintService.findById(responseToComplaintDTO.getId());
+        Administrator admin = (Administrator) appUserService.findOne(responseToComplaintDTO.getUserID());
+        ResponseToComplaint response = new ResponseToComplaint(null, admin, request, responseToComplaintDTO.getContent());
+
+        if(request == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        response.setApproved(false);
+        complaintService.remove(request.getId());
+        responseComplaintService.save(response);
+
+        try {
+            emailService.sendNotificationOfDeclinedComplaint(response);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
 
@@ -449,6 +494,18 @@ public class AppUserController {
                 requestsDTOs.add(new DeletionRequestDTO(request));
         }
         return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/complaints")
+    public ResponseEntity<Collection<ComplaintDTO>> findAllComplaints() {
+        Collection<Complaint> complaints = complaintService.findAll();
+        Collection<ComplaintDTO> complaintsDTOs = new ArrayList<>();
+        for (Complaint complaint : complaints) {
+            if (!complaint.isApproved())
+                complaintsDTOs.add(new ComplaintDTO(complaint));
+        }
+        return new ResponseEntity<>(complaintsDTOs, HttpStatus.OK);
     }
 
     //@PreAuthorize("hasRole('USER')")

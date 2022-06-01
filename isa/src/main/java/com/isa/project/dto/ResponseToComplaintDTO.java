@@ -5,28 +5,29 @@ import com.isa.project.model.ResponseToComplaint;
 import java.util.Date;
 
 public class ResponseToComplaintDTO {
-    private long id;
-    private AppUserDTO administrator;
+    private Long id;
+    private Long userID;
     private String content;
     private Date dateSubmitted;
+    private boolean approved;
 
     public ResponseToComplaintDTO() {}
 
-    public ResponseToComplaintDTO(long id, AppUserDTO administrator, String content, Date dateSubmitted) {
+    public ResponseToComplaintDTO(Long id, Long administrator, String content) {
         this.id = id;
-        this.administrator = administrator;
+        this.userID = administrator;
         this.content = content;
-        this.dateSubmitted = dateSubmitted;
+        this.approved = false;
     }
 
-    public ResponseToComplaintDTO(ResponseToComplaint responseToComplaint) { this(responseToComplaint.getId(), new AppUserDTO(responseToComplaint.getAdministrator()), responseToComplaint.getContent(), responseToComplaint.getDateSubmitted());}
+    public ResponseToComplaintDTO(ResponseToComplaint responseToComplaint) { this(responseToComplaint.getId(), responseToComplaint.getAdministrator().getId(), responseToComplaint.getContent());}
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public AppUserDTO getAdministrator() {
-        return administrator;
+    public Long getUserID() {
+        return userID;
     }
 
     public String getContent() {
@@ -35,5 +36,9 @@ public class ResponseToComplaintDTO {
 
     public Date getDateSubmitted() {
         return dateSubmitted;
+    }
+
+    public boolean isApproved() {
+        return approved;
     }
 }

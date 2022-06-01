@@ -16,6 +16,8 @@ export class ProfileComponent implements OnInit {
   public readonly changePasswordFormGroup: FormGroup;
   public readonly registrationRequestFormGroup: FormGroup;
   public readonly deletionResponseFormGroup: FormGroup;
+  public readonly complaintRequestFormGroup: FormGroup;
+  complaintRequests: any[] = [];
   deletionRequests: any[] = [];
   requests: any[] = [];
   reviews: any[]=[];
@@ -24,6 +26,7 @@ export class ProfileComponent implements OnInit {
   userID:number = 0;
   requestID:number = 0;
   deletionRequestID: number = 0;
+  complaintRequestID: number = 0;
 
   constructor(public readonly loginService: LoginService,
               private profileService: ProfileService,
@@ -48,6 +51,9 @@ export class ProfileComponent implements OnInit {
               this.deletionResponseFormGroup = this.formBuilder.group({
                 explanation: []
               });
+              this.complaintRequestFormGroup = this.formBuilder.group({
+                explanation: []
+              });
               this.changePasswordFormGroup = this.formBuilder.group({
                 currentPassword: [],
                 newPassword: [],
@@ -61,6 +67,7 @@ export class ProfileComponent implements OnInit {
     this.getRequests();
     this.getReviews();
     this.getDeletionRequests();
+    this.getComplaintRequests();
   }
 
   private retrieveData(): void {
@@ -138,21 +145,21 @@ export class ProfileComponent implements OnInit {
     }) 
   }
 
-  // submitRegistrationRequest() {
-  //   const registrationRequest = {
-  //     explanation: this.registrationRequestFormGroup.get('explanation')?.value,
-  //     userID: this.userID,
-  //     requestID: this.requestID,
-  //   }
-  //   this.profileService.submitRegistrationRequest(registrationRequest).subscribe({
-  //     next: () => {
-  //       this.getRequests(); 
-  //       alert("Registration denied");
-  //       document.getElementById("closeButton")?.click();
-  //     },
-  //     error: () => alert("An error occurred")
-  //   }) 
-  // }
+  submitComplaintResponse() {
+    const complaintRequest = {
+      explanation: this.complaintRequestFormGroup.get('explanation')?.value,
+      userID: this.userID,
+      complaintRequestID: this.complaintRequestID,
+    }
+    this.profileService.submitComplaintResponse(complaintRequest).subscribe({
+      next: () => {
+        this.getComplaintRequests(); 
+        alert("Complaint denied");
+        document.getElementById("closeButton")?.click();
+      },
+      error: () => alert("An error occurred")
+    }) 
+  }
 
   getRequests(){
     this.profileService.getRequests().subscribe(
@@ -174,6 +181,14 @@ export class ProfileComponent implements OnInit {
     this.profileService.getDeletionRequests().subscribe(
       deletionRequests => {
         this.deletionRequests = deletionRequests;
+      }
+    )
+  }
+
+  getComplaintRequests() {
+    this.profileService.getComplaintRequests().subscribe(
+      complaintRequests => {
+        this.complaintRequests = complaintRequests;
       }
     )
   }
@@ -226,11 +241,24 @@ export class ProfileComponent implements OnInit {
     return;
   }
 
+  onApproveComplaintRequest(id:number):void {
+    this.profileService.approveComplaintRequest(id).subscribe(
+      response => {this.getComplaintRequests(); 
+                   alert('Request for complaint approved');
+                  }
+      );
+    return;
+  }
+
   public onDecline(id:number): void{
     this.requestID = id;
   }
 
   public onDeclineDeletion(id:number): void{
     this.deletionRequestID = id;
+  }
+
+  public onDeclineComplaint(id:number): void{
+    this.complaintRequestID = id;
   }
 }
