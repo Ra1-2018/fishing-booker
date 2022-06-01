@@ -204,13 +204,12 @@ public class ReservationController {
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('CLIENT') || hasRole('COTTAGE_OWNER') || hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasRole('CLIENT') || hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER') || hasRole('INSTRUCTOR')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationDTO> save(@RequestBody ReservationDTO reservationDTO) {
+
         Service service = serviceService.findById(reservationDTO.getService().getId());
-        if(service == null) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
+        if(service == null) { return new ResponseEntity(HttpStatus.BAD_REQUEST); }
 
         Client client = (Client) appUserService.findOne(reservationDTO.getClient().getId());
 
