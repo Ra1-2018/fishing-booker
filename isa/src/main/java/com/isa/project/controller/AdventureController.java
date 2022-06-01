@@ -6,6 +6,7 @@ import com.isa.project.dto.CottageDTO;
 import com.isa.project.model.*;
 import com.isa.project.service.AdventureService;
 import com.isa.project.service.InstructorService;
+import com.isa.project.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +26,9 @@ public class AdventureController {
 
     @Autowired
     private InstructorService instructorService;
+
+    @Autowired
+    private LocationService locationService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -84,6 +88,10 @@ public class AdventureController {
         adventure.setInstructorBiography(adventureDTO.getInstructorBiography());
         adventure.setServiceType(ServiceType.ADVENTURE);
         adventureService.save(adventure);
+
+        Location location = new Location( null , adventureDTO.getCity(), adventureDTO.getStreet(), adventureDTO.getNumber(), adventureDTO.getZipCode(), adventureDTO.getLatitude(), adventureDTO.getLongitude(), adventure);
+        adventure.setLocation(location);
+        locationService.save(location);
 
         return new ResponseEntity<>(new AdventureDTO(adventure), HttpStatus.CREATED);
     }

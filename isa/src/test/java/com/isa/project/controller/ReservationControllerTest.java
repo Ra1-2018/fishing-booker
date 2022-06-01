@@ -46,7 +46,7 @@ public class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})
     public void testFindByClient() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/client/" + CLIENT_ID)).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(DB_COUNT)))
@@ -59,7 +59,7 @@ public class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})
     @Transactional
     @Rollback(true)
     public void testSave() throws Exception {
@@ -76,7 +76,7 @@ public class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})
     @Transactional
     @Rollback(true)
     public void testCancelReservation() throws Exception {
@@ -84,7 +84,7 @@ public class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})
     public void testFindByClientUpcoming() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/client-upcoming/" + CLIENT_ID)).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(DB_COUNT)))
@@ -97,7 +97,7 @@ public class ReservationControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})
     public void testFindByClientCottages() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/client-cottages/" + CLIENT_ID)).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(DB_COUNT)))

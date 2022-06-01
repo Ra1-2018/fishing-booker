@@ -18,24 +18,10 @@ public class Cottage extends Service{
         super();
     }
 
-    public Cottage(long id, String name, String description, String behaviorRules, double pricePerDay,Set<Room> rooms, Set<Reservation> reservations, CottageOwner cottageOwner, Set<TimeRange> freeReservations, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints, Location location) {
+    public Cottage(long id, String name, String description, String behaviorRules, double pricePerDay, Set<Room> rooms, Set<Reservation> reservations, CottageOwner cottageOwner, Set<TimeRange> freeReservations, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Set<Action> actions, Set<Review> reviews, Set<Client> subscribedClients, Set<Complaint> complaints, Location location) {
         super(id, name, description, behaviorRules, pricePerDay, ServiceType.COTTAGE, reservations, freeReservations, maxNumberOfPeople, additionalServices, actions, reviews, subscribedClients, complaints, location);
         this.rooms = new HashSet<>();
         this.cottageOwner = cottageOwner;
-    }
-
-    public int getRoomsTotalNumber() {
-        return rooms.size();
-    }
-
-    public int getBedsTotalNumber() {
-        int bedsTotalNumber = 0;
-
-        for(Room room : rooms) {
-            bedsTotalNumber += room.getNumberOfBeds();
-        }
-
-        return bedsTotalNumber;
     }
 
     public CottageOwner getCottageOwner() {
@@ -49,6 +35,4 @@ public class Cottage extends Service{
     public Set<Room> getRooms() { return rooms; }
 
     public void setRooms(Set<Room> rooms) { this.rooms = rooms; }
-
-    public void removeRoom(Room room) { this.rooms.remove(room);}
 }

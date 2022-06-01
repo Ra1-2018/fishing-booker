@@ -39,9 +39,9 @@ public class ActionController {
     private ReservationTransactionService reservationTransactionService;
 
     @Autowired
-    private CottageService cottageService;
+    private ActionTransactionService actionTransactionService;
 
-    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER') || hasRole('INSTRUCTOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ActionDTO> createAction(@RequestBody ActionDTO actionDTO) {
 
@@ -67,9 +67,11 @@ public class ActionController {
         if(!serviceService.IsActionValid(action)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        actionService.save(action);
-
+        try {
+            action = actionTransactionService.createAction(action);
+        }catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         try {
             emailService.sendActionNotification(action);
         } catch (InterruptedException e) {

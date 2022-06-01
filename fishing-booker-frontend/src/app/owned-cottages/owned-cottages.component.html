@@ -57,8 +57,12 @@
                     <input type="behaviorRules" class="form-control" id="behaviorRules" placeholder="Behavior rules" [(ngModel)]="cottage.behaviorRules" name="behaviorRules" #behaviorRules="ngModel" required>
                   </div>
                   <div class=" form-group mb-2">
-                    <label for="pricePerDay" class="form-label">Price per day:</label>
-                    <input type="pricePerDay" class="form-control" id="pricePerDay" placeholder="Price per day" [(ngModel)]="cottage.pricePerDay" name="pricePerDay" #pricePerDay="ngModel" required>
+                    <label for="pricePerDay" class="form-label">Price per day ($):</label>
+                    <input type="number" class="form-control" id="pricePerDay" min="1" placeholder="Price per day" [(ngModel)]="cottage.pricePerDay" name="pricePerDay" #pricePerDay="ngModel" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="maxNumberOfPeople" class="form-label">Maximum people:</label>
+                    <input type="number" class="form-control" id="maxNumberOfPeople" min="1" [(ngModel)]="cottage.maxNumberOfPeople" name="maxNumberOfPeople" #maxNumberOfPeople="ngModel" required>
                   </div>
                   <div hidden>
                     <input type="text" id="latitudeInput">

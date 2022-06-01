@@ -82,6 +82,7 @@
                         <tr *ngFor="let period of cottage.freePeriods">
                             <td>{{period.startDate | date:'longDate'}} </td>
                             <td>{{period.endDate | date:'longDate'}}</td>
+                            <td><button class="btn btn-secondary" (click)="onClickDelete(period.id);">Delete</button></td>
                         </tr>
                     </tbody>
                 </table>
