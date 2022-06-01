@@ -23,7 +23,7 @@
         <tbody>
           <tr *ngFor="let adventure of sortedData | search: query">
             <td class="col-3" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.name}}</td>
-            <td class="col-3" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.address}}</td>
+            <td class="col-3" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.city}}, {{adventure.street}} {{adventure.number}}</td>
             <td class="col-2" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.pricePerDay}}</td>
             <td class="col-3" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.description}}</td>
           </tr>
