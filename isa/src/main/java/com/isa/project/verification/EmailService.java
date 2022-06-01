@@ -9,12 +9,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.UUID;
 
 @Service
 @EnableAsync
@@ -26,13 +26,16 @@ public class EmailService {
     @Autowired
     private Environment env;
 
+    private final String baseUrl =
+            ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+
     @Async
     public void sendNotificationAsync(AppUser appUser, String token) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(appUser.getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
         mail.setSubject("Registration Confirmation");
-        mail.setText("http://localhost:8080/users/activate/" + token);
+        mail.setText(baseUrl + "/users/activate/" + token);
         javaMailSender.send(mail);
 
         System.out.println("Email poslat!");
