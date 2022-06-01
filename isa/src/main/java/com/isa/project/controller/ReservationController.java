@@ -38,12 +38,15 @@ public class ReservationController {
     private BoatService boatService;
 
     @Autowired
+    private AdventureService adventureService;
+
+    @Autowired
     private AdditionalServiceService additionalServiceService;
 
     @Autowired
     private ReservationTransactionService reservationTransactionService;
 
-    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER') || hasRole('INSTRUCTOR')")
     @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationDTO> findOne(@PathVariable("id") Long id) {
         Reservation reservation = reservationService.findById(id);
@@ -55,7 +58,7 @@ public class ReservationController {
         return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER') || hasRole('INSTRUCTOR')")
     @PostMapping(value="penal", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationDTO> givePenal(@RequestBody ReservationDTO reservationDTO) {
         Reservation reservation = reservationService.findById(reservationDTO.getId());
@@ -71,7 +74,7 @@ public class ReservationController {
         return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER') || hasRole('INSTRUCTOR')")
     @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<ReservationDTO>> findByOwner(@PathVariable("id") Long id) {
 
@@ -104,7 +107,17 @@ public class ReservationController {
                 }
             }
         }
+        else if (appUser.getAppUserType() == AppUserType.INSTRUCTOR) {
+            Instructor instructor = (Instructor) appUser;
+            Collection<Adventure> adventures = adventureService.findAdventuresByOwner(instructor);
 
+            for (Adventure adventure : adventures) {
+                Collection<Reservation> reservations = reservationService.findByService(adventure);
+                for (Reservation reservation : reservations) {
+                    reservationDTOS.add(new ReservationDTO(reservation));
+                }
+            }
+        }
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
 
@@ -191,13 +204,12 @@ public class ReservationController {
         return new ResponseEntity<>(reservationDTOS, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('CLIENT') || hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('CLIENT') || hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER') || hasRole('INSTRUCTOR')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationDTO> save(@RequestBody ReservationDTO reservationDTO) {
+
         Service service = serviceService.findById(reservationDTO.getService().getId());
-        if(service == null) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
+        if(service == null) { return new ResponseEntity(HttpStatus.BAD_REQUEST); }
 
         Client client = (Client) appUserService.findOne(reservationDTO.getClient().getId());
 

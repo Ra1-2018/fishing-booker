@@ -49,11 +49,22 @@ public class EmailService {
     }
 
     @Async
-    public void sendNotificationOfDeclinedRegistrationRequest(RegistrationRequest request) throws MailException, InterruptedException {
+    public void sendNotificationOfApprovedReview(Review review, AppUser user) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(request.getUser().getEmail());
+        mail.setTo(user.getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
-        mail.setText("Your Registration Has Been Declined");
+        mail.setText("You received review for " + review.getService().getName());
+        javaMailSender.send(mail);
+
+        System.out.println("Email poslat!");
+    }
+
+    @Async
+    public void sendNotificationOfDeclinedRegistrationRequest(ResponseToRegistrationRequest response) throws MailException, InterruptedException {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(response.getAdministrator().getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setText("Your Registration Has Been Declined. Administrator reason for rejection: " + response.getContent());
         javaMailSender.send(mail);
 
         System.out.println("Email poslat!");

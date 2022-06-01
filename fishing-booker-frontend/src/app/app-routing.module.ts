@@ -36,6 +36,9 @@ import { RegistrationComponent } from './registration/registration.component';
 import { SpecialRegistrationComponent } from './special-registration/special-registration.component';
 import { ReservationHistoryComponent } from './reservation-history/reservation-history.component';
 import { ReservationClientComponent } from './reservation-client/reservation-client.component';
+import { OwnedAdventuresComponent } from './owned-adventures/owned-adventures.component';
+import { AdventureDetailOwnerComponent } from './adventure-detail-owner/adventure-detail-owner.component';
+import { AdventureEditComponent } from './adventure-edit/adventure-edit.component';
 import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
 import { ReportComponent } from './report/report.component';
 import { ClientPenaltiesComponent } from './client/client-penalties/client-penalties.component';
@@ -78,6 +81,9 @@ const routes: Routes = [
   { path: 'boat-owner-detail/:id', component: BoatOwnerDetailComponent},
   { path: 'instructor-detail/:id', component: InstructorDetailComponent},
   { path: 'client-detail/:id', component: ClientDetailComponent},
+  { path: 'owned-adventures', component: OwnedAdventuresComponent},
+  { path: 'adventure-detail-owner/:id', component: AdventureDetailOwnerComponent},
+  { path: 'adventure-edit/:id', component: AdventureEditComponent},
   { path: 'boat-detail-owner/:id', component: BoatDetailOwnerComponent},
   { path: 'report/:id', component: ReportComponent},
   { path: 'client-penalties', component: ClientPenaltiesComponent},

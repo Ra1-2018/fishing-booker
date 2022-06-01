@@ -77,7 +77,7 @@ public class ReservationTransactionServiceTest {
             public void run() {
                 System.out.println("Startovan Thread 1");
                 Action action = actionService.findById(1L);
-                Client client = (Client) appUserService.findOne(49L);
+                Client client = (Client) appUserService.findOne(1L);
                 try { Thread.sleep(3000); } catch (InterruptedException e) {}// thread uspavan na 3 sekunde da bi drugi thread mogao da izvrsi istu operaciju
                 reservationTransactionService.makeReservationFromAction(action, client);
             }
@@ -88,7 +88,7 @@ public class ReservationTransactionServiceTest {
             public void run() {
                 System.out.println("Startovan Thread 2");
                 Action action = actionService.findById(1L);
-                Client client = (Client) appUserService.findOne(49L);
+                Client client = (Client) appUserService.findOne(1L);
                 reservationTransactionService.makeReservationFromAction(action, client);
             }
         });
@@ -138,9 +138,9 @@ public class ReservationTransactionServiceTest {
     }
 
     private Reservation createReservation() {
-        Service service = serviceService.findById(7L);
+        Service service = serviceService.findById(1L);
 
-        Client client = (Client) appUserService.findOne(49L);
+        Client client = (Client) appUserService.findOne(1L);
 
         Reservation reservation = new Reservation();
         reservation.setReservationStartDateAndTime(new Date());

@@ -48,35 +48,33 @@ public class ServiceControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
-    /*@Test
-    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    @Test
+    @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})
     public void testFindServicesFromReservations() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/eligible/" + CLIENT_ID)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.[*].id").value(hasItem(DB_COTTAGE_ID.intValue())))
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DB_COTTAGE_DESCRIPTION)))
                 .andExpect(jsonPath("$.[*].behaviorRules").value(hasItem(DB_COTTAGE_BEHAVIOR_RULES)))
                 .andExpect(jsonPath("$.[*].pricePerDay").value(hasItem(DB_COTTAGE_PRICE_PER_DAY)))
-                .andExpect(jsonPath("$.[*].address").value(hasItem(DB_COTTAGE_ADDRESS)))
                 .andExpect(jsonPath("$.[*].maxNumberOfPeople").value(hasItem(DB_COTTAGE_NUMBER_OF_PEOPLE)));
 
     }
 
     @Test
-    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})
     public void testGetSubscriptions() throws Exception{
         mockMvc.perform(get(URL_PREFIX + "/subscriptions/" + CLIENT_ID)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.[*].id").value(hasItem(DB_COTTAGE_ID.intValue())))
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DB_COTTAGE_DESCRIPTION)))
                 .andExpect(jsonPath("$.[*].behaviorRules").value(hasItem(DB_COTTAGE_BEHAVIOR_RULES)))
                 .andExpect(jsonPath("$.[*].pricePerDay").value(hasItem(DB_COTTAGE_PRICE_PER_DAY)))
-                .andExpect(jsonPath("$.[*].address").value(hasItem(DB_COTTAGE_ADDRESS)))
                 .andExpect(jsonPath("$.[*].maxNumberOfPeople").value(hasItem(DB_COTTAGE_NUMBER_OF_PEOPLE)));
     }
 
     @Test
-    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})
     public void testGetServicesForCriteria() throws Exception {
-        ServiceCriteriaDTO criteria = new ServiceCriteriaDTO(ServiceType.COTTAGE, new GregorianCalendar(2022, Calendar.MAY, 5).getTime(), 3, "", 3, 0);
+        ServiceCriteriaDTO criteria = new ServiceCriteriaDTO(ServiceType.COTTAGE, new GregorianCalendar(2022, Calendar.JUNE, 10).getTime(), 3, "", 3, 0);
         String json = TestUtil.json(criteria);
 
         mockMvc.perform(post(URL_PREFIX + "/search").contentType(contentType).content(json)).andExpect(status().isOk())
@@ -84,12 +82,11 @@ public class ServiceControllerTest {
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DB_COTTAGE_DESCRIPTION)))
                 .andExpect(jsonPath("$.[*].behaviorRules").value(hasItem(DB_COTTAGE_BEHAVIOR_RULES)))
                 .andExpect(jsonPath("$.[*].pricePerDay").value(hasItem(DB_COTTAGE_PRICE_PER_DAY)))
-                .andExpect(jsonPath("$.[*].address").value(hasItem(DB_COTTAGE_ADDRESS)))
                 .andExpect(jsonPath("$.[*].maxNumberOfPeople").value(hasItem(DB_COTTAGE_NUMBER_OF_PEOPLE)));
     }
 
     @Test
-    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})
     @Transactional
     @Rollback(true)
     public void testSubscribeToService() throws Exception {
@@ -97,10 +94,10 @@ public class ServiceControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "client@gmail.com", roles = {"USER", "CLIENT"})
+    @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})
     @Transactional
     @Rollback(true)
     public void testUnsubscribeFromService() throws Exception {
         mockMvc.perform(get(URL_PREFIX + "/unsubscribe/" +DB_COTTAGE_ID + "/" + CLIENT_ID)).andExpect(status().isOk());
-    }*/
+    }
 }

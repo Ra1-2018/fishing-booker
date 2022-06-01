@@ -26,8 +26,23 @@ export class ProfileService {
     return this._http.get<Observable<any>>(server + 'users/decline/' + id)
   }
 
+  approveReviewRequest(id: number): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/approveReview/' + id);
+  }
+
+  declineReviewRequest(id: number): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/declineReview/' + id);
+  }
+
   getRequests(): Observable<any[]> {
     return this._http.get<any[]>(server + 'users/requests')
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
+
+  getReviews(): Observable<any[]> {
+    return this._http.get<any[]>('http://localhost:8080/users/reviews')
     .pipe(
       tap(data => console.log("data: ", data))
     )
@@ -39,4 +54,16 @@ export class ProfileService {
       tap(data => console.log("data: ", data))
     );
   }
+
+  submitChangePassword(changePassword: any) {
+    return this._http.post('http://localhost:8080/users/changePassword', changePassword)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    );
+  }
+
+  submitRegistrationRequest(registrationRequest:any) {
+    return this._http.post<Observable<any>>('http://localhost:8080/users/decline', registrationRequest)
+  }
+
 }

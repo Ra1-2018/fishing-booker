@@ -14,4 +14,7 @@ import java.util.List;
 public interface AdventureRepository extends JpaRepository<Adventure, Long> {
 
     public List<Adventure> findByInstructor(Instructor instructor);
+
+    @Query("select a from Adventure a where a.instructor = ?1")
+    public List<Adventure> findAdventuresByOwner(Instructor instructor);
 }

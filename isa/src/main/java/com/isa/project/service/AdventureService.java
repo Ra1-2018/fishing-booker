@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,5 +28,13 @@ public class AdventureService{
     public Adventure findById(long id) {
         LOG.info("Adventure with id: " + id + " successfully cached!");
         return adventureRepository.findById(id).orElse(null);
+    }
+    public List<Adventure> findAdventuresByOwner(Instructor instructor) { return adventureRepository.findAdventuresByOwner(instructor); }
+    public Adventure save(Adventure adventure) {
+        adventure.setLastUpdateDate(new Date());
+        return adventureRepository.save(adventure);
+    }
+    public void remove(long id) {
+        adventureRepository.deleteById(id);
     }
 }

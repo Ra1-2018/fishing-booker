@@ -14,8 +14,8 @@ import java.util.List;
 public abstract class AppUser implements UserDetails {
 
     @Id
-    @SequenceGenerator(name = "seqGen", sequenceName = "seq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqGen")
+    @SequenceGenerator(name = "userSeqGen", sequenceName = "userSeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeqGen")
     private long id;
     @Column(unique = true)
     private String email;

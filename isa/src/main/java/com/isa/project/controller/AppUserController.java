@@ -2,9 +2,7 @@ package com.isa.project.controller;
 
 import com.isa.project.dto.*;
 import com.isa.project.model.*;
-import com.isa.project.service.AppUserService;
-import com.isa.project.service.OwnerService;
-import com.isa.project.service.RegistrationRequestService;
+import com.isa.project.service.*;
 import com.isa.project.util.TokenUtils;
 import com.isa.project.verification.EmailService;
 import com.isa.project.verification.VerificationToken;
@@ -37,6 +35,24 @@ public class AppUserController {
 
     @Autowired
     private RegistrationRequestService requestService;
+
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ServiceService serviceService;
+
+    @Autowired
+    private AdventureService adventureService;
+
+    @Autowired
+    private CottageService cottageService;
+
+    @Autowired
+    private BoatService boatService;
+
+    @Autowired
+    private ResponseToRegistrationRequestService responseService;
 
     @Autowired
     private EmailService emailService;
@@ -146,6 +162,7 @@ public class AppUserController {
     public RedirectView activate(@PathVariable("token") String token) {
 
         VerificationToken verificationToken = verificationTokenService.findByToken(token);
+        //System.out.println(verificationToken.toString());
         //if (verificationToken == null) {
         //String message = messages.getMessage("auth.message.invalidToken", null, locale);
         //model.addAttribute("message", message);
@@ -188,18 +205,65 @@ public class AppUserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/decline/{id}")
-    public ResponseEntity<Void> declineRequest(@PathVariable("id") Long id) {
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/decline")
+    public ResponseEntity<Void> declineRequest(@RequestBody ResponseToRegistrationRequestDTO responseRegistrationRequestDTO) {
 
-        RegistrationRequest request = requestService.findById(id);
+        RegistrationRequest request = requestService.findById(responseRegistrationRequestDTO.getRequestID());
+        Administrator admin = (Administrator) appUserService.findOne(responseRegistrationRequestDTO.getUserID());
+        ResponseToRegistrationRequest response = new ResponseToRegistrationRequest(null, admin, request, responseRegistrationRequestDTO.getExplanation());
+
+        AppUser user = request.getUser();
         if(request == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         request.setApproved(false);
-        requestService.remove(id);
+        user.setEnabled(false);
+        response.setApproved(false);
+        appUserService.save(user);
+        requestService.remove(request.getId());
+        responseService.save(response);
 
         try {
-            emailService.sendNotificationOfDeclinedRegistrationRequest(request);
+            emailService.sendNotificationOfDeclinedRegistrationRequest(response);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/approveReview/{id}")
+    public ResponseEntity<Void> approveReviewRequest(@PathVariable("id") Long id) {
+
+        Review review = reviewService.findById(id);
+        if(review == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        review.setApproved(true);
+        reviewService.save(review);
+
+        Long userID = 0L;
+        Collection<Service> services = serviceService.findAll();
+        for (Service service: services) {
+            if(service.getServiceType().equals(ServiceType.ADVENTURE)){
+                Adventure a = adventureService.findById(service.getId());
+                userID = a.getInstructor().getId();
+            } else if (service.getServiceType().equals(ServiceType.BOAT)) {
+                Boat b = boatService.findById(service.getId());
+                userID = b.getBoatOwner().getId();
+            } else if (service.getServiceType().equals(ServiceType.COTTAGE)) {
+                Cottage c = cottageService.findById(service.getId());
+                userID = c.getCottageOwner().getId();
+            }
+        }
+        AppUser user = appUserService.findOne(userID);
+        if(user==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            emailService.sendNotificationOfApprovedReview(review, user);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -303,6 +367,18 @@ public class AppUserController {
         return new ResponseEntity<>(requestsDTOs, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/reviews")
+    public ResponseEntity<Collection<ReviewDTO>> findAllReviews() {
+        Collection<Review> reviews = reviewService.findAll();
+        Collection<ReviewDTO> reviewsDTOs = new ArrayList<>();
+        for (Review review : reviews) {
+            if (!review.isApproved())
+                reviewsDTOs.add(new ReviewDTO(review));
+        }
+        return new ResponseEntity<>(reviewsDTOs, HttpStatus.OK);
+    }
+
     //@PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUserDTO> findOne(@PathVariable("id") long id) {
@@ -359,6 +435,22 @@ public class AppUserController {
         appUser.setFirstReg(false);
         appUser = (Administrator) appUserService.saveAdministrator(appUser);
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "/changePassword")
+    public ResponseEntity<ChangePasswordDTO> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+        AppUser appUser = appUserService.findOne(changePasswordDTO.getUserID());
+        if(appUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(passwordEncoder.matches(changePasswordDTO.getCurrentPassword(), appUser.getPassword())){
+            appUser.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+            appUserService.save(appUser);
+            return new ResponseEntity<>(new ChangePasswordDTO(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

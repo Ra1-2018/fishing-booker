@@ -39,22 +39,22 @@ public class ActionController {
     private ReservationTransactionService reservationTransactionService;
 
     @Autowired
-    private CottageService cottageService;
+    private ActionTransactionService actionTransactionService;
 
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER') || hasRole('INSTRUCTOR')")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<ActionDTO> createAction(@RequestBody ActionDTO actionDTO) {
 
-        Cottage cottage = cottageService.findById(actionDTO.getService().getId());
+        Service service = serviceService.findById(actionDTO.getService().getId());
 
-        if(cottage == null) { return new ResponseEntity<>(HttpStatus.BAD_REQUEST); }
+        if(service == null) { return new ResponseEntity<>(HttpStatus.BAD_REQUEST); }
 
         Action action = new Action();
         action.setStartTime(actionDTO.getStartTime());
         action.setDurationInDays(actionDTO.getDurationInDays());
         action.setPrice(actionDTO.getPrice());
         action.setMaxNumberOfPeople(actionDTO.getMaxNumberOfPeople());
-        action.setService(cottage);
+        action.setService(service);
 
         Collection<AdditionalServiceDTO> additionalServiceDTOS = actionDTO.getAdditionalServices();
 
@@ -67,9 +67,11 @@ public class ActionController {
         if(!serviceService.IsActionValid(action)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        actionService.save(action);
-
+        try {
+            action = actionTransactionService.createAction(action);
+        }catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         try {
             emailService.sendActionNotification(action);
         } catch (InterruptedException e) {

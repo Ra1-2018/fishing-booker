@@ -79,6 +79,9 @@ import { ClientComplaintComponent } from './client/client-complaint/client-compl
 import { ReservationHistoryComponent } from './reservation-history/reservation-history.component';
 import { ReservationClientComponent } from './reservation-client/reservation-client.component';
 import { ClientReviewComponent } from './client/client-review/client-review.component';
+import { OwnedAdventuresComponent } from './owned-adventures/owned-adventures.component';
+import { AdventureDetailOwnerComponent } from './adventure-detail-owner/adventure-detail-owner.component';
+import { AdventureEditComponent } from './adventure-edit/adventure-edit.component';
 import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.component';
 import { ReportComponent } from './report/report.component';
 import { ImageSlideshowComponent } from './image-slideshow/image-slideshow.component';
@@ -128,6 +131,9 @@ import { NgChartsModule } from 'ng2-charts';
     ReservationHistoryComponent,
     ReservationClientComponent,
     ClientReviewComponent,
+    OwnedAdventuresComponent,
+    AdventureDetailOwnerComponent,
+    AdventureEditComponent,
     BoatDetailOwnerComponent,
     ReportComponent,
     ImageSlideshowComponent,

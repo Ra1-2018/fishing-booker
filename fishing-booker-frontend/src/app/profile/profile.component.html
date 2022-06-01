@@ -41,14 +41,17 @@
                 <div class="d-grid col-6 mx-auto justify-content-center">
                     <a [routerLink]="[]" data-bs-toggle="modal" data-bs-target="#exampleModal">Request profile deletion</a>
                 </div>
+                <div class="d-grid col-6 mx-auto justify-content-center">
+                    <a [routerLink]="[]" data-bs-toggle="modal" data-bs-target="#passwordModal">Change password</a>
+                </div>
             </ng-container>
         </div>
 
         <div name="administratorProfile" *ngIf="loginService.isLoggedIn && loginService.userType == 'ADMIN'">
             <div>                
                 <br>
+                <h3 *ngIf='requests && requests.length' class="h3">Registration requests</h3>
                 <table *ngIf='requests && requests.length' class="table">
-                    <h3 class="h3">Zahtevi za registraciju</h3>
                     <thead>
                         <tr>
                             <th class="col">Username</th>
@@ -64,7 +67,32 @@
                             <td>{{request.user.name}} {{request.user.surname}}</td>
                             <td>{{request.explanation}}</td>
                             <td><button name="approveRegistrationRequest" class="btn btn-secondary" (click)="onApprove(request.id);">Approve</button></td>
-                            <td><button name="declineRegistrationRequest" class="btn btn-secondary" (click)="onDecline(request.id);">Decline</button></td>
+                            <td><button name="declineRegistrationRequest" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registrationRequestModal" (click)="onDecline(request.id);">Decline</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>                
+                <br>
+                <h3 *ngIf='reviews && reviews.length' class="h3">Review requests</h3>
+                <table *ngIf='reviews && reviews.length' class="table">
+                    <thead>
+                        <tr>
+                            <th class="col">Service</th>
+                            <th class="col">Client Name</th>
+                            <th class="col">Grade</th>
+                            <th class="col">Revision</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor = 'let review of reviews'>
+                            <td>{{review.service.name}}</td>
+                            <td>{{review.client.name}} {{review.client.surname}}</td>
+                            <td>{{review.grade}}</td>
+                            <td>{{review.revision}}</td>
+                            <td><button name="approveReviewRequest" class="btn btn-secondary" (click)="onApproveReviewRequest(review.id);">Approve</button></td>
+                            <td><button name="declineReviewRequest" class="btn btn-secondary" (click)="onDeclineReviewRequest(review.id);">Decline</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -93,6 +121,74 @@
                         <div class="modal-footer">
                             <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" (click)="submitDeletionRequest()">Submit</button>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal -->
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="passwordModalLabel">Change password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <ng-container [formGroup]="this.changePasswordFormGroup">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current password:</label>
+                            <input rows="10" id="currentPassword" type="password" class="form-control" formControlName="currentPassword">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New password:</label>
+                            <input rows="10" id="newPassword" type="password" class="form-control" formControlName="newPassword">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newRePassword" class="form-label">Repeat new password:</label>
+                            <input rows="10" id="newRePassword" type="password" class="form-control" formControlName="newRePassword">
+                        </div>
+                        <div class="modal-footer">
+                            <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="submitChangePassword()">Submit</button>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="registrationRequestModal" tabindex="-1" aria-labelledby="registrationRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registrationRequestModalLabel">Deletion request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <ng-container [formGroup]="this.registrationRequestFormGroup">
+                        <div class="mb-3">
+                            <label for="explanation" class="form-label">Explanation:</label>
+                            <textarea rows="10" id="explanation" type="text" class="form-control" formControlName="explanation"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-primary" (click)="submitRegistrationRequest()">Submit</button>
                         </div>
                     </ng-container>
                 </div>

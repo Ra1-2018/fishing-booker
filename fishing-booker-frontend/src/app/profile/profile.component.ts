@@ -13,9 +13,14 @@ export class ProfileComponent implements OnInit {
 
   public readonly myFormGroup: FormGroup;
   public readonly deletionRequestFormGroup: FormGroup;
+  public readonly changePasswordFormGroup: FormGroup;
+  public readonly registrationRequestFormGroup: FormGroup;
   requests: any[] = [];
+  reviews: any[]=[];
   selectedUser: any;
   userEmail:string = ''
+  userID:number = 0;
+  requestID:number = 0;
 
   constructor(public readonly loginService: LoginService,
               private profileService: ProfileService,
@@ -33,30 +38,30 @@ export class ProfileComponent implements OnInit {
               });
               this.deletionRequestFormGroup = this.formBuilder.group({
                 explanation: []
+              });
+              this.registrationRequestFormGroup = this.formBuilder.group({
+                explanation: []
+              });
+              this.changePasswordFormGroup = this.formBuilder.group({
+                currentPassword: [],
+                newPassword: [],
+                newRePassword: []
               })
+
               }
 
   ngOnInit(): void {
     this.retrieveData();
     this.getRequests();
+    this.getReviews();
   }
 
   private retrieveData(): void {
     this.profileService.getUser()
         .subscribe((res: any) => {
-            // Assuming res has a structure like:
-            // res = {
-            //     field1: "some-string",
-            //     field2: "other-string",
-            //     subgroupName: {
-            //         subfield2: "another-string"
-            //     },
-            // }
-            // Values in res that don't line up to the form structure
-            // are discarded. You can also pass in your own object you
-            // construct ad-hoc.
             this.myFormGroup.patchValue(res);
             this.userEmail = res.email;
+            this.userID = res.id;
         });
   }
 
@@ -74,10 +79,54 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  submitChangePassword() {
+    const changePassword = {
+      currentPassword: this.changePasswordFormGroup.get('currentPassword')?.value,
+      newPassword: this.changePasswordFormGroup.get('newPassword')?.value,
+      newRePassword: this.changePasswordFormGroup.get('newRePassword')?.value,
+      userID: this.userID
+    }
+    if(changePassword.newPassword !== changePassword.newRePassword) {
+      alert("Passwords must match!") 
+    } else {
+      this.profileService.submitChangePassword(changePassword).subscribe({
+        next: () => {
+          alert("Successfully changed password!");
+          document.getElementById("closeButton")?.click();
+        },
+        error: () => alert("An error occurred")
+      })
+    }
+  }
+
+  submitRegistrationRequest() {
+    const registrationRequest = {
+      explanation: this.registrationRequestFormGroup.get('explanation')?.value,
+      userID: this.userID,
+      requestID: this.requestID,
+    }
+    this.profileService.submitRegistrationRequest(registrationRequest).subscribe({
+      next: () => {
+        this.getRequests(); 
+        alert("Registration denied");
+        document.getElementById("closeButton")?.click();
+      },
+      error: () => alert("An error occurred")
+    }) 
+  }
+
   getRequests(){
     this.profileService.getRequests().subscribe(
       requests => {
         this.requests = requests;
+      }
+    )
+  }
+
+  getReviews(){
+    this.profileService.getReviews().subscribe(
+      reviews => {
+        this.reviews = reviews;
       }
     )
   }
@@ -103,12 +152,25 @@ export class ProfileComponent implements OnInit {
     return;
   }
 
-  public onDecline(id:number): void{
-    this.profileService.declineRequest(id).subscribe(
-      response => {this.getRequests(); 
-        alert('Request declined');
+  onApproveReviewRequest(id:number):void {
+    this.profileService.approveReviewRequest(id).subscribe(
+      response => {this.getReviews(); 
+                   alert('Request for review approved');
                   }
-      ); 
+      );
     return;
+  }
+
+  onDeclineReviewRequest(id:number):void {
+    this.profileService.declineReviewRequest(id).subscribe(
+      response => {this.getReviews(); 
+                   alert('Request for review declined');
+                  }
+      );
+    return;
+  }
+
+  public onDecline(id:number): void{
+    this.requestID = id;
   }
 }

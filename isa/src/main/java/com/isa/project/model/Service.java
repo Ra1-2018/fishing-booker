@@ -9,8 +9,8 @@ import java.util.Set;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Service {
     @Id
-    @SequenceGenerator(name = "seqGen", sequenceName = "seq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqGen")
+    @SequenceGenerator(name = "serviceSeqGen", sequenceName = "serviceSeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "serviceSeqGen")
     private long id;
     @Column
     private String name;
@@ -223,13 +223,14 @@ public abstract class Service {
     }
 
     public double getAverageGrade() {
-        if(reviews.size() == 0)
-            return 0;
-        double sum = 0;
-        for(Review review: reviews) {
-            sum += review.getGrade();
-        }
-        return sum/reviews.size();
+//        if(reviews.size() == 0)
+//            return 0;
+//        double sum = 0;
+//        for(Review review: reviews) {
+//            sum += review.getGrade();
+//        }
+//        return sum/reviews.size();
+        return 3;
     }
 
     public Integer getVersion() {
