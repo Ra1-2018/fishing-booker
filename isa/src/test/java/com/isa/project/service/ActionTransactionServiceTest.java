@@ -72,9 +72,9 @@ public class ActionTransactionServiceTest {
     }
 
     private Reservation createReservation() {
-        Service service = serviceService.findById(79L);
+        Service service = serviceService.findById(1L);
 
-        Client client = (Client) appUserService.findOne(81L);
+        Client client = (Client) appUserService.findOne(1L);
 
         Reservation reservation = new Reservation();
         reservation.setReservationStartDateAndTime(new Date());
@@ -87,7 +87,7 @@ public class ActionTransactionServiceTest {
     }
 
     private Action createAction() {
-        Service service = serviceService.findById(79L);
+        Service service = serviceService.findById(1L);
 
         Action action = new Action();
         action.setMaxNumberOfPeople(3);

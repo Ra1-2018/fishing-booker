@@ -43,7 +43,7 @@ public class FreePeriodTransactionServiceTest {
             @Override
             public void run() {
                 System.out.println("Startovan Thread 1");
-                TimeRange freePeriod = timeRangeService.findById(82L);
+                TimeRange freePeriod = timeRangeService.findById(1L);
                 try { Thread.sleep(3000); } catch (InterruptedException e) {}
                 freePeriodTransactionService.removeFreePeriod(freePeriod);
             }
@@ -69,9 +69,9 @@ public class FreePeriodTransactionServiceTest {
     }
 
     private Reservation createReservation() {
-        Service service = serviceService.findById(79L);
+        Service service = serviceService.findById(1L);
 
-        Client client = (Client) appUserService.findOne(81L);
+        Client client = (Client) appUserService.findOne(1L);
 
         Reservation reservation = new Reservation();
         reservation.setReservationStartDateAndTime(new Date());
