@@ -96,12 +96,14 @@ public class AdventureDTO {
     public AdventureDTO(Adventure adventure) {
         this.id = adventure.getId();
         this.name = adventure.getName();
-        this.city = adventure.getLocation().getCity();
-        this.street = adventure.getLocation().getStreet();
-        this.number = adventure.getLocation().getNumber();
-        this.zipCode = adventure.getLocation().getZipCode();
-        this.latitude = adventure.getLocation().getLatitude();
-        this.longitude = adventure.getLocation().getLongitude();
+        if (adventure.getLocation() != null) {
+            this.city = adventure.getLocation().getCity();
+            this.street = adventure.getLocation().getStreet();
+            this.number = adventure.getLocation().getNumber();
+            this.zipCode = adventure.getLocation().getZipCode();
+            this.latitude = adventure.getLocation().getLatitude();
+            this.longitude = adventure.getLocation().getLongitude();
+        }
         this.description = adventure.getDescription();
         this.instructorBiography = adventure.getInstructorBiography();
         this.maxNumberOfPeople = adventure.getMaxNumberOfPeople();
