@@ -20,6 +20,7 @@ public class AppUserService {
     private UserRoleService roleService;
 
     public AppUser findOne(long id) { return appUserRepository.findById(id).orElse(null); }
+    public AppUser findOneByEmail(String email) { return appUserRepository.findByEmail(email); }
 
     public List<AppUser> findAll() { return appUserRepository.findAll(); }
 

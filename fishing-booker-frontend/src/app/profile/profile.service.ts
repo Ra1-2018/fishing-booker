@@ -29,6 +29,14 @@ export class ProfileService {
     return this._http.get<Observable<any>>('http://localhost:8080/users/declineReview/' + id);
   }
 
+  approveDeletionRequest(id: number): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/approveDeletion/' + id);
+  }
+
+  approveComplaintRequest(id: number): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/approveComplaint/' + id);
+  }
+
   getRequests(): Observable<any[]> {
     return this._http.get<any[]>('http://localhost:8080/users/requests')
     .pipe(
@@ -38,6 +46,20 @@ export class ProfileService {
 
   getReviews(): Observable<any[]> {
     return this._http.get<any[]>('http://localhost:8080/users/reviews')
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
+
+  getDeletionRequests(): Observable<any[]> {
+    return this._http.get<any[]>('http://localhost:8080/users/deletionRequests')
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
+
+  getComplaintRequests(): Observable<any[]> {
+    return this._http.get<any[]>('http://localhost:8080/users/complaints')
     .pipe(
       tap(data => console.log("data: ", data))
     )
@@ -59,6 +81,14 @@ export class ProfileService {
 
   submitRegistrationRequest(registrationRequest:any) {
     return this._http.post<Observable<any>>('http://localhost:8080/users/decline', registrationRequest)
+  }
+
+  submitDeletionResponse(deletionResponse:any) {
+    return this._http.post<Observable<any>>('http://localhost:8080/users/declineDeletion', deletionResponse)
+  }
+
+  submitComplaintResponse(complaintResponse:any) {
+    return this._http.post<Observable<any>>('http://localhost:8080/users/declineComplaint', complaintResponse)
   }
 
 }

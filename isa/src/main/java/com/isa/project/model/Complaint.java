@@ -22,6 +22,9 @@ public class Complaint {
     @Column
     private Date dateSubmitted;
 
+    @Column
+    private boolean approved;
+
     public Complaint() {}
 
     public Complaint(long id, Client client, Service service, String content, ResponseToComplaint responseToComplaint, Date dateSubmitted) {
@@ -31,6 +34,7 @@ public class Complaint {
         this.content = content;
         this.responseToComplaint = responseToComplaint;
         this.dateSubmitted = dateSubmitted;
+        this.approved = false;
     }
 
     public long getId() {
@@ -79,5 +83,13 @@ public class Complaint {
 
     public void setDateSubmitted(Date dateSubmitted) {
         this.dateSubmitted = dateSubmitted;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }
