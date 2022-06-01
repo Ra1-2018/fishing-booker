@@ -163,7 +163,7 @@ public class AppUserController {
         appUser.setEnabled(true);
         appUserService.save(appUser);
 
-        return new RedirectView("http://localhost:4200/login");
+        return new RedirectView("https://fishing-booker-client.herokuapp.com/login");
     }
 
     @GetMapping("/approve/{id}")
