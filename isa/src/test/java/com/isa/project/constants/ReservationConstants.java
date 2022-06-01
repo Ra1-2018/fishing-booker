@@ -11,7 +11,7 @@ public class ReservationConstants {
     public static final Long DB_ID = 1L;
     public static final Date DB_START_DATE = new GregorianCalendar(2022, Calendar.MAY, 5).getTime();
     public static final int DB_DURATION = 3;
-    public static final int DB_NUMBER_OF_PEOPLE = 3;
+    public static final int DB_NUMBER_OF_PEOPLE = 5;
     public static final double DB_PRICE = 90;
 
     public static final Date NEW_START_DATE = new GregorianCalendar(2022, Calendar.MAY, 8).getTime();
@@ -24,6 +24,6 @@ public class ReservationConstants {
 
     public static final Long DB_ID_TO_DELETE = 3L;
 
-    public static final Long CLIENT_ID = 53L;
+    public static final Long CLIENT_ID = 1L;
     public static final int DB_COUNT = 1;
 }
