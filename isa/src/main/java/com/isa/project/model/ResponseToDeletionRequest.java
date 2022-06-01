@@ -7,7 +7,7 @@ import java.util.Date;
 public class ResponseToDeletionRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "administrator_id")
     private Administrator administrator;
@@ -32,11 +32,11 @@ public class ResponseToDeletionRequest {
         this.approved = false;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

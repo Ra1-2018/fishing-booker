@@ -5,7 +5,7 @@ import com.isa.project.model.DeletionRequest;
 import java.util.Date;
 
 public class DeletionRequestDTO {
-    private long id;
+    private Long id;
     private String userEmail;
     private String explanation;
     private Date dateSubmitted;
@@ -13,7 +13,7 @@ public class DeletionRequestDTO {
 
     public DeletionRequestDTO() {}
 
-    public DeletionRequestDTO(long id, String userEmail, String explanation, Date dateSubmitted, boolean approved) {
+    public DeletionRequestDTO(Long id, String userEmail, String explanation, Date dateSubmitted, boolean approved) {
         this.id = id;
         this.userEmail = userEmail;
         this.explanation = explanation;
@@ -23,7 +23,7 @@ public class DeletionRequestDTO {
 
     public DeletionRequestDTO(DeletionRequest deletionRequest) { this(deletionRequest.getId(), deletionRequest.getUserEmail(), deletionRequest.getExplanation(), deletionRequest.getDateSubmitted(), deletionRequest.isApproved()); }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

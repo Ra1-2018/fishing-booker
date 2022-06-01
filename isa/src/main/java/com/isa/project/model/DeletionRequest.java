@@ -7,7 +7,7 @@ import java.util.Date;
 public class DeletionRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column
     private String userEmail;
     @Column
@@ -25,7 +25,7 @@ public class DeletionRequest {
 
     public DeletionRequest() {}
 
-    public DeletionRequest(long id, String userEmail, String explanation, ResponseToDeletionRequest responseToDeletionRequest, Date dateSubmitted) {
+    public DeletionRequest(Long id, String userEmail, String explanation, ResponseToDeletionRequest responseToDeletionRequest, Date dateSubmitted) {
         this.id = id;
         this.userEmail = userEmail;
         this.explanation = explanation;
@@ -34,11 +34,11 @@ public class DeletionRequest {
         this.approved = false;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

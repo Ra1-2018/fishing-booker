@@ -133,7 +133,7 @@ export class ProfileComponent implements OnInit {
     const deletionResponse = {
       explanation: this.deletionResponseFormGroup.get('explanation')?.value,
       userID: this.userID,
-      deletionRequestID: this.deletionRequestID,
+      requestID: this.deletionRequestID,
     }
     this.profileService.submitDeletionResponse(deletionResponse).subscribe({
       next: () => {
@@ -147,9 +147,9 @@ export class ProfileComponent implements OnInit {
 
   submitComplaintResponse() {
     const complaintRequest = {
-      explanation: this.complaintRequestFormGroup.get('explanation')?.value,
+      content: this.complaintRequestFormGroup.get('explanation')?.value,
       userID: this.userID,
-      complaintRequestID: this.complaintRequestID,
+      requestID: this.complaintRequestID,
     }
     this.profileService.submitComplaintResponse(complaintRequest).subscribe({
       next: () => {

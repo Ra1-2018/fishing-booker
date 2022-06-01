@@ -293,7 +293,7 @@ public class AppUserController {
         if(review == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        reviewService.remove(id);
+        reviewService.remove(review.getId());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -357,7 +357,7 @@ public class AppUserController {
     @PostMapping("/declineComplaint")
     public ResponseEntity<Void> declineComplaint(@RequestBody ResponseToComplaintDTO responseToComplaintDTO) {
 
-        Complaint request = complaintService.findById(responseToComplaintDTO.getId());
+        Complaint request = complaintService.findById(responseToComplaintDTO.getRequestID());
         Administrator admin = (Administrator) appUserService.findOne(responseToComplaintDTO.getUserID());
         ResponseToComplaint response = new ResponseToComplaint(null, admin, request, responseToComplaintDTO.getContent());
 
