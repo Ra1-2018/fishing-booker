@@ -146,6 +146,7 @@ public class AppUserController {
     public RedirectView activate(@PathVariable("token") String token) {
 
         VerificationToken verificationToken = verificationTokenService.findByToken(token);
+        //System.out.println(verificationToken.toString());
         //if (verificationToken == null) {
         //String message = messages.getMessage("auth.message.invalidToken", null, locale);
         //model.addAttribute("message", message);

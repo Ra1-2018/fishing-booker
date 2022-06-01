@@ -119,22 +119,35 @@ export class CottageDetailOwnerComponent implements OnInit {
     this.router.navigate(['cottage-edit/'+ id]);
   }
 
-  public onClickAddFreePeriod(): void{
+  public onClickAddFreePeriod(): void {
 
     if (this.myFormGroup.invalid) {
       alert('Invalid input');
       return;
-  }
+      }
 
     this.cottageDetailOwnerService.addFreePeriod(this.myFormGroup.getRawValue()).subscribe({
       next: (data) => {
       alert("Succesfully created!")
-      this.getCottage(this.id as number);
-
+      this.cottageDetailOwnerService.getCottage(this.id).subscribe({
+        next: cottage => this.cottage = cottage, 
+        error: err => this.errorMessage = err
+      })
     },
       error: (err) => {alert("Error has occured, free period was not created!")}
     });
+  }
 
+  public onClickDelete(id: number): void {
+    this.cottageDetailOwnerService.deleteFreePeriod(id).subscribe({
+      next: (data) => {
+        this.cottageDetailOwnerService.getCottage(this.id).subscribe( {
+        next: cottage => this.cottage = cottage,
+        error: err => this.errorMessage = err
+      })
+    },
+    error: (err) => {alert("Error has occured, free period was not deleted!")}
+    });
   }
 
   public onClickAddAction(): void {
@@ -157,8 +170,10 @@ export class CottageDetailOwnerComponent implements OnInit {
     this.cottageDetailOwnerService.addAction(action).subscribe({
       next: (data) => {
       alert("Succesfully created!")
-      this.getCottage(this.id as number);
-
+      this.cottageDetailOwnerService.getCottage(this.id).subscribe({
+        next: cottage => this.cottage = cottage, 
+        error: err => this.errorMessage = err
+      })
       },
       error: (err) => {alert("Error has occured, action was not created!")}
     });
@@ -174,7 +189,10 @@ export class CottageDetailOwnerComponent implements OnInit {
     this.cottageDetailOwnerService.addAdditionalService(this.additionalServiceFormGroup.getRawValue()).subscribe({
       next: (data) => {
       alert("Succesfully created!")
-      this.getCottage(this.id as number);
+      this.cottageDetailOwnerService.getCottage(this.id).subscribe({
+        next: cottage => this.cottage = cottage, 
+        error: err => this.errorMessage = err
+      })
 
     },
       error: (err) => {alert("Error has occured, additional service was not created!")}
@@ -215,7 +233,10 @@ export class CottageDetailOwnerComponent implements OnInit {
     console.log(reservation);
     this.cottageDetailOwnerService.makeReservation(reservation).subscribe({
       next: (data) => {
-      this.getCottage(this.id as number);
+        this.cottageDetailOwnerService.getCottage(this.id).subscribe({
+          next: cottage => this.cottage = cottage, 
+          error: err => this.errorMessage = err
+        })
       alert("Succesfully created!")
 
       },

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Time;
 import java.util.*;
 
 @Service
@@ -22,6 +23,12 @@ public class ServiceService {
 
     @Autowired
     private TimeRangeService timeRangeService;
+
+    @Autowired
+    private ReservationService reservationService;
+
+    @Autowired
+    private ActionService actionService;
 
     public List<com.isa.project.model.Service> findAll() { return serviceRepository.findAll(); }
 
@@ -76,12 +83,19 @@ public class ServiceService {
         c.setTime(startDate);
         c.add(Calendar.DATE, action.getDurationInDays());
         Date endDate = c.getTime();
-        for(TimeRange timeRange : service.getFreePeriods()) {
-            if(startDate.after(timeRange.getStartDate()) && endDate.before(timeRange.getEndDate())) {
+
+        for (TimeRange timeRange : service.getFreePeriods()) {
+            if (startDate.after(timeRange.getStartDate()) && endDate.before(timeRange.getEndDate())) {
                 return true;
             }
         }
         return false;
+    }
+
+    public void RemoveFreePeriodTimeRange(TimeRange timeRange) {
+        com.isa.project.model.Service service = timeRange.getService();
+        service.removeFreePeriod(timeRange);
+        save(service);
     }
 
     public void RemoveFreePeriod(Reservation reservation) {
@@ -95,6 +109,29 @@ public class ServiceService {
             if(reservationStartTime.after(timeRange.getStartDate()) && reservationEndTime.before(timeRange.getEndDate())) {
                 TimeRange timeRange1 = new TimeRange(null, timeRange.getStartDate(), reservationStartTime, service);
                 TimeRange timeRange2 = new TimeRange(null, reservationEndTime, timeRange.getEndDate(), service);
+                service.removeFreePeriod(timeRange);
+                timeRangeService.save(timeRange);
+                service.addFreePeriod(timeRange1);
+                service.addFreePeriod(timeRange2);
+                save(service);
+                timeRangeService.deleteById(timeRange.getId());
+                return;
+            }
+        }
+        save(service);
+    }
+
+    public void RemoveFreePeriodAction(Action action) {
+        com.isa.project.model.Service service = action.getService();
+        Date actionStartTime = action.getStartTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(actionStartTime);
+        c.add(Calendar.DATE, action.getDurationInDays());
+        Date actionEndTime = c.getTime();
+        for(TimeRange timeRange : service.getFreePeriods()) {
+            if(actionStartTime.after(timeRange.getStartDate()) && actionEndTime.before(timeRange.getEndDate())) {
+                TimeRange timeRange1 = new TimeRange(null, timeRange.getStartDate(), actionStartTime, service);
+                TimeRange timeRange2 = new TimeRange(null, actionEndTime, timeRange.getEndDate(), service);
                 service.removeFreePeriod(timeRange);
                 timeRangeService.save(timeRange);
                 service.addFreePeriod(timeRange1);
@@ -173,6 +210,34 @@ public class ServiceService {
 
         if (freePeriods.size() == 0 ) return  true;
 
+        for(Reservation reservation : reservationService.findByService(newFreePeriod.getService())) {
+            Calendar calendar = Calendar.getInstance();
+            Date reservationStartDate = reservation.getReservationStartDateAndTime();
+            calendar.setTime(reservationStartDate);
+            calendar.add(Calendar.DATE, reservation.getDurationInDays());
+            Date reservationEndDate = calendar.getTime();
+            if (newStartDate.after(reservationStartDate) && newStartDate.before(reservationEndDate)) {
+                return false;
+            }
+            if (newEndDate.after(reservationStartDate) && newEndDate.before(reservationEndDate)) {
+                return false;
+            }
+        }
+
+        for(Action action : actionService.findByService(newFreePeriod.getService())) {
+            Calendar calendar = Calendar.getInstance();
+            Date actionStartDate = action.getStartTime();
+            calendar.setTime(actionStartDate);
+            calendar.add(Calendar.DATE, action.getDurationInDays());
+            Date actionEdnDate = calendar.getTime();
+            if (newStartDate.after(actionStartDate) && newStartDate.before(actionEdnDate)) {
+                return false;
+            }
+            if (newEndDate.after(actionStartDate) && newEndDate.before(actionEdnDate)) {
+                return false;
+            }
+        }
+
         for(TimeRange period : freePeriods) {
             Date oldStartDate = period.getStartDate();
             Date oldEndDate = period.getEndDate();
@@ -190,6 +255,7 @@ public class ServiceService {
                 return false;
             }
         }
+
         return true;
     }
 
