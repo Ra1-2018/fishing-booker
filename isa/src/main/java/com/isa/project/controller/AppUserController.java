@@ -156,7 +156,7 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        String password = UUID.randomUUID().toString();
+        String password = "sdh4ny7kid93nd";
         AppUser appUser = new Administrator(appUserDTO.getId(), appUserDTO.getEmail(), passwordEncoder.encode(password), appUserDTO.getName(), appUserDTO.getSurname(), appUserDTO.getAddress(), appUserDTO.getCity(), appUserDTO.getCountry(), appUserDTO.getTelephone());
         appUser.setEnabled(true);
         appUser = appUserService.saveAdministrator(appUser);
