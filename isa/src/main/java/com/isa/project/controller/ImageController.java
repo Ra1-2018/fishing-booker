@@ -72,7 +72,7 @@ public class ImageController {
         String fileName = image.getOriginalFilename();
         //String path = System.getProperty("user.dir");
         //String filePath = path + "\\images\\" + fileName;
-        String filePath = "tmp/" + fileName;
+        String filePath = "/tmp/" + fileName;
 
         imageService.save(new Image(null, filePath, service));
 
