@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -25,6 +27,8 @@ public class ImageController {
 
     @Autowired
     private ServiceService serviceService;
+
+    private static final String BASE_PATH ="/tmp";
 
     @GetMapping(value="/{serviceId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<ImageDTO>> getImagesByService(@PathVariable long serviceId) {
@@ -70,17 +74,18 @@ public class ImageController {
         }
 
         String fileName = image.getOriginalFilename();
-        //String path = System.getProperty("user.dir");
-        //String filePath = path + "\\images\\" + fileName;
-        String filePath = "/tmp/" + fileName;
-
-        imageService.save(new Image(null, filePath, service));
-
+        String normalizedPath = Paths.get(fileName).normalize().toString();
+        File file = new File(BASE_PATH, normalizedPath);
         try {
-            image.transferTo( new File(filePath));
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            if (file.getCanonicalPath().startsWith(BASE_PATH)) {
+                imageService.save(new Image(null, file.getPath(), service));
+                image.transferTo(file);
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -124,11 +124,13 @@ public class TokenUtils {
      * @return Korisničko ime iz tokena ili null ukoliko ne postoji.
      */
     public String getUsernameFromToken(String token) {
-        String username;
+        String username = null;
 
         try {
             final Claims claims = this.getAllClaimsFromToken(token);
-            username = claims.getSubject();
+            if(claims != null) {
+                username = claims.getSubject();
+            }
         } catch (ExpiredJwtException ex) {
             throw ex;
         } catch (Exception e) {
@@ -144,10 +146,12 @@ public class TokenUtils {
      * @return Datum kada je token kreiran.
      */
     public Date getIssuedAtDateFromToken(String token) {
-        Date issueAt;
+        Date issueAt = null;
         try {
             final Claims claims = this.getAllClaimsFromToken(token);
-            issueAt = claims.getIssuedAt();
+            if(claims != null) {
+                issueAt = claims.getIssuedAt();
+            }
         } catch (ExpiredJwtException ex) {
             throw ex;
         } catch (Exception e) {
@@ -163,10 +167,12 @@ public class TokenUtils {
      * @return Tip uredjaja.
      */
     public String getAudienceFromToken(String token) {
-        String audience;
+        String audience = null;
         try {
             final Claims claims = this.getAllClaimsFromToken(token);
-            audience = claims.getAudience();
+            if(claims != null) {
+                audience = claims.getAudience();
+            }
         } catch (ExpiredJwtException ex) {
             throw ex;
         } catch (Exception e) {
@@ -182,10 +188,12 @@ public class TokenUtils {
      * @return Datum do kojeg token važi.
      */
     public Date getExpirationDateFromToken(String token) {
-        Date expiration;
+        Date expiration = null;
         try {
             final Claims claims = this.getAllClaimsFromToken(token);
-            expiration = claims.getExpiration();
+            if(claims != null) {
+                expiration = claims.getExpiration();
+            }
         } catch (ExpiredJwtException ex) {
             throw ex;
         } catch (Exception e) {

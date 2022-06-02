@@ -17,7 +17,7 @@ public class ComplaintService {
     public Complaint save(Complaint complaint) { return complaintRepository.save(complaint); }
 
     public Complaint findById(long id) {
-        return complaintRepository.findById(id).orElseGet(null);
+        return complaintRepository.findById(id).orElse(null);
     }
     public void remove(long id) {
         complaintRepository.deleteById(id);
