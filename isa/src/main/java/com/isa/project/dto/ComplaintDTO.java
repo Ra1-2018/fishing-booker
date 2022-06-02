@@ -13,17 +13,20 @@ public class ComplaintDTO {
     private String content;
     private Date dateSubmitted;
 
+    private boolean approved;
+
     public ComplaintDTO() {}
 
-    public ComplaintDTO(long id, AppUserDTO client, ServiceDTO service, String content, Date dateSubmitted) {
+    public ComplaintDTO(long id, AppUserDTO client, ServiceDTO service, String content, Date dateSubmitted, boolean approved) {
         this.id = id;
         this.client = client;
         this.service = service;
         this.content = content;
         this.dateSubmitted = dateSubmitted;
+        this.approved = approved;
     }
 
-    public ComplaintDTO(Complaint complaint) {this(complaint.getId(), new AppUserDTO(complaint.getClient()), new ServiceDTO(complaint.getService()), complaint.getContent(), complaint.getDateSubmitted()); }
+    public ComplaintDTO(Complaint complaint) {this(complaint.getId(), new AppUserDTO(complaint.getClient()), new ServiceDTO(complaint.getService()), complaint.getContent(), complaint.getDateSubmitted(), complaint.isApproved()); }
 
     public long getId() {
         return id;

@@ -76,7 +76,7 @@ public class BoatDTO {
         }
     }
 
-    public BoatDTO(long id, String name, String type, String length, int numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String city, String street, String number, String zipCode, String latitude, String longitude, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner, double averageGrade, Set<AdditionalServiceDTO> additionalServices) {
+    public BoatDTO(long id, String name, String type, String length, int numberOfEngines, String enginePower, String maximumVelocity, String navigationEquipment, String city, String street, String number, String zipCode, String latitude, String longitude, String description, int maxNumberOfPeople, String behaviorRules, String fishingEquipment, double pricePerDay, String cancellationTerms, AppUserDTO boatOwner, double averageGrade, Set<AdditionalServiceDTO> additionalServices, Set<TimeRangeDTO> freePeriods, Set<ActionDTO> actions) {
         this.id = id;
         this.name = name;
         this.type = type;

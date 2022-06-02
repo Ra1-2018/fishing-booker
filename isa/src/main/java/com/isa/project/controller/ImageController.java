@@ -55,7 +55,9 @@ public class ImageController {
         }
 
         File file = new File(image.getPath());
-        file.delete();
+        if(!file.delete()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         imageService.deleteById(id);
 
@@ -73,7 +75,7 @@ public class ImageController {
 
         String fileName = image.getOriginalFilename();
         String path = System.getProperty("user.dir");
-        String filePath = path + "\\isa\\images\\" + fileName;
+        String filePath = path + "\\images\\" + fileName;
 
         imageService.save(new Image(null, filePath, service));
 

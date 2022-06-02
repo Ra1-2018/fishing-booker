@@ -97,6 +97,51 @@
                     </tbody>
                 </table>
             </div>
+
+            <div>                
+                <br>
+                <h3 *ngIf='deletionRequests && deletionRequests.length' class="h3">Deletion requests</h3>
+                <table *ngIf='deletionRequests && deletionRequests.length' class="table">
+                    <thead>
+                        <tr>
+                            <th class="col">Client Email</th>
+                            <th class="col">Explanation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor = 'let deletionRequest of deletionRequests'>
+                            <td>{{deletionRequest.userEmail}}</td>
+                            <td>{{deletionRequest.explanation}}</td>
+                            <td><button name="approveDeletionRequest" class="btn btn-secondary" (click)="onApproveDeletionRequest(deletionRequest.id);">Approve</button></td>
+                            <td><button name="declineDeletionRequest" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deletionRequestModal" (click)="onDeclineDeletion(deletionRequest.id);">Decline</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>                
+                <br>
+                <h3 *ngIf='complaintRequests && complaintRequests.length' class="h3">Complaint requests</h3>
+                <table *ngIf='complaintRequests && complaintRequests.length' class="table">
+                    <thead>
+                        <tr>
+                            <th class="col">Service</th>
+                            <th class="col">Client Name</th>
+                            <th class="col">Content</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor = 'let complaint of complaintRequests'>
+                            <td>{{complaint.service.name}}</td>
+                            <td>{{complaint.client.name}} {{complaint.client.surname}}</td>
+                            <td>{{complaint.content}}</td>
+                            <td><button name="approveComplaintRequest" class="btn btn-secondary" (click)="onApproveComplaintRequest(complaint.id);">Approve</button></td>
+                            <td><button name="declineComplaintRequest" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#complaintRequestModal" (click)="onDeclineComplaint(complaint.id);">Decline</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>
@@ -174,7 +219,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="registrationRequestModalLabel">Deletion request</h5>
+          <h5 class="modal-title" id="registrationRequestModalLabel">Registration request</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -189,6 +234,66 @@
                         <div class="modal-footer">
                             <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" data-bs-dismiss="modal" class="btn btn-primary" (click)="submitRegistrationRequest()">Submit</button>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="deletionRequestModal" tabindex="-1" aria-labelledby="deletionRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deletionRequestModalLabel">Deletion response</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <ng-container [formGroup]="this.deletionResponseFormGroup">
+                        <div class="mb-3">
+                            <label for="explanation" class="form-label">Explanation:</label>
+                            <textarea rows="10" id="explanation" type="text" class="form-control" formControlName="explanation"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-primary" (click)="submitDeletionResponse()">Submit</button>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="complaintRequestModal" tabindex="-1" aria-labelledby="complaintRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="complaintRequestModalLabel">Complaint response</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <ng-container [formGroup]="this.complaintRequestFormGroup">
+                        <div class="mb-3">
+                            <label for="explanation" class="form-label">Explanation:</label>
+                            <textarea rows="10" id="explanation" type="text" class="form-control" formControlName="explanation"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-primary" (click)="submitComplaintResponse()">Submit</button>
                         </div>
                     </ng-container>
                 </div>

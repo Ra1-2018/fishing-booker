@@ -1,32 +1,38 @@
 package com.isa.project.dto;
 
 import com.isa.project.model.ResponseToComplaint;
+import com.isa.project.model.ResponseToDeletionRequest;
 
 import java.util.Date;
 
 public class ResponseToComplaintDTO {
-    private long id;
-    private AppUserDTO administrator;
+    private Long id;
+    private Long userID;
+
+    private Long requestID;
     private String content;
     private Date dateSubmitted;
+    private boolean approved;
 
     public ResponseToComplaintDTO() {}
 
-    public ResponseToComplaintDTO(long id, AppUserDTO administrator, String content, Date dateSubmitted) {
-        this.id = id;
-        this.administrator = administrator;
-        this.content = content;
-        this.dateSubmitted = dateSubmitted;
+    public ResponseToComplaintDTO(ResponseToComplaint response) {
+        this(response.getId(), response.getContent(), response.getAdministrator().getId(), response.getComplaint().getId(), response.isApproved());
     }
 
-    public ResponseToComplaintDTO(ResponseToComplaint responseToComplaint) { this(responseToComplaint.getId(), new AppUserDTO(responseToComplaint.getAdministrator()), responseToComplaint.getContent(), responseToComplaint.getDateSubmitted());}
-
-    public long getId() {
+    public ResponseToComplaintDTO(Long id, String explanation, Long userID, Long requestID, boolean approved) {
+        this.id = id;
+        this.content = explanation;
+        this.userID = userID;
+        this.requestID = requestID;
+        this.approved = approved;
+    }
+    public Long getId() {
         return id;
     }
 
-    public AppUserDTO getAdministrator() {
-        return administrator;
+    public Long getUserID() {
+        return userID;
     }
 
     public String getContent() {
@@ -35,5 +41,13 @@ public class ResponseToComplaintDTO {
 
     public Date getDateSubmitted() {
         return dateSubmitted;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public Long getRequestID() {
+        return requestID;
     }
 }

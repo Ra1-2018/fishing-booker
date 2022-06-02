@@ -7,7 +7,7 @@ import java.util.Date;
 public class ResponseToComplaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "administrator_id")
     private Administrator administrator;
@@ -18,21 +18,24 @@ public class ResponseToComplaint {
     @Column
     private Date dateSubmitted;
 
+    @Column
+    private boolean approved;
+
     public ResponseToComplaint() {}
 
-    public ResponseToComplaint(long id, Administrator administrator, Complaint complaint, String content, Date dateSubmitted) {
+    public ResponseToComplaint(Long id, Administrator administrator, Complaint complaint, String content) {
         this.id = id;
         this.administrator = administrator;
         this.complaint = complaint;
         this.content = content;
-        this.dateSubmitted = dateSubmitted;
+        this.approved = false;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,6 +61,14 @@ public class ResponseToComplaint {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     public Date getDateSubmitted() {

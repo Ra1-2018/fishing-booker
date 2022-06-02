@@ -241,6 +241,7 @@ public class ReservationController {
             emailService.sendReservationNotification(reservation);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
     }

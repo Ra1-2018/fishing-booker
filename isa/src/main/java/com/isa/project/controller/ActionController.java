@@ -76,6 +76,7 @@ public class ActionController {
             emailService.sendActionNotification(action);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         return new ResponseEntity<>(new ActionDTO(action), HttpStatus.OK);
@@ -112,6 +113,7 @@ public class ActionController {
                 emailService.sendReservationNotification(reservation);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
             return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);
         } catch(ObjectOptimisticLockingFailureException e) {

@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdventureDetailOwnerService } from './adventure-detail-owner.service';
+import 'ol/ol.css';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import { OSM } from 'ol/source';
+import TileLayer from 'ol/layer/Tile';
+import { fromLonLat, toLonLat } from 'ol/proj';
 
 @Component({
   selector: 'app-adventure-detail-owner',
@@ -10,6 +16,7 @@ import { AdventureDetailOwnerService } from './adventure-detail-owner.service';
 })
 export class AdventureDetailOwnerComponent implements OnInit {
 
+  public map!: Map
   images: any[] = [];
   adventure: any;
   additionalServicesField: any[] = [];
@@ -18,6 +25,7 @@ export class AdventureDetailOwnerComponent implements OnInit {
   id: number = 0;
   selectedFile: any;
   isOwner: boolean = true;
+  coord: any[] = [];
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
@@ -58,9 +66,26 @@ export class AdventureDetailOwnerComponent implements OnInit {
   }
 
   getAdventure(id: number): void {
-    this.adventureDetailOwnerService.getAdventure(id).subscribe(
-      adventure => this.adventure = adventure,
-      )
+    this.adventureDetailOwnerService.getAdventure(id).subscribe({
+      next: adventure => { 
+        this.adventure = adventure,
+        this.coord = fromLonLat([parseFloat(this.adventure.longitude), parseFloat(this.adventure.latitude)]),
+        this.map = new Map({
+          layers: [
+            new TileLayer({
+              source: new OSM(),
+            }),
+          ],
+          target: 'map',
+          view: new View({ 
+            
+            center: this.coord,
+            zoom:17, maxZoom: 18, 
+          }),
+        }); 
+      },
+      error: err => this.errorMessage = err
+    })
   }
 
   getImages(id: number) {

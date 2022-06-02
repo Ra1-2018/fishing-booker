@@ -48,10 +48,6 @@
                       <input type="name" class="form-control" id="name" placeholder="Name" formControlName="name">
                     </div>
                     <div class="mb-2">
-                      <label for="address" class="form-label">Address:</label>
-                      <input type="address" class="form-control" id="address" placeholder="Address" formControlName="address">
-                    </div>
-                    <div class="mb-2">
                       <label for="description" class="form-label">Description:</label>
                       <input type="description" class="form-control" id="description" placeholder="Description" formControlName="description">
                     </div>
@@ -61,7 +57,7 @@
                     </div>
                     <div class="mb-2">
                       <label for="pricePerDay" class="form-label">Price per day:</label>
-                      <input type="pricePerDay" class="form-control" id="pricePerDay" placeholder="Price per day" formControlName="pricePerDay">
+                      <input type="number" class="form-control" id="pricePerDay" placeholder="Price per day" formControlName="pricePerDay">
                     </div>
                     <div class="mb-2">
                       <label for="maxNumberOfPeople" class="form-label">Maximum number of people:</label>
@@ -70,6 +66,30 @@
                     <div class="mb-2">
                       <label for="instructorBiography" class="form-label">Instructor biography:</label>
                       <input type="instructorBiography" class="form-control" id="instructorBiography" placeholder="instructor biography" formControlName="instructorBiography">
+                    </div>
+                    <div hidden>
+                      <input type="text" id="latitudeInput">
+                      <input type="text" id="longitudeInput">
+                    </div>
+                    <div class="mb-2">
+                      <label for="cityInput" class="form-label"> City </label>
+                      <input id="cityInput" type="text" class="form-control" placeholder="City" formControlName="city" >
+                    </div>
+                    <div class="mb-2">
+                      <label for="streetInput" class="form-label"> Street </label>
+                      <input id="streetInput" type="text" class="form-control" placeholder="Street" formControlName="street"  >
+                    </div>
+                    <div class="mb-2">
+                      <label for="numberInput" class="form-label"> Number </label>
+                      <input id="numberInput" type="text" class="form-control" placeholder="Number" formControlName="number" >
+                    </div>
+                    <div class="mb-2">
+                      <label for="zipCodeInput" class="form-label"> Zip code </label>
+                      <input id="zipCodeInput" type="text" class="form-control" placeholder="ZIP code" formControlName="zipCode" >
+                    </div>
+                    <div class="mb-2"> 
+                      <div id="map" class="map" click="onMapClick()">
+                      </div>
                     </div>
                     <div class="mb-2">
                       <label for="fishingGear" class="form-label">Fishing gear:</label>
