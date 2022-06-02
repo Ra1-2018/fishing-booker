@@ -8,7 +8,7 @@ jobs:
         environment:
           TEST_DATABASE_URL: postgresql://postgres@localhost/circle_test
         auth:
-          username: nikolaivanovic-user
+          username: nikolaivanovic
           password: $DOCKERHUB_PASSWORD
       - image: cimg/postgres:14.0
         auth:
