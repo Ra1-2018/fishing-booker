@@ -35,11 +35,11 @@ export class ProfileService {
   }
 
   approveDeletionRequest(id: number): Observable<any> {
-    return this._http.get<Observable<any>>('http://localhost:8080/users/approveDeletion/' + id);
+    return this._http.get<Observable<any>>(server + 'users/approveDeletion/' + id);
   }
 
   approveComplaintRequest(id: number): Observable<any> {
-    return this._http.get<Observable<any>>('http://localhost:8080/users/approveComplaint/' + id);
+    return this._http.get<Observable<any>>(server + 'users/approveComplaint/' + id);
   }
 
   getRequests(): Observable<any[]> {
@@ -57,14 +57,14 @@ export class ProfileService {
   }
 
   getDeletionRequests(): Observable<any[]> {
-    return this._http.get<any[]>('http://localhost:8080/users/deletionRequests')
+    return this._http.get<any[]>(server + 'users/deletionRequests')
     .pipe(
       tap(data => console.log("data: ", data))
     )
   }
 
   getComplaintRequests(): Observable<any[]> {
-    return this._http.get<any[]>('http://localhost:8080/users/complaints')
+    return this._http.get<any[]>(server + 'users/complaints')
     .pipe(
       tap(data => console.log("data: ", data))
     )
@@ -89,11 +89,11 @@ export class ProfileService {
   }
 
   submitDeletionResponse(deletionResponse:any) {
-    return this._http.post<Observable<any>>('http://localhost:8080/users/declineDeletion', deletionResponse)
+    return this._http.post<Observable<any>>(server + 'users/declineDeletion', deletionResponse)
   }
 
   submitComplaintResponse(complaintResponse:any) {
-    return this._http.post<Observable<any>>('http://localhost:8080/users/declineComplaint', complaintResponse)
+    return this._http.post<Observable<any>>(server + 'users/declineComplaint', complaintResponse)
   }
 
 }
