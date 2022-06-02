@@ -30,7 +30,7 @@ orbs:
 workflows:
   heroku_deploy:
     jobs:
-      - build-and-test
+      - build-and-test:
           context: SonarCloud
       - heroku/deploy-via-git:
           name: deploy-server
