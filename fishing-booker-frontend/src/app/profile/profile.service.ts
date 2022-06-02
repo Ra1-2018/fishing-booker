@@ -27,11 +27,11 @@ export class ProfileService {
   }
 
   approveReviewRequest(id: number): Observable<any> {
-    return this._http.get<Observable<any>>('http://localhost:8080/users/approveReview/' + id);
+    return this._http.get<Observable<any>>(server + 'users/approveReview/' + id);
   }
 
   declineReviewRequest(id: number): Observable<any> {
-    return this._http.get<Observable<any>>('http://localhost:8080/users/declineReview/' + id);
+    return this._http.get<Observable<any>>(server + 'users/declineReview/' + id);
   }
 
   getRequests(): Observable<any[]> {
@@ -42,7 +42,7 @@ export class ProfileService {
   }
 
   getReviews(): Observable<any[]> {
-    return this._http.get<any[]>('http://localhost:8080/users/reviews')
+    return this._http.get<any[]>(server + 'users/reviews')
     .pipe(
       tap(data => console.log("data: ", data))
     )
@@ -56,14 +56,14 @@ export class ProfileService {
   }
 
   submitChangePassword(changePassword: any) {
-    return this._http.post('http://localhost:8080/users/changePassword', changePassword)
+    return this._http.post(server + 'users/changePassword', changePassword)
     .pipe(
       tap(data => console.log("data: ", data))
     );
   }
 
   submitRegistrationRequest(registrationRequest:any) {
-    return this._http.post<Observable<any>>('http://localhost:8080/users/decline', registrationRequest)
+    return this._http.post<Observable<any>>(server + 'users/decline', registrationRequest)
   }
 
 }
