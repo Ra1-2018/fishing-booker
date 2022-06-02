@@ -5,6 +5,11 @@ jobs:
     working_directory: ~/test-repository/isa
     docker:
       - image: cimg/openjdk:17.0
+        environment:
+          TEST_DATABASE_URL: postgresql://postgres@localhost/circle_test
+        auth:
+          username: nikolaivanovic-user
+          password: $DOCKERHUB_PASSWORD
       - image: cimg/postgres:14.0
         auth:
           username: nikolaivanovic
