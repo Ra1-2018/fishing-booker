@@ -5,6 +5,12 @@ jobs:
     working_directory: ~/test-repository/isa
     docker:
       - image: cimg/openjdk:17.0
+      - image: cimg/postgres:14.0
+        auth:
+          username: nikolaivanovic
+          password: $DOCKERHUB_PASSWORD
+        environment:
+          POSTGRES_USER: postgres
     steps:
       - checkout:
           path: ~/test-repository
