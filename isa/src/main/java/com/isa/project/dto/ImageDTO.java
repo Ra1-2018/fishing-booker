@@ -23,14 +23,12 @@ public class ImageDTO {
         this.id = image.getId();
         File file = new File(image.getPath());
 
-        try {
-            FileInputStream fl = new FileInputStream(file);
+        try (FileInputStream fl = new FileInputStream(file)) {
             byte[] arr = new byte[(int)file.length()];
             fl.read(arr);
             fl.close();
             this.base64 = Base64.getEncoder().encodeToString(arr);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

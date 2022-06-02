@@ -103,6 +103,7 @@ public class AppUserController {
             emailService.sendNotificationAsync(appUser, token);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
@@ -155,7 +156,7 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        String password = "sdh4ny7kid93nd";
+        String password = UUID.randomUUID().toString();
         AppUser appUser = new Administrator(appUserDTO.getId(), appUserDTO.getEmail(), passwordEncoder.encode(password), appUserDTO.getName(), appUserDTO.getSurname(), appUserDTO.getAddress(), appUserDTO.getCity(), appUserDTO.getCountry(), appUserDTO.getTelephone());
         appUser.setEnabled(true);
         appUser = appUserService.saveAdministrator(appUser);
@@ -200,10 +201,10 @@ public class AppUserController {
     public ResponseEntity<Void> approveRequest(@PathVariable("id") Long id) {
 
         RegistrationRequest request = requestService.findById(id);
-        AppUser user = request.getUser();
         if(request == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        AppUser user = request.getUser();
         request.setApproved(true);
         user.setEnabled(true);
         appUserService.save(user);
@@ -213,6 +214,7 @@ public class AppUserController {
             emailService.sendNotificationOfApprovedRegistrationRequest(request);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -223,13 +225,14 @@ public class AppUserController {
     public ResponseEntity<Void> declineRequest(@RequestBody ResponseToRegistrationRequestDTO responseRegistrationRequestDTO) {
 
         RegistrationRequest request = requestService.findById(responseRegistrationRequestDTO.getRequestID());
+        if(request == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         Administrator admin = (Administrator) appUserService.findOne(responseRegistrationRequestDTO.getUserID());
         ResponseToRegistrationRequest response = new ResponseToRegistrationRequest(null, admin, request, responseRegistrationRequestDTO.getExplanation());
 
         AppUser user = request.getUser();
-        if(request == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         request.setApproved(false);
         user.setEnabled(false);
         response.setApproved(false);
@@ -241,6 +244,7 @@ public class AppUserController {
             emailService.sendNotificationOfDeclinedRegistrationRequest(response);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -280,6 +284,7 @@ public class AppUserController {
             emailService.sendNotificationOfApprovedReview(review, user);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -333,6 +338,7 @@ public class AppUserController {
             emailService.sendNotificationOfDeclinedDeletionRequest(response);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -372,6 +378,7 @@ public class AppUserController {
             emailService.sendNotificationOfDeclinedComplaint(response);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

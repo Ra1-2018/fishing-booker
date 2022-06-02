@@ -21,6 +21,6 @@ public class BoatOwnerService {
     public List<BoatOwner> findAll() { return boatOwnerRepository.findAll(); }
 
     public BoatOwner findById(long id) {
-        return boatOwnerRepository.findById(id).orElseGet(null);
+        return boatOwnerRepository.findById(id).orElse(null);
     }
 }

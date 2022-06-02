@@ -16,6 +16,7 @@ import java.sql.Time;
 import java.util.*;
 
 @Service
+@Transactional(readOnly = true)
 public class ServiceService {
 
     @Autowired

@@ -65,7 +65,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/**").permitAll()
                 .antMatchers("/adventures/**").permitAll()
                 .antMatchers("/cottages/**").permitAll()
-                .antMatchers("/cottages/**").permitAll()
                 .antMatchers("/boats/**").permitAll()
                 .antMatchers("/actions/**").permitAll()
                 .antMatchers("/images/**").permitAll()
@@ -79,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService), BasicAuthenticationFilter.class);
 
-        http.csrf().disable();
+        //http.csrf().disable();
     }
 
     @Bean

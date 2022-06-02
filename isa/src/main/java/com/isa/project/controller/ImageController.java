@@ -55,7 +55,9 @@ public class ImageController {
         }
 
         File file = new File(image.getPath());
-        file.delete();
+        if(!file.delete()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         imageService.deleteById(id);
 

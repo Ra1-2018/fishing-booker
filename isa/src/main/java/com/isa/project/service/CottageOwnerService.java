@@ -17,7 +17,7 @@ public class CottageOwnerService {
     public List<CottageOwner> findAll() { return cottageOwnerRepository.findAll(); }
 
     public CottageOwner findById(long id) {
-        return cottageOwnerRepository.findById(id).orElseGet(null);
+        return cottageOwnerRepository.findById(id).orElse(null);
     }
 
     public CottageOwner save(CottageOwner cottageOwner) {
