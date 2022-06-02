@@ -5,18 +5,14 @@ import com.isa.project.model.Image;
 import com.isa.project.model.Service;
 import com.isa.project.service.ImageService;
 import com.isa.project.service.ServiceService;
-import org.apache.coyote.Response;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -74,8 +70,9 @@ public class ImageController {
         }
 
         String fileName = image.getOriginalFilename();
-        String path = System.getProperty("user.dir");
-        String filePath = path + "\\images\\" + fileName;
+        //String path = System.getProperty("user.dir");
+        //String filePath = path + "\\images\\" + fileName;
+        String filePath = "tmp" + File.separator + fileName;
 
         imageService.save(new Image(null, filePath, service));
 
