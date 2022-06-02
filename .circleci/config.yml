@@ -21,6 +21,9 @@ jobs:
       - run:
           name: Test
           command: mvn test
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar -Dsonar.projectKey=Ra1-2018_fishing-booker
 
 orbs:
   heroku: circleci/heroku@1.2.6
@@ -28,6 +31,7 @@ workflows:
   heroku_deploy:
     jobs:
       - build-and-test
+          context: SonarCloud
       - heroku/deploy-via-git:
           name: deploy-server
           app-name: fishing-booker-app
