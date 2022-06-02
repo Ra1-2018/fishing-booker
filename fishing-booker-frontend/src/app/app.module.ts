@@ -89,6 +89,17 @@ import { ClientPenaltiesComponent } from './client/client-penalties/client-penal
 import { AgmCoreModule } from '@agm/core';
 import { BusinessReportComponent } from './business-report/business-report.component';
 import { NgChartsModule } from 'ng2-charts';
+import { CalendarComponent } from './calendar/calendar.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { ActionDialogComponent } from './action-dialog/action-dialog.component';
+import { ReservationDialogComponent } from './reservation-dialog/reservation-dialog.component';
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -138,7 +149,10 @@ import { NgChartsModule } from 'ng2-charts';
     ReportComponent,
     ImageSlideshowComponent,
     ClientPenaltiesComponent,
-    BusinessReportComponent
+    BusinessReportComponent,
+    CalendarComponent,
+    ActionDialogComponent,
+    ReservationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -183,6 +197,7 @@ import { NgChartsModule } from 'ng2-charts';
     MatTreeModule,
     BrowserAnimationsModule,
     NgChartsModule,
+    FullCalendarModule,
     AgmCoreModule.forRoot({
 
       apiKey: 'AIzaSyD9J8JKaQinAWb0q9usoTavpickUnpKHXg',
