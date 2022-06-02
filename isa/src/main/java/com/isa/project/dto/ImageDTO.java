@@ -25,9 +25,9 @@ public class ImageDTO {
 
         try (FileInputStream fl = new FileInputStream(file)) {
             byte[] arr = new byte[(int)file.length()];
-            fl.read(arr);
-            fl.close();
-            this.base64 = Base64.getEncoder().encodeToString(arr);
+            while (fl.read(arr) > 0) {
+                this.base64 = Base64.getEncoder().encodeToString(arr);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
