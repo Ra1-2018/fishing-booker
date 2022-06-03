@@ -140,7 +140,15 @@ public abstract class Service {
         this.reservations = reservations;
     }
 
-    public Set<TimeRange> getFreePeriods() { return freePeriods;}
+    public Set<TimeRange> getFreePeriods() {
+        Set<TimeRange> freePeriods1 = new HashSet<TimeRange>();
+        for (TimeRange freePeriod:  freePeriods) {
+            if(freePeriod.isAvailable()){
+                freePeriods1.add(freePeriod);
+            }
+        }
+        return freePeriods1;
+    }
 
     public void setFreePeriods(Set<TimeRange> freePeriods) { this.freePeriods = freePeriods; }
 
@@ -155,6 +163,12 @@ public abstract class Service {
     public void addFreePeriod(TimeRange freePeriod) {
         freePeriods.add(freePeriod);
         freePeriod.setService(this);
+    }
+
+    public void addUnavailablePeriod(TimeRange unavailablePeriod) {
+        unavailablePeriod.setAvailable(false);
+        freePeriods.add(unavailablePeriod);
+        unavailablePeriod.setService(this);
     }
 
     public void removeFreePeriod(TimeRange freePeriod) {

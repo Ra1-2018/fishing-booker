@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CalendarOptions, EventApi, EventClickArg, EventInput } from '@fullcalendar/angular';
 import { ActionDialogComponent } from '../action-dialog/action-dialog.component';
 import { LoginService } from '../login/login.service';
@@ -13,22 +15,31 @@ import { CalendarService } from './calendar.service';
 })
 export class CalendarComponent implements OnInit {
 
-  @Input()
-  id!: number
   actions: any[]=[];
   unavailablePeriods: any[]=[];
   reservations: any[]=[];
   displayEvents = [] as EventInput[]
   calendarOptions!: CalendarOptions;
   currentEvents: EventApi[] = [];
+  id:any;
   
-  
+  public readonly myFormGroup: FormGroup;
 
   constructor(public readonly loginService: LoginService,
               public dialog: MatDialog,
-              public readonly calendarService: CalendarService) { }
+              private router: Router, 
+              private route: ActivatedRoute,
+              public readonly calendarService: CalendarService,
+              private readonly formBuilder: FormBuilder) {
+                this.myFormGroup = this.formBuilder.group({
+                  id: 0,
+                  startDate: [null, Validators.required],
+                  endDate: [null, Validators.required],
+                });
+               }
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id');
     this.getUnavailablePeriods();
     this.getReservations();
     this.getActions();
@@ -36,11 +47,36 @@ export class CalendarComponent implements OnInit {
   }
 
   getUnavailablePeriods() {
-
+    this.calendarService.getUnavailablePeriods(this.id).subscribe((data) => {
+      this.unavailablePeriods = data
+      
+      for (let u of this.unavailablePeriods) {
+        var startTime = new Date(u.startDate);
+        var end = new Date(u.endDate);
+        this.displayEvents.push({
+          title: 'Unavailable',
+          start: startTime.toISOString(), 
+          end: end.toISOString(),
+          color: '#595656'
+        })
+        this.loadCalendar();
+      }
+    });
   }
 
   addUnavailablePeriod(){
+    if (this.myFormGroup.invalid) {
+      alert('Invalid input');
+      return;
+    }
 
+    this.calendarService.addUnavailablePeriod(this.myFormGroup.getRawValue()).subscribe({
+      next: (data) => {
+      alert("Succesfully created!")
+      this.loadCalendar();
+    },
+      error: (err) => {alert("Error has occured, free period was not created!")}
+    });
   }
 
   getReservations(){
@@ -57,6 +93,7 @@ export class CalendarComponent implements OnInit {
           end: end.toISOString(),
           color: '#3d405b'
         })
+        this.loadCalendar();
       }
     });
   }
@@ -75,6 +112,7 @@ export class CalendarComponent implements OnInit {
           end: end.toISOString(),
           color: '#81b29a'
         })
+        this.loadCalendar();
       }
     });
   }

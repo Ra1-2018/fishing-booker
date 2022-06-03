@@ -22,4 +22,18 @@ export class CalendarService {
       tap(data => console.log("data: ", data))
     )
   }
+
+  addUnavailablePeriod(timeRange:any): Observable<any> {
+    return this._http.post<Observable<any>>('http://localhost:8080/timeRanges/unavailablePeriod', timeRange)
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
+
+  getUnavailablePeriods(id:number): Observable<any[]> {
+    return this._http.get<any[]>('http://localhost:8080/timeRanges/owner/' + localStorage.getItem('userId'))
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
 }
