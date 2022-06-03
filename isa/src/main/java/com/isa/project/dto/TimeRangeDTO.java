@@ -11,7 +11,7 @@ public class TimeRangeDTO {
     private Date endDate;
     private long serviceId;
 
-    private boolean available;
+//    private boolean available;
 
     public TimeRangeDTO() {}
 
@@ -20,7 +20,7 @@ public class TimeRangeDTO {
         this.startDate = startDate;
         this.endDate = endDate;
         this.serviceId = serviceId;
-        this.available = true;
+        //this.available = true;
     }
 
     public TimeRangeDTO(TimeRange timeRange) {
@@ -28,7 +28,7 @@ public class TimeRangeDTO {
         this.startDate = timeRange.getStartDate();
         this.endDate = timeRange.getEndDate();
         this.serviceId = timeRange.getService().getId();
-        this.available = timeRange.isAvailable();
+        //this.available = timeRange.isAvailable();
     }
 
 
@@ -40,7 +40,7 @@ public class TimeRangeDTO {
 
     public long getServiceId() { return serviceId; }
 
-    public boolean isAvailable() {
-        return available;
-    }
+//    public boolean isAvailable() {
+//        return available;
+//    }
 }

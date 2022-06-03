@@ -265,11 +265,11 @@ public class ServiceService {
         save(service);
     }
 
-    public void addUnavailablePeriod(TimeRange newUnavailablePeriod) {
-        com.isa.project.model.Service service = newUnavailablePeriod.getService();
-        service.addUnavailablePeriod(newUnavailablePeriod);
-        save(service);
-    }
+//    public void addUnavailablePeriod(TimeRange newUnavailablePeriod) {
+//        com.isa.project.model.Service service = newUnavailablePeriod.getService();
+//        service.addUnavailablePeriod(newUnavailablePeriod);
+//        save(service);
+//    }
 
     public Collection<com.isa.project.model.Service> getServicesFromReservations(Client client) {
         Collection<Reservation> reservations = client.getReservations();

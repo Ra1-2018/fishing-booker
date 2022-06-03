@@ -141,13 +141,13 @@ public abstract class Service {
     }
 
     public Set<TimeRange> getFreePeriods() {
-        Set<TimeRange> freePeriods1 = new HashSet<TimeRange>();
-        for (TimeRange freePeriod:  freePeriods) {
-            if(freePeriod.isAvailable()){
-                freePeriods1.add(freePeriod);
-            }
-        }
-        return freePeriods1;
+//        Set<TimeRange> freePeriods1 = new HashSet<TimeRange>();
+//        for (TimeRange freePeriod:  freePeriods) {
+//            if(freePeriod.isAvailable()){
+//                freePeriods1.add(freePeriod);
+//            }
+//        }
+        return freePeriods;
     }
 
     public void setFreePeriods(Set<TimeRange> freePeriods) { this.freePeriods = freePeriods; }
@@ -165,11 +165,11 @@ public abstract class Service {
         freePeriod.setService(this);
     }
 
-    public void addUnavailablePeriod(TimeRange unavailablePeriod) {
-        unavailablePeriod.setAvailable(false);
-        freePeriods.add(unavailablePeriod);
-        unavailablePeriod.setService(this);
-    }
+//    public void addUnavailablePeriod(TimeRange unavailablePeriod) {
+//        unavailablePeriod.setAvailable(false);
+//        freePeriods.add(unavailablePeriod);
+//        unavailablePeriod.setService(this);
+//    }
 
     public void removeFreePeriod(TimeRange freePeriod) {
         freePeriods.remove(freePeriod);
