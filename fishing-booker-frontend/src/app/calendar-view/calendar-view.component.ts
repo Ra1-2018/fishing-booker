@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
 import { EventInput } from '@fullcalendar/angular';
-//import { start } from 'repl';
-import { Observable } from 'rxjs';
 import { CalendarViewService } from './calendar-view.service';
 
 let eventGuid = 0;
-const TODAY_STR = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of today
 
 export function createEventId() {
   return String(eventGuid++);
@@ -20,9 +19,20 @@ export function createEventId() {
 })
 export class CalendarViewComponent implements OnInit{
 
+  public readonly myFormGroup:FormGroup;
+
   constructor(private router: Router, 
     private route: ActivatedRoute,
-    public readonly calendarService: CalendarViewService) {}
+    public readonly calendarService: CalendarViewService,
+    public dialog: MatDialog,
+    private readonly formBuilder: FormBuilder) {
+      this.myFormGroup = this.formBuilder.group({
+        id: 0,
+        startDate: [null, Validators.required],
+        endDate: [null, Validators.required],
+        ownerId: Number(this.route.snapshot.paramMap.get('id'))
+      });
+    }
 
   id:any;
   actions: any[]=[];
@@ -30,25 +40,8 @@ export class CalendarViewComponent implements OnInit{
   reservations: any[]=[];
   INITIAL_EVENTS: EventInput[] =  [];
   calendarOptions!: CalendarOptions;
-
-  // calendarOptions: CalendarOptions = {
-  //   headerToolbar: {
-  //     left: 'prev,next today',
-  //     center: 'title',
-  //     right: 'dayGridMonth,dayGridWeek'
-  //   },
-  //   initialView: 'dayGridMonth',
-  //   initialEvents: this.INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-  //   weekends: true,
-  //   editable: true,
-  //   selectable: true,
-  //   selectMirror: true,
-  //   dayMaxEvents: true,
-  //   // select: this.handleDateSelect.bind(this),
-  //   // eventClick: this.handleEventClick.bind(this),
-  //   eventsSet: this.handleEvents.bind(this)
-  // };
   currentEvents: EventApi[] = [];
+
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -63,29 +56,6 @@ export class CalendarViewComponent implements OnInit{
   handleWeekendsToggle() {
     const { calendarOptions } = this;
     calendarOptions.weekends = !calendarOptions.weekends;
-  }
-
-  handleDateSelect(selectInfo: DateSelectArg) {
-    const title = prompt('Please enter a new title for your event');
-    const calendarApi = selectInfo.view.calendar;
-
-    calendarApi.unselect(); // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      });
-    }
-  }
-
-  handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
-    }
   }
 
   handleEvents(events: EventApi[]) {
@@ -110,20 +80,20 @@ export class CalendarViewComponent implements OnInit{
     });
   }
 
-  // addUnavailablePeriod(){
-  //   if (this.myFormGroup.invalid) {
-  //     alert('Invalid input');
-  //     return;
-  //   }
+  addOwnerUnavailablePeriod(){
+    if (this.myFormGroup.invalid) {
+      alert('Invalid input');
+      return;
+    }
 
-  //   this.calendarService.addUnavailablePeriod(this.myFormGroup.getRawValue()).subscribe({
-  //     next: (data) => {
-  //     alert("Succesfully created!")
-  //     this.loadCalendar();
-  //   },
-  //     error: (err) => {alert("Error has occured, free period was not created!")}
-  //   });
-  // }
+    this.calendarService.addOwnerUnavailablePeriod(this.myFormGroup.getRawValue()).subscribe({
+      next: (data) => {
+      alert("Succesfully created!")
+      this.loadCalendar();
+    },
+      error: (err) => {alert("Error has occured, free period was not created!")}
+    });
+  }
 
   getReservations(){
     this.calendarService.getAllReservationsOfOwner().subscribe((data) => {
@@ -135,7 +105,7 @@ export class CalendarViewComponent implements OnInit{
         end.setDate(startTime.getDate()+r.durationInDays)
         this.INITIAL_EVENTS.push({
           id: createEventId(),
-          title: 'Reservation of: ' + r.service.name,
+          title: 'Reservation of: ' + r.service.name + '\nMax people number: ' + r.numberOfPeople + '\nPrice: ' + r.price,
           start: startTime.toISOString().replace(/T.*$/, ''), 
           end: end.toISOString().replace(/T.*$/, ''),
           color: '#3d405b'
@@ -154,7 +124,7 @@ export class CalendarViewComponent implements OnInit{
         end.setDate(startTime.getDate()+a.durationInDays)
         this.INITIAL_EVENTS.push({
           id: createEventId(),
-          title: 'Action of: ' + a.service.name,
+          title: 'Action of: ' + a.service.name + '\nMax people number: ' + a.maxNumberOfPeople + '\nPrice: ' + a.price,
           start: startTime.toISOString().replace(/T.*$/, ''), 
           end: end.toISOString().replace(/T.*$/, ''),
           color: '#81b29a'
@@ -173,12 +143,10 @@ export class CalendarViewComponent implements OnInit{
       initialView: 'dayGridMonth',
       initialEvents: this.INITIAL_EVENTS,
       weekends: true,
-      editable: true,
-      selectable: true,
+      editable: false,
+      selectable: false,
       selectMirror: true,
       dayMaxEvents: true,
-      select: this.handleDateSelect.bind(this),
-      eventClick: this.handleEventClick.bind(this),
       eventsSet: this.handleEvents.bind(this)
     };
   }

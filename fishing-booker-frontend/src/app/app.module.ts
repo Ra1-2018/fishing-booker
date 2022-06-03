@@ -94,11 +94,9 @@ import { ClientPenaltiesComponent } from './client/client-penalties/client-penal
 import { AgmCoreModule } from '@agm/core';
 import { BusinessReportComponent } from './business-report/business-report.component';
 import { NgChartsModule } from 'ng2-charts';
-import { CalendarComponent } from './calendar/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { ActionDialogComponent } from './action-dialog/action-dialog.component';
 import { ReservationDialogComponent } from './reservation-dialog/reservation-dialog.component';
 import { CalendarViewComponent } from './calendar-view/calendar-view.component';
 
@@ -156,8 +154,6 @@ FullCalendarModule.registerPlugins([
     ImageSlideshowComponent,
     ClientPenaltiesComponent,
     BusinessReportComponent,
-    CalendarComponent,
-    ActionDialogComponent,
     ReservationDialogComponent,
     CalendarViewComponent
   ],
