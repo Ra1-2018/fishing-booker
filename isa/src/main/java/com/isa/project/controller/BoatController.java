@@ -125,6 +125,8 @@ public class BoatController {
         boat.setMaximumVelocity(boatDTO.getMaximumVelocity());
         boat.setPricePerDay(boatDTO.getPricePerDay());
 
+        locationService.deleteById(boat.getLocation().getId());
+
         Location location = new Location( null , boatDTO.getCity(), boatDTO.getStreet(), boatDTO.getNumber(), boatDTO.getZipCode(), boatDTO.getLatitude(), boatDTO.getLongitude(), boat);
         boat.setLocation(location);
         locationService.save(location);

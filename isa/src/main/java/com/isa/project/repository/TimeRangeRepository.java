@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Set;
 
 public interface TimeRangeRepository extends JpaRepository<TimeRange, Long> {
-    List<TimeRange> findTimeRangeByService(Service service);
+    List<TimeRange> findByService(Service service);
 }

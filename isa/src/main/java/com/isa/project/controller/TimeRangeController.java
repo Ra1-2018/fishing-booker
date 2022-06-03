@@ -10,9 +10,6 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
-import java.util.*;
-
 @RestController
 @RequestMapping("/timeRanges")
 public class TimeRangeController {
@@ -81,9 +78,10 @@ public class TimeRangeController {
 
         try {
             freePeriodTransactionService.removeFreePeriod(freePeriod);
+            service = serviceService.findById(service.getId());
         } catch (ObjectOptimisticLockingFailureException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new ServiceDTO(service), HttpStatus.OK);
+        return new ResponseEntity<>(new ServiceDTO(serviceService.findById(service.getId())), HttpStatus.OK);
     }
 }

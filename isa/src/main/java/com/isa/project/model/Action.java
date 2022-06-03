@@ -37,13 +37,14 @@ public class Action {
 
     public Action() {}
 
-    public Action(long id, Date startTime, int durationInDays, int maxNumberOfPeople, Set<AdditionalService> additionalServices, Service service) {
+    public Action(long id, Date startTime, int durationInDays, int maxNumberOfPeople, Set<AdditionalService> additionalServices, double price, Service service) {
         this.id = id;
         this.startTime = startTime;
         this.durationInDays = durationInDays;
         this.maxNumberOfPeople = maxNumberOfPeople;
         this.additionalServices = additionalServices;
         this.service = service;
+        this.price = price;
     }
 
     public long getId() {
