@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
+import { CalendarOptions, EventApi } from '@fullcalendar/angular';
 import { EventInput } from '@fullcalendar/angular';
 import { CalendarViewService } from './calendar-view.service';
 
@@ -70,7 +70,7 @@ export class CalendarViewComponent implements OnInit{
         var end = new Date(u.endDate);
         this.INITIAL_EVENTS.push({
           id: createEventId(),
-          title: 'Unavailable for all of my adventures',
+          title: 'Unavailable period',
           start: startTime.toISOString().replace(/T.*$/, ''), 
           end: end.toISOString().replace(/T.*$/, ''),
           color: '#c73030'
@@ -88,9 +88,11 @@ export class CalendarViewComponent implements OnInit{
     this.calendarService.addOwnerUnavailablePeriod(this.myFormGroup.getRawValue()).subscribe({
       next: (data) => {
       alert("Succesfully created!")
-      this.loadCalendar();
+      setTimeout(() => {
+        this.loadCalendar()
+      }, 1000)
     },
-      error: (err) => {alert("Error has occured, free period was not created!")}
+      error: (err) => {alert("Error has occured, unavailable period was not created!")}
     });
 
     setTimeout(() => {

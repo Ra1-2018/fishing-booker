@@ -118,7 +118,7 @@ public class AdventureDTO {
             this.additionalServices.add(new AdditionalServiceDTO(additionalService));
         }
         this.freePeriods = new HashSet<>();
-        for(TimeRange timeRange : adventure.getFreePeriods()) {
+        for(TimeRange timeRange : adventure.getAllPeriods()) {
             this.freePeriods.add(new TimeRangeDTO(timeRange));
         }
         this.actions = new HashSet<>();

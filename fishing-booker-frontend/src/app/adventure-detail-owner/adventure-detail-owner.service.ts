@@ -41,4 +41,8 @@ export class AdventureDetailOwnerService {
     formData.append('image', image);
     return this._http.post('http://localhost:8080/images/' + id, formData);   
   }
+
+  addServiceUnavailablePeriod(period:any): Observable<any> {
+    return this._http.post<Observable<any>>('http://localhost:8080/timeRanges/unavailablePeriod/service', period)
+  }
 }

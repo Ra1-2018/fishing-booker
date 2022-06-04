@@ -58,24 +58,27 @@
 
         <div class="row">
             <div class="col-md-10">
-                <label class="m-2">Free periods</label>
+                <label class="m-2">Periods</label>
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th> Start date </th>
                             <th> End date </th>
+                            <th> Available </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let period of adventure.freePeriods">
                             <td>{{period.startDate | date:'longDate'}} </td>
                             <td>{{period.endDate | date:'longDate'}}</td>
+                            <td>{{period.available}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">Register free period</button>
+                <button style="margin-bottom: 10px;" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDialogUnavailable">Register unavailable period</button>
+                <button style="margin-bottom: 10px;" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">Register free period</button>
             </div>
         </div>
         <div class="row"> 
@@ -267,3 +270,33 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalDialogUnavailable" tabindex="-1" aria-labelledby="modalDialogUnavailable" aria-hidden="true">
+    <div class="modal-dialog" data-target="#modal">
+      <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalDialogUnavailable">Unavailable period</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <ng-container [formGroup]="this.myUnavailablePeriodFormGroup">
+                        <div class="mb-2">
+                            <label for="startDate" class="form-label">Start:</label>
+                            <input type="datetime-local" class="form-control" id="startDate" formControlName="startDate">
+                        </div>
+                        <div class="mb-2">
+                            <label for="endDate" class="form-label">End:</label>
+                            <input type="datetime-local" class="form-control" id="endDate" formControlName="endDate">
+                        </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="addServiceUnavailablePeriod()">Add period</button>
+            </div>
+        </div>
+    </div>
