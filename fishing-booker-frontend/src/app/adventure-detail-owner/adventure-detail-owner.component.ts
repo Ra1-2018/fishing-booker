@@ -29,12 +29,19 @@ export class AdventureDetailOwnerComponent implements OnInit {
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
+  public readonly myUnavailablePeriodFormGroup: FormGroup;
 
   constructor(private route: ActivatedRoute, 
     private router: Router, 
     private adventureDetailOwnerService: AdventureDetailOwnerService, 
     private readonly formBuilder: FormBuilder) { 
       this.myFormGroup = this.formBuilder.group({
+        id: 0,
+        startDate: [null, Validators.required],
+        endDate: [null, Validators.required],
+        serviceId: Number(this.route.snapshot.paramMap.get('id'))
+      });
+      this.myUnavailablePeriodFormGroup = this.formBuilder.group({
         id: 0,
         startDate: [null, Validators.required],
         endDate: [null, Validators.required],
@@ -63,6 +70,21 @@ export class AdventureDetailOwnerComponent implements OnInit {
       this.getAdventure(this.id);
       this.getImages(this.id);
     }    
+  }
+
+  addServiceUnavailablePeriod(){
+    if (this.myUnavailablePeriodFormGroup.invalid) {
+      alert('Invalid input');
+      return;
+    }
+
+    this.adventureDetailOwnerService.addServiceUnavailablePeriod(this.myUnavailablePeriodFormGroup.getRawValue()).subscribe({
+      next: (data) => {
+      alert("Succesfully created!")
+      this.getAdventure(this.id);
+    },
+      error: (err) => {alert("Error has occured, unavailable period was not created!")}
+    });
   }
 
   getAdventure(id: number): void {

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +12,10 @@ import { CottageDetailComponent } from './cottage-detail/cottage-detail.componen
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+//import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SpecialRegistrationComponent } from './special-registration/special-registration.component';
@@ -89,6 +94,16 @@ import { ClientPenaltiesComponent } from './client/client-penalties/client-penal
 import { AgmCoreModule } from '@agm/core';
 import { BusinessReportComponent } from './business-report/business-report.component';
 import { NgChartsModule } from 'ng2-charts';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { ReservationDialogComponent } from './reservation-dialog/reservation-dialog.component';
+import { CalendarViewComponent } from './calendar-view/calendar-view.component';
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -138,7 +153,9 @@ import { NgChartsModule } from 'ng2-charts';
     ReportComponent,
     ImageSlideshowComponent,
     ClientPenaltiesComponent,
-    BusinessReportComponent
+    BusinessReportComponent,
+    ReservationDialogComponent,
+    CalendarViewComponent
   ],
   imports: [
     BrowserModule,
@@ -183,13 +200,20 @@ import { NgChartsModule } from 'ng2-charts';
     MatTreeModule,
     BrowserAnimationsModule,
     NgChartsModule,
+    FullCalendarModule,
     AgmCoreModule.forRoot({
 
       apiKey: 'AIzaSyD9J8JKaQinAWb0q9usoTavpickUnpKHXg',
 
       libraries: ['places']
 
-    })
+    }),
+    CommonModule,
+    NgbModalModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [
     {

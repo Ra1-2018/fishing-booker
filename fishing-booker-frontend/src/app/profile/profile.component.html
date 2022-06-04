@@ -143,6 +143,11 @@
             </div>
 
         </div>
+
+        <div name="ownerProfile" *ngIf="loginService.isLoggedIn && (loginService.userType == 'COTTAGE_OWNER' || loginService.userType == 'BOAT_OWNER' || loginService.userType == 'INSTRUCTOR')">
+            <h3 class="h3" style="margin-bottom: 20px; margin-left: 30px; font-weight: bolder;">My calendar</h3>
+            <app-calendar-view></app-calendar-view>
+        </div>
     </div>
 </div>
 

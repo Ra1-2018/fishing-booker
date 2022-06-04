@@ -34,11 +34,18 @@ export class BoatDetailOwnerComponent implements OnInit {
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
   public readonly reservationFormGroup: FormGroup;
+  public readonly myUnavailablePeriodFormGroup:FormGroup;
 
   constructor(private route: ActivatedRoute, 
     private router: Router, private boatDetailOwnerService: BoatDetailOwnerService, 
     private readonly formBuilder: FormBuilder) {
       this.myFormGroup = this.formBuilder.group({
+          id: 0,
+          startDate: [null, Validators.required],
+          endDate: [null, Validators.required],
+          serviceId: Number(this.route.snapshot.paramMap.get('id'))
+        });
+        this.myUnavailablePeriodFormGroup = this.formBuilder.group({
           id: 0,
           startDate: [null, Validators.required],
           endDate: [null, Validators.required],
@@ -73,6 +80,21 @@ export class BoatDetailOwnerComponent implements OnInit {
       this.getBoat(this.id);
       this.getImages(this.id);
   }
+}
+
+addServiceUnavailablePeriod(){
+  if (this.myUnavailablePeriodFormGroup.invalid) {
+    alert('Invalid input');
+    return;
+  }
+
+  this.boatDetailOwnerService.addServiceUnavailablePeriod(this.myUnavailablePeriodFormGroup.getRawValue()).subscribe({
+    next: (data) => {
+    alert("Succesfully created!")
+    this.getBoat(this.id)
+  },
+    error: (err) => {alert("Error has occured, unavailable period was not created!")}
+  });
 }
 
   getBoat(id: number): void {

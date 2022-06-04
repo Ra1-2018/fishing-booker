@@ -21,7 +21,7 @@ export class AdventureDetailOwnerService {
   }
 
   addFreePeriod(freePeriod: any): Observable<any> {
-    return this._http.post<Observable<any>>('http://localhost:8080/timeRanges/adventure', freePeriod);
+    return this._http.post<Observable<any>>('http://localhost:8080/timeRanges', freePeriod);
   }
 
   addAdditionalService(additionalService: any): Observable<any> {
@@ -40,5 +40,9 @@ export class AdventureDetailOwnerService {
     const formData = new FormData();
     formData.append('image', image);
     return this._http.post('http://localhost:8080/images/' + id, formData);   
+  }
+
+  addServiceUnavailablePeriod(period:any): Observable<any> {
+    return this._http.post<Observable<any>>('http://localhost:8080/timeRanges/unavailablePeriod/service', period)
   }
 }
