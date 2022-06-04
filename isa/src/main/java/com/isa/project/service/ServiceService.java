@@ -242,16 +242,16 @@ public class ServiceService {
             Date oldStartDate = period.getStartDate();
             Date oldEndDate = period.getEndDate();
 
-            if (newStartDate.before(oldStartDate) & newEndDate.after(oldEndDate)) {
+            if (newStartDate.before(oldStartDate) && newEndDate.after(oldEndDate)) {
                 return  false;
             }
-            else if (newStartDate.before(oldStartDate) & newEndDate.after(oldStartDate)) {
+            else if (newStartDate.before(oldStartDate) && newEndDate.after(oldStartDate)) {
                 return false;
             }
-            else if (newEndDate.after(oldEndDate) & newStartDate.before(oldEndDate)) {
+            else if (newEndDate.after(oldEndDate) && newStartDate.before(oldEndDate)) {
                 return false;
             }
-            else if ( newStartDate.after(oldStartDate) & newEndDate.before(oldEndDate)) {
+            else if ( newStartDate.after(oldStartDate) && newEndDate.before(oldEndDate)) {
                 return false;
             }
         }

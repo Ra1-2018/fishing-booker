@@ -27,7 +27,6 @@ public class TimeRangeDTO {
         this.serviceId = timeRange.getService().getId();
     }
 
-
     public long getId() { return id; }
 
     public Date getStartDate() { return startDate; }
@@ -35,4 +34,12 @@ public class TimeRangeDTO {
     public Date getEndDate() { return endDate; }
 
     public long getServiceId() { return serviceId; }
+
+    public void setId(long id) { this.id = id; }
+
+    public void setStartDate(Date startDate) { this.startDate = startDate; }
+
+    public void setEndDate(Date endDate) { this.endDate = endDate; }
+
+    public void setServiceId(long serviceId) { this.serviceId = serviceId; }
 }
