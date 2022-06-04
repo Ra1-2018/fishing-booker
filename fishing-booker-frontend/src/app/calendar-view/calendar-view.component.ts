@@ -42,7 +42,6 @@ export class CalendarViewComponent implements OnInit{
   calendarOptions!: CalendarOptions;
   currentEvents: EventApi[] = [];
 
-
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getUnavailablePeriods();
@@ -71,10 +70,10 @@ export class CalendarViewComponent implements OnInit{
         var end = new Date(u.endDate);
         this.INITIAL_EVENTS.push({
           id: createEventId(),
-          title: 'Unavailable',
+          title: 'Unavailable for all of my adventures',
           start: startTime.toISOString().replace(/T.*$/, ''), 
           end: end.toISOString().replace(/T.*$/, ''),
-          color: '#595656'
+          color: '#c73030'
         })
       }
     });
@@ -93,6 +92,10 @@ export class CalendarViewComponent implements OnInit{
     },
       error: (err) => {alert("Error has occured, free period was not created!")}
     });
+
+    setTimeout(() => {
+      this.loadCalendar()
+    }, 1000)
   }
 
   getReservations(){

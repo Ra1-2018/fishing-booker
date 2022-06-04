@@ -2,14 +2,7 @@
 <div class='demo-app'>
 
     <div class='demo-app-sidebar'>
-      <div class='demo-app-sidebar-section'>
-        <h2>Instructions</h2>
-        <ul>
-          <li>Select dates and you will be prompted to create a new unavailable period</li>
-          <li>Click an event to open its details</li>
-        </ul>
-      </div>
-      <div class='demo-app-sidebar-section' style="margin-top: -40px; margin-bottom: -30px;">
+      <div class='demo-app-sidebar-section' style=" margin-bottom: -30px;">
           <div class="form-check form-switch">
             <label class="form-check-label" for="flexSwitchCheckDefault">
                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" [checked]='calendarOptions.weekends' (change)='handleWeekendsToggle()'/>Show/hide weekends
