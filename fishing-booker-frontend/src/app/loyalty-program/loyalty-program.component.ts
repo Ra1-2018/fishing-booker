@@ -49,7 +49,7 @@ export class LoyaltyProgramComponent implements OnInit {
       alert('Invalid input');
       return;
     } 
-    else if(this.loyaltyProgram.pointsForBronze < 0 || this.loyaltyProgram.pointsForSilver < 0 || this.loyaltyProgram.pointsForSilver < 0) {
+    else if(this.loyaltyProgram.pointsForBronze < 0 || this.loyaltyProgram.pointsForSilver < 0 || this.loyaltyProgram.pointsForGold < 0) {
       alert('Points must be greater than 0.');
       return;
     }

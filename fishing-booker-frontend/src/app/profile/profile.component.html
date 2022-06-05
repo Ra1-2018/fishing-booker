@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="loginService.isLoggedIn">
     <div class="row justify-content-center">
         <div class="col-md-4">
             <h1 style="text-align: center;">Update your profile</h1>
@@ -7,10 +7,6 @@
                   <label for="email" class="form-label">Email address:</label>
                   <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email" readonly>
                 </div>
-                <!-- div class="mb-3">
-                  <label for="password" class="form-label">Password:</label>
-                  <input type="text" class="form-control" id="password" placeholder="Password" formControlName="password">
-                </div -->
                 <div class="mb-3">
                     <label for="name" class="form-label">Name:</label>
                     <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
@@ -34,6 +30,15 @@
                 <div class="mb-3">
                     <label for="telephone" class="form-label">Telephone:</label>
                     <input type="text" class="form-control" id="telephone" placeholder="Telephone" formControlName="telephone">
+                </div>
+                <div class="mb-3"  *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'">
+                    <label for="points" class="form-label">Loyalty points: 0</label>
+                </div>
+                <div class="mb-3" *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'">
+                    <label for="points" class="form-label">Loyalty rank: Regular (no advantages)</label>
+                </div>
+                <div class="mb-3" *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'">
+                    <label for="points" class="form-label">Collect 100 points to become Silver User (10% off of all reservations)</label>
                 </div>
                 <div class="d-grid col-6 mx-auto mb-3">
                     <button class="btn btn-primary" (click)="onClickSubmit()">Update</button>
