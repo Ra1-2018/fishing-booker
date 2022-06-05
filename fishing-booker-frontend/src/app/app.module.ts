@@ -99,6 +99,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { ReservationDialogComponent } from './reservation-dialog/reservation-dialog.component';
 import { CalendarViewComponent } from './calendar-view/calendar-view.component';
+import { LoyaltyProgramComponent } from './loyalty-program/loyalty-program.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -155,7 +156,8 @@ FullCalendarModule.registerPlugins([
     ClientPenaltiesComponent,
     BusinessReportComponent,
     ReservationDialogComponent,
-    CalendarViewComponent
+    CalendarViewComponent,
+    LoyaltyProgramComponent
   ],
   imports: [
     BrowserModule,
