@@ -16,6 +16,14 @@ export class AdventureDetailOwnerService {
     )
   }
 
+  getClients(): Observable<any> {
+    return this._http.get<any>('http://localhost:8080/users/owner/' + localStorage.getItem('userId'));
+  }
+
+  makeReservation(reservation: any) {
+    return this._http.post('http://localhost:8080/reservations', reservation);
+  }
+
   deleteAdventure(id: number): Observable<any> {
     return this._http.delete<Observable<any>>('http://localhost:8080/adventures/' + id)
   }

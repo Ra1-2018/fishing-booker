@@ -79,6 +79,7 @@
             <div class="col-md-2">
                 <button style="margin-bottom: 10px;" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDialogUnavailable">Register unavailable period</button>
                 <button style="margin-bottom: 10px;" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">Register free period</button>
+                <button style="margin-bottom: 10px;" class="btn btn-success button" data-bs-toggle="modal" data-bs-target="#modalDialogReservation" (click)="getClients()">Make a reservation</button>
             </div>
         </div>
         <div class="row"> 
@@ -270,6 +271,70 @@
         </div>
     </div>
 </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalDialogReservation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <ng-container [formGroup]="this.reservationFormGroup">
+                <div class="mb-3">
+                    <label for="service" class="form-label">Service:</label>
+                    <label id="service" readonly class="form-control-plaintext" > {{adventure.name}} </label>
+                </div>
+                <div class="mb-3">
+                    <label for="client" class="form-label">Client:</label>
+                    <select id="client" class="form-control" formControlName="client">
+                        <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="startDate" class="form-label">Start time:</label>
+                    <input type="datetime-local" class="form-control" id="startDate" placeholder="Start date" formControlName="reservationStartDateAndTime">
+                </div>
+                <div class="mb-3">
+                      <label for="durationInDays" class="form-label">Number of days:</label>
+                      <input (change) = "onDurationChange()" type="number" min="1" class="form-control" id="durationInDays" placeholder="Number of days" formControlName="durationInDays">
+                </div>
+                <div class="mb-3">
+                    <label for="numberOfPeople" class="form-label">Number of people:</label>
+                    <input type="number" min="1" class="form-control" id="numberOfPeople" placeholder="Number of people" formControlName="numberOfPeople">
+                </div>
+                <div *ngIf="adventure.additionalServices.length != 0" class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Additional service</td>
+                                <td>Price per day</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor = "let additionalService of adventure.additionalServices">
+                                <td>{{additionalService.name}}</td>
+                                <td>{{additionalService.price}}</td>
+                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (change)="fieldsChangeReservation($event, additionalService)"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class = "col-md-6">Total price:</div>
+                    <div class = "col-md-6"> {{reservationPrice}}</div>
+                </div>
+            </ng-container>                   
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="makeReservation()">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <div class="modal fade" id="modalDialogUnavailable" tabindex="-1" aria-labelledby="modalDialogUnavailable" aria-hidden="true">
     <div class="modal-dialog" data-target="#modal">

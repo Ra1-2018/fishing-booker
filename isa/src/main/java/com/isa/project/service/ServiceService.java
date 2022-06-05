@@ -16,7 +16,7 @@ import java.sql.Time;
 import java.util.*;
 
 @Service
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class ServiceService {
 
     @Autowired
@@ -286,7 +286,7 @@ public class ServiceService {
         return services;
     }
 
-    @Transactional
+    //@Transactional(readOnly = false)
     @CachePut(value = "service", key = "#service.id")
     public com.isa.project.model.Service save(com.isa.project.model.Service service) {
         service.setLastUpdateDate(new Date());

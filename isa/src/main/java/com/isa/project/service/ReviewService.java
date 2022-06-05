@@ -21,7 +21,7 @@ public class ReviewService {
     public Review findById(Long id) {
         return reviewRepository.findById(id).orElse(null);
     }
-    public void remove(long id) {
+    public void remove(Long id) {
         reviewRepository.deleteById(id);
     }
 }
