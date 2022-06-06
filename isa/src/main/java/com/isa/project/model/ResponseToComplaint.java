@@ -17,9 +17,10 @@ public class ResponseToComplaint {
     private String content;
     @Column
     private Date dateSubmitted;
-
     @Column
     private boolean approved;
+    @Version
+    private  Integer version;
 
     public ResponseToComplaint() {}
 
@@ -29,6 +30,7 @@ public class ResponseToComplaint {
         this.complaint = complaint;
         this.content = content;
         this.approved = false;
+        this.dateSubmitted = new Date();
     }
 
     public Long getId() {
@@ -77,5 +79,13 @@ public class ResponseToComplaint {
 
     public void setDateSubmitted(Date dateSubmitted) {
         this.dateSubmitted = dateSubmitted;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

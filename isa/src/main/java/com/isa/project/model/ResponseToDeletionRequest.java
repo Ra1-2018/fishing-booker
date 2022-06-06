@@ -22,6 +22,9 @@ public class ResponseToDeletionRequest {
     @Column
     private Date dateSubmitted;
 
+    @Version
+    private Integer version;
+
     public ResponseToDeletionRequest() {}
 
     public ResponseToDeletionRequest(Long id, Administrator administrator, DeletionRequest deletionRequest, String content) {
@@ -30,6 +33,7 @@ public class ResponseToDeletionRequest {
         this.deletionRequest = deletionRequest;
         this.content = content;
         this.approved = false;
+        this.dateSubmitted = new Date();
     }
 
     public Long getId() {
@@ -78,5 +82,13 @@ public class ResponseToDeletionRequest {
 
     public void setDateSubmitted(Date dateSubmitted) {
         this.dateSubmitted = dateSubmitted;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

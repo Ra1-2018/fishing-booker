@@ -140,7 +140,7 @@ export class ProfileComponent implements OnInit {
     this.profileService.submitDeletionResponse(deletionResponse).subscribe({
       next: () => {
         this.getDeletionRequests(); 
-        alert("Deleted");
+        alert("Deletion declined");
         document.getElementById("closeButton")?.click();
       },
       error: () => alert("An error occurred")

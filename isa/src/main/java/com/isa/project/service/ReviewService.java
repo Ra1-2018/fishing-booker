@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -14,7 +15,10 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    public Review save(Review review) { return reviewRepository.save(review); }
+    public Review save(Review review) {
+        review.setDateSubmitted(new Date());
+        return reviewRepository.save(review);
+    }
     public Collection<Review> findAll() {
         return reviewRepository.findAll();
     }
