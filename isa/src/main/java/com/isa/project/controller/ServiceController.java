@@ -57,6 +57,16 @@ public class ServiceController {
         return new ResponseEntity<>(serviceDTOS, HttpStatus.OK);
     }
 
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/search-default")
+    public ResponseEntity<Collection<ServiceDTO>> searchServices(@RequestBody ServiceCriteriaDTO serviceCriteria) {
+        Collection<Service> services = serviceService.searchServices(serviceCriteria);
+        Collection<ServiceDTO> serviceDTOS = new ArrayList<>();
+        for(Service service : services) {
+            serviceDTOS.add(new ServiceDTO(service));
+        }
+        return new ResponseEntity<>(serviceDTOS, HttpStatus.OK);
+    }
+
     @PreAuthorize("hasRole('CLIENT')")
     @GetMapping(value = "subscribe/{serviceId}/{clientId}")
     public ResponseEntity<Void> subscribeToService(@PathVariable long serviceId, @PathVariable long clientId) {

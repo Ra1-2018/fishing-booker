@@ -5,7 +5,7 @@ INSERT INTO public.user_role (name) VALUES ('ROLE_BOAT_OWNER');
 INSERT INTO public.user_role (name) VALUES ('ROLE_COTTAGE_OWNER');
 INSERT INTO public.user_role (name) VALUES ('ROLE_INSTRUCTOR');
 
-INSERT INTO public.client (id, address, app_user_type, city, country, email, enabled, last_password_reset_date, name, password, surname, telephone, loyalty_type, points) VALUES (nextval('user_seq_gen'), 'Resavska 5', 0, 'Novi Sad', 'Serbia', 'nikola.iv.99@gmail.com', true, null, 'Nikola', '$2a$10$ZOy/T/.nqSeJZ7rUU9b2Z.hREwrLXVfKRUhjcBJWyTUmMkIVC0YYS', 'Ivanovic', '+381691712999', 0, 0);
+INSERT INTO public.client (id, address, app_user_type, city, country, email, enabled, last_password_reset_date, name, password, surname, telephone, loyalty_type, points) VALUES (nextval('user_seq_gen'), 'Resavska 5', 0, 'Novi Sad', 'Serbia', 'nikola.iv.99@gmail.com', true, null, 'Nikola', '$2a$10$ZOy/T/.nqSeJZ7rUU9b2Z.hREwrLXVfKRUhjcBJWyTUmMkIVC0YYS', 'Ivanovic', '+381691712999', 0, 10);
 INSERT INTO public.app_user_user_role(user_id, role_id) VALUES (1, 1);
 INSERT INTO public.app_user_user_role(user_id, role_id) VALUES (1, 3);
 
