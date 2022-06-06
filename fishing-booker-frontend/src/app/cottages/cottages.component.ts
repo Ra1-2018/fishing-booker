@@ -52,6 +52,7 @@ export class CottagesComponent implements OnInit {
       switch (sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
         case 'address': return compare(a.address, b.address, isAsc);
+        case 'description': return compare(a.description, b.description, isAsc);
         //case 'roomsTotalNumber': return compare(a.roomsTotalNumber, b.roomsTotalNumber, isAsc);
         case 'averageGrade': return compare(a.averageGrade, b.averageGrade, isAsc);
         default: return 0;
