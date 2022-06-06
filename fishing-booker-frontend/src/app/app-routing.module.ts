@@ -43,6 +43,7 @@ import { BoatDetailOwnerComponent } from './boat-detail-owner/boat-detail-owner.
 import { ReportComponent } from './report/report.component';
 import { ClientPenaltiesComponent } from './client/client-penalties/client-penalties.component';
 import { BusinessReportComponent } from './business-report/business-report.component';
+import { LoyaltyProgramComponent } from './loyalty-program/loyalty-program.component';
 
 const routes: Routes = [
   { path: 'adventures', component: AdventuresComponent},
@@ -87,7 +88,8 @@ const routes: Routes = [
   { path: 'boat-detail-owner/:id', component: BoatDetailOwnerComponent},
   { path: 'report/:id', component: ReportComponent},
   { path: 'client-penalties', component: ClientPenaltiesComponent},
-  { path: 'business-report', component: BusinessReportComponent}
+  { path: 'business-report', component: BusinessReportComponent},
+  { path: 'loyalty-program', component: LoyaltyProgramComponent}
 ];
 
 @NgModule({

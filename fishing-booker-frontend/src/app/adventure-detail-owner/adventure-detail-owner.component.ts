@@ -20,7 +20,11 @@ export class AdventureDetailOwnerComponent implements OnInit {
   images: any[] = [];
   adventure: any;
   additionalServicesField: any[] = [];
+  reservationAdditionalServices: any[] = [];
+  services: any[] = [];
+  clients: any[] = [];
   price: any;
+  reservationPrice: number = 0;
   errorMessage = '';
   id: number = 0;
   selectedFile: any;
@@ -29,12 +33,20 @@ export class AdventureDetailOwnerComponent implements OnInit {
   public readonly myFormGroup: FormGroup;
   public readonly myFormGroupAction: FormGroup;
   public readonly additionalServiceFormGroup: FormGroup;
+  public readonly reservationFormGroup: FormGroup;
+  public readonly myUnavailablePeriodFormGroup: FormGroup;
 
   constructor(private route: ActivatedRoute, 
     private router: Router, 
     private adventureDetailOwnerService: AdventureDetailOwnerService, 
     private readonly formBuilder: FormBuilder) { 
       this.myFormGroup = this.formBuilder.group({
+        id: 0,
+        startDate: [null, Validators.required],
+        endDate: [null, Validators.required],
+        serviceId: Number(this.route.snapshot.paramMap.get('id'))
+      });
+      this.myUnavailablePeriodFormGroup = this.formBuilder.group({
         id: 0,
         startDate: [null, Validators.required],
         endDate: [null, Validators.required],
@@ -55,6 +67,12 @@ export class AdventureDetailOwnerComponent implements OnInit {
         price: ['', Validators.required],
         serviceId: Number(this.route.snapshot.paramMap.get('id'))
       });
+      this.reservationFormGroup = this.formBuilder.group({
+        reservationStartDateAndTime: [null, Validators.required],
+        durationInDays: [null, Validators.required],
+        numberOfPeople: [null, Validators.required],
+        client: [null, Validators.required]
+      });
     }
 
   ngOnInit(): void {
@@ -63,6 +81,21 @@ export class AdventureDetailOwnerComponent implements OnInit {
       this.getAdventure(this.id);
       this.getImages(this.id);
     }    
+  }
+
+  addServiceUnavailablePeriod(){
+    if (this.myUnavailablePeriodFormGroup.invalid) {
+      alert('Invalid input');
+      return;
+    }
+
+    this.adventureDetailOwnerService.addServiceUnavailablePeriod(this.myUnavailablePeriodFormGroup.getRawValue()).subscribe({
+      next: (data) => {
+      alert("Succesfully created!")
+      this.getAdventure(this.id);
+    },
+      error: (err) => {alert("Error has occured, unavailable period was not created!")}
+    });
   }
 
   getAdventure(id: number): void {
@@ -84,6 +117,13 @@ export class AdventureDetailOwnerComponent implements OnInit {
           }),
         }); 
       },
+      error: err => this.errorMessage = err
+    })
+  }
+
+  getClients() {
+    this.adventureDetailOwnerService.getClients().subscribe({
+      next: clients => this.clients = clients,
       error: err => this.errorMessage = err
     })
   }
@@ -116,7 +156,7 @@ export class AdventureDetailOwnerComponent implements OnInit {
     this.adventureDetailOwnerService.addFreePeriod(this.myFormGroup.getRawValue()).subscribe({
       next: (data) => {
       alert("Succesfully created!")
-      this.getAdventure(this.id as number);
+      this.getAdventure(this.id);
     },
       error: (err) => {alert("Error has occured, free period was not created!")}
     });
@@ -177,6 +217,61 @@ export class AdventureDetailOwnerComponent implements OnInit {
       }        
     }
     console.log(this.additionalServicesField);
+  }
+
+  public makeReservation(): void {
+
+    if (this.reservationFormGroup.invalid) {
+      alert('Invalid input');
+      return;
+    }
+
+    const reservation = {
+        reservationStartDateAndTime: this.reservationFormGroup.get('reservationStartDateAndTime')?.value,
+        durationInDays: this.reservationFormGroup.get('durationInDays')?.value,
+        numberOfPeople: this.reservationFormGroup.get('numberOfPeople')?.value,
+        client: this.reservationFormGroup.get('client')?.value,
+        additionalServices: this.reservationAdditionalServices,
+        service: { id: this.id},
+        price: this.reservationPrice 
+    }
+
+    console.log(reservation);
+    this.adventureDetailOwnerService.makeReservation(reservation).subscribe({
+      next: (data) => {
+        this.adventureDetailOwnerService.getAdventure(this.id).subscribe({
+          next: adventure => this.adventure = adventure, 
+          error: err => this.errorMessage = err
+        })
+      alert("Succesfully created!")
+
+      },
+      error: (err) => {alert("Error has occured, reservation was not created!")}
+    });
+  }
+
+  onDurationChange(): void {   
+    this.reservationPrice = this.adventure.pricePerDay * this.reservationFormGroup.get('durationInDays')?.value;
+    for(let additionalService of this.reservationAdditionalServices) {
+      this.reservationPrice += additionalService.price * this.reservationFormGroup.get('durationInDays')?.value;
+    }
+    console.log(this.reservationPrice);
+  }
+
+  fieldsChangeReservation(values:any, additionalService: any):void {
+    console.log(values.currentTarget.checked);
+    if(values.currentTarget.checked) {
+      this.reservationAdditionalServices.push(additionalService);
+      this.reservationPrice += additionalService.price * this.reservationFormGroup.get('durationInDays')?.value;
+    }
+    else {
+      const index: number = this.reservationAdditionalServices.indexOf(additionalService);
+      if (index !== -1) {
+          this.reservationAdditionalServices.splice(index, 1);
+          this.reservationPrice -= additionalService.price * this.reservationFormGroup.get('durationInDays')?.value;
+      }        
+    }
+    console.log(this.reservationAdditionalServices);
   }
 
   processFile(imageInput: any) {

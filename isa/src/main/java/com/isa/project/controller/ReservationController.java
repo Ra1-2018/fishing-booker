@@ -212,6 +212,7 @@ public class ReservationController {
         if(service == null) { return new ResponseEntity(HttpStatus.BAD_REQUEST); }
 
         Client client = (Client) appUserService.findOne(reservationDTO.getClient().getId());
+        client.setPoints(client.getPoints()+10);
 
         if(client == null || client.isSanctioned()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -258,9 +259,9 @@ public class ReservationController {
         c.setTime(reservationStartTime);
         c.add(Calendar.DATE, -3);
         Date threeDaysBeforeReservation = c.getTime();
-        if(new Date().after(threeDaysBeforeReservation)) {
+        /*if(new Date().after(threeDaysBeforeReservation)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        }*/
         try {
             reservationTransactionService.cancelReservation(reservation);
         } catch (ObjectOptimisticLockingFailureException e) {

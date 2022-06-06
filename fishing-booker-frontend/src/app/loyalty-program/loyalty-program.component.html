@@ -1,0 +1,36 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h1 style="text-align: center;">Our Loyalty Program</h1>
+            <ng-container [formGroup]="this.myFormGroup">
+                <div class="mb-3">
+                <label for="pointsForBronze" class="form-label">Points for bronze:</label>
+                <input type="text" class="form-control" id="pointsForBronze" placeholder="Points For Bronze" formControlName="pointsForBronze">
+                </div>
+                <div class="mb-3">
+                    <label for="percentageForBronze" class="form-label">Discount for bronze:</label>
+                    <input type="text" class="form-control" id="percentageForBronze" placeholder="Percentage For Bronze" formControlName="percentForBronze">
+                </div>
+                <div class="mb-3">
+                    <label for="pointsForSilver" class="form-label">Points for silver:</label>
+                    <input type="text" class="form-control" id="pointsForSilver" placeholder="Points For Silver" formControlName="pointsForSilver">
+                </div>
+                <div class="mb-3">
+                    <label for="percentageForSilver" class="form-label">Discount for silver:</label>
+                    <input type="text" class="form-control" id="percentageForSilver" placeholder="Percentage For Silver" formControlName="percentForSilver">
+                </div>
+                <div class="mb-3">
+                    <label for="pointsForGold" class="form-label">Points for gold:</label>
+                    <input type="text" class="form-control" id="pointsForGold" placeholder="Points For Gold" formControlName="pointsForGold">
+                </div>
+                <div class="mb-3">
+                    <label for="percentageForGold" class="form-label">Discount for gold:</label>
+                    <input type="text" class="form-control" id="percentageForGold" placeholder="Percentage For Gold" formControlName="percentForGold">
+                </div>
+                <div class="d-grid col-6 mx-auto mb-3">
+                    <button class="btn btn-primary" (click)="onClickSubmit()">Update</button>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

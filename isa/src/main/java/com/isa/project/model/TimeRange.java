@@ -15,6 +15,8 @@ public class TimeRange {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")
     private Service service;
+    @Column
+    private boolean available;
 
     public TimeRange() {}
 
@@ -23,6 +25,7 @@ public class TimeRange {
         this.startDate = startDate;
         this.endDate = endDate;
         this.service = service;
+        this.available = true;
     }
 
     public Long getId() {
@@ -55,5 +58,13 @@ public class TimeRange {
 
     public void setService(Service service) {
         this.service = service;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }

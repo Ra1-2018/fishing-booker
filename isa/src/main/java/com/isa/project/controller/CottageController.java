@@ -123,6 +123,8 @@ public class CottageController {
         cottage.setMaxNumberOfPeople(cottageDTO.getMaxNumberOfPeople());
         cottage.setCottageOwner(cottageOwnerService.findById(cottageDTO.getCottageOwner().getId()));
 
+        locationService.deleteById(cottage.getLocation().getId());
+
         Location location = new Location( null , cottageDTO.getCity(), cottageDTO.getStreet(), cottageDTO.getNumber(), cottageDTO.getZipCode(), cottageDTO.getLatitude(), cottageDTO.getLongitude(), cottage);
         cottage.setLocation(location);
         locationService.save(location);

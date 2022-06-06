@@ -35,9 +35,11 @@ public abstract class AppUser implements UserDetails {
     private String telephone;
     @Column
     private boolean enabled;
-
     @Column
     private AppUserType appUserType;
+    @Column(nullable = true)
+    private int points;
+    @Column AppUserLoyaltyType loyaltyType;
 
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -198,5 +200,21 @@ public abstract class AppUser implements UserDetails {
 
     public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public AppUserLoyaltyType getLoyaltyType() {
+        return loyaltyType;
+    }
+
+    public void setLoyaltyType(AppUserLoyaltyType loyaltyType) {
+        this.loyaltyType = loyaltyType;
     }
 }

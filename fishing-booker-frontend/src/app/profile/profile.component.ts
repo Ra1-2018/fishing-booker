@@ -34,7 +34,6 @@ export class ProfileComponent implements OnInit {
                 this.myFormGroup = this.formBuilder.group({
                   id: [],
                   email: ['', Validators.compose([Validators.required, Validators.email])],
-                  //password: ['', Validators.required],
                   name: [],
                   surname: [],
                   address: [],

@@ -46,7 +46,7 @@ public class CottageService{
         return cottageRepository.save(cottage);
     }
 
-    @CacheEvict(cacheNames = {"service"}, key = "#cottage.id")
+    @CacheEvict(cacheNames = {"service"}, key = "#id")
     public void remove(long id) {
         cottageRepository.deleteById(id);
     }

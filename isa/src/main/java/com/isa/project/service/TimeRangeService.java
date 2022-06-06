@@ -23,7 +23,7 @@ public class TimeRangeService {
         return timeRangeRepository.findAll();
     }
 
-    public List<TimeRange> findTimeRangeByService(com.isa.project.model.Service service) { return timeRangeRepository.findTimeRangeByService(service); }
+    public List<TimeRange> findByService(com.isa.project.model.Service service) { return timeRangeRepository.findByService(service); }
 
     public TimeRange findById(Long id) {
         return timeRangeRepository.findById(id).orElse(null);

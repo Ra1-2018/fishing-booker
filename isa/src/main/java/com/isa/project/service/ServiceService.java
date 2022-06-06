@@ -16,7 +16,7 @@ import java.sql.Time;
 import java.util.*;
 
 @Service
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class ServiceService {
 
     @Autowired
@@ -204,14 +204,16 @@ public class ServiceService {
         }
     }
 
-    public boolean isFreePeriodValid(TimeRange newFreePeriod) {
-        Set<TimeRange> freePeriods = newFreePeriod.getService().getFreePeriods();
-        Date newEndDate = newFreePeriod.getEndDate();
-        Date newStartDate = newFreePeriod.getStartDate();
+    public boolean isPeriodValid(TimeRange newPeriod) {
+        Set<TimeRange> freePeriods = newPeriod.getService().getFreePeriods();
+        Set<TimeRange> unavailablePeriods = newPeriod.getService().getUnavailablePeriods();
+        Set<TimeRange> allPeriods = newPeriod.getService().getAllPeriods();
+        Date newEndDate = newPeriod.getEndDate();
+        Date newStartDate = newPeriod.getStartDate();
 
-        if (freePeriods.size() == 0 ) return  true;
+        if (freePeriods.size() == 0 && unavailablePeriods.size() == 0) return  true;
 
-        for(Reservation reservation : reservationService.findByService(newFreePeriod.getService())) {
+        for(Reservation reservation : reservationService.findByService(newPeriod.getService())) {
             Calendar calendar = Calendar.getInstance();
             Date reservationStartDate = reservation.getReservationStartDateAndTime();
             calendar.setTime(reservationStartDate);
@@ -225,7 +227,7 @@ public class ServiceService {
             }
         }
 
-        for(Action action : actionService.findByService(newFreePeriod.getService())) {
+        for(Action action : actionService.findByService(newPeriod.getService())) {
             Calendar calendar = Calendar.getInstance();
             Date actionStartDate = action.getStartTime();
             calendar.setTime(actionStartDate);
@@ -239,20 +241,20 @@ public class ServiceService {
             }
         }
 
-        for(TimeRange period : freePeriods) {
+        for(TimeRange period : allPeriods) {
             Date oldStartDate = period.getStartDate();
             Date oldEndDate = period.getEndDate();
 
-            if (newStartDate.before(oldStartDate) & newEndDate.after(oldEndDate)) {
+            if (newStartDate.before(oldStartDate) && newEndDate.after(oldEndDate)) {
                 return  false;
             }
-            else if (newStartDate.before(oldStartDate) & newEndDate.after(oldStartDate)) {
+            else if (newStartDate.before(oldStartDate) && newEndDate.after(oldStartDate)) {
                 return false;
             }
-            else if (newEndDate.after(oldEndDate) & newStartDate.before(oldEndDate)) {
+            else if (newEndDate.after(oldEndDate) && newStartDate.before(oldEndDate)) {
                 return false;
             }
-            else if ( newStartDate.after(oldStartDate) & newEndDate.before(oldEndDate)) {
+            else if ( newStartDate.after(oldStartDate) && newEndDate.before(oldEndDate)) {
                 return false;
             }
         }
@@ -263,6 +265,12 @@ public class ServiceService {
     public void addFreePeriod(TimeRange newFreePeriod) {
         com.isa.project.model.Service service = newFreePeriod.getService();
         service.addFreePeriod(newFreePeriod);
+        save(service);
+    }
+
+    public void addUnavailablePeriod(TimeRange newUnavailablePeriod) {
+        com.isa.project.model.Service service = newUnavailablePeriod.getService();
+        service.addUnavailablePeriod(newUnavailablePeriod);
         save(service);
     }
 
@@ -278,7 +286,7 @@ public class ServiceService {
         return services;
     }
 
-    @Transactional
+    //@Transactional(readOnly = false)
     @CachePut(value = "service", key = "#service.id")
     public com.isa.project.model.Service save(com.isa.project.model.Service service) {
         service.setLastUpdateDate(new Date());

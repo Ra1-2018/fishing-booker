@@ -298,7 +298,7 @@ public class AppUserController {
         if(review == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        reviewService.remove(review.getId());
+        reviewService.remove(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

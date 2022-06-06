@@ -21,6 +21,10 @@ export class BoatDetailOwnerService {
     return this._http.post<Observable<any>>(server + 'timeRanges', freePeriod);
   }
 
+  deleteFreePeriod(id: number) {
+    return this._http.get<any>('http://localhost:8080/timeRanges/delete/' + id).pipe(tap(data => console.log("data: ", data)))
+  }
+
   addAdditionalService(additionalService: any): Observable<any> {
     return this._http.post<Observable<any>>(server + 'additionalServices', additionalService);
   }
@@ -45,5 +49,9 @@ export class BoatDetailOwnerService {
     const formData = new FormData();
     formData.append('image', image);
     return this._http.post(server + 'images/' + id, formData);   
+  }
+
+  addServiceUnavailablePeriod(period:any): Observable<any> {
+    return this._http.post<Observable<any>>('http://localhost:8080/timeRanges/unavailablePeriod/service', period)
   }
 }

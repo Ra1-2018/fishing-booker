@@ -67,7 +67,7 @@ public class BoatDTO {
             this.additionalServices.add(new AdditionalServiceDTO(additionalService));
         }
         this.freePeriods = new HashSet<>();
-        for(TimeRange timeRange : boat.getFreePeriods()) {
+        for(TimeRange timeRange : boat.getAllPeriods()) {
             this.freePeriods.add(new TimeRangeDTO(timeRange));
         }
         this.actions = new HashSet<>();

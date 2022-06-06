@@ -22,4 +22,6 @@ public class ActionService {
     public Action save(Action action) {
         return actionRepository.save(action);
     }
+
+    public List<Action> findAll() { return  actionRepository.findAll(); }
 }

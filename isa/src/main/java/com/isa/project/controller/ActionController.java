@@ -33,6 +33,15 @@ public class ActionController {
     private AppUserService appUserService;
 
     @Autowired
+    private CottageService cottageService;
+
+    @Autowired
+    private BoatService boatService;
+
+    @Autowired
+    private AdventureService adventureService;
+
+    @Autowired
     private EmailService emailService;
 
     @Autowired
@@ -119,5 +128,52 @@ public class ActionController {
         } catch(ObjectOptimisticLockingFailureException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER') || hasRole('INSTRUCTOR')")
+    @GetMapping(value = "owner/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<ActionDTO>> findByOwner(@PathVariable("id") Long id) {
+
+        AppUser appUser = appUserService.findOne(id);
+        if (appUser == null) {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Collection<ActionDTO> actionDTOS = new ArrayList<>();
+
+        if(appUser.getAppUserType() == AppUserType.COTTAGE_OWNER) {
+            CottageOwner cottageOwner = (CottageOwner) appUser;
+            Collection<Cottage> cottages = cottageService.findCottagesByOwner(cottageOwner);
+
+            for (Cottage cottage : cottages) {
+                Collection<Action> actions = actionService.findByService(cottage);
+                for (Action action : actions) {
+                    actionDTOS.add(new ActionDTO(action));
+                }
+            }
+        }
+        else if (appUser.getAppUserType() == AppUserType.BOAT_OWNER) {
+            BoatOwner boatOwner = (BoatOwner) appUser;
+            Collection<Boat> boats = boatService.findBoatsByOwner(boatOwner);
+
+            for (Boat boat : boats) {
+                Collection<Action> actions = actionService.findByService(boat);
+                for (Action action : actions) {
+                    actionDTOS.add(new ActionDTO(action));
+                }
+            }
+        }
+        else if (appUser.getAppUserType() == AppUserType.INSTRUCTOR) {
+            Instructor instructor = (Instructor) appUser;
+            Collection<Adventure> adventures = adventureService.findAdventuresByOwner(instructor);
+
+            for (Adventure adventure : adventures) {
+                Collection<Action> actions = actionService.findByService(adventure);
+                for (Action action : actions) {
+                    actionDTOS.add(new ActionDTO(action));
+                }
+            }
+        }
+        return new ResponseEntity<>(actionDTOS, HttpStatus.OK);
     }
 }

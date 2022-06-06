@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
@@ -62,6 +59,11 @@ public class BusinessReportService {
             for(Adventure adventure : adventures) {
                 reservations.addAll(reservationService.findByService(adventure));
                 serviceDTOS.add(new ServiceDTO(adventure));
+            }
+        } else if ( user.getAppUserType() == AppUserType.ADMIN) {
+            reservations.addAll(reservationService.findAll());
+            for (com.isa.project.model.Service service: serviceService.findAll()) {
+                serviceDTOS.add(new ServiceDTO(service));
             }
         }
 

@@ -76,6 +76,7 @@ public class Client extends AppUser{
         for(Service service : subscriptions) {
             if(service.getId() == subscription.getId()) {
                 subscriptions.remove(service);
+                break;
             }
         }
     }
