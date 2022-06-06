@@ -1,6 +1,8 @@
 package com.isa.project.verification;
 
 import com.isa.project.model.*;
+import com.isa.project.service.AppUserService;
+import com.isa.project.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -25,6 +28,12 @@ public class EmailService {
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private ServiceService serviceService;
+
+    @Autowired
+    private AppUserService appUserService;
 
     @Async
     public void sendNotificationAsync(AppUser appUser, String token) throws MailException, InterruptedException {
@@ -140,8 +149,21 @@ public class EmailService {
     @Async
     public void sendActionNotification(Action action) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
-
-        Collection<Client> clients = action.getService().getSubscribedClients();
+        com.isa.project.model.Service service = serviceService.findById(action.getService().getId());
+        Collection<AppUser> appUsers = appUserService.findAll();
+        Collection<Client> clients = new ArrayList<>();
+        for(AppUser appUser: appUsers) {
+            if(appUser.getAppUserType().equals(AppUserType.CLIENT)) {
+                Client client = (Client) appUser;
+                Collection<com.isa.project.model.Service> serviceSet = client.getSubscriptions();
+                for(com.isa.project.model.Service service1 : serviceSet) {
+                    if(service1.getId() == service.getId()) {
+                        clients.add(client);
+                        break;
+                    }
+                }
+            }
+        }
 
         for (Client client : clients) {
             mail.setTo(client.getEmail());
