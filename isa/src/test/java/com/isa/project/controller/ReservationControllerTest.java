@@ -56,7 +56,7 @@ public class ReservationControllerTest {
                 .andExpect(jsonPath("$.[*].price").value(hasItem(DB_PRICE)))
                 .andExpect(jsonPath("$.[*].reservationStartDateAndTime").value(hasItem(DB_START_DATE.getTime())))
                 .andExpect(jsonPath("$.[*].client.id").value(hasItem(CLIENT_ID.intValue())));
-    }
+    } //za usera 1 ocekuje 1 vrednost da se vrai iz baze i to sa ovim poljima i ovim vrednostima
 
     @Test
     @WithMockUser(username = "nikola.iv.99@gmail.com", roles = {"USER", "CLIENT"})

@@ -4,6 +4,7 @@ import com.isa.project.model.Complaint;
 import com.isa.project.model.ResponseToComplaint;
 import com.isa.project.model.ResponseToDeletionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +20,12 @@ public class ResponseToComplaintTransactionService {
 
 
     @Transactional
-    public void responseToApproveComplaintTransactional(Complaint complaint) {
+    public void responseToApproveComplaintTransactional(Complaint complaint) throws OptimisticLockingFailureException {
         complaintService.save(complaint);
     }
 
     @Transactional
-    public void responseToDeclineComplaintTransactional(ResponseToComplaint response, Long complaintId) {
+    public void responseToDeclineComplaintTransactional(ResponseToComplaint response, Long complaintId) throws OptimisticLockingFailureException{
         complaintService.remove(complaintId);
         responseService.save(response);
     }
