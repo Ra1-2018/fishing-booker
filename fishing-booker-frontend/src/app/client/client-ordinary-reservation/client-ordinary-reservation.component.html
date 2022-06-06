@@ -69,7 +69,7 @@
     <tbody>
       <tr *ngFor="let service of sortedData" [routerLink]="">
         <td>{{service.name}}</td>
-        <td>{{service.address}}</td>
+        <td>{{service.city}}, {{service.street}} {{service.number}}</td>
         <td>{{service.pricePerDay}}</td>
         <td>{{service.maxNumberOfPeople}}</td>
         <td>{{service.averageGrade}}</td>

@@ -125,7 +125,7 @@ export class OwnedCottagesComponent implements OnInit {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
-        //case 'address': return compare(a.address, b.address, isAsc);
+        case 'address': return compare(a.address, b.address, isAsc);
         //case 'roomsTotalNumber': return compare(a.roomsTotalNumber, b.roomsTotalNumber, isAsc);
         case 'description': return compare(a.description, b.description, isAsc);
         default: return 0;

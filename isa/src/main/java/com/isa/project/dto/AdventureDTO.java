@@ -149,4 +149,6 @@ public class AdventureDTO {
         this.freePeriods = freePeriods;
         this.actions = actions;
     }
+
+    public String getAddress() { return city + ", " + street + " " + number;}
 }

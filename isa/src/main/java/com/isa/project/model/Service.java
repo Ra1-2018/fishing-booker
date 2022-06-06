@@ -186,7 +186,12 @@ public abstract class Service {
     }
 
     public void removeFreePeriod(TimeRange freePeriod) {
-        freePeriods.remove(freePeriod);
+        for(TimeRange fp: freePeriods) {
+            if(fp.getId() == freePeriod.getId()) {
+                freePeriods.remove(fp);
+                break;
+            }
+        }
         freePeriod.setService(null);
     }
 

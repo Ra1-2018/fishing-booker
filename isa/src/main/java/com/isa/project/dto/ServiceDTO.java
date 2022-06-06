@@ -113,4 +113,6 @@ public class ServiceDTO {
     public double getAverageGrade() {
         return averageGrade;
     }
+
+    public String getAddress() { return city + ", " + street + " " + number;}
 }
