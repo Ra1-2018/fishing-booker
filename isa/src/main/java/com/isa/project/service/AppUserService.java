@@ -1,6 +1,7 @@
 package com.isa.project.service;
 
 import com.isa.project.model.AppUser;
+import com.isa.project.model.Client;
 import com.isa.project.model.UserRole;
 import com.isa.project.repository.AppUserRepository;
 import com.isa.project.repository.UserRoleRepository;
