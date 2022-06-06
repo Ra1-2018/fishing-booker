@@ -84,7 +84,6 @@ public class ActionController {
         try {
             emailService.sendActionNotification(action);
         } catch (InterruptedException e) {
-            e.printStackTrace();
             Thread.currentThread().interrupt();
         }
 
@@ -121,7 +120,6 @@ public class ActionController {
             try {
                 emailService.sendReservationNotification(reservation);
             } catch (InterruptedException e) {
-                e.printStackTrace();
                 Thread.currentThread().interrupt();
             }
             return new ResponseEntity<>(new ReservationDTO(reservation), HttpStatus.OK);

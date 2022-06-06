@@ -1,7 +1,6 @@
 package com.isa.project.controller;
 
 import com.isa.project.dto.BoatDTO;
-import com.isa.project.dto.CottageDTO;
 import com.isa.project.model.*;
 import com.isa.project.service.BoatOwnerService;
 import com.isa.project.service.BoatService;

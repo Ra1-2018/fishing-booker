@@ -29,7 +29,7 @@ public class ImageDTO {
             fl.close();
             this.base64 = Base64.getEncoder().encodeToString(arr);
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 

@@ -178,12 +178,9 @@ public class TimeRangeController {
             for (Cottage cottage : cottages) {
                 Collection<TimeRange> ranges = timeRangeService.findByService(cottage);
                 for (TimeRange range: ranges) {
-                    if (range.isAvailable()){
-                        ranges.remove(range.getId());
+                    if (!range.isAvailable()) {
+                        rangesDTOS.add(new TimeRangeDTO(range));
                     }
-                }
-                for (TimeRange range : ranges) {
-                    rangesDTOS.add(new TimeRangeDTO(range));
                 }
             }
         }
@@ -194,12 +191,9 @@ public class TimeRangeController {
             for (Boat boat : boats) {
                 Collection<TimeRange> ranges = timeRangeService.findByService(boat);
                 for (TimeRange range: ranges) {
-                    if (range.isAvailable()){
-                        ranges.remove(range.getId());
+                    if (!range.isAvailable()) {
+                        rangesDTOS.add(new TimeRangeDTO(range));
                     }
-                }
-                for (TimeRange range : ranges) {
-                    rangesDTOS.add(new TimeRangeDTO(range));
                 }
             }
         }
