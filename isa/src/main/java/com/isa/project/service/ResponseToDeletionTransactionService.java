@@ -20,9 +20,6 @@ public class ResponseToDeletionTransactionService {
     @Autowired
     private AppUserService appUserService;
 
-    @Autowired
-    private Service service;
-
     @Transactional
     public void responseToApproveDeletionTransactional(Long requestId, Long userId) throws OptimisticLockingFailureException {
             deletionService.remove(requestId);

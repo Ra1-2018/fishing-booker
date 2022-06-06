@@ -32,7 +32,7 @@ INSERT INTO public.boat(id, behavior_rules, description, last_update_date, max_n
 INSERT INTO public.location (city, latitude, longitude, "number", street, zip_code, service_id) VALUES ('Belgrade', '44.82828946849244', '20.474567942652342', '2-4', 'Dunavski kej', '11000', 2);
 
 INSERT INTO public.adventure(id, behavior_rules, description, last_update_date, max_number_of_people, name, price_per_day, service_type, version, cancellation, fishing_gear, instructor_biography, instructor_id) VALUES (nextval('service_seq_gen'), 'Nema psovanja', 'Najzanimljivija pecaroska avantura', null, 20, 'Pecajte s nama', 40, 2, 0, 0, 'Varalice', 'Mnogo dobar instruktor', 4);
-INSERT INTO public.location (city, latitude, longitude, "number", street, zip_code, service_id) VALUES ('Belgrade', '44.78932489153337', '20.448370203245677', '4', 'Качаничка', '11000', 4);
+INSERT INTO public.location (city, latitude, longitude, "number", street, zip_code, service_id) VALUES ('Belgrade', '44.78932489153337', '20.448370203245677', '4', 'Качаничка', '11000', 3);
 
 INSERT INTO public.time_range(available, end_date, start_date, service_id) VALUES (true, '2022-06-15 00:00:00', '2022-06-09 00:00:00', 1);
 INSERT INTO public.time_range(available, end_date, start_date, service_id) VALUES (true, '2022-06-30 00:00:00', '2022-06-10 00:00:00', 2);
