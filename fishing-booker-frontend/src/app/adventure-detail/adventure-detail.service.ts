@@ -39,6 +39,6 @@ export class AdventureDetailService {
   }
 
   getImages(id: number): Observable<any> {
-    return this._http.get<any>('http://localhost:8080/images/' + id);
+    return this._http.get<any>(server + 'images/' + id);
   }
 }

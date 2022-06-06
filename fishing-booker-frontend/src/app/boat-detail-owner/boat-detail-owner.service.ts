@@ -22,7 +22,7 @@ export class BoatDetailOwnerService {
   }
 
   deleteFreePeriod(id: number) {
-    return this._http.get<any>('http://localhost:8080/timeRanges/delete/' + id).pipe(tap(data => console.log("data: ", data)))
+    return this._http.get<any>(server + 'timeRanges/delete/' + id).pipe(tap(data => console.log("data: ", data)))
   }
 
   addAdditionalService(additionalService: any): Observable<any> {
@@ -52,6 +52,6 @@ export class BoatDetailOwnerService {
   }
 
   addServiceUnavailablePeriod(period:any): Observable<any> {
-    return this._http.post<Observable<any>>('http://localhost:8080/timeRanges/unavailablePeriod/service', period)
+    return this._http.post<Observable<any>>(server + 'timeRanges/unavailablePeriod/service', period)
   }
 }

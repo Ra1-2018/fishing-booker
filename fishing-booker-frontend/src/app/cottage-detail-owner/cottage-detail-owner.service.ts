@@ -52,6 +52,6 @@ export class CottageDetailOwnerService {
   }
 
   addServiceUnavailablePeriod(period:any): Observable<any> {
-    return this._http.post<Observable<any>>('http://localhost:8080/timeRanges/unavailablePeriod/service', period)
+    return this._http.post<Observable<any>>(server + 'timeRanges/unavailablePeriod/service', period)
   }
 }

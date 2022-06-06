@@ -31,7 +31,7 @@ export class ProfileService {
   }
 
   approveReportRequest(id: number): Observable<any> {
-    return this._http.get<Observable<any>>('http://localhost:8080/users/approveReport/' + id);
+    return this._http.get<Observable<any>>(server + 'users/approveReport/' + id);
   }
 
   declineReviewRequest(id: number): Observable<any> {
@@ -39,7 +39,7 @@ export class ProfileService {
   }
 
   declineReportRequest(id: number): Observable<any> {
-    return this._http.get<Observable<any>>('http://localhost:8080/users/declineReport/' + id);
+    return this._http.get<Observable<any>>(server + 'users/declineReport/' + id);
   }
 
   approveDeletionRequest(id: number): Observable<any> {
@@ -65,7 +65,7 @@ export class ProfileService {
   }
 
   getReports(): Observable<any[]> {
-    return this._http.get<any[]>('http://localhost:8080/users/reports')
+    return this._http.get<any[]>(server + 'users/reports')
     .pipe(
       tap(data => console.log("data: ", data))
     )

@@ -18,6 +18,6 @@ export class CottageService {
   }
 
   getServices(serviceCriteria: any) : Observable<any> {
-    return this._http.post<Observable<any>>('http://localhost:8080/services/search-default', serviceCriteria);
+    return this._http.post<Observable<any>>(server + 'services/search-default', serviceCriteria);
   }
 }
