@@ -44,6 +44,8 @@ public class TimeRangeControllerTest {
 
     @Test
     @WithMockUser(username = "mila@gmail.com", roles = {"USER", "BOAT_OWNER"})
+    @Transactional
+    @Rollback(true)
     public void createFreePeriodTest() throws Exception {
         TimeRangeDTO timeRangeDTO = new TimeRangeDTO();
         timeRangeDTO.setStartDate(NEW_START_DATE);

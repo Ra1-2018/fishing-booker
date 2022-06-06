@@ -6,6 +6,8 @@ import com.isa.project.repository.AdventureRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +32,14 @@ public class AdventureService{
         return adventureRepository.findById(id).orElse(null);
     }
     public List<Adventure> findAdventuresByOwner(Instructor instructor) { return adventureRepository.findAdventuresByOwner(instructor); }
+
+    @CachePut(value = "service", key = "#adventure.id")
     public Adventure save(Adventure adventure) {
         adventure.setLastUpdateDate(new Date());
         return adventureRepository.save(adventure);
     }
+
+    @CacheEvict(cacheNames = {"service"}, key = "#id")
     public void remove(long id) {
         adventureRepository.deleteById(id);
     }
