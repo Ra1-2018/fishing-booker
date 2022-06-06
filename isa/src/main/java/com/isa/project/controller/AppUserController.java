@@ -102,7 +102,6 @@ public class AppUserController {
         try {
             emailService.sendNotificationAsync(appUser, token);
         } catch (InterruptedException e) {
-            e.printStackTrace();
             Thread.currentThread().interrupt();
         }
 
@@ -165,7 +164,7 @@ public class AppUserController {
         try {
             emailService.sendNotificationAdminReg(appUser, password);
         } catch (Exception e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         return new ResponseEntity<>(new AppUserDTO(appUser), HttpStatus.OK);
@@ -213,7 +212,6 @@ public class AppUserController {
         try {
             emailService.sendNotificationOfApprovedRegistrationRequest(request);
         } catch (InterruptedException e) {
-            e.printStackTrace();
             Thread.currentThread().interrupt();
         }
 
@@ -243,7 +241,6 @@ public class AppUserController {
         try {
             emailService.sendNotificationOfDeclinedRegistrationRequest(response);
         } catch (InterruptedException e) {
-            e.printStackTrace();
             Thread.currentThread().interrupt();
         }
 
@@ -283,7 +280,6 @@ public class AppUserController {
         try {
             emailService.sendNotificationOfApprovedReview(review, user);
         } catch (InterruptedException e) {
-            e.printStackTrace();
             Thread.currentThread().interrupt();
         }
 
@@ -337,7 +333,6 @@ public class AppUserController {
         try {
             emailService.sendNotificationOfDeclinedDeletionRequest(response);
         } catch (InterruptedException e) {
-            e.printStackTrace();
             Thread.currentThread().interrupt();
         }
 
@@ -377,7 +372,6 @@ public class AppUserController {
         try {
             emailService.sendNotificationOfDeclinedComplaint(response);
         } catch (InterruptedException e) {
-            e.printStackTrace();
             Thread.currentThread().interrupt();
         }
 

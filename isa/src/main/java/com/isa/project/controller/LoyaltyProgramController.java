@@ -1,6 +1,7 @@
 package com.isa.project.controller;
 
 
+import com.isa.project.dto.LoyaltyProgramDTO;
 import com.isa.project.model.LoyaltyProgram;
 import com.isa.project.repository.LoyaltyProgramRepository;
 import com.isa.project.service.LoyaltyProgramService;
@@ -28,7 +29,15 @@ public class LoyaltyProgramController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateLoyalty(@RequestBody LoyaltyProgram program){
+    public ResponseEntity<String> updateLoyalty(@RequestBody LoyaltyProgramDTO dto){
+
+        LoyaltyProgram program = new LoyaltyProgram();
+        program.setPointsForBronze(dto.getPointsForBronze());
+        program.setPercentForBronze(dto.getPercentForBronze());
+        program.setPointsForSilver(dto.getPointsForSilver());
+        program.setPercentForSilver(dto.getPercentForSilver());
+        program.setPointsForGold(dto.getPointsForGold());
+        program.setPercentForGold(dto.getPercentForGold());
 
         if(program.getPercentForBronze() < 0 || program.getPercentForBronze() > 100 ||
                 program.getPercentForSilver() < 0 || program.getPercentForSilver() > 100 ||

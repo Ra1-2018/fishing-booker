@@ -187,7 +187,7 @@ public abstract class Service {
 
     public void removeFreePeriod(TimeRange freePeriod) {
         for(TimeRange fp: freePeriods) {
-            if(fp.getId() == freePeriod.getId()) {
+            if(fp.getId().equals(freePeriod.getId())) {
                 freePeriods.remove(fp);
                 break;
             }
