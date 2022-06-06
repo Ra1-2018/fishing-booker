@@ -24,7 +24,7 @@ public class AdditionalServicesController {
     @Autowired
     private AdditionalServiceService additionalServiceService;
 
-    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('INSTRUCTOR') || hasRole('BOAT_OWNER')")
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<AdditionalServiceDTO> createAdditionalService(@RequestBody AdditionalServiceDTO additionalServiceDTO) {

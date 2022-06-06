@@ -202,7 +202,11 @@ addServiceUnavailablePeriod(){
 
     this.boatDetailOwnerService.addAdditionalService(this.additionalServiceFormGroup.getRawValue()).subscribe({
       next: (data) => {
-      alert("Succesfully created!")
+        alert("Succesfully created!")
+        this.boatDetailOwnerService.getBoat(this.id).subscribe({
+          next: boat => this.boat = boat, 
+          error: err => this.errorMessage = err
+        })
 
     },
       error: (err) => {alert("Error has occured, additional service was not created!")}
@@ -243,9 +247,11 @@ addServiceUnavailablePeriod(){
     console.log(reservation);
     this.boatDetailOwnerService.makeReservation(reservation).subscribe({
       next: (data) => {
-      this.getBoat(this.id as number);
+        this.boatDetailOwnerService.getBoat(this.id).subscribe({
+          next: boat => this.boat = boat, 
+          error: err => this.errorMessage = err
+        })
       alert("Succesfully created!")
-
       },
       error: (err) => {alert("Error has occured, reservation was not created!")}
     });

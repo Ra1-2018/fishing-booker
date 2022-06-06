@@ -64,7 +64,7 @@
             <div class="col-md-2">
                 <div class="d-grid gap-2 col-10 mx-auto">
                     <button style="margin-bottom: 10px;" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDialogUnavailable">Register unavailable period</button>
-                    <button style="margin-bottom: 10px;" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">Register free period</button>
+                    <button style="margin-bottom: 10px;" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialogFreePeriod">Register free period</button>
                     <button style="margin-bottom: 10px;" class="btn btn-success button" data-bs-toggle="modal" data-bs-target="#modalDialogReservation" (click)="getClients()">Make a reservation</button>
                 </div>
             </div>
@@ -143,8 +143,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalDialog" tabindex="-1" aria-labelledby="modalDialog" aria-hidden="true">
-    <div class="modal-dialog" data-target="#modal">
+<div class="modal fade" id="modalDialogFreePeriod" tabindex="-1" aria-labelledby="modalDialogFreePeriod" aria-hidden="true">
+    <div class="modal-dialog" data-target="#modalFreePeriod">
       <div class="modal-content">
             <div class="modal-header">
             <h5 class="modal-title" id="modalDialog">Free period</h5>
@@ -168,7 +168,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddFreePeriod()">Add cottage</button>
+            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddFreePeriod()">Add free period</button>
             </div>
         </div>
     </div>
