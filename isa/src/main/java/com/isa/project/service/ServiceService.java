@@ -57,6 +57,17 @@ public class ServiceService {
         return matchingServices;
     }
 
+    public List<com.isa.project.model.Service> searchServices(ServiceCriteriaDTO serviceCriteria) {
+        List<com.isa.project.model.Service> services = findAll();
+        List<com.isa.project.model.Service> matchingServices = new ArrayList<>();
+        for (com.isa.project.model.Service service : services) {
+            if(matchesCriteria(serviceCriteria, service)) {
+                matchingServices.add(service);
+            }
+        }
+        return matchingServices;
+    }
+
     private boolean matchesCriteria(ServiceCriteriaDTO serviceCriteria, com.isa.project.model.Service service) {
         return service.getServiceType() == serviceCriteria.getServiceType() && service.getMaxNumberOfPeople() >= serviceCriteria.getNumberOfPeople() && service.getAverageGrade() >= serviceCriteria.getMinAverageGrade() && (service.getLocation().getCity() == null || service.getLocation() == null || service.getLocation().getCity().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()) || service.getLocation().getStreet().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()));
     }

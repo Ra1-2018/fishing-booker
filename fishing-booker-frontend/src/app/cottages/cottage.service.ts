@@ -15,4 +15,8 @@ export class CottageService {
       tap(data => console.log("data: ", data))
     )
   }
+
+  getServices(serviceCriteria: any) : Observable<any> {
+    return this._http.post<Observable<any>>('http://localhost:8080/services/search-default', serviceCriteria);
+  }
 }

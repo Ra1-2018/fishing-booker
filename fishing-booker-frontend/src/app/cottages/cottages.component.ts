@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
+import { ReservationSearch } from '../model/reservation-search';
 import { CottageService } from './cottage.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class CottagesComponent implements OnInit {
 
   cottages: any[] = []
   sortedData: any[] = []
+  search = new ReservationSearch('COTTAGE', null, null, '', null, null);
 
   constructor(private _cottageService: CottageService) { }
 
@@ -24,6 +26,15 @@ export class CottagesComponent implements OnInit {
     this._cottageService.getCottages().subscribe(
       cottages => {
         this.cottages = cottages;
+        this.sortedData = this.cottages.slice();
+      }
+    )
+  }
+
+  public onClickSubmit(): void {
+    this._cottageService.getServices(this.search).subscribe(
+      services => {
+        this.cottages = services;
         this.sortedData = this.cottages.slice();
       }
     )
