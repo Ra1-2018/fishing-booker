@@ -46,6 +46,9 @@ public class ReservationController {
     @Autowired
     private ReservationTransactionService reservationTransactionService;
 
+    @Autowired
+    private PenaltyService penaltyService;
+
     @PreAuthorize("hasRole('COTTAGE_OWNER') || hasRole('BOAT_OWNER') || hasRole('INSTRUCTOR')")
     @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationDTO> findOne(@PathVariable("id") Long id) {
@@ -67,7 +70,27 @@ public class ReservationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        //reservation.setPenal(true);
+        Penalty penalty = new Penalty();
+        penalty.setDateIssued(new Date());
+        Client client = (Client) appUserService.findOne(reservationDTO.getClient().getId());
+        penalty.setClient(client);
+
+        Service service = serviceService.findById(reservationDTO.getId());
+        if(service.getServiceType() == ServiceType.BOAT) {
+            Boat boat = boatService.findById(service.getId());
+            BoatOwner boatOwner = (BoatOwner) appUserService.findOne(boat.getBoatOwner().getId());
+            penalty.setBoatOwner(boatOwner);
+        } else if(service.getServiceType() == ServiceType.COTTAGE) {
+            Cottage cottage = cottageService.findById(service.getId());
+            CottageOwner cottageOwner = (CottageOwner) appUserService.findOne(cottage.getCottageOwner().getId());
+            penalty.setCottageOwner(cottageOwner);
+        } else if(service.getServiceType() == ServiceType.ADVENTURE) {
+            Adventure adventure = adventureService.findById(service.getId());
+            Instructor instructor = (Instructor) appUserService.findOne(adventure.getInstructor().getId());
+            penalty.setInstructor(instructor);
+        }
+
+        penaltyService.save(penalty);
         reservation.setReported(true);
         reservationService.save(reservation);
 
