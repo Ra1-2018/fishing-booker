@@ -19,10 +19,7 @@ public class FreePeriodTransactionService {
 
     @Transactional(readOnly = false)
     public void removeFreePeriod(TimeRange freePeriod) {
-        Long serviceId = freePeriod.getService().getId();
-        com.isa.project.model.Service service = serviceService.findById(serviceId);
-        service.removeFreePeriod(freePeriod);
-        serviceService.save(service);
+        serviceService.RemoveFreePeriodTimeRange(freePeriod);
         timeRangeService.deleteById(freePeriod.getId());
     }
 }
