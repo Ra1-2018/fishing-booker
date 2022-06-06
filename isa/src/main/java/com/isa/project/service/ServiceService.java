@@ -58,7 +58,7 @@ public class ServiceService {
     }
 
     private boolean matchesCriteria(ServiceCriteriaDTO serviceCriteria, com.isa.project.model.Service service) {
-        return service.getServiceType() == serviceCriteria.getServiceType() && service.getMaxNumberOfPeople() >= serviceCriteria.getNumberOfPeople() && service.getAverageGrade() >= serviceCriteria.getMinAverageGrade() && (service.getLocation().getCity().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()) || service.getLocation().getStreet().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()));
+        return service.getServiceType() == serviceCriteria.getServiceType() && service.getMaxNumberOfPeople() >= serviceCriteria.getNumberOfPeople() && service.getAverageGrade() >= serviceCriteria.getMinAverageGrade() && (service.getLocation().getCity() == null || service.getLocation() == null || service.getLocation().getCity().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()) || service.getLocation().getStreet().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()));
     }
 
     public boolean IsReservationValid(Reservation reservation) {
@@ -274,7 +274,7 @@ public class ServiceService {
     }
 
     public Collection<com.isa.project.model.Service> getServicesFromReservations(Client client) {
-        Collection<Reservation> reservations = client.getReservations();
+        Collection<Reservation> reservations = reservationService.findByClient(client);
         Collection<com.isa.project.model.Service> services = new ArrayList<>();
         for(Reservation reservation : reservations) {
             com.isa.project.model.Service service = reservation.getService();
