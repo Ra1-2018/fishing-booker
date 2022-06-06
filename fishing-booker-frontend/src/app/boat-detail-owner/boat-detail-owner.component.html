@@ -9,7 +9,7 @@
                     <div class="col-md-2" style="margin-bottom: 20px ;">Address:</div>
                     <div class="col-md-10">{{boat.city}}, {{boat.street}} {{boat.number}}</div>
                 </div>
-                <div class="row"> 
+                <div class="row">
                     <div class="col-md-6">
                         <div id="map" class="map"></div>
                     </div>
@@ -36,7 +36,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <app-image-slideshow [images]="images" [isOwner]="isOwner" [serviceId]="id"></app-image-slideshow>                              
+                <app-image-slideshow [images]="images" [isOwner]="isOwner" [serviceId]="id"></app-image-slideshow>
             </div>
         </div>
 
@@ -56,6 +56,7 @@
                             <td>{{period.startDate | date:'longDate'}} </td>
                             <td>{{period.endDate | date:'longDate'}}</td>
                             <td>{{period.available}}</td>
+                            <td><button class="btn btn-secondary" (click)="onClickDelete(period.id);">Delete</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -68,15 +69,15 @@
                 </div>
             </div>
         </div>
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-10">
                 <label class="m-2">Actions</label>
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th> Start date </th>  
-                            <th> Duration in days </th>        
-                            <th> Price </th>              
+                            <th> Start date </th>
+                            <th> Duration in days </th>
+                            <th> Price </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -315,7 +316,7 @@
                     <div class = "col-md-6">Total price:</div>
                     <div class = "col-md-6"> {{reservationPrice}}</div>
                 </div>
-            </ng-container>                   
+            </ng-container>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

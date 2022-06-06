@@ -38,6 +38,6 @@ public class BoatService {
         return boatRepository.save(boat);
     }
 
-    @CacheEvict(cacheNames = {"service"}, key = "#boat.id")
+    @CacheEvict(cacheNames = {"service"}, key = "#id")
     public void deleteById(Long id) { boatRepository.deleteById(id); }
 }

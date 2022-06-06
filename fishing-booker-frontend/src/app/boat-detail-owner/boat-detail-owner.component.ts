@@ -155,6 +155,18 @@ addServiceUnavailablePeriod(){
 
   }
 
+  public onClickDelete(id: number): void {
+    this.boatDetailOwnerService.deleteFreePeriod(id).subscribe({
+      next: (data) => {
+        this.boatDetailOwnerService.getBoat(this.id).subscribe( {
+        next: boat => this.boat = boat,
+        error: err => this.errorMessage = err
+      })
+    },
+    error: (err) => {alert("Error has occured, free period was not deleted!")}
+    });
+  }
+
   public onClickAddAction(): void {
 
     if (this.myFormGroupAction.invalid) {

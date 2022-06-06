@@ -259,9 +259,9 @@ public class ReservationController {
         c.setTime(reservationStartTime);
         c.add(Calendar.DATE, -3);
         Date threeDaysBeforeReservation = c.getTime();
-        if(new Date().after(threeDaysBeforeReservation)) {
+        /*if(new Date().after(threeDaysBeforeReservation)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        }*/
         try {
             reservationTransactionService.cancelReservation(reservation);
         } catch (ObjectOptimisticLockingFailureException e) {

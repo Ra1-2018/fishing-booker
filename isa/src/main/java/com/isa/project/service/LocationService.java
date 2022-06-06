@@ -13,4 +13,5 @@ public class LocationService {
 
     public Location save(Location location) { return  locationRepository.save(location); }
 
+    public void deleteById(Long id) { locationRepository.deleteById(id);}
 }

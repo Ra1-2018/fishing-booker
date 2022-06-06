@@ -31,7 +31,6 @@ public class TimeRangeDTO {
         this.available = timeRange.isAvailable();
     }
 
-
     public long getId() { return id; }
 
     public Date getStartDate() { return startDate; }
@@ -40,7 +39,13 @@ public class TimeRangeDTO {
 
     public long getServiceId() { return serviceId; }
 
-    public boolean isAvailable() {
-        return available;
-    }
+    public boolean isAvailable() { return available;}
+    
+    public void setId(long id) { this.id = id; }
+
+    public void setStartDate(Date startDate) { this.startDate = startDate; }
+
+    public void setEndDate(Date endDate) { this.endDate = endDate; }
+
+    public void setServiceId(long serviceId) { this.serviceId = serviceId; }
 }

@@ -6,7 +6,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -34,6 +36,8 @@ public class ReservationTransactionServiceTest {
     private ReservationService reservationService;
 
     @Test(expected = ObjectOptimisticLockingFailureException.class)
+    @Transactional
+    @Rollback(true)
     public void testOptimisticLockingForOrdinaryReservation() throws Throwable {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
