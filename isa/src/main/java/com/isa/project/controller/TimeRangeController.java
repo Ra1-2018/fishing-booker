@@ -11,6 +11,9 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/timeRanges")
 public class TimeRangeController {
@@ -173,7 +176,7 @@ public class TimeRangeController {
             Collection<Cottage> cottages = cottageService.findCottagesByOwner(cottageOwner);
 
             for (Cottage cottage : cottages) {
-                Collection<TimeRange> ranges = timeRangeService.findTimeRangeByService(cottage);
+                Collection<TimeRange> ranges = timeRangeService.findByService(cottage);
                 for (TimeRange range: ranges) {
                     if (range.isAvailable()){
                         ranges.remove(range.getId());
@@ -189,7 +192,7 @@ public class TimeRangeController {
             Collection<Boat> boats = boatService.findBoatsByOwner(boatOwner);
 
             for (Boat boat : boats) {
-                Collection<TimeRange> ranges = timeRangeService.findTimeRangeByService(boat);
+                Collection<TimeRange> ranges = timeRangeService.findByService(boat);
                 for (TimeRange range: ranges) {
                     if (range.isAvailable()){
                         ranges.remove(range.getId());
@@ -205,7 +208,7 @@ public class TimeRangeController {
             Collection<Adventure> adventures = adventureService.findAdventuresByOwner(instructor);
 
             for (Adventure adventure : adventures) {
-                Collection<TimeRange> ranges = timeRangeService.findTimeRangeByService(adventure);
+                Collection<TimeRange> ranges = timeRangeService.findByService(adventure);
                 for (TimeRange range: ranges) {
                     if (!range.isAvailable()) {
                         rangesDTOS.add(new TimeRangeDTO(range));

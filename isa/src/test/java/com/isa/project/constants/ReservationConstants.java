@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 public class ReservationConstants {
     public static final Long DB_ID = 1L;
-    public static final Date DB_START_DATE = new GregorianCalendar(2022, Calendar.JUNE, 6).getTime();
+    public static final Date DB_START_DATE = new GregorianCalendar(2022, Calendar.JULY, 20).getTime();
     public static final int DB_DURATION = 3;
     public static final int DB_NUMBER_OF_PEOPLE = 5;
     public static final double DB_PRICE = 90;

@@ -72,6 +72,8 @@ public class ReservationTransactionServiceTest {
     }
 
     @Test(expected = ObjectOptimisticLockingFailureException.class)
+    @Transactional
+    @Rollback(true)
     public void testOptimisticLockingForSpecialReservation() throws Throwable {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
@@ -108,6 +110,8 @@ public class ReservationTransactionServiceTest {
     }
 
     @Test(expected = ObjectOptimisticLockingFailureException.class)
+    @Transactional
+    @Rollback(true)
     public void testOptimisticLockingForCancellingReservation() throws Throwable {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
