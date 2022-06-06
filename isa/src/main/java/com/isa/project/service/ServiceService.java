@@ -58,8 +58,7 @@ public class ServiceService {
     }
 
     private boolean matchesCriteria(ServiceCriteriaDTO serviceCriteria, com.isa.project.model.Service service) {
-        //service.getAddress().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase())
-        return service.getServiceType() == serviceCriteria.getServiceType() && service.getMaxNumberOfPeople() >= serviceCriteria.getNumberOfPeople() && service.getAverageGrade() >= serviceCriteria.getMinAverageGrade();
+        return service.getServiceType() == serviceCriteria.getServiceType() && service.getMaxNumberOfPeople() >= serviceCriteria.getNumberOfPeople() && service.getAverageGrade() >= serviceCriteria.getMinAverageGrade() && (service.getLocation().getCity().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()) || service.getLocation().getStreet().toLowerCase().contains(serviceCriteria.getAddress().toLowerCase()));
     }
 
     public boolean IsReservationValid(Reservation reservation) {

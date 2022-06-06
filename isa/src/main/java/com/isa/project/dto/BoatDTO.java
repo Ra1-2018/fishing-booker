@@ -187,4 +187,6 @@ public class BoatDTO {
     public Set<TimeRangeDTO> getFreePeriods() { return freePeriods; }
 
     public Set<ActionDTO> getActions() { return actions; }
+
+    public String getAddress() { return city + ", " + street + " " + number;}
 }

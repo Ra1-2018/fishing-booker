@@ -120,4 +120,6 @@ public class CottageDTO {
     public Set<ActionDTO> getActions() { return actions; }
 
     public Set<RoomDTO> getRooms() { return rooms; }
+
+    public String getAddress() { return city + ", " + street + " " + number;}
 }
