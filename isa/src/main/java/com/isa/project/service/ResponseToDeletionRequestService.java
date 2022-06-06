@@ -7,13 +7,18 @@ import com.isa.project.repository.ResponseToRegistrationRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ResponseToDeletionRequestService {
 
     @Autowired
     ResponseToDeletionRequestRepository responseDeletionRequestRepository;
 
-    public ResponseToDeletionRequest save(ResponseToDeletionRequest request) { return responseDeletionRequestRepository.save(request); }
+    public ResponseToDeletionRequest save(ResponseToDeletionRequest request) {
+        request.setDateSubmitted(new Date());
+        return responseDeletionRequestRepository.save(request);
+    }
     public ResponseToDeletionRequest findById(Long id) {
         return responseDeletionRequestRepository.findById(id).orElse(null);
     }

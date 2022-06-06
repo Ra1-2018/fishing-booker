@@ -19,6 +19,9 @@ public class ResponseToDeletionRequest {
     private String content;
     @Column
     private boolean approved;
+
+    @Version
+    private Integer version;
     @Column
     private Date dateSubmitted;
 
@@ -30,6 +33,7 @@ public class ResponseToDeletionRequest {
         this.deletionRequest = deletionRequest;
         this.content = content;
         this.approved = false;
+        this.dateSubmitted = new Date();
     }
 
     public Long getId() {
@@ -78,5 +82,13 @@ public class ResponseToDeletionRequest {
 
     public void setDateSubmitted(Date dateSubmitted) {
         this.dateSubmitted = dateSubmitted;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

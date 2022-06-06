@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -64,7 +65,13 @@ public class AppUserController {
     private ResponseToDeletionRequestService responseDeletionService;
 
     @Autowired
+    private ResponseToDeletionTransactionService responseToDeletionTransactionService;
+
+    @Autowired
     private ResponseToComplaintService responseComplaintService;
+
+    @Autowired
+    private ResponseToComplaintTransactionService responseToComplaintTransactionService;
 
     @Autowired
     private EmailService emailService;
@@ -312,8 +319,12 @@ public class AppUserController {
         if(request == null || user==null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        deletionService.remove(id);
-        appUserService.remove(user.getId());
+        try {
+            responseToDeletionTransactionService.responseToApproveDeletionTransactional(request.getId(), user.getId());
+        } catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -331,8 +342,11 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         response.setApproved(false);
-        deletionService.remove(request.getId());
-        responseDeletionService.save(response);
+        try {
+            responseToDeletionTransactionService.responseToDeclineDeletionTransactional(response, request.getId());
+        } catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         try {
             emailService.sendNotificationOfDeclinedDeletionRequest(response);
@@ -354,7 +368,11 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         request.setApproved(true);
-        complaintService.save(request);
+        try {
+            responseToComplaintTransactionService.responseToApproveComplaintTransactional(request);
+        } catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -371,8 +389,11 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         response.setApproved(false);
-        complaintService.remove(request.getId());
-        responseComplaintService.save(response);
+        try {
+            responseToComplaintTransactionService.responseToDeclineComplaintTransactional(response, request.getId());
+        } catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         try {
             emailService.sendNotificationOfDeclinedComplaint(response);
