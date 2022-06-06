@@ -9,6 +9,8 @@ public class ReportDTO {
     private AppUserDTO client;
     private AppUserDTO owner;
 
+    private boolean approved;
+
     public ReportDTO() {
 
     }
@@ -18,6 +20,7 @@ public class ReportDTO {
         this.comment = report.getComment();
         this.sanctionRequested = report.isSanctionRequested();
         this.client = new AppUserDTO(report.getClient());
+        this.approved = report.isApproved();
 
         if(report.getCottageOwner() != null) {
             this.owner = new AppUserDTO(report.getCottageOwner());
@@ -37,6 +40,7 @@ public class ReportDTO {
         this.sanctionRequested = sanctionRequested;
         this.client = client;
         this.owner = owner;
+        this.approved = false;
     }
 
     public long getId() {
@@ -57,5 +61,9 @@ public class ReportDTO {
 
     public AppUserDTO getOwner() {
         return owner;
+    }
+
+    public boolean isApproved() {
+        return approved;
     }
 }

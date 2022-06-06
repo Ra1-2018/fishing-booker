@@ -80,6 +80,28 @@ public class EmailService {
     }
 
     @Async
+    public void sendNotificationOfApprovedReport(Report report) throws MailException, InterruptedException {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(report.getClient().getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setText("You review has been approved");
+        javaMailSender.send(mail);
+
+        System.out.println("Email poslat!");
+    }
+
+    @Async
+    public void sendNotificationOfDeclinedReport(Report report) throws MailException, InterruptedException {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(report.getClient().getEmail());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setText("You review: " + report.getComment() + "has been declined");
+        javaMailSender.send(mail);
+
+        System.out.println("Email poslat!");
+    }
+
+    @Async
     public void sendNotificationOfDeclinedDeletionRequest(ResponseToDeletionRequest response) throws MailException, InterruptedException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(response.getDeletionRequest().getUserEmail());

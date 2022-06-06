@@ -30,8 +30,16 @@ export class ProfileService {
     return this._http.get<Observable<any>>(server + 'users/approveReview/' + id);
   }
 
+  approveReportRequest(id: number): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/approveReport/' + id);
+  }
+
   declineReviewRequest(id: number): Observable<any> {
     return this._http.get<Observable<any>>(server + 'users/declineReview/' + id);
+  }
+
+  declineReportRequest(id: number): Observable<any> {
+    return this._http.get<Observable<any>>('http://localhost:8080/users/declineReport/' + id);
   }
 
   approveDeletionRequest(id: number): Observable<any> {
@@ -51,6 +59,13 @@ export class ProfileService {
 
   getReviews(): Observable<any[]> {
     return this._http.get<any[]>(server + 'users/reviews')
+    .pipe(
+      tap(data => console.log("data: ", data))
+    )
+  }
+
+  getReports(): Observable<any[]> {
+    return this._http.get<any[]>('http://localhost:8080/users/reports')
     .pipe(
       tap(data => console.log("data: ", data))
     )

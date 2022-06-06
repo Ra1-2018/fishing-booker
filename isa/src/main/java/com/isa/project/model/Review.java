@@ -23,6 +23,9 @@ public class Review {
     @Column
     private Date dateSubmitted;
 
+    @Version
+    private Integer version;
+
     public Review() {
     }
 
@@ -33,7 +36,7 @@ public class Review {
         this.client = client;
         this.service = service;
         this.approved = approved;
-        this.dateSubmitted = dateSubmitted;
+        this.dateSubmitted = new Date();
     }
 
     public long getId() {
@@ -90,5 +93,13 @@ public class Review {
 
     public void setDateSubmitted(Date dateSubmitted) {
         this.dateSubmitted = dateSubmitted;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

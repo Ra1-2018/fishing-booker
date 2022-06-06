@@ -29,6 +29,9 @@ public class Report {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
+    @Column
+    private boolean approved;
+
     public Report() {
 
     }
@@ -40,6 +43,7 @@ public class Report {
         this.cottageOwner = cottageOwner;
         this.boatOwner = boatOwner;
         this.instructor = instructor;
+        this.approved = false;
     }
 
     public long getId() {
@@ -96,5 +100,13 @@ public class Report {
 
     public void setInstructor(Instructor instructor) {
         this.instructor = instructor;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }
