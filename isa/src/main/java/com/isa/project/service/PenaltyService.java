@@ -17,6 +17,8 @@ public class PenaltyService {
 
     public List<Penalty> findByClient(Client client) { return penaltyRepository.findByClient(client); }
 
+    public Penalty save(Penalty penalty) { return penaltyRepository.save(penalty); }
+
     @Scheduled(cron="0 0 0 1 1/1 *")
     public void deleteAllPenalties() {
         this.penaltyRepository.deleteAll();
