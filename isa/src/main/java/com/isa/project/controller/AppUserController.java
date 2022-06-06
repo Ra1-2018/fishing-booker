@@ -62,6 +62,9 @@ public class AppUserController {
     private BoatService boatService;
 
     @Autowired
+    private ReportService reportService;
+
+    @Autowired
     private ResponseToRegistrationRequestService responseService;
 
     @Autowired
@@ -258,6 +261,62 @@ public class AppUserController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/approveReport/{id}")
+    public ResponseEntity<Void> approveReportRequest(@PathVariable("id") Long id) {
+
+        Report report = reportService.findById(id);
+        if(report == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        report.setApproved(true);
+        reportService.save(report);
+
+        try {
+            emailService.sendNotificationOfApprovedReport(report);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/declineReport/{id}")
+    public ResponseEntity<Void> declineReportRequest(@PathVariable("id") Long id) {
+
+        Report report = reportService.findById(id);
+        if(report == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        reportService.remove(report.getId());
+
+        try {
+            emailService.sendNotificationOfDeclinedReport(report);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/declineReview/{id}")
+    public ResponseEntity<Void> declineReviewRequest(@PathVariable("id") Long id) {
+
+        Review review = reviewService.findById(id);
+        if(review == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        try {
+            reviewTransactionService.responseToDeclineReviewTransactional(review.getId());
+        } catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/approveReview/{id}")
     public ResponseEntity<Void> approveReviewRequest(@PathVariable("id") Long id) {
 
@@ -295,23 +354,6 @@ public class AppUserController {
             emailService.sendNotificationOfApprovedReview(review, user);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/declineReview/{id}")
-    public ResponseEntity<Void> declineReviewRequest(@PathVariable("id") Long id) {
-
-        Review review = reviewService.findById(id);
-        if(review == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        try {
-            reviewTransactionService.responseToDeclineReviewTransactional(review.getId());
-        } catch (ObjectOptimisticLockingFailureException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -539,6 +581,18 @@ public class AppUserController {
                 complaintsDTOs.add(new ComplaintDTO(complaint));
         }
         return new ResponseEntity<>(complaintsDTOs, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/reports")
+    public ResponseEntity<Collection<ReportDTO>> findAllReports() {
+        Collection<Report> reports = reportService.findAll();
+        Collection<ReportDTO> reportsDTOs = new ArrayList<>();
+        for (Report report : reports) {
+            if (!report.isApproved())
+                reportsDTOs.add(new ReportDTO(report));
+        }
+        return new ResponseEntity<>(reportsDTOs, HttpStatus.OK);
     }
 
     //@PreAuthorize("hasRole('USER')")

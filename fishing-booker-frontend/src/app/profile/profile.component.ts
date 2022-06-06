@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfileService } from './profile.service';
 import { CommonModule } from "@angular/common";
 import { LoginService } from '../login/login.service';
+import { ReportService } from '../report/report.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,7 @@ export class ProfileComponent implements OnInit {
   deletionRequests: any[] = [];
   requests: any[] = [];
   reviews: any[]=[];
+  reports: any[]=[];
   selectedUser: any;
   userEmail:string = ''
   userID:number = 0;
@@ -69,6 +71,7 @@ export class ProfileComponent implements OnInit {
     this.getReviews();
     this.getDeletionRequests();
     this.getComplaintRequests();
+    this.getReports();
   }
 
   private retrieveData(): void {
@@ -179,6 +182,14 @@ export class ProfileComponent implements OnInit {
     )
   }
 
+  getReports(){
+    this.profileService.getReports().subscribe(
+      reports => {
+        this.reports = reports;
+      }
+    )
+  }
+
   getDeletionRequests() {
     this.profileService.getDeletionRequests().subscribe(
       deletionRequests => {
@@ -220,6 +231,24 @@ export class ProfileComponent implements OnInit {
     this.profileService.approveReviewRequest(id).subscribe(
       response => {this.getReviews(); 
                    alert('Request for review approved');
+                  }
+      );
+    return;
+  }
+
+  onApproveReportRequest(id:number):void {
+    this.profileService.approveReportRequest(id).subscribe(
+      response => {this.getReports(); 
+                   alert('Request for report approved');
+                  }
+      );
+    return;
+  }
+
+  onDeclineReportRequest(id:number):void {
+    this.profileService.declineReportRequest(id).subscribe(
+      response => {this.getReports(); 
+                   alert('Request for report declined');
                   }
       );
     return;

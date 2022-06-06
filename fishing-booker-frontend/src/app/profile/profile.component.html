@@ -105,6 +105,30 @@
 
             <div>                
                 <br>
+                <h3 *ngIf='reports && reports.length' class="h3">Report requests</h3>
+                <table *ngIf='reports && reports.length' class="table">
+                    <thead>
+                        <tr>
+                            <th class="col">Owner</th>
+                            <th class="col">Client Name</th>
+                            <th class="col">Revision</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor = 'let report of reports'>
+                            <td>{{report.owner.name}}</td>
+                            <td>{{report.client.name}} {{report.client.surname}}</td>
+                            <td>{{report.comment}}</td>
+                            <td><button name="approveReportRequest" class="btn btn-secondary" (click)="onApproveReportRequest(report.id);">Approve</button></td>
+                            <td><button name="declineReportRequest" class="btn btn-secondary" (click)="onDeclineReportRequest(report.id);">Decline</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div>                
+                <br>
                 <h3 *ngIf='deletionRequests && deletionRequests.length' class="h3">Deletion requests</h3>
                 <table *ngIf='deletionRequests && deletionRequests.length' class="table">
                     <thead>
