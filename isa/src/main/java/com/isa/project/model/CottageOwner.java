@@ -9,7 +9,7 @@ import java.util.Set;
 @Entity
 public class CottageOwner extends AppUser {
 
-    @OneToMany(mappedBy = "cottageOwner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cottageOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Cottage> cottages = new HashSet<Cottage>();
 
     @OneToMany(mappedBy = "cottageOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
