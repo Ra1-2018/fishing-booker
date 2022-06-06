@@ -49,3 +49,7 @@ INSERT INTO public.action(duration_in_days, max_number_of_people, price, start_t
 INSERT INTO public.action(duration_in_days, max_number_of_people, price, start_time, service_id) VALUES (3, 3, 70, '2022-06-20 00:00:00', 3);
 
 INSERT INTO public.loyalty_program(percent_for_bronze, percent_for_gold, percent_for_silver, points_for_bronze, points_for_gold, points_for_silver) VALUES (10, 30, 20, 100, 300, 200);
+
+INSERT INTO public.response_to_deletion_request(approved, content, date_submitted, version, administrator_id) VALUES (false, 'epa', null, 0, 5);
+INSERT INTO public.deletion_request(approved, date_submitted, explanation, user_email, response_to_deletion_request_id) VALUES (false, null, 'eto', 'nikola.iv.99@gmail.com', 1);
+
