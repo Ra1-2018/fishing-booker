@@ -32,7 +32,7 @@
                     <input type="text" class="form-control" id="telephone" placeholder="Telephone" formControlName="telephone">
                 </div>
                 <div class="mb-3"  *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'">
-                    <label for="points" class="form-label">Loyalty points: 0</label>
+                    <label for="points" class="form-label">Loyalty points: {{points}}</label>
                 </div>
                 <div class="mb-3" *ngIf="loginService.isLoggedIn && loginService.userType == 'CLIENT'">
                     <label for="points" class="form-label">Loyalty rank: Regular (no advantages)</label>

@@ -27,6 +27,7 @@ export class ProfileComponent implements OnInit {
   requestID:number = 0;
   deletionRequestID: number = 0;
   complaintRequestID: number = 0;
+  points:number=0;
 
   constructor(public readonly loginService: LoginService,
               private profileService: ProfileService,
@@ -39,7 +40,8 @@ export class ProfileComponent implements OnInit {
                   address: [],
                   city: [],
                   country: [],
-                  telephone: []
+                  telephone: [],
+                  points: []
               });
               this.deletionRequestFormGroup = this.formBuilder.group({
                 explanation: []
@@ -75,6 +77,7 @@ export class ProfileComponent implements OnInit {
             this.myFormGroup.patchValue(res);
             this.userEmail = res.email;
             this.userID = res.id;
+            this.points = res.points;
         });
   }
 
