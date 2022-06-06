@@ -44,6 +44,9 @@ public class AppUserController {
     private ReviewService reviewService;
 
     @Autowired
+    private ReviewTransactionService reviewTransactionService;
+
+    @Autowired
     private ComplaintService complaintService;
 
     @Autowired
@@ -266,7 +269,11 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         review.setApproved(true);
-        reviewService.save(review);
+        try {
+            reviewTransactionService.responseToApproveReviewTransactional(review);
+        } catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         Long userID = 0L;
         Collection<Service> services = serviceService.findAll();
@@ -305,7 +312,11 @@ public class AppUserController {
         if(review == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        reviewService.remove(id);
+        try {
+            reviewTransactionService.responseToDeclineReviewTransactional(review.getId());
+        } catch (ObjectOptimisticLockingFailureException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

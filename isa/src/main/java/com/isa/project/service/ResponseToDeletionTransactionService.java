@@ -29,6 +29,5 @@ public class ResponseToDeletionTransactionService {
     public void responseToDeclineDeletionTransactional(ResponseToDeletionRequest response, Long requestId) throws OptimisticLockingFailureException{
         deletionService.remove(requestId);
         responseService.save(response);
-
     }
 }
