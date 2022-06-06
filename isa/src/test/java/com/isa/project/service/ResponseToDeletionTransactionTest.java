@@ -4,6 +4,8 @@ import com.isa.project.model.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -21,6 +23,8 @@ public class ResponseToDeletionTransactionTest {
 
 
     @Test(expected = ObjectOptimisticLockingFailureException.class)
+    @Transactional
+    @Rollback(true)
     public void testOptimisticLockingForApproveDeletionRequest() throws Throwable {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
@@ -57,6 +61,8 @@ public class ResponseToDeletionTransactionTest {
     }
 
     @Test(expected = ObjectOptimisticLockingFailureException.class)
+    @Transactional
+    @Rollback(true)
     public void testOptimisticLockingForDeclineDeletionRequest() throws Throwable {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
