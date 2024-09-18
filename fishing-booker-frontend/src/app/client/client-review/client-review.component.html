@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 style="text-align: center;">Write a review</h1>
+            <form (ngSubmit)="onClickSubmit(reviewForm)" #reviewForm="ngForm">
+                <div class="form-group mb-3">
+                    <label for="service" class="form-label"> Service:</label>
+                    <select id="service" class="form-control" [(ngModel)]="review.service" required name="service" #service="ngModel">
+                        <option *ngFor="let service of services" [ngValue]="service">{{service.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="grade" class="form-label">Grade:</label>
+                    <input type="number" class="form-control" min="1" max="5" id="grade" placeholder="Grade" [(ngModel)]="review.grade" required name="grade" #grade="ngModel">
+                    <div [hidden]="grade.valid || grade.pristine"
+                    class="alert alert-danger">
+                    Grade should be 1-5
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="revision" class="form-label">Revision:</label>
+                    <textarea rows="20" type="text" class="form-control" id="revision" placeholder="Revision" [(ngModel)]="review.revision" name="revision" #revision="ngModel"></textarea>
+                </div>
+                <div class="d-grid col-6 mx-auto">
+                    <button class="btn btn-primary" type="submit" [disabled]="!reviewForm.form.valid">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

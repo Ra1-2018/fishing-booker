@@ -1,0 +1,116 @@
+<div>
+    <div class="m-3">
+      <div class="row">
+        <div class="col-1">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">New adventure</button>
+        </div>
+        <div class="col-2">
+          <input type="search" [(ngModel)]=query id="listSearch" class="form-control" placeholder="Search...">
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </div>
+    <div>
+      <table matSort (matSortChange)="sortData($event)" class="table table-hover">
+        <thead>
+          <tr>
+            <th mat-sort-header="name">Name</th>
+            <th mat-sort-header="address">Address</th>
+            <th mat-sort-header="pricePerDay">Price per day</th>
+            <th mat-sort-header="description">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let adventure of sortedData | search: query">
+            <td class="col-3" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.name}}</td>
+            <td class="col-3" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.address}}</td>
+            <td class="col-2" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.pricePerDay}}</td>
+            <td class="col-3" [routerLink]="['/adventure-detail-owner', adventure.id]" >{{adventure.description}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+  
+    <div class="modal fade" id="modalDialog" tabindex="-1" aria-labelledby="modalDialog" aria-hidden="true">
+      <div class="modal-dialog" data-target="#modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalDialog">New adventure</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row justify-content-center">
+              <div class="col-md-10">
+                  <ng-container [formGroup]="this.myFormGroup">
+                    <div class="mb-2">
+                      <label for="name" class="form-label">Name:</label>
+                      <input type="name" class="form-control" id="name" placeholder="Name" formControlName="name">
+                    </div>
+                    <div class="mb-2">
+                      <label for="description" class="form-label">Description:</label>
+                      <input type="description" class="form-control" id="description" placeholder="Description" formControlName="description">
+                    </div>
+                    <div class="mb-2">
+                      <label for="behaviorRules" class="form-label">Behavior rules:</label>
+                      <input type="behaviorRules" class="form-control" id="behaviorRules" placeholder="Behavior rules" formControlName="behaviorRules">
+                    </div>
+                    <div class="mb-2">
+                      <label for="pricePerDay" class="form-label">Price per day:</label>
+                      <input type="number" class="form-control" id="pricePerDay" placeholder="Price per day" formControlName="pricePerDay">
+                    </div>
+                    <div class="mb-2">
+                      <label for="maxNumberOfPeople" class="form-label">Maximum number of people:</label>
+                      <input type="number" class="form-control" id="maxNumberOfPeople" placeholder="Max number of people" formControlName="maxNumberOfPeople">
+                    </div>
+                    <div class="mb-2">
+                      <label for="instructorBiography" class="form-label">Instructor biography:</label>
+                      <input type="instructorBiography" class="form-control" id="instructorBiography" placeholder="instructor biography" formControlName="instructorBiography">
+                    </div>
+                    <div hidden>
+                      <input type="text" id="latitudeInput">
+                      <input type="text" id="longitudeInput">
+                    </div>
+                    <div class="mb-2">
+                      <label for="cityInput" class="form-label"> City </label>
+                      <input id="cityInput" type="text" class="form-control" placeholder="City" formControlName="city" >
+                    </div>
+                    <div class="mb-2">
+                      <label for="streetInput" class="form-label"> Street </label>
+                      <input id="streetInput" type="text" class="form-control" placeholder="Street" formControlName="street"  >
+                    </div>
+                    <div class="mb-2">
+                      <label for="numberInput" class="form-label"> Number </label>
+                      <input id="numberInput" type="text" class="form-control" placeholder="Number" formControlName="number" >
+                    </div>
+                    <div class="mb-2">
+                      <label for="zipCodeInput" class="form-label"> Zip code </label>
+                      <input id="zipCodeInput" type="text" class="form-control" placeholder="ZIP code" formControlName="zipCode" >
+                    </div>
+                    <div class="mb-2"> 
+                      <div id="map" class="map" click="onMapClick()">
+                      </div>
+                    </div>
+                    <div class="mb-2">
+                      <label for="fishingGear" class="form-label">Fishing gear:</label>
+                      <input type="fishingGear" class="form-control" id="fishingGear" placeholder="fishing gear" formControlName="fishingGear">
+                    </div>
+                    <div class="mb-2">
+                      <label class="form-label">Choose cancellation type:</label>
+                      <select formControlName="cancellation" class="form-select" aria-label="Choose cancellation type:">
+                          <option value="FREE">Free cancellation</option>
+                          <option value="PERCENTAGE_FOR_INSTRUCTOR">Percentage for instructor</option>
+                      </select>
+                    </div>
+                  </ng-container>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickSubmit()">Add adventure</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

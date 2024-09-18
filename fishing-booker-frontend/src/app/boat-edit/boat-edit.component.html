@@ -1,0 +1,83 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <ng-container [formGroup]="this.myFormGroup">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
+                </div>
+                <div class="mb-3">
+                        <label for="description" class="form-label">Description:</label>
+                        <input type="text" class="form-control" id="description" placeholder="Description" formControlName="description">
+                </div>
+                <div class="mb-3">
+                        <label for="behaviorRules" class="form-label">Behavior rules:</label>
+                        <input type="text" class="form-control" id="behaviorRules" placeholder="Behavior rules" formControlName="behaviorRules">
+                </div>
+                <div class="mb-3">
+                    <label for="pricePerDay" class="form-label">Price per day:</label>
+                    <input type="number" class="form-control" id="pricePerDay" placeholder="pricePerDay" formControlName="pricePerDay">
+                </div>
+                <div class="mb-2">
+                    <label for="length" class="form-label">Length:</label>
+                    <input type="text" class="form-control" id="length" placeholder="length" formControlName="length">
+                </div>
+                <div class="mb-2">
+                    <label for="numberOfEngines" class="form-label">Number of engines:</label>
+                    <input type="number" class="form-control" id="numberOfEngines" placeholder="numberOfEngines" formControlName="numberOfEngines">
+                </div>
+                <div class="mb-2">
+                    <label for="enginePower" class="form-label">Engine power:</label>
+                    <input type="enginePower" class="form-control" id="enginePower" placeholder="enginePower" formControlName="enginePower">
+                </div>
+                <div class="mb-2">
+                    <label for="maximumVelocity" class="form-label">Maximum velocity:</label>
+                    <input type="maximumVelocity" class="form-control" id="maximumVelocity" placeholder="maximumVelocity" formControlName="maximumVelocity">
+                </div>
+                <div class="mb-2">
+                    <label for="navigationEquipment" class="form-label">Navigation equipment:</label>
+                    <input type="navigationEquipment" class="form-control" id="navigationEquipment" placeholder="navigationEquipment" formControlName="navigationEquipment">
+                </div>
+                <div hidden>
+                    <input type="text" id="latitudeInput">
+                    <input type="text" id="longitudeInput">
+                </div>
+                <div class="mb-2">
+                    <label for="cityInput" class="form-label"> City: </label>
+                    <input id="cityInput" type="text" class="form-control" placeholder="City" formControlName="city" >
+                </div>
+                  <div class="mb-2">
+                    <label for="streetInput" class="form-label"> Street </label>
+                    <input id="streetInput" type="text" class="form-control" placeholder="Street" formControlName="street"  >
+                  </div>
+                  <div class="mb-2">
+                    <label for="numberInput" class="form-label"> Number </label>
+                    <input id="numberInput" type="text" class="form-control" placeholder="Number" formControlName="number" >
+                  </div>
+                  <div class="mb-2">
+                    <label for="zipCodeInput" class="form-label"> Zip code </label>
+                    <input id="zipCodeInput" type="text" class="form-control" placeholder="ZIP code" formControlName="zipCode" >
+                  </div>
+                  <div class="mb-2"> 
+                    <div id="map" class="map" click="onMapClick()">
+                    </div>
+                  </div>
+                <div class="mb-2">
+                    <label for="maxNumberOfPeople" class="form-label">Maximum people:</label>
+                    <input type="number" class="form-control" id="maxNumberOfPeople" placeholder="maxNumberOfPeople" formControlName="maxNumberOfPeople">
+                </div>
+                <div class="mb-2">
+                    <label for="fishingEquipment" class="form-label">Fishing equipment:</label>
+                    <input type="fishingEquipment" class="form-control" id="fishingEquipment" placeholder="fishingEquipment" formControlName="fishingEquipment">
+                </div>
+                <div class="mb-2">
+                    <label for="cancellationTerms" class="form-label">Cancellation terms:</label>
+                    <input type="cancellationTerms" class="form-control" id="cancellationTerms" placeholder="cancellationTerms" formControlName="cancellationTerms">
+                </div>
+                <div class="d-grid col-6 mx-auto">
+                    <button class="btn btn-primary" (click)="onClickSubmit()">Update</button>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<table matSort (matSortChange)="sortData($event)" class="table">
+    <thead>
+        <th mat-sort-header="dateIssued">Date issued</th>
+        <th mat-sort-header="owner">Owner</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let penalty of sortedData">
+            <td>{{penalty.dateIssued | date:'short'}}</td>
+            <td>{{penalty.owner.email}}</td>
+        </tr>
+    </tbody>
+</table>

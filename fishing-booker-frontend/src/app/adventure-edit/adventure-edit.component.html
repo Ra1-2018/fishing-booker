@@ -1,0 +1,67 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <ng-container [formGroup]="this.myFormGroup">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name" formControlName="name">
+                </div>
+                <div hidden>
+                    <input type="text" id="latitudeInput">
+                    <input type="text" id="longitudeInput">
+                </div>
+                <div class="mb-2">
+                    <label for="cityInput" class="form-label"> City: </label>
+                    <input id="cityInput" type="text" class="form-control" placeholder="City" formControlName="city" >
+                </div>
+                  <div class="mb-2">
+                    <label for="streetInput" class="form-label"> Street </label>
+                    <input id="streetInput" type="text" class="form-control" placeholder="Street" formControlName="street"  >
+                  </div>
+                  <div class="mb-2">
+                    <label for="numberInput" class="form-label"> Number </label>
+                    <input id="numberInput" type="text" class="form-control" placeholder="Number" formControlName="number" >
+                  </div>
+                  <div class="mb-2">
+                    <label for="zipCodeInput" class="form-label"> Zip code </label>
+                    <input id="zipCodeInput" type="text" class="form-control" placeholder="ZIP code" formControlName="zipCode" >
+                  </div>
+                  <div class="mb-2"> 
+                    <div id="map" class="map" click="onMapClick()">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <input type="text" class="form-control" id="description" placeholder="Description" formControlName="description">
+                </div>
+                <div class="mb-3">
+                    <label for="behaviorRules" class="form-label">Behavior rules:</label>
+                    <input type="text" class="form-control" id="behaviorRules" placeholder="Behavior rules" formControlName="behaviorRules">
+                </div>
+                <div class="mb-3">
+                    <label for="pricePerDay" class="form-label">Price per day:</label>
+                    <input type="text" class="form-control" id="pricePerDay" placeholder="Price per day" formControlName="pricePerDay">
+                </div>
+                <div class="mb-3">
+                    <label for="maxNumberOfPeople" class="form-label">Maximum number of people:</label>
+                    <input type="text" class="form-control" id="maxNumberOfPeople" placeholder="Maximum number of people" formControlName="maxNumberOfPeople">
+                </div>
+                <div class="mb-3">
+                    <label for="instructorBiography" class="form-label">Instructor biography:</label>
+                    <input type="text" class="form-control" id="instructorBiography" placeholder="Instructor biography" formControlName="instructorBiography">
+                </div>
+                <div class="mb-3">
+                    <label for="fishingGear" class="form-label">Fishing gear available:</label>
+                    <input type="text" class="form-control" id="fishingGear" placeholder="Fishing gear" formControlName="fishingGear">
+                </div>
+                <div class="mb-3">
+                    <label for="cancellation" class="form-label">Cancellation type:</label>
+                    <input type="text" class="form-control" id="cancellation" placeholder="Cancellation type" formControlName="cancellation">
+                </div>
+                <div class="d-grid col-6 mx-auto">
+                    <button class="btn btn-primary" (click)="onClickSubmit()">Update</button>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

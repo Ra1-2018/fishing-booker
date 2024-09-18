@@ -1,0 +1,145 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h1 style="text-align: center;">Make a reservation</h1>
+            <form (ngSubmit)="onClickSubmit()" #searchForm="ngForm">
+                <div *ngIf="!loginService.isSanctioned">
+                    <div class="form-group mb-3">
+                        <label for="serviceType" class="form-label">Service type:</label>
+                        <select class="form-select" required aria-label="Choose service type" id="serviceType" [(ngModel)]="search.serviceType" name="serviceType" #serviceType="ngModel">
+                            <option value="COTTAGE">Cottage</option>
+                            <option value="BOAT">Boat</option>
+                            <option value="ADVENTURE">Adventure</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                    <label for="startDate" class="form-label">Start time:</label>
+                    <input type="datetime-local" class="form-control" id="startDate" required placeholder="Start date" [(ngModel)]="search.startDate" name="startDate" #startDate="ngModel">
+                    <div [hidden]="startDate.valid || startDate.pristine"
+                    class="alert alert-danger">
+                    Start time is required
+                    </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="durationInDays" class="form-label">Number of days:</label>
+                        <input type="number" min="1" class="form-control" id="durationInDays" required placeholder="Number of days" [(ngModel)]="search.durationInDays" name="durationInDays" #durationInDays="ngModel">
+                        <div [hidden]="durationInDays.valid || durationInDays.pristine"
+                        class="alert alert-danger">
+                        Duration is required
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="numberOfPeople" class="form-label">Number of people:</label>
+                        <input type="number" min="1" class="form-control" id="numberOfPeople" required placeholder="Number of people" [(ngModel)]="search.numberOfPeople" name="numberOfPeople" #numberOfPeople="ngModel">
+                        <div [hidden]="numberOfPeople.valid || numberOfPeople.pristine"
+                        class="alert alert-danger">
+                        Number of people is required
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="address" class="form-label">Address:</label>
+                        <input type="text" class="form-control" id="address" placeholder="Address" [(ngModel)]="search.address" name="address" #address="ngModel">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="minAverageGrade" class="form-label">Minimum average grade:</label>
+                        <input type="number" min="1" max="5" class="form-control" id="minAverageGrade" placeholder="Minimum average grade" [(ngModel)]="search.minAverageGrade" name="minAverageGrade" #minAverageGrade="ngModel">
+                    </div>
+                    <div class="d-grid col-6 mx-auto">
+                        <button class="btn btn-primary" type="submit" [disabled]="!searchForm.form.valid">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<h3 style="text-align: center;" *ngIf="loginService.isSanctioned">You have been banned from making reservations due to too many penalties.</h3>
+
+<table *ngIf = "services.length > 0" matSort (matSortChange)="sortData($event)" class="table">
+    <thead>
+      <tr>
+        <th mat-sort-header="name">Name</th>
+        <th mat-sort-header="address">Address</th>
+        <th mat-sort-header="pricePerDay">Price per day</th>
+        <th mat-sort-header="maxNumberOfPeople">Max people</th>
+        <th mat-sort-header="averageGrade">Average grade</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let service of sortedData" [routerLink]="">
+        <td>{{service.name}}</td>
+        <td>{{service.city}}, {{service.street}} {{service.number}}</td>
+        <td>{{service.pricePerDay}}</td>
+        <td>{{service.maxNumberOfPeople}}</td>
+        <td>{{service.averageGrade}}</td>
+        <td><button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openReservationModal(service)">Make reservation</button></td>
+      </tr>
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class = "col-md-6">Service:</div>
+                            <div class = "col-md-6">{{reservation.service.name}}</div>
+                        </div>
+                        <div class="row">
+                            <div class = "col-md-6">Start time:</div>
+                            <div class = "col-md-6">{{reservation.reservationStartDateAndTime | date:'short'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class = "col-md-6">Number of days:</div>
+                            <div class = "col-md-6">{{reservation.durationInDays}}</div>
+                        </div>
+                        <div class="row">
+                            <div class = "col-md-6">Number of people:</div>
+                            <div class = "col-md-6">{{reservation.numberOfPeople}}</div>
+                        </div>
+                        <div class="row">
+                            <div class = "col-md-6">Price per day:</div>
+                            <div class = "col-md-6">{{reservation.service.pricePerDay}}</div>
+                        </div>
+                        <div *ngIf="viewedService.additionalServices.length != 0" class="row">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td>Additional service</td>
+                                        <td>Price per day</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor = "let additionalService of viewedService.additionalServices">
+                                        <td>{{additionalService.name}}</td>
+                                        <td>{{additionalService.price}}</td>
+                                        <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (change)="fieldsChange($event, additionalService)"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class = "col-md-6">Total price:</div>
+                            <div class = "col-md-6">{{reservation.price}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="makeReservation(searchForm)">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>

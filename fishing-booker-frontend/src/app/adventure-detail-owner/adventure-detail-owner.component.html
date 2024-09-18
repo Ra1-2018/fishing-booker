@@ -1,0 +1,367 @@
+<div class='card'>
+    <div class='card-header'>
+      <h3 style=" margin-left: 50px;">{{adventure.name}}</h3>
+    </div>
+    <div class="card-body" style=" margin-left: 50px;">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Adress:</div>
+                    <div class="col-md-10">{{adventure.city}}, {{adventure.street}} {{adventure.number}}</div>
+                </div>
+                <div class="row"> 
+                    <div class="col-md-6">
+                        <div id="map" class="map"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Description:</div>
+                    <div class="col-md-10">{{adventure.description}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Behavior rules:</div>
+                    <div class="col-md-10">{{adventure.behaviorRules}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Price per day:</div>
+                    <div class="col-md-10">{{adventure.pricePerDay}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Maximum number of people:</div>
+                    <div class="col-md-10">{{adventure.maxNumberOfPeople}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Instructor biography:</div>
+                    <div class="col-md-10">{{adventure.instructorBiography}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Fishing gear available:</div>
+                    <div class="col-md-10">{{adventure.fishingGear}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 20px ;">Cancellation type:</div>
+                    <div class="col-md-10">{{adventure.cancellation}}</div>
+                </div>
+                <div class="row" style="margin-top: 20px ;">
+                    <div class="col-md-2" style="margin-bottom: 20px ;"><button (click)="edit(adventure.id)" class="btn btn-primary">Edit</button></div>
+                    <div class="col-md-1" style="margin-bottom: 20px ;"><button (click)="delete(adventure.id)" class="btn btn-danger">Delete</button></div>
+                    <div class="col-md-1" style="margin-bottom: 20px ;"><button style="width: 200px;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModal">Upload images</button></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <app-image-slideshow [images]="images" [isOwner]="isOwner" [serviceId]="id"></app-image-slideshow>                              
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <label class="m-2">Periods</label>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Start date </th>
+                            <th> End date </th>
+                            <th> Available </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let period of adventure.freePeriods">
+                            <td>{{period.startDate | date:'longDate'}} </td>
+                            <td>{{period.endDate | date:'longDate'}}</td>
+                            <td>{{period.available}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <button style="margin-bottom: 10px;" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDialogUnavailable">Register unavailable period</button>
+                <button style="margin-bottom: 10px;" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">Register free period</button>
+                <button style="margin-bottom: 10px;" class="btn btn-success button" data-bs-toggle="modal" data-bs-target="#modalDialogReservation" (click)="getClients()">Make a reservation</button>
+            </div>
+        </div>
+        <div class="row"> 
+            <div class="col-md-10">
+                <label class="m-2">Actions</label>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Start date </th>  
+                            <th> Duration in  days </th>        
+                            <th> Price </th>              
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let action of adventure.actions">
+                            <td>{{action.startTime | date:'longDate'}} </td>
+                            <td>{{action.durationInDays}} </td>
+                            <td>{{action.price}} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialogAction">Create action</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <label class="m-2">Additional services</label>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Name </th>
+                            <th> Price </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let additionalService of adventure.additionalServices">
+                            <td>{{additionalService.name}} </td>
+                            <td>{{additionalService.price}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#additionalServiceModal">Add additional service</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDialog" tabindex="-1" aria-labelledby="modalDialog" aria-hidden="true">
+    <div class="modal-dialog" data-target="#modal">
+      <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalDialog">Free period</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <ng-container [formGroup]="this.myFormGroup">
+                        <div class="mb-2">
+                            <label for="startDate" class="form-label">Start:</label>
+                            <input type="datetime-local" class="form-control" id="startDate" formControlName="startDate">
+                        </div>
+                        <div class="mb-2">
+                            <label for="endDate" class="form-label">End:</label>
+                            <input type="datetime-local" class="form-control" id="endDate" formControlName="endDate">
+                        </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddFreePeriod()">Add adventure</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDialogAction" tabindex="-1" aria-labelledby="modalDialogAction" aria-hidden="true">
+    <div class="modal-dialog" data-target="#modalAction">
+      <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalDialog">Action</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <ng-container [formGroup]="this.myFormGroupAction">
+                        <div class="mb-2">
+                            <label for="startTime" class="form-label">Start:</label>
+                            <input type="datetime-local" class="form-control" id="startTime" formControlName="startTime">
+                        </div>
+                        <div class="mb-2">
+                            <label for="durationInDays" class="form-label">Number of days:</label>
+                            <input type="number" class="form-control" id="durationInDays" formControlName="durationInDays">
+                        </div>
+                        <div class="mb-2">
+                            <label for="maxNumberOfPeople" class="form-label">Maximum people:</label>
+                            <input type="number" class="form-control" id="maxNumberOfPeople" formControlName="maxNumberOfPeople">
+                        </div>
+                        <div class="mb-2">
+                            <label for="price" class="form-label">Price:</label>
+                            <input type="number" class="form-control" id="price" formControlName="price">
+                        </div>
+                        <div class="mb-2">
+                            <label for="additionalServices" class="form-label">Additional services:</label>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th> Name </th>
+                                        <th> Price </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let additionalService of adventure.additionalServices">
+                                        <td>{{additionalService.name}} </td>
+                                        <td>{{additionalService.price}}</td>
+                                        <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (change)="fieldsChange($event, additionalService)"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddAction()">Create action</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="additionalServiceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="additionalServiceModal">Add additional service</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <ng-container [formGroup]="this.additionalServiceFormGroup">
+                        <div class="mb-2">
+                            <label for="additionalServiceName" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="additionalServiceName" formControlName="name">
+                        </div>
+                        <div class="mb-2">
+                            <label for="additionalServicePrice" class="form-label">Price:</label>
+                            <input type="number" class="form-control" id="additionalServicePrice" formControlName="price">
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="addAdditionalService()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
+    <div class="modal-dialog" data-target="#modal">
+      <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalDialog">Image</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-2">
+                    <label for="formFile" class="form-label">Upload image: </label>
+                    <input #imageInput class="form-control" type="file" id="formFile" (change)="processFile(imageInput)">
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickAddImage()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalDialogReservation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <ng-container [formGroup]="this.reservationFormGroup">
+                <div class="mb-3">
+                    <label for="service" class="form-label">Service:</label>
+                    <label id="service" readonly class="form-control-plaintext" > {{adventure.name}} </label>
+                </div>
+                <div class="mb-3">
+                    <label for="client" class="form-label">Client:</label>
+                    <select id="client" class="form-control" formControlName="client">
+                        <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="startDate" class="form-label">Start time:</label>
+                    <input type="datetime-local" class="form-control" id="startDate" placeholder="Start date" formControlName="reservationStartDateAndTime">
+                </div>
+                <div class="mb-3">
+                      <label for="durationInDays" class="form-label">Number of days:</label>
+                      <input (change) = "onDurationChange()" type="number" min="1" class="form-control" id="durationInDays" placeholder="Number of days" formControlName="durationInDays">
+                </div>
+                <div class="mb-3">
+                    <label for="numberOfPeople" class="form-label">Number of people:</label>
+                    <input type="number" min="1" class="form-control" id="numberOfPeople" placeholder="Number of people" formControlName="numberOfPeople">
+                </div>
+                <div *ngIf="adventure.additionalServices.length != 0" class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Additional service</td>
+                                <td>Price per day</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor = "let additionalService of adventure.additionalServices">
+                                <td>{{additionalService.name}}</td>
+                                <td>{{additionalService.price}}</td>
+                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (change)="fieldsChangeReservation($event, additionalService)"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class = "col-md-6">Total price:</div>
+                    <div class = "col-md-6"> {{reservationPrice}}</div>
+                </div>
+            </ng-container>                   
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="makeReservation()">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" id="modalDialogUnavailable" tabindex="-1" aria-labelledby="modalDialogUnavailable" aria-hidden="true">
+    <div class="modal-dialog" data-target="#modal">
+      <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalDialogUnavailable">Unavailable period</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <ng-container [formGroup]="this.myUnavailablePeriodFormGroup">
+                        <div class="mb-2">
+                            <label for="startDate" class="form-label">Start:</label>
+                            <input type="datetime-local" class="form-control" id="startDate" formControlName="startDate">
+                        </div>
+                        <div class="mb-2">
+                            <label for="endDate" class="form-label">End:</label>
+                            <input type="datetime-local" class="form-control" id="endDate" formControlName="endDate">
+                        </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="addServiceUnavailablePeriod()">Add period</button>
+            </div>
+        </div>
+    </div>

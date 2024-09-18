@@ -1,0 +1,132 @@
+<div>
+  <div class="m-3">
+    <div class="row">
+      <div class="col-1">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDialog">New boat</button>
+      </div>
+      <div class="col-2">
+        <input type="search" [(ngModel)]=query id="listSearch" class="form-control" placeholder="Search...">
+      </div>
+      <div class="col-2"></div>
+    </div>
+  </div>
+  <div>
+    <table matSort (matSortChange)="sortData($event)" class="table table-hover">
+      <thead>
+        <tr>
+          <th mat-sort-header="name">Name</th>
+          <th mat-sort-header="address">Address</th>
+          <th mat-sort-header="fishingEquipment">Fishing equipment</th>
+          <th mat-sort-header="description">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let boat of sortedData | search: query">
+          <td class="col-3" [routerLink]="['/boat-detail-owner', boat.id]" >{{boat.name}}</td>
+          <td class="col-3" [routerLink]="['/boat-detail-owner', boat.id]" >{{boat.city}}, {{boat.street}} {{boat.number}}</td>
+          <td class="col-2" [routerLink]="['/boat-detail-owner', boat.id]" >{{boat.fishingEquipment}}</td>
+          <td class="col-3" [routerLink]="['/boat-detail-owner', boat.id]" >{{boat.description}}</td>
+          <td class="col-1"><button class="btn btn-secondary" (click)="onClickDelete(boat.id);">Delete</button> </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  
+
+
+  <div class="modal fade" id="modalDialog" tabindex="-1" aria-labelledby="modalDialog" aria-hidden="true">
+    <div class="modal-dialog" data-target="#modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalDialog">New boat</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+                <ng-container [formGroup]="this.myFormGroup">
+                  <div class="mb-2">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="name" class="form-control" id="name" placeholder="Name" formControlName="name">
+                  </div>
+                  <div class="mb-2">
+                    <label for="description" class="form-label">Description:</label>
+                    <input type="description" class="form-control" id="description" placeholder="Description" formControlName="description">
+                  </div>
+                  <div class="mb-2">
+                    <label for="behaviorRules" class="form-label">Behavior rules:</label>
+                    <input type="behaviorRules" class="form-control" id="behaviorRules" placeholder="Behavior rules" formControlName="behaviorRules">
+                  </div>
+                  <div class="mb-2">
+                    <label for="pricePerDay" class="form-label">Price per day:</label>
+                    <input type="number" class="form-control" id="pricePerDay" placeholder="pricePerDay" formControlName="pricePerDay">
+                  </div>
+                  <div class="mb-2">
+                    <label for="length" class="form-label">Length:</label>
+                    <input type="text" class="form-control" id="length" placeholder="length" formControlName="length">
+                  </div>
+                  <div class="mb-2">
+                    <label for="numberOfEngines" class="form-label">Number of engines:</label>
+                    <input type="number" class="form-control" id="numberOfEngines" placeholder="numberOfEngines" formControlName="numberOfEngines">
+                  </div>
+                  <div class="mb-2">
+                    <label for="enginePower" class="form-label">Engine power:</label>
+                    <input type="enginePower" class="form-control" id="enginePower" placeholder="enginePower" formControlName="enginePower">
+                  </div>
+                  <div class="mb-2">
+                    <label for="maximumVelocity" class="form-label">Maximum velocity:</label>
+                    <input type="maximumVelocity" class="form-control" id="maximumVelocity" placeholder="maximumVelocity" formControlName="maximumVelocity">
+                  </div>
+                  <div class="mb-2">
+                    <label for="navigationEquipment" class="form-label">Navigation equipment:</label>
+                    <input type="navigationEquipment" class="form-control" id="navigationEquipment" placeholder="navigationEquipment" formControlName="navigationEquipment">
+                  </div>
+                  <div class="mb-2">
+                    <label for="maxNumberOfPeople" class="form-label">Maximum people:</label>
+                    <input type="number" class="form-control" id="maxNumberOfPeople" placeholder="maxNumberOfPeople" formControlName="maxNumberOfPeople">
+                  </div>
+                  <div class="mb-2">
+                    <label for="fishingEquipment" class="form-label">Fishing equipment:</label>
+                    <input type="fishingEquipment" class="form-control" id="fishingEquipment" placeholder="fishingEquipment" formControlName="fishingEquipment">
+                  </div>
+                  <div hidden>
+                    <input type="text" id="latitudeInput">
+                    <input type="text" id="longitudeInput">
+                  </div>
+                  <div class="mb-2">
+                    <label for="cityInput" class="form-label"> City </label>
+                    <input id="cityInput" type="text" class="form-control" placeholder="City" formControlName="city" >
+                  </div>
+                  <div class="mb-2">
+                    <label for="streetInput" class="form-label"> Street </label>
+                    <input id="streetInput" type="text" class="form-control" placeholder="Street" formControlName="street"  >
+                  </div>
+                  <div class="mb-2">
+                    <label for="numberInput" class="form-label"> Number </label>
+                    <input id="numberInput" type="text" class="form-control" placeholder="Number" formControlName="number" >
+                  </div>
+                  <div class="mb-2">
+                    <label for="zipCodeInput" class="form-label"> Zip code </label>
+                    <input id="zipCodeInput" type="text" class="form-control" placeholder="ZIP code" formControlName="zipCode" >
+                  </div>
+                  <div class="mb-2"> 
+                    <div id="map" class="map" click="onMapClick()">
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label for="cancellationTerms" class="form-label">Cancellation terms:</label>
+                    <input type="cancellationTerms" class="form-control" id="cancellationTerms" placeholder="cancellationTerms" formControlName="cancellationTerms">
+                  </div>
+                </ng-container>
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="submitButton" type="submit" class="btn btn-primary"  data-bs-dismiss="modal" (click)="onClickSubmit()">Add boat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

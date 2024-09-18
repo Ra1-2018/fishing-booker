@@ -1,0 +1,20 @@
+<table matSort (matSortChange)="sortData($event)" class="table">
+  <thead>
+    <tr>
+      <th mat-sort-header="name">Name</th>
+      <th mat-sort-header="price">Price</th>
+      <th mat-sort-header="reservationStartDateAndTime">Reservation date</th>
+      <th mat-sort-header="durationInDays">Number of days</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let reservation of sortedData">
+      <td>{{reservation.service.name}}</td>
+      <td>{{reservation.price}}</td>
+      <td>{{reservation.reservationStartDateAndTime | date:'longDate'}}</td>
+      <td>{{reservation.durationInDays}}</td>
+      <td><button *ngIf="isInMoreThanThreeDays(reservation)" class="btn btn-secondary btn-sm" (click)="cancelReservation(reservation)">Cancel reservation</button></td>
+    </tr>
+  </tbody>
+</table>

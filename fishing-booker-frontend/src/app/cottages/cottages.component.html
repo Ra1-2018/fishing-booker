@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+      <div class="col-md-4">
+          <h1 style="text-align: center;">Cottages</h1>
+          <form (ngSubmit)="onClickSubmit()" #searchForm="ngForm">
+                  <div class="form-group mb-3">
+                      <label for="numberOfPeople" class="form-label">Number of people:</label>
+                      <input type="number" min="1" class="form-control" id="numberOfPeople" required placeholder="Number of people" [(ngModel)]="search.numberOfPeople" name="numberOfPeople" #numberOfPeople="ngModel">
+                      <div [hidden]="numberOfPeople.valid || numberOfPeople.pristine"
+                      class="alert alert-danger">
+                      Number of people is required
+                      </div>
+                  </div>
+                  <div class="form-group mb-3">
+                      <label for="address" class="form-label">Address:</label>
+                      <input type="text" class="form-control" id="address" placeholder="Address" [(ngModel)]="search.address" name="address" #address="ngModel">
+                  </div>
+                  <div class="form-group mb-3">
+                      <label for="minAverageGrade" class="form-label">Minimum average grade:</label>
+                      <input type="number" min="1" max="5" class="form-control" id="minAverageGrade" placeholder="Minimum average grade" [(ngModel)]="search.minAverageGrade" name="minAverageGrade" #minAverageGrade="ngModel">
+                  </div>
+                  <div class="d-grid col-6 mx-auto">
+                      <button class="btn btn-primary" type="submit" [disabled]="!searchForm.form.valid">Search</button>
+                  </div>
+          </form>
+      </div>
+  </div>
+</div>
+<table matSort (matSortChange)="sortData($event)" class="table table-hover">
+  <thead>
+    <tr>
+      <th mat-sort-header="name">Name</th>
+      <th mat-sort-header="address">Address</th>
+      <th mat-sort-header="description">Description</th>
+      <th mat-sort-header="averageGrade">Average grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cottage of sortedData" [routerLink]="['/cottage', cottage.id]">
+      <td class="col-3">{{cottage.name}}</td>
+      <td class="col-3">{{cottage.city}}, {{cottage.street}} {{cottage.number}}</td>
+      <td class="col-5">{{cottage.description}}</td>
+      <td class="col-1">{{cottage.averageGrade}}</td>
+    </tr>
+  </tbody>
+</table>
